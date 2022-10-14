@@ -14,7 +14,7 @@ function CreateSymlink {
       $From,
       $To
     )
-  New-Item -ItemType SymbolicLink -Path ($dotfiles_path + "/" + $From) -Target ($env:HOME + "/" + $To) -ErrorAction Ignore
+  New-Item -ItemType SymbolicLink -Target($dotfiles_path + "/" + $From) -Path ($env:HOME + "/" + $To) -ErrorAction Ignore
   }
 
 if ($IsLinux)

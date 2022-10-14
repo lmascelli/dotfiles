@@ -1,0 +1,1 @@
+return {recents={[1]="/home/leonardo/.dotfiles/lite-xl",[2]="/home/leonardo/D/Programs/lite-xl"}, window={[1]=868,[2]=893,[3]=400,[4]=99,["n"]=4}, window_mode="normal", previous_find={}, previous_replace={}}
