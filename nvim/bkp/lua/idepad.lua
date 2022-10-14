@@ -1,0 +1,33 @@
+-- requirements for arch
+-- packages: acpi_call
+-- commands: modprobe acpi_call
+--
+-- BATTERY SAVING (battery charge limited to 55-60 %)
+-- turn on:
+-- command: echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x03' > /proc/acpi/call
+--
+-- turn off:
+-- command: echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x05' > /proc/acpi/call
+--
+-- status:
+-- command: [
+-- echo '\_SB.PCI0.LPC0.EC0.BTSM' > /proc/acpi/call 
+-- cat /proc/acpi/call; printf '\n'
+-- ]
+--  0x0 --> OFF
+--  0x1 --> ON
+--
+-- RAPID CHARGE:
+-- turn on:
+-- command: echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x07' > /proc/acpi/call > /dev/null
+--
+-- turn off:
+-- command: echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x08' > /proc/acpi/call > /dev/null
+--
+-- status:
+-- command : [
+-- echo '\_SB.PCI0.LPC0.EC0.QCHO' > /proc/acpi/call > /dev/null 
+-- cat /proc/acpi/call; printf '\n'
+-- ]
+-- 0x0 --> OFF
+-- 0x1 --> ON

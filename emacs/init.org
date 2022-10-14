@@ -1,0 +1,437 @@
+
+#+title: My Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :tangle ./init.el :mkdirp yes
+
+* Basic configuration
+
+** Gui configuration
+*** gui widgets
+#+begin_src emacs-lisp
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (menu-bar-mode -1)
+  (setq visible-bell t)
+  (load-theme 'wombat)
+#+end_src
+*** font style
+#+begin_src emacs-lisp
+  (defvar lm/default-font-size 100)
+  (set-face-attribute 'default nil :font "Fira Code" :height lm/default-font-size) 
+  (global-hl-line-mode)
+  (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
+#+end_src
+
+*** frame geometry
+#+begin_src emacs-lisp
+  (setq default-frame-alist '((width . 90) (height . 40)))
+#+end_src
+
+*** scrolling
+#+begin_src emacs-lisp
+	(setq fast-but-imprecise-scrolling t
+				;;       ;;	scroll-conservatively 10000
+				auto-window-vscroll nil
+				)
+	;; (setq					
+	;;  ;; mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))
+	;;  mouse-wheel-progressive-speed nil)
+
+	(setq redisplay-dont-pause t)
+#+end_src
+
+** Editor behaviour
+#+begin_src emacs-lisp
+	(setq inhibit-startup-message t)                              ;; no startup screen
+	(setq backup-inhibited t)                                     ;; no backup files
+	(setq message-kill-buffer-query nil)                          ;; no prompt kill buffer
+	(column-number-mode)                                          ;; column number
+	(global-display-line-numbers-mode t)                          ;; line number
+	(dolist (mode '(org-mode-hook
+			term-mode-hook
+			shell-mode-hook
+			eshell-mode-hook))
+		(add-hook mode (lambda () (display-line-numbers-mode 0))))
+	(setq tab-width 2)                                            ;; tab width 2
+	(add-hook 'prog-mode-hook 'electric-pair-mode)
+#+end_src
+
+
+
+* Plugins
+** package
+#+begin_src emacs-lisp
+  (require 'package)
+ 
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+#+end_src
+** use-package
+#+begin_src emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  (use-package diminish)
+#+end_src
+** ivy, swiper, counsel
+#+begin_src emacs-lisp
+  (use-package ivy
+	    :diminish
+	    :config
+	    (ivy-mode 1))
+  (use-package ivy-rich
+	    :diminish
+	    :config
+	    (setq ivy-use-virtual-buffers t)
+	    (setq enable-recursive-minibuffers t)
+	    (ivy-rich-mode 1))
+  (use-package swiper)
+  (use-package counsel)
+#+end_src
+** which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.3))
+#+end_src
+
+** lsp-mode
+#+begin_src emacs-lisp
+  (defun lm/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook (lsp-mode . lm/lsp-mode-setup)
+    :init
+    (setq lsp-keymap-prefix "C-l")
+    :config
+    (lsp-enable-which-key-integration t))
+#+end_src
+*** lsp-ui
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
+#+end_src
+
+** company
+#+begin_src emacs-lisp
+	(use-package company
+		:bind (("C-." . company-complete)))
+#+end_src
+
+** various modes
+#+begin_src emacs-lisp
+  (use-package powershell)
+#+end_src
+
+** to consider plugins
+Plugins maybe worth to be installed:
+   - lsp-treemacs
+   - lsp-ivy
+     
+
+* Languages
+** C/C++
+
+** Arduino
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.ino" .
+				  (lambda ()
+				    (c-or-c++-mode)
+				    (setq lsp-clients-clangd-args `(
+								    "-j=2"
+								    "--background-index"
+								    "--clang-tidy"
+								    "--completion-style=detailed"
+								    (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
+#+end_src
+
+
+* Keybindings
+** global
+#+begin_src emacs-lisp
+	(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+	(global-set-key (kbd "<f2>") 'counsel-M-x)
+	(global-set-key (kbd "C-z") 'undo)
+	;; (global-set-key (kbd "C-.") 'dabbrev-expand)
+
+	(windmove-default-keybindings 'meta)
+#+end_src
+
+# * Keybindings (with Evil )
+** general
+#+begin_src emacs-lisp
+    (use-package general
+      :config
+      (general-create-definer lm/leader-keys
+	:keymaps 'override
+	:prefix "<f3>"))
+
+    (lm/leader-keys
+     "RET" '(counsel-M-x :which-key "M-x"))
+
+    (lm/leader-keys
+      "SPC" '(set-mark-command :which-key "toggle mark"))
+#+end_src
+** tabs
+#+begin_src emacs-lisp
+	(lm/leader-keys
+	"t" '(:ignored t :which-key "tab")
+	"tn" '(tab-new :which-key "new")
+	"tj" '(tab-next :which-key "next")
+	"tk" '(tab-previous :which-key "previous")
+	"td" '(tab-close :which-key "close")
+	"TAB" '(tab-next :which-key "next tab")
+	"<backtab>" '(tab-previous :which-key "previous tab"))
+#+end_src
+
+** buffer
+#+begin_src emacs-lisp
+	(lm/leader-keys
+		"b"  '(:ignore t :which-key "buffer")
+		"bf" '(counsel-find-file :which-key "find file")
+		"bs" '(save-buffer :which-key "save buffer")
+		"bd" '(kill-buffer :which-key "kill buffer")
+		"bl" '(ivy-switch-buffer :which-key "switch buffer")
+		"bL" '(list-buffers :which-key "list buffers"))
+#+end_src
+
+** search
+#+begin_src emacs-lisp
+	(lm/leader-keys
+		"s" '(:ignore t :which-key "search")
+		"ss" '(swiper-isearch :which-key "search")
+	  "sr" '(replace-string :which-key "replace"))
+#+end_src
+
+** appearence
+#+begin_src emacs-lisp
+	(lm/leader-keys
+		"a"  '(:ignore t :which-key "appearence")
+		"a+" '(text-scale-increase :which-key "increase scale")
+		"a-" '(text-scale-decrease :which-key "decrease scale")
+		"at" '(counsel-load-theme :which-key "choose theme"))
+#+end_src
+
+** eval
+#+begin_src emacs-lisp
+(defun load-init () (interactive)
+  (load-file "~/.config/emacs/init.el"))
+(lm/leader-keys
+  "v" '(:ignored t :which-key "eval")
+  "vb" '(eval-buffer :which-key "eval buffer")
+  "vl" '(eval-last-sexp :which-key "eval last sexp")
+  "vi" '(load-init :which-key "load init.el"))
+#+end_src
+
+** window
+#+begin_src emacs-lisp
+(lm/leader-keys
+  "w" '(:ignored t :which-key "window")
+  "wo" '(delete-other-windows :which-key "delete other windows")
+  "wc" '(delete-window :which-key "delete window")
+  "ws" '(split-window-below :which-key "split horizontal")
+  "wv" '(split-window-right :which-key "split vertical"))
+#+end_src
+
+** termin al
+#+begin_src emacs-lisp
+(lm/leader-keys
+  "T" '(:ignored t :which-key "terminal")
+  "Tv" '(term :which-key "term")
+  "Ts" '(eshell :which-key "eshell"))
+#+end_src
+
+** explore
+#+begin_src emacs-lisp
+		(lm/leader-keys
+		"e" '(:ignored t :which-key "explore")
+		"ed" '(dired :which-key "dired")
+	  "ec" '(pwd :which-key "pwd"))
+#+end_src
+
+** lsp
+#+begin_src emacs-lisp
+	(defun lm/lsp-keymap ()
+		(interactive)
+		(lm/leader-keys
+			"l" '(:ignored t :which-key "lsp")
+			"lf" '(lsp-format-buffer :which-key "format")))
+	(add-hook 'lsp-mode-hook 'lm/lsp-keymap)
+#+end_src
+
+
+
+
+* COMMENT Keybindings (with evil)
+** global
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src
+
+** general
+#+begin_src emacs-lisp
+		(use-package general
+			:config
+			(general-create-definer lm/leader-keys
+			:keymaps '(normal insert visual emacs)
+			:prefix "SPC"
+			:global-prefix "C-SPC"))
+
+		(lm/leader-keys
+	    "RET" '(counsel-M-x :which-key "M-x"))
+#+end_src
+
+** evil
+#+begin_src emacs-lisp
+  (use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-redo)
+  :config
+  (evil-mode 1)
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+  (use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+#+end_src
+
+** tabs
+#+begin_src emacs-lisp
+	(lm/leader-keys
+	"t" '(:ignored t :which-key "tab")
+	"tn" '(tab-new :which-key "new")
+	"tj" '(tab-next :which-key "next")
+	"tk" '(tab-previous :which-key "previous")
+	"td" '(tab-close :which-key "close")
+	"TAB" '(tab-next :which-key "next tab")
+	"<backtab>" '(tab-previous :which-key "previous tab"))
+#+end_src
+
+** buffer
+#+begin_src emacs-lisp
+	(lm/leader-keys
+		"b"  '(:ignore t :which-key "buffer")
+		"bf" '(counsel-find-file :which-key "find file")
+		"bs" '(save-buffer :which-key "save buffer")
+		"bd" '(kill-buffer :which-key "kill buffer")
+		"bl" '(ivy-switch-buffer :which-key "switch buffer")
+		"bL" '(list-buffers :which-key "list buffers"))
+#+end_src
+
+** search
+#+begin_src emacs-lisp
+	(lm/leader-keys
+		"s" '(:ignore t :which-key "search")
+		"ss" '(swiper-isearch :which-key "search")
+	  "sr" '(replace-string :which-key "replace"))
+#+end_src
+
+** appearence
+#+begin_src emacs-lisp
+	(lm/leader-keys
+		"a"  '(:ignore t :which-key "appearence")
+		"a+" '(text-scale-increase :which-key "increase scale")
+		"a-" '(text-scale-decrease :which-key "decrease scale")
+		"at" '(counsel-load-theme :which-key "choose theme"))
+#+end_src
+
+** eval
+#+begin_src emacs-lisp
+(defun load-init () (interactive)
+  (load-file "~/.config/emacs/init.el"))
+(lm/leader-keys
+  "v" '(:ignored t :which-key "eval")
+  "vb" '(eval-buffer :which-key "eval buffer")
+  "vl" '(eval-last-sexp :which-key "eval last sexp")
+  "vi" '(load-init :which-key "load init.el"))
+#+end_src
+
+** window
+#+begin_src emacs-lisp
+(lm/leader-keys
+  "w" '(:ignored t :which-key "window")
+  "wo" '(delete-other-windows :which-key "delete other windows")
+  "wc" '(evil-window-delete :which-key "delete window")
+  "ws" '(evil-window-split :which-key "split horizontal")
+  "wv" '(evil-window-vsplit :which-key "split vertical")
+  "wh" '(evil-window-left :which-key "move left")
+  "wj" '(evil-window-down :which-key "move down")
+  "wk" '(evil-window-up :which-key "move up")
+  "wl" '(evil-window-right :which-key "move right"))
+#+end_src
+
+** terminal
+#+begin_src emacs-lisp
+(lm/leader-keys
+  "T" '(:ignored t :which-key "terminal")
+  "Tv" '(vterm :which-key "vterm")
+  "Ts" '(eshell :which-key "eshell"))
+#+end_src
+
+** explore
+#+begin_src emacs-lisp
+		(lm/leader-keys
+		"e" '(:ignored t :which-key "explore")
+		"ed" '(dired :which-key "dired")
+	  "ec" '(pwd :which-key "pwd"))
+#+end_src
+
+** lsp
+#+begin_src emacs-lisp
+	(defun lm/lsp-keymap ()
+		(interactive)
+		(lm/leader-keys
+			"l" '(:ignored t :which-key "lsp")
+			"lf" '(lsp-format-buffer :which-key "format")))
+	(add-hook 'lsp-mode-hook 'lm/lsp-keymap)
+#+end_src
+
+
+* Org-mode
+** auto tangle configuration files
+#+begin_src emacs-lisp
+  ;; Automatically tangle our init.org config file when we save it
+  (defun lm/org-babel-tangle-config ()
+    (when (string-equal (buffer-file-name)
+			(concat user-emacs-directory "init.org"))
+      (let ((org-confirm-babel-evaluate nil))
+	 (org-babel-tangle)
+	 (load-file (concat user-emacs-directory "init.el")))))
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'lm/org-babel-tangle-config)))
+
+#+end_src
+
+** org-babel
+#+begin_src emacs-lisp
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+#+end_src
+
+
+* Dired
+#+begin_src emacs-lisp
+  (use-package dired
+    :ensure nil
+    :custom ((dired-listing-switches "-agho --group-directories-first"))
+    :config )
+#+end_src

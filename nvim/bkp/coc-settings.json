@@ -1,0 +1,34 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "lua",
+    "python",
+    "json",
+    "rust",
+    "cpp",
+    "c",
+    "cmake",
+    "ps1",
+    "html"
+  ],
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "80"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "Lua.telemetry.enable": false,
+  "powershell.integratedConsole.showOnStartup": false,
+  "powershell.powerShellAdditionalExePaths": [
+    {
+      "versionName": "7WIN",
+      "exePath": "C:/Program Files/PowerShell/7/pwsh.exe"
+    },
+    {
+      "versionName": "7LIN",
+      "exePath": "/home/leonardo/powershell/pwsh"
+    }
+  ],
+  "clangd.arguments": [
+    "--background-index"
+  ]
+}
