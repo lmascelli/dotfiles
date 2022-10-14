@@ -27,6 +27,7 @@ return {
     'cpp',
     'python',
     'rust',
+    'powershell',
   },
 
   after = function()

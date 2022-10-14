@@ -4,15 +4,16 @@ local os = require 'os'
 
 -- COLORSCHEME
 local light_color_scheme = "Windows 95 Light (base16)"
--- local color_scheme = "Wombat"
 local dark_color_scheme = "Colors (base16)"
 
-local time = os.date("*t", os.time())
 
 -- local color_scheme = "Gruvbox Dark"
 -- local color_scheme = "VSCodeLight+ (Gogh)"
+-- local color_scheme = "Wombat"
 local color_scheme = "Colors (base16)"
+
 local function dynamic_color_scheme()
+  local time = os.date("*t", os.time())
   if (time.hour >= 9 and time.hour < 19) then
     color_scheme = light_color_scheme
   else
@@ -68,12 +69,12 @@ return {
   initial_rows = 40,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
   font = wezterm.font('Fira Code'),
-  font_size = 9,
+  font_size = 10,
   cell_width = 1.0,
   color_scheme = color_scheme,
   default_prog = { powershell },
   warn_about_missing_glyphs = false,
-  --  window_background_opacity = 0.95,
+  window_background_opacity = 0.85,
   window_close_confirmation = "NeverPrompt",
   exit_behavior = "Close",
   max_fps = 30,
