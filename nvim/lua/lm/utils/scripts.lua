@@ -6,9 +6,9 @@ append('project_ps1', function()
   if (vim.fn.findfile('project.ps1') == 'project.ps1') then
     local action = vim.fn.input('arguments: ')
     local cmd = 'pwsh -Command ./project.ps1 ' .. action
-    vim.cmd (':terminal ' .. cmd)
+    vim.cmd(':terminal ' .. cmd)
     vim.cmd ':startinsert'
- else
+  else
     print 'project.ps1 script not found'
   end
 end)
@@ -23,7 +23,12 @@ append('project_lua', function()
 end)
 
 -- reload vimrc
-append('reload_vimrc', function ()
-    vim.cmd ':so $MYVIMRC'
-end
-)
+append('reload_vimrc', function()
+  vim.cmd ':so $MYVIMRC'
+end)
+
+append('edit_conf', function()
+  vim.g.lm.push_dir()
+  vim.cmd ('cd ' .. vim.fn.stdpath('config'))
+  vim.cmd 'e .'
+end)

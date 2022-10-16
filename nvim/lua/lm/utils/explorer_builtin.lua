@@ -17,11 +17,17 @@ end)
 
 
 append('toggle_explorer', function()
-  if vim.g.lm['explorer_visible'] then 
-    vim.g.lm['hide_explorer']() 
-  else 
-    vim.g.lm['show_explorer']() 
+  if vim.g.lm['explorer_visible'] then
+    vim.g.lm['hide_explorer']()
+  else
+    vim.g.lm['show_explorer']()
   end
-end
-)
+end)
 
+append('pushed_dir', vim.fn.getcwd())
+append('push_dir', function()
+  append('pushed_dir', vim.fn.getcwd())
+end)
+append('pop_dir', function()
+  vim.cmd('cd ' .. vim.g.lm['pushed_dir'])
+end)

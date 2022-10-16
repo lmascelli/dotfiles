@@ -19,11 +19,12 @@ local function keymapping()
       },
       b = {
         name = "+Buffer",
-        d = { '<cmd>Bdelete!<cr>', 'Delete' }, -- require famiu/bufdelete.nvim
+        d = { '<cmd>bdelete!<cr>', 'Delete' }, -- require famiu/bufdelete.nvim
         s = { '<cmd>:w<cr>', 'Save' },
         S = { ':w ', 'Save As' },
         a = { '<cmd>wa<cr>', 'Save All' },
         l = { '<cmd>buffers<cr>', 'List buffers' },
+        f = { '<cmd>lua vim.g.lm["indent_buffer"]()<cr>', 'Indent buffer' },
       },
       s = {
         name = "+Search",
@@ -37,6 +38,7 @@ local function keymapping()
         r = { '<cmd>lua vim.g.lm["reload_vimrc"]()<cr>', 'Reload configuration' },
         l = { '<cmd>lua vim.g.lm["project_lua"]()<cr>', 'run project.lua' },
         p = { '<cmd>lua vim.g.lm["project_ps1"]()<cr>', 'run project.ps1' },
+        e = { '<cmd>lua vim.g.lm["edit_conf"]()<cr>', 'Edit nvim configuration' },
       },
       q = {
         name = '+Quit',
