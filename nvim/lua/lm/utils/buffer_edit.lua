@@ -8,5 +8,6 @@ append('indent_buffer', function()
 end)
 
 append('buffer_delete', function()
-  vim.cmd 'bdelete'
+  vim.cmd 'bprevious'
+  vim.cmd 'bdelete#'
 end)

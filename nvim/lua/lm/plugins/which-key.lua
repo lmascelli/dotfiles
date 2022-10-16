@@ -19,7 +19,7 @@ local function keymapping()
       },
       b = {
         name = "+Buffer",
-        d = { '<cmd>bdelete!<cr>', 'Delete' }, -- require famiu/bufdelete.nvim
+        d = { '<cmd>lua vim.g.lm["buffer_delete"]()<cr>', 'Delete' },
         s = { '<cmd>:w<cr>', 'Save' },
         S = { ':w ', 'Save As' },
         a = { '<cmd>wa<cr>', 'Save All' },
