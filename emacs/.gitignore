@@ -1,5 +1,6 @@
 .cache/
 auto-save-list/
-eln-cache
+eln-cache/
 elpa/
 recentf
+init.el

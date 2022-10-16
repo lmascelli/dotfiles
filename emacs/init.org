@@ -12,7 +12,7 @@
   (tooltip-mode -1)
   (menu-bar-mode -1)
   (setq visible-bell t)
-  (load-theme 'wombat)
+
 #+end_src
 *** font style
 #+begin_src emacs-lisp
@@ -20,11 +20,6 @@
   (set-face-attribute 'default nil :font "Fira Code" :height lm/default-font-size) 
   (global-hl-line-mode)
   (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
-#+end_src
-
-*** frame geometry
-#+begin_src emacs-lisp
-  (setq default-frame-alist '((width . 90) (height . 40)))
 #+end_src
 
 *** scrolling
@@ -38,6 +33,13 @@
 	;;  mouse-wheel-progressive-speed nil)
 
 	(setq redisplay-dont-pause t)
+#+end_src
+
+*** geometry and aspect
+#+begin_src emacs-lisp
+  (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+  (setq default-frame-alist '((width . 90) (height . 40) (alpha . (85 . 5))))
+  (load-theme 'wombat)
 #+end_src
 
 ** Editor behaviour
