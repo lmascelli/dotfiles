@@ -8,7 +8,7 @@ local on_attach = function(client, bufnr)
       ["<leader>"] = {
         l = {
           name = '+lsp',
-          f = { '<cmd>lua vim.lsp.buf.formatting {async = true}<cr>', 'Format buffer' },
+          f = { '<cmd>lua vim.lsp.buf.format {async = true}<cr>', 'Format buffer' },
           d = {
             name = "+diagnostics",
             e = { '<cmd>lua vim.diagnostic.open_float()<cr>', 'Diagnostics' },

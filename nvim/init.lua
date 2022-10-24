@@ -1,3 +1,6 @@
+if vim.fn.has('win32') then
+   vim.o.fsync = false
+end
 vim.g.lm = {}
 require 'lm.options'
 require 'lm.utils.utils'

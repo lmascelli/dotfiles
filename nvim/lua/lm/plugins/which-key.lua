@@ -48,6 +48,8 @@ local function keymapping()
         name = '+Apparence',
         d = { '<cmd>set background=dark<cr>', 'background dark' },
         l = { '<cmd>set background=light<cr>', 'background light' },
+        ['+'] = { '<cmd>lua vim.g.lm["increase_font_size"]()<cr>', 'background light' },
+        ['-'] = { '<cmd>lua vim.g.lm["decrease_font_size"]()<cr>', 'background light' },
       }
     }
   }, { silent = true })

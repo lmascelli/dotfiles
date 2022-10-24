@@ -59,6 +59,10 @@ keymap('n', '<leader>vp', '<cmd>lua vim.g.lm.project_ps1()<cr>', {
 
 ------------------------------------- INSERT ----------------------------------
 
+keymap("i", "<C-ì>", "<C-k>'?", opts)
+keymap("c", "<C-ì>", "<C-k>'?", opts)
+keymap("i", "<C-'>", "<C-k>'!", opts)
+keymap("c", "<C-'>", "<C-k>'!", opts)
 keymap("i", "<s-cr>", "<c-o>O", opts)
 keymap("i", "<c-cr>", "<c-o>o", opts)
 

@@ -1,8 +1,8 @@
 lua << EOF
 if vim.fn.exists(':GuiFont') then
-  vim.g.lm.update_font = function ()
+  vim.g.lm.append('update_font', function ()
     vim.cmd (':GuiFont! ' .. vim.g.lm.font_name .. ':h' .. vim.g.lm.font_size) 
-  end
+  end)
   vim.g.lm.update_font()
 end
 

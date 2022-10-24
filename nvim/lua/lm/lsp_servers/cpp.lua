@@ -1,5 +1,13 @@
 local lspconfig = require 'lspconfig'
 
+local append = require 'lm.utils.utils'.append
+
+append('clangd_create_mingw_conf', function()
+  vim.fn.writefile({ "CompileFlags:",
+    " Add: [-target, x86_64-pc-windows-gnu]" },
+    ".clangd")
+end)
+
 return function(data)
   require 'clangd_extensions'.setup {
     server = {
@@ -9,6 +17,8 @@ return function(data)
           local wk = require 'which-key'
           wk.register {
             ["<leader>lh"] = { "<cmd>ClangdSwitchSourceHeader<cr>", "Switch Source-Header" },
+            ["<leader>lcl"] = { "<cmd>lua vim.g.lm['clangd_create_mingw_conf']()<cr>",
+              "Create .clangd for mingw" },
           }
         end
       end,

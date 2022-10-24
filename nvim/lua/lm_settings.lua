@@ -1,6 +1,6 @@
 return {
   colorscheme = 'default',
-  font_name = 'Fira Code',
+  font_name = 'FiraCode NF',
   font_size = 10,
 
 
@@ -17,7 +17,6 @@ return {
     'comment',
     'nvim-autopairs',
     'toggleterm',
-    'colorschemes',
     'bufdelete',
   },
 
