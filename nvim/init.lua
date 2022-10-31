@@ -1,3 +1,4 @@
+vim.cmd 'let g:markdown_folding=1'
 if vim.fn.has('win32') then
    vim.o.fsync = false
 end
@@ -10,6 +11,7 @@ if vim.g.neovide then
   require 'lm.neovide'
 end
 require 'lm.colorscheme'
+require 'lm.filetypes'
 
 local after = require('lm_settings').after
 if after then

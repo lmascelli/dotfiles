@@ -59,6 +59,12 @@
 #+end_src
 
 
+** Shell configuration
+Set PowerShell as the main console interpreter
+#+begin_src emacs-lisp
+  (setq explicit-shell-file-name "pwsh")
+  (setq excplicit-powershell.exe-args '("-Command" "-"))
+#+end_src
 
 * Plugins
 ** package
@@ -160,6 +166,9 @@ Plugins maybe worth to be installed:
 
 
 # * Keybindings
+** Powershell
+
+* Keybindings
 ** global
 #+begin_src emacs-lisp
 	(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -436,6 +445,7 @@ Plugins maybe worth to be installed:
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
 #+end_src
+
 
 * Dired
 #+begin_src emacs-lisp

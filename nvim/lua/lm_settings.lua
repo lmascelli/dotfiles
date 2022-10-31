@@ -18,14 +18,15 @@ return {
     'nvim-autopairs',
     'toggleterm',
     'bufdelete',
+    'treesitter'
   },
 
 
   lsp_list = {
     'lua',
-    'cpp',
-    'python',
-    'rust',
+    'clangd',
+    'pyright',
+    'rust_analyzer',
     'powershell',
   },
 

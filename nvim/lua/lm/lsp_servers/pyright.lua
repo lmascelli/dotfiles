@@ -1,8 +1,5 @@
 local lspconfig = require 'lspconfig'
 
-vim.g.lm.append('format_black', function() vim.cmd 'Black' end)
-
-
 return function(data)
   -- lspconfig.pylsp.setup {
   --   on_attach = data.on_attach,

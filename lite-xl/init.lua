@@ -1,27 +1,35 @@
--- put user settings here
+  -- put user settings here
 -- this module will be loaded after everything else when the application starts
 -- it will be automatically reloaded when savedlocal core = require "core"
 
+local core = require "core"
+local command = require "core.command"
 local keymap = require "core.keymap"
 local config = require "core.config"
 local style = require "core.style"
+local system = require "system"
 
 ------------------------------ Themes ----------------------------------------
 
 -- light theme:
--- core.reload_module("colors.summer")
+core.reload_module("colors.summer")
 
 --------------------------- Key bindings -------------------------------------
+command.add(nil, {
+  ["core:wez"] = function()
+    system.exec("wezterm")
+  end
+})
 
 -- key binding:
--- keymap.add { ["ctrl+escape"] = "core:quit" }
-
+keymap.add { ["ctrl+t"] = "core:wez" }
+keymap.add { ["cltr++"] = "scale:increase" }
 
 ------------------------------- Fonts ----------------------------------------
 
 -- customize fonts:
-style.font = renderer.font.load(DATADIR .. "/fonts/FiraSans-Regular.ttf", 10 * SCALE)
-style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.ttf", 10 * SCALE)
+style.font = renderer.font.load(DATADIR .. "/fonts/FiraSans-Regular.ttf", 13 * SCALE)
+style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.ttf", 13 * SCALE)
 --
 -- DATADIR is the location of the installed Lite XL Lua code, default color
 -- schemes and fonts.

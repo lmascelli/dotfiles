@@ -36,6 +36,7 @@ local options = {
   wrap = false,
   scrolloff = 8,
   sidescrolloff = 8,
+  virtualedit = "onemore",
 }
 
 for key, value in pairs(options) do

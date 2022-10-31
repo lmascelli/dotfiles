@@ -34,31 +34,34 @@ if settings.plugin_list ~= nil then
 end
 
 return packer.startup(
-{
-  function (use)
-    use "wbthomason/packer.nvim"
-    use "nvim-lua/plenary.nvim"
+  {
+    function(use)
+      use "wbthomason/packer.nvim"
+      use "nvim-lua/plenary.nvim"
 
-    for _, v in pairs(plugin_list) do
-      local status_ok, p = pcall(require, 'lm.plugins.'.. v)
-      if status_ok then p.setup(use) end
-    end
-
-    if PACKER_BOOTSTRAP then
-      require("packer").sync()
-      vim.notify('If new packages have been installed restart nvim')
-    end
-
-    for _, v in pairs(plugin_list) do
-      local status_ok, p = pcall(require, 'lm.plugins.'.. v)
-      if status_ok then 
-        status_ok, _ = pcall(p.config)
-      else
-        vim.notify('error loading ' .. v .. ' plugin. try run :PackerSync')
+      for _, v in pairs(plugin_list) do
+        local status_ok, p = pcall(require, 'lm.plugins.' .. v)
+        if status_ok then p.setup(use) end
       end
-    end
-  end,
-  config = {
+
+      if PACKER_BOOTSTRAP then
+        require("packer").sync()
+        vim.notify('If new packages have been installed restart nvim')
+      end
+
+      vim.g.lm['append']('config_plugins', function()
+        for _, v in pairs(plugin_list) do
+          local status_ok, p = pcall(require, 'lm.plugins.' .. v)
+          if status_ok then
+            status_ok, _ = pcall(p.config)
+          else
+            vim.notify('error loading ' .. v .. ' plugin. try run :PackerSync')
+          end
+        end
+      end
+      )
+    end,
+    config = {
+    }
   }
-}
 )
