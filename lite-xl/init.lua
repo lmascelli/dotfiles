@@ -12,7 +12,7 @@ local system = require "system"
 ------------------------------ Themes ----------------------------------------
 
 -- light theme:
-core.reload_module("colors.summer")
+-- core.reload_module("colors.summer")
 
 --------------------------- Key bindings -------------------------------------
 command.add(nil, {
