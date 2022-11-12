@@ -1,13 +1,12 @@
-return 
-{
+return {
   setup = function(use)
     use {
       'kyazdani42/nvim-tree.lua',
     }
-  end, 
+  end,
 
   config = function()
-    LM.toggle_explorer = function()
+    LM.explorer.toggle_explorer = function()
       vim.cmd ':NvimTreeToggle'
     end
 
@@ -15,8 +14,8 @@ return
       view = {
         mappings = {
           list = {
-            {key = "cd", action="cd"},
-            {key = "cc", action = "copy"},
+            { key = "cd", action = "cd" },
+            { key = "cc", action = "copy" },
           }
         }
       }

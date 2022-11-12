@@ -1,56 +1,31 @@
-local function keymapping()
+local function wk_set_keymap(mode, map, expr, opts, buf, name)
   local wk = require 'which-key'
-  wk.register({
-    ['<leader>'] = {
-      e = { '<cmd>lua LM.toggle_explorer()<cr>', 'File explorer' },
-      w = {
-        name = '+Window',
-        h = { '<c-w>h', 'Left' },
-        l = { '<c-w>l', 'Right' },
-        j = { '<c-w>j', 'Down' },
-        k = { '<c-w>k', 'Up' },
-        v = { '<cmd>vsplit<cr>', 'VSplit' },
-        s = { '<cmd>split<cr>', 'HSplit' },
-        o = { '<cmd>only!<cr>', 'Close others' },
-        d = { '<cmd>q<cr>', 'Quit current window' },
-      },
-      b = {
-        name = "+Buffer",
-        d = { '<cmd>lua LM.buffer_delete()<cr>', 'Delete' },
-        s = { '<cmd>:w<cr>', 'Save' },
-        S = { ':w ', 'Save As' },
-        a = { '<cmd>wa<cr>', 'Save All' },
-        l = { '<cmd>buffers<cr>', 'List buffers' },
-        f = { '<cmd>lua LM.indent_buffer()<cr>', 'Indent buffer' },
-      },
-      s = {
-        name = "+Search",
-        s = { '/', 'Search', silent = false },
-        r = { ':%s/', 'Search', silent = false },
-        h = { '<cmd>nohl<cr>', 'highlight off' },
-      },
-      v = {
-        name = '+Script',
-        c = { '<cmd>source %<cr>', 'Source current file' },
-        r = { '<cmd>lua LM.reload_vimrc()<cr>', 'Reload configuration' },
-        l = { '<cmd>lua LM.project_lua()<cr>', 'run project.lua' },
-        p = { '<cmd>lua LM.project_ps1()<cr>', 'run project.ps1' },
-        e = { '<cmd>lua LM.edit_conf()<cr>', 'Edit nvim configuration' },
-      },
-      q = {
-        name = '+Quit',
-        q = { '<cmd>qa!<cr>', 'Quit' },
-      },
-      a = {
-        name = '+Apparence',
-        d = { '<cmd>set background=dark<cr>', 'background dark' },
-        l = { '<cmd>set background=light<cr>', 'background light' },
-        ['+'] = { '<cmd>lua LM.increase_font_size()<cr>', 'background light' },
-        ['-'] = { '<cmd>lua LM.decrease_font_size()<cr>', 'background light' },
-      }
-    }
-  }, { silent = true })
 
+  opts = opts or {
+    silent = true,
+    noremap = true,
+    nowait = false,
+  }
+
+  local mapping = {}
+  local mapping_data = {}
+  if string.len(expr) > 0 then
+    table.insert(mapping_data, 0, expr)
+    table.insert(mapping_data, 1, name)
+  else
+    mapping_data.name = name or ''
+  end
+  mapping[map] = mapping_data
+
+  local wk_opts = {
+    mode = mode,
+    buffer = buf,
+    silent = opts.silent,
+    noremap = opts.noremap,
+    nowait = opts.nowait,
+  }
+
+  wk.register(mapping, wk_opts)
 end
 
 return {
@@ -76,6 +51,6 @@ return {
     }
     LM.which_key_enabled = true
     vim.opt.timeoutlen = 500
-    keymapping()
+    LM.keymap.set_keymap = wk_set_keymap
   end
 }

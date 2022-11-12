@@ -2,10 +2,13 @@ if vim.fn.has('win32') then
    vim.o.fsync = false
 end
 LM = {}
+-- defaults providers
+require 'lm.keymaps'
+require 'lm.explorer'
+
 require 'lm.options'
 require 'lm.utils.utils'
 require 'lm.plugins'
-require 'lm.keymaps'
 if vim.g.neovide then
   require 'lm.neovide'
 end
