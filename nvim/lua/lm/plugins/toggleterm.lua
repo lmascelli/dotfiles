@@ -10,15 +10,15 @@ return {
       float_opts = { border = 'curved' },
       shell = shell,
     }
-    if vim.g.lm['which-key-enabled'] then
-    local wk = require 'which-key'
-    wk.register {
-      ["<leader>"] = {
-        ["ò"] = {
-          "<cmd>ToggleTerm<cr>", "ToggleTerm",
+    if LM.which_key_enabled then
+      local wk = require 'which-key'
+      wk.register {
+        ["<leader>"] = {
+          ["ò"] = {
+            "<cmd>ToggleTerm<cr>", "ToggleTerm",
+          }
         }
       }
-    }
     end
   end
 }

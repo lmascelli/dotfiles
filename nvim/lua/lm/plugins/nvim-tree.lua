@@ -7,9 +7,9 @@ return
   end, 
 
   config = function()
-    vim.g.lm.append("toggle_explorer", function()
+    LM.toggle_explorer = function()
       vim.cmd ':NvimTreeToggle'
-    end)
+    end
 
     require 'nvim-tree'.setup {
       view = {

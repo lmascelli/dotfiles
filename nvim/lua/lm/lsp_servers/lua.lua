@@ -23,6 +23,6 @@ return function(data)
         }
       }
     },
-    capabilities = capabilities,
+    -- capabilities = capabilities,
   }
 end

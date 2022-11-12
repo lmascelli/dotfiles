@@ -11,7 +11,7 @@ return function(data)
   lspconfig.pyright.setup {
     on_attach = function(client, bufnr)
       data.on_attach(client, bufnr)
-      if vim.g.lm['which-key-enabled'] then
+      if LM.which_key_enabled then
         local wk = require 'which-key'
         wk.register {
           ['<leader>'] = {

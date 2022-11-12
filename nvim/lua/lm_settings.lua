@@ -31,7 +31,7 @@ return {
   },
 
   after = function()
-    if vim.g.lm['which-key-enabled'] then
+    if LM.which_key_enabled then
       vim.cmd 'hi WhichKeyFloat ctermbg=Black ctermfg=Black guibg=Black guifg=White'
     end
     vim.cmd 'hi Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White'

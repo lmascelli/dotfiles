@@ -66,7 +66,7 @@ style.code_font = renderer.font.load(DATADIR .. "/fonts/JetBrainsMono-Regular.tt
 -- config.plugins.detectindent = false
 
 ------------------------------- LSP ------------------------------------------
-
+--[[ 
 local lspconfig = require "plugins.lsp.config"
 
 lspconfig.sumneko_lua.setup {
@@ -82,5 +82,5 @@ lspconfig.sumneko_lua.setup {
       }
     }
   }
-}
+} ]]
 

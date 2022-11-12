@@ -1,1 +1,1 @@
-return {recents={[3]="D:\\Downloads\\lite-xl",[1]="D:\\lunarvim\\lvim",[2]="C:\\Users\\leonardo\\Documents\\tesi\\relazione",[4]="D:\\.dotfiles\\lite-xl"}, window={[1]=842,[2]=874,[3]=637,[4]=97,["n"]=4}, window_mode="normal", previous_find={[1]="theme"}, previous_replace={}}
+return {recents={[3]="C:\\Users\\leonardo\\Documents\\tesi\\relazione",[1]="D:\\.dotfiles\\lite-xl",[2]="D:\\lunarvim\\lvim",[4]="D:\\Downloads\\lite-xl"}, window={[1]=1920,[2]=1057,[3]=0,[4]=23,["n"]=4}, window_mode="maximized", previous_find={[1]="theme"}, previous_replace={}}

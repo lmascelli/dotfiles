@@ -1,11 +1,8 @@
-local settings = require 'lm_settings'
-local append = vim.g.lm['append']
-
 local function keymapping()
   local wk = require 'which-key'
   wk.register({
     ['<leader>'] = {
-      e = { '<cmd>lua vim.g.lm.toggle_explorer()<cr>', 'File explorer' },
+      e = { '<cmd>lua LM.toggle_explorer()<cr>', 'File explorer' },
       w = {
         name = '+Window',
         h = { '<c-w>h', 'Left' },
@@ -19,12 +16,12 @@ local function keymapping()
       },
       b = {
         name = "+Buffer",
-        d = { '<cmd>lua vim.g.lm["buffer_delete"]()<cr>', 'Delete' },
+        d = { '<cmd>lua LM.buffer_delete()<cr>', 'Delete' },
         s = { '<cmd>:w<cr>', 'Save' },
         S = { ':w ', 'Save As' },
         a = { '<cmd>wa<cr>', 'Save All' },
         l = { '<cmd>buffers<cr>', 'List buffers' },
-        f = { '<cmd>lua vim.g.lm["indent_buffer"]()<cr>', 'Indent buffer' },
+        f = { '<cmd>lua LM.indent_buffer()<cr>', 'Indent buffer' },
       },
       s = {
         name = "+Search",
@@ -35,10 +32,10 @@ local function keymapping()
       v = {
         name = '+Script',
         c = { '<cmd>source %<cr>', 'Source current file' },
-        r = { '<cmd>lua vim.g.lm["reload_vimrc"]()<cr>', 'Reload configuration' },
-        l = { '<cmd>lua vim.g.lm["project_lua"]()<cr>', 'run project.lua' },
-        p = { '<cmd>lua vim.g.lm["project_ps1"]()<cr>', 'run project.ps1' },
-        e = { '<cmd>lua vim.g.lm["edit_conf"]()<cr>', 'Edit nvim configuration' },
+        r = { '<cmd>lua LM.reload_vimrc()<cr>', 'Reload configuration' },
+        l = { '<cmd>lua LM.project_lua()<cr>', 'run project.lua' },
+        p = { '<cmd>lua LM.project_ps1()<cr>', 'run project.ps1' },
+        e = { '<cmd>lua LM.edit_conf()<cr>', 'Edit nvim configuration' },
       },
       q = {
         name = '+Quit',
@@ -48,8 +45,8 @@ local function keymapping()
         name = '+Apparence',
         d = { '<cmd>set background=dark<cr>', 'background dark' },
         l = { '<cmd>set background=light<cr>', 'background light' },
-        ['+'] = { '<cmd>lua vim.g.lm["increase_font_size"]()<cr>', 'background light' },
-        ['-'] = { '<cmd>lua vim.g.lm["decrease_font_size"]()<cr>', 'background light' },
+        ['+'] = { '<cmd>lua LM.increase_font_size()<cr>', 'background light' },
+        ['-'] = { '<cmd>lua LM.decrease_font_size()<cr>', 'background light' },
       }
     }
   }, { silent = true })
@@ -77,7 +74,7 @@ return {
       },
       show_help = true,
     }
-    append('which-key-enabled', true)
+    LM.which_key_enabled = true
     vim.opt.timeoutlen = 500
     keymapping()
   end

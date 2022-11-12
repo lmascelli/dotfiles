@@ -15,12 +15,12 @@ if fn.empty(fn.glob(packer_install_path)) > 0 then
   vim.cmd [[packadd packer.nvim]]
 end
 
-vim.cmd [[
-augroup packer_user_config
-autocmd!
-autocmd BufWritePost plugins.lua source <afile> | PackerSync
-augroup end
-]]
+-- vim.cmd [[
+-- augroup packer_user_config
+-- autocmd!
+-- autocmd BufWritePost plugins.lua source <afile> | PackerSync
+-- augroup end
+-- ]]
 
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
@@ -49,7 +49,7 @@ return packer.startup(
         vim.notify('If new packages have been installed restart nvim')
       end
 
-      vim.g.lm['append']('config_plugins', function()
+      LM.config_plugins = function()
         for _, v in pairs(plugin_list) do
           local status_ok, p = pcall(require, 'lm.plugins.' .. v)
           if status_ok then
@@ -59,7 +59,6 @@ return packer.startup(
           end
         end
       end
-      )
     end,
     config = {
     }

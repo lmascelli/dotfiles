@@ -1,1 +1,0 @@
-return { path = "D:\\Downloads\\LunarVim-master", documents = {["active_view"]=1,["type"]="leaf",["views"]={[1]={["active"]=true,["module"]="core.emptyview",["type"]="view",["scroll"]={["x"]=0,["y"]=0,["to"]={["y"]=0,["x"]=0}}}}}, directories = {} }

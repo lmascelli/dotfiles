@@ -1,1 +1,1 @@
-vim.g.lm['config_plugins']()
+LM.config_plugins()

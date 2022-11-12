@@ -1,19 +1,15 @@
-local lspconfig = require 'lspconfig'
-
-local append = require 'lm.utils.utils'.append
-
-append('clangd_create_mingw_conf', function()
+LM.clangd_create_mingw_conf = function()
   vim.fn.writefile({ "CompileFlags:",
     " Add: [-target, x86_64-pc-windows-gnu]" },
     ".clangd")
-end)
+end
 
 return function(data)
   require 'clangd_extensions'.setup {
     server = {
       on_attach = function(client, bufnr)
         data.on_attach(client, bufnr)
-        if vim.g.lm['which-key-enabled'] then
+        if LM.which_key_enabled then
           local wk = require 'which-key'
           wk.register {
             ["<leader>lh"] = { "<cmd>ClangdSwitchSourceHeader<cr>", "Switch Source-Header" },

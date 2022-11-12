@@ -19,7 +19,7 @@ return {
         },
       },
     }
-    if vim.g.lm['which-key-enabled'] then
+    if LM.which_key_enabled then
       local wk = require 'which-key'
       wk.register {
         ['<leader>'] = {

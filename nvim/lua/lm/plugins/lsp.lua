@@ -1,5 +1,5 @@
 local on_attach = function(client, bufnr)
-  if vim.g.lm['which-key-enabled'] then
+  if LM.which_key_enabled then
     local wk = require 'which-key'
     local opts = { noremap = true, silent = true }
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
