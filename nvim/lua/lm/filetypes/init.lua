@@ -9,3 +9,7 @@ require 'lm.filetypes.markdown'
 filetype_cmd('python', function()
   require 'lm.filetypes.python'
 end)
+
+filetype_cmd('matlab', function()
+  require 'lm.filetypes.matlab'
+end)

@@ -1,73 +1,34 @@
+local keymap = LM.keymap.set_keymap
+
 local on_attach = function(client, bufnr)
-  if LM.which_key_enabled then
-    local wk = require 'which-key'
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    wk.register {
-      ["<leader>"] = {
-        l = {
-          name = '+lsp',
-          f = { '<cmd>lua vim.lsp.buf.format {async = true}<cr>', 'Format buffer' },
-          d = {
-            name = "+diagnostics",
-            e = { '<cmd>lua vim.diagnostic.open_float()<cr>', 'Diagnostics' },
-            n = { '<cmd>lua vim.diagnostic.goto_next()<cr>', 'Next problem' },
-            p = { '<cmd>lua vim.diagnostic.goto_previous()<cr>', 'Previous problem' },
-            l = { '<cmd>lua vim.diagnostic.setloclist()<cr>', 'Set loc list' },
-          },
-          K = { '<cmd>lua vim.lsp.buf.hover()<cr>', 'Documentation' },
-          k = { '<cmd>lua vim.lsp.buf.signature_help()<cr>', 'Signature help' },
-          D = { '<cmd>lua vim.lsp.buf.type_definition()<cr>', 'Type definition' },
-          ["ql"] = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Code actions' },
-          ["rn"] = { '<cmd>lua vim.lsp.buf.rename()<cr>', 'Refactor' },
-          ["ca"] = { '<cmd>lua vim.lsp.buf.code_action()<cr>', 'Code actions' },
-          w = {
-            name = "+workspace",
-            a = { '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>', 'Add workspace folder' },
-            r = { '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', 'Remove workspace folder' },
-            l = { '<cmd>lua vim.lsp.buf.list_workspace_folders()<cr>', 'List workspace folder' },
-          },
-          g = {
-            name = "+Go to",
-            d = { '<cmd>lua vim.lsp.buf.definition()<cr>', 'Definition' },
-            D = { '<cmd>lua vim.lsp.buf.declaration()<cr>', 'Declaration' },
-            i = { '<cmd>lua vim.lsp.buf.implementation()<cr>', 'Implementation' },
-            r = { '<cmd>lua vim.lsp.buf.references()<cr>', 'References' },
-          }
-        }
-      }
-    }
-  else
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_set_keymap('n', '<leader>le', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-    vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-    vim.api.nvim_set_keymap('n', '<leader>ql', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+  local opts = { noremap = true, silent = true }
+  keymap('n', '<leader>le', '<cmd>lua vim.diagnostic.open_float()<CR>', opts, bufnr, '')
+  keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts, bufnr, '')
+  keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>ql', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts, bufnr, '')
 
-    -- Use an on_attach function to only map the following keys
-    -- after the language server attaches to the current buffer
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  -- Use an on_attach function to only map the following keys
+  -- after the language server attaches to the current buffer
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>k', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lwl',
-      '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  end
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  keymap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>k', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts, bufnr, '')
+  keymap('i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>lwa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>lwr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>lwl',
+    '<cmdint(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts, bufnr, '')
+  keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts, bufnr, '')
+  keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts, bufnr, '')
 end
 
 

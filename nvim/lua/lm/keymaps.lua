@@ -1,5 +1,5 @@
 --default keyamp function
-local function default_keymap(mode, map, expr, opts, buf)
+local function default_keymap(mode, map, expr, opts, buf, name)
   opts = opts or {
     silent = true,
     noremap = false,
