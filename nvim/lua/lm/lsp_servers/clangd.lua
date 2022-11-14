@@ -8,15 +8,12 @@ return function(data)
   require 'clangd_extensions'.setup {
     server = {
       on_attach = function(client, bufnr)
+        local keymap = LM.keymap.set_keymap
         data.on_attach(client, bufnr)
-        if LM.which_key_enabled then
-          local wk = require 'which-key'
-          wk.register {
-            ["<leader>lh"] = { "<cmd>ClangdSwitchSourceHeader<cr>", "Switch Source-Header" },
-            ["<leader>lcl"] = { "<cmd>lua vim.g.lm['clangd_create_mingw_conf']()<cr>",
-              "Create .clangd for mingw" },
-          }
-        end
+        keymap("n", "<leader>lh", "<cmd>ClangdSwitchSourceHeader<cr>", {}, nil,
+          "Switch Source-Header")
+        keymap("n", "<leader>lcl", "<cmd>lua LM.clangd_create_mingw_conf()<cr>",
+          {}, nil, "Create .clangd for mingw")
       end,
       cmd = {
         "clangd",

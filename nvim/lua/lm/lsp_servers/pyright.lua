@@ -11,18 +11,8 @@ return function(data)
   lspconfig.pyright.setup {
     on_attach = function(client, bufnr)
       data.on_attach(client, bufnr)
-      if LM.which_key_enabled then
-        local wk = require 'which-key'
-        wk.register {
-          ['<leader>'] = {
-            l = {
-              f = { '<cmd>lua vim.g.lm.format_black()<cr>', 'format with black' }
-            }
-          }
-        }
-      else
-        vim.fn.nvim_buf_set_keymap(bufnr, 'n', '<cmd>lua vim.g.lm.format_black()<cr>', { noremap = true })
-      end
+      LM.keymap.set_keymap("n", "<leader>lf",
+        '<cmd>lua LM.format_black()<cr>', {}, nil, 'format with black')
     end
   }
 end

@@ -10,15 +10,7 @@ return {
       float_opts = { border = 'curved' },
       shell = shell,
     }
-    if LM.which_key_enabled then
-      local wk = require 'which-key'
-      wk.register {
-        ["<leader>"] = {
-          ["ò"] = {
-            "<cmd>ToggleTerm<cr>", "ToggleTerm",
-          }
-        }
-      }
-    end
+    LM.keymap.set_keymap('n', '<leader>ò', '<cmd>ToggleTerm<cr>',
+      { silent = true, noremap = true }, nil, 'terminal')
   end
 }

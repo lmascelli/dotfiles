@@ -19,31 +19,15 @@ return {
         },
       },
     }
-    if LM.which_key_enabled then
-      local wk = require 'which-key'
-      wk.register {
-        ['<leader>'] = {
-          f = { '<cmd>Telescope find_files hidden=false<cr>', 'Find files' },
-          t = {
-            name = 'Telescope',
-            f = { '<cmd>Telescope find_files hidden=true<cr>', 'Find in all files' },
-            c = { '<cmd>Telescope commands<cr>', 'Find command' },
-            s = { '<cmd>Telescope<cr>', 'List all finds' },
-            g = { '<cmd>Telescope live_grep<cr>', 'Grep in current directory' },
-          }
-        }
-      }
-    else
-      local keymap = vim.api.nvim_set_keymap -- <c-k> --> show Files (Ctrl+k)
-      keymap('n', '<c-k>', '<cmd>Telescope find_files<cr>', {})
-      -- <c-p> --> show Commands (Ctrl+p)
-      keymap('n', '<leader>tc', '<cmd>Telescope commands<cr>', {
-        silent = true,
-        nowait = true,
-      })
-      keymap('n', '<leader>ts', '<cmd>Telescope<cr>', {})
-      keymap('n', '<leader>tg', '<cmd>Telescope live_grep<cr>', {})
-      keymap('n', '<leader>tf', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {})
-    end
+    local keymap = LM.keymap.set_keymap
+    keymap('n', '<c-k>', '<cmd>Telescope find_files<cr>', {}, nil, '')
+    keymap('n', '<leader>t', '', {}, nil, 'Telescope')
+    keymap('n', '<leader>tc', '<cmd>Telescope commands<cr>', {
+      silent = true,
+      nowait = true,
+    }, nil, 'commands')
+    keymap('n', '<leader>ts', '<cmd>Telescope<cr>', {}, nil, 'list searches')
+    keymap('n', '<leader>tg', '<cmd>Telescope live_grep<cr>', {}, nil, 'find in files')
+    keymap('n', '<leader>tf', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {}, nil, 'find in buffer')
   end
 }

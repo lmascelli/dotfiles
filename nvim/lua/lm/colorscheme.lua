@@ -1,10 +1,13 @@
-local colorscheme = require 'lm_settings'.colorscheme
-local os = require 'os'
+local custom = LM.custom.load_custom()
+if custom then
+  local colorscheme = custom.colorscheme
+  local os = require 'os'
 
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
-if not status_ok then
-  vim.notify("colorscheme " .. colorscheme .. " not found")
-  return
+  local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
+  if not status_ok then
+    vim.notify("colorscheme " .. colorscheme .. " not found")
+    return
+  end
 end
 -- italic font for comments
 vim.cmd "highlight Comment cterm=italic gui=italic"

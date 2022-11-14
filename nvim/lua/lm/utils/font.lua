@@ -1,29 +1,32 @@
-local current_settings = require 'lm_settings'
+local font = {
+  font_name = '',
+  font_size = 10,
+}
 
-if current_settings.font_size then
-  LM.font_size = current_settings.font_size
-else
-  LM.font_size = 10
+local custom = LM.custom.load_custom()
+
+if custom and custom.font_size then
+  font.font_size = custom.font_size
 end
 
-if current_settings.font_name then
-  LM.font_name = current_settings.font_name
-else
-  LM.font_name = ''
+if custom and custom.font_name then
+  font.font_name = custom.font_name
 end
 
-LM.update_font = function ()
-  vim.opt.guifont = LM.font_name .. ':h' .. LM.font_size
+font.update_font = function ()
+  vim.opt.guifont = font.font_name .. ':h' .. font.font_size
 end
 
-LM.increase_font_size = function ()
-  LM.font_size = LM.font_size + 1
-  LM.update_font()
+font.increase_font_size = function ()
+  font.font_size = font.font_size + 1
+  font.update_font()
 end
 
-LM.decrease_font_size = function ()
-  LM.font_size = LM.font_size - 1
-  LM.update_font()
+font.decrease_font_size = function ()
+  font.font_size = font.font_size - 1
+  font.update_font()
 end
 
-LM.update_font()
+font.update_font()
+
+LM.font = font

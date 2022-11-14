@@ -1,12 +1,10 @@
 local function wk_set_keymap(mode, map, expr, opts, buf, name)
   local wk = require 'which-key'
-
   opts = opts or {
     silent = true,
     noremap = true,
     nowait = false,
   }
-
   local mapping = {}
   local mapping_data = {}
   if string.len(expr) > 0 then
@@ -24,13 +22,13 @@ local function wk_set_keymap(mode, map, expr, opts, buf, name)
     noremap = opts.noremap,
     nowait = opts.nowait,
   }
-
   wk.register(mapping, wk_opts)
 end
 
 return {
   setup = function(use)
     use 'folke/which-key.nvim'
+    LM.keymap.set_keymap = wk_set_keymap
   end,
 
   config = function()
@@ -49,8 +47,6 @@ return {
       },
       show_help = true,
     }
-    LM.which_key_enabled = true
     vim.opt.timeoutlen = 500
-    LM.keymap.set_keymap = wk_set_keymap
   end
 }

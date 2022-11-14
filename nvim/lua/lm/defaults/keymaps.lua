@@ -4,7 +4,11 @@ local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
 local buf = nil
 
-keymap("", "<Space>", "<Nop>", opts, buf, '')
+
+
+
+
+-- keymap("", "<Space>", "<Nop>", opts, buf, '')
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -12,10 +16,12 @@ vim.g.maplocalleader = " "
 
 --------------------------------------  NORMAL --------------------------------
 
---  Window moving
+--  Window navigation
 keymap("n", "<leader>w", "", opts, buf, "Window")
 keymap('n', '<leader>wc', '<cmd>q<cr>', opts, buf, 'Close window')
 keymap('n', '<leader>wo', '<cmd>only<cr>', opts, buf, 'Close other windows')
+keymap('n', '<leader>wv', '<C-w>v', opts, buf, 'Split vertical')
+keymap('n', '<leader>ws', '<C-w>s', opts, buf, 'Split horizontal')
 keymap("n", "<C-h>", "<C-w>h", opts, buf, 'Window left')
 keymap("n", "<C-j>", "<C-w>j", opts, buf, 'Window down')
 keymap("n", "<C-k>", "<C-w>k", opts, buf, 'Window up')
@@ -39,6 +45,9 @@ keymap("n", "<C-Right>", ":vertical resize +2<cr>", opts, buf, '')
 -- Buffer navigation
 keymap("n", "<S-l>", ":bnext<cr>", opts, buf, '')
 keymap("n", "<S-h>", ":bprevious<cr>", opts, buf, '')
+keymap("n", "<leader>b", "", opts, buf, "Buffer")
+keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
+keymap("n", "<leader>bf", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
 
 -- Buffer editing
 keymap("n", "<C-s>", ":w<cr>", opts, buf, '')
@@ -55,6 +64,11 @@ keymap('n', '<leader>vp', '<cmd>lua LM.project_ps1()<cr>', {
   silent = true,
   nowait = true,
 }, buf, 'project.ps1')
+
+-- Appearence
+keymap('n', '<leader>a', '', opts, buf, 'Appearence')
+keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Appearence')
+keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Appearence')
 
 ------------------------------------- INSERT ----------------------------------
 

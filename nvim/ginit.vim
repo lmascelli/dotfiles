@@ -1,9 +1,9 @@
 lua << EOF
   if vim.fn.exists(':GuiFont') then
-    LM.update_font = function()
-      vim.cmd (':GuiFont! ' .. LM.font_name .. ':h' .. LM.font_size) 
+    LM.font.update_font = function()
+      vim.cmd (':GuiFont! ' .. LM.font.font_name .. ':h' .. LM.font.font_size) 
     end
-    LM.update_font()
+    LM.font.update_font()
   end
 
   if vim.fn.exists(':GuiScrollBar') then
