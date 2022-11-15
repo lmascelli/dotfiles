@@ -44,4 +44,6 @@ config.lsp_list = {
   'powershell',
 }
 
+config.matlab_exec = 'D:/Program Files/MATLAB/R2022b/bin/matlab'
+
 return config

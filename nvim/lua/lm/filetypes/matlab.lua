@@ -1,5 +1,9 @@
 local keymap = LM.keymap.set_keymap
+local custom = LM.custom.load_custom()
 
-if LM.env.matlab_exec then
-  keymap("n", "<f1>", vim.fn['jobstart']({ LM.env.matlab_exec .. '-nodesktop' }))
+vim.cmd 'syntax on'
+
+if custom.matlab_exec then
+  keymap("n", "<leader><f1>", "<cmd>lua vim.fn.jobstart({'" .. custom.matlab_exec .. "', '-nodesktop'})<cr>",
+  nil, nil, "launch matlab -nodesktop")
 end

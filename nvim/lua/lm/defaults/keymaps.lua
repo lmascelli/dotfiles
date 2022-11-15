@@ -50,7 +50,7 @@ keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer
 keymap("n", "<leader>bf", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
 
 -- Buffer editing
-keymap("n", "<C-s>", ":w<cr>", opts, buf, '')
+keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
 keymap("n", "U", ":redo<cr>", opts, buf, '')
 
 -- Script evaluating
@@ -83,7 +83,7 @@ keymap("i", "<c-cr>", "<c-o>o", opts, buf, '')
 keymap("i", "<C-Space>", "<C-x><C-o>", opts, buf, '')
 
 -- File saving
-keymap("i", "<C-s>", "<cmd>:w<cr>", opts, buf, '')
+keymap("i", "<C-s>", "<cmd>:w!<cr>", opts, buf, '')
 
 
 ------------------------------------- VISUAL ----------------------------------
