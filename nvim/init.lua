@@ -158,6 +158,7 @@ do
     keymap("n", "<C-j>", "<C-w>j", opts, buf, 'Window down')
     keymap("n", "<C-k>", "<C-w>k", opts, buf, 'Window up')
     keymap("n", "<C-l>", "<C-w>l", opts, buf, 'Window right')
+    keymap("n", "<leader>q", "", opts, buf, "Quit")
     keymap('n', '<leader>qq', '<cmd>qa!<cr>', opts, buf, 'Quit')
     keymap('n', '<m-ScrollWheelUp>', 'zhzh', opts, buf, '')
     keymap('n', '<m-ScrollWheelDown>', 'zlzl', opts, buf, '')
@@ -170,9 +171,6 @@ do
       { silent = true, noremap = true }, nil, 'terminal')
 
     --  Window resizing
-    -- keymap("n", "<C-+>", ":lua LM.font.increase_font_size()<cr>", opts, buf, 'Increase Font')
-    -- keymap("n", "<C-->", ":lua LM.font.decrease_font_size()<cr>", opts, buf, 'Decrease Font')
-
     keymap("n", "<C-Up>", ":resize +2<cr>", opts, buf, '')
     keymap("n", "<C-Down>", ":resize -2<cr>", opts, buf, '')
     keymap("n", "<C-Left>", ":vertical resize -2<cr>", opts, buf, '')
@@ -182,12 +180,43 @@ do
     keymap("n", "<S-l>", ":bnext<cr>", opts, buf, '')
     keymap("n", "<S-h>", ":bprevious<cr>", opts, buf, '')
     keymap("n", "<leader>b", "", opts, buf, "Buffer")
-    keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
-    keymap("n", "<leader>bf", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
+    keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "delete")
+    keymap("n", "<leader>bf", "<cmd>:lua LM.indent_buffer()<cr>", opts, buf, "indent")
+
+    keymap('n', '<a-1>', '<cmd>BufferLineGoToBuffer1<cr>', {})
+    keymap('n', '<a-2>', '<cmd>BufferLineGoToBuffer2<cr>', {})
+    keymap('n', '<a-3>', '<cmd>BufferLineGoToBuffer3<cr>', {})
+    keymap('n', '<a-4>', '<cmd>BufferLineGoToBuffer4<cr>', {})
+    keymap('n', '<a-5>', '<cmd>BufferLineGoToBuffer5<cr>', {})
+    keymap('n', '<a-5>', '<cmd>BufferLineGoToBuffer5<cr>', {})
+    keymap('n', '<a-6>', '<cmd>BufferLineGoToBuffer6<cr>', {})
+    keymap('n', '<a-7>', '<cmd>BufferLineGoToBuffer7<cr>', {})
+    keymap('n', '<a-8>', '<cmd>BufferLineGoToBuffer8<cr>', {})
+    keymap('n', '<a-9>', '<cmd>BufferLineGoToBuffer9<cr>', {})
+    keymap('n', '<c-tab>', '<cmd>BufferLineCycleNext<cr>', {})
+    keymap('n', '<c-\\>', '<cmd>BufferLineCyclePrev<cr>', {})
 
     -- Buffer editing
     keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
     keymap("n", "U", ":redo<cr>", opts, buf, '')
+
+    -- Searching in buffer
+    keymap('n', '<leader>s', '', {}, nil, 'Search')
+    keymap('n', '<leader>ss', '/', {silent = false}, nil, 'search')
+    keymap('n', '<leader>sr', ':%s/', {silent = false}, nil, 'repleace')
+    keymap('n', '<leader>sh', '<cmd>nohl<cr>', {}, nil, 'highlight off')
+
+    -- Telescope searches
+    keymap('n', '<leader>f', '<cmd>Telescope find_files<cr>', {}, nil, 'find files')
+    keymap('n', '<leader>t', '', {}, nil, 'Telescope')
+    keymap('n', '<leader>tc', '<cmd>Telescope commands<cr>', {
+      silent = true,
+      nowait = true,
+    }, nil, 'commands')
+    keymap('n', '<leader>ts', '<cmd>Telescope<cr>', {}, nil, 'list searches')
+    keymap('n', '<leader>tg', '<cmd>Telescope live_grep<cr>', {}, nil, 'find in files')
+    keymap('n', '<leader>tf', '<cmd>Telescope find_files noignore=true hiddent=true<cr>', {}, nil, 'find files')
+    keymap('n', '<leader>tz', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {}, nil, 'find in buffer')
 
     -- Script evaluating
     keymap('n', '<leader>v', '', opts, buf, 'Script')
@@ -203,8 +232,11 @@ do
 
     -- Appearence
     keymap('n', '<leader>a', '', opts, buf, 'Appearence')
-    keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Appearence')
-    keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Appearence')
+    keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Increase Font')
+    keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Decrease Font')
+    keymap("n", "<C-+>", ":lua LM.font.increase_font_size()<cr>", opts, buf, 'Increase Font')
+    keymap("n", "<C-->", ":lua LM.font.decrease_font_size()<cr>", opts, buf, 'Decrease Font')
+
 
     ------------------------------------- INSERT -------------------------------
 
@@ -388,10 +420,36 @@ do
 
   use { 'nvim-lua/plenary.nvim', opt = false }
 
+  use { 'nvim-tree/nvim-web-devicons', opt = false }
+
+  do -- bufferline
+    use {
+      'akinsho/bufferline.nvim',
+      opt = false,
+      requires = 'nvim-tree/nvim-web-devicons'
+    }
+    local ok, bufferline = pcall(require, 'bufferline')
+    if ok then
+      bufferline.setup {
+        options = {
+          diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            local s = " "
+            for e, n in pairs(diagnostics_dict) do
+              local sym = e == "error" and " "
+                  or (e == "warning" and " " or "")
+              s = s .. n .. sym
+            end
+            return s
+          end
+        }
+      }
+    end
+  end
+
   use { -- telescope
     'nvim-telescope/telescope.nvim',
     requires = {
-      { 'nvim-telescope/telescope-symbols.nvim' },
+      { 'nvim-telescope/telescope-symbols.nvim', event='VimEnter' },
     },
     config = function()
       local ok, telescope = pcall(require, 'telescope')
@@ -572,6 +630,7 @@ do
     end
   })
 end
+
 
 -------------------------------------------------------------------------------
 --                                                                           --
