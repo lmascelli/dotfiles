@@ -1,0 +1,1 @@
+return { path = "D:\\.dotfiles\\lite-xl", documents = {["views"]={[1]={["selection"]={[1]=1,[2]=1,[3]=1,[4]=1},["active"]=true,["type"]="doc",["filename"]="a.m",["text"]=false,["scroll"]={["y"]=0,["x"]=0}}},["active_view"]=1,["type"]="leaf"}, directories = {} }
