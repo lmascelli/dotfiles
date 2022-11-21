@@ -576,15 +576,13 @@ do
 
 
   do -- nvim-autopairs
-    use 'windwp/nvim-autopairs'
-
-    local ok, npairs = pcall(require, 'nvim-autopairs')
-
-    if ok then
-      npairs.setup {
-        map_cr = true
-      }
-    end
+    use {
+      "windwp/nvim-autopairs",
+      event = "VimEnter",
+       config = function()
+         require("nvim-autopairs").setup {}
+       end
+    }
   end
 
   use { -- toggleterm
@@ -778,8 +776,17 @@ do
 
   LM.font = font
 
-  vim.cmd 'colorscheme slate'
+  -- vim.cm 'colorscheme slate'
 
   -- italic font for comments
   vim.cmd "highlight Comment cterm=italic gui=italic"
+
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    callback = function()
+      vim.cmd [[
+        :hi link NormalFloat FloatShadow
+        :hi link Pmenu FloatShadow
+      ]]
+    end
+  })
 end

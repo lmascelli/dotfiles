@@ -9,7 +9,7 @@ local dark_color_scheme = "Colors (base16)"
 
 -- local color_scheme = "Gruvbox Dark"
 -- local color_scheme = "VSCodeLight+ (Gogh)"
-local color_scheme = "Wombat"
+local color_scheme = "Slate"
 -- local color_scheme = "Colors (base16)"
 
 local function dynamic_color_scheme()
