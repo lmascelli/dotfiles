@@ -203,8 +203,8 @@ do
 
     -- Searching in buffer
     keymap('n', '<leader>s', '', {}, nil, 'Search')
-    keymap('n', '<leader>ss', '/', {silent = false}, nil, 'search')
-    keymap('n', '<leader>sr', ':%s/', {silent = false}, nil, 'repleace')
+    keymap('n', '<leader>ss', '/', { silent = false }, nil, 'search')
+    keymap('n', '<leader>sr', ':%s/', { silent = false }, nil, 'repleace')
     keymap('n', '<leader>sh', '<cmd>nohl<cr>', {}, nil, 'highlight off')
 
     -- Telescope searches
@@ -449,18 +449,14 @@ do
 
   use { -- telescope
     'nvim-telescope/telescope.nvim',
-    opt = false,
     requires = {
-      { 'nvim-telescope/telescope-symbols.nvim', opt = false },
+      { 'nvim-telescope/telescope-symbols.nvim' },
     },
     event = "VimEnter",
     config = function()
       local ok, telescope = pcall(require, 'telescope')
       if ok then
         telescope.setup {
-          pickers = {
-            -- find_files = true,
-          }
         }
       end
     end,
