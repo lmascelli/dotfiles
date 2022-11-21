@@ -18,7 +18,7 @@ LM = {
   matlab_exec = 'D:/Program Files/MATLAB/R2022b/bin/matlab'
 }
 
--------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 --                                                                           --
 --                              OPTIONS                                      --
 --                                                                           --
@@ -171,6 +171,7 @@ do
       { silent = true, noremap = true }, nil, 'terminal')
 
     --  Window resizing
+    keymap("n", "<leader>we", "<C-w>=", opts, buf, 'equalize')
     keymap("n", "<C-Up>", ":resize +2<cr>", opts, buf, '')
     keymap("n", "<C-Down>", ":resize -2<cr>", opts, buf, '')
     keymap("n", "<C-Left>", ":vertical resize -2<cr>", opts, buf, '')
@@ -183,18 +184,18 @@ do
     keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "delete")
     keymap("n", "<leader>bf", "<cmd>:lua LM.indent_buffer()<cr>", opts, buf, "indent")
 
-    keymap('n', '<a-1>', '<cmd>BufferLineGoToBuffer1<cr>', {})
-    keymap('n', '<a-2>', '<cmd>BufferLineGoToBuffer2<cr>', {})
-    keymap('n', '<a-3>', '<cmd>BufferLineGoToBuffer3<cr>', {})
-    keymap('n', '<a-4>', '<cmd>BufferLineGoToBuffer4<cr>', {})
-    keymap('n', '<a-5>', '<cmd>BufferLineGoToBuffer5<cr>', {})
-    keymap('n', '<a-5>', '<cmd>BufferLineGoToBuffer5<cr>', {})
-    keymap('n', '<a-6>', '<cmd>BufferLineGoToBuffer6<cr>', {})
-    keymap('n', '<a-7>', '<cmd>BufferLineGoToBuffer7<cr>', {})
-    keymap('n', '<a-8>', '<cmd>BufferLineGoToBuffer8<cr>', {})
-    keymap('n', '<a-9>', '<cmd>BufferLineGoToBuffer9<cr>', {})
-    keymap('n', '<c-tab>', '<cmd>BufferLineCycleNext<cr>', {})
-    keymap('n', '<c-\\>', '<cmd>BufferLineCyclePrev<cr>', {})
+    keymap('n', '<a-1>', '<cmd>BufferLineGoToBuffer1<cr>', {}, buf, "")
+    keymap('n', '<a-2>', '<cmd>BufferLineGoToBuffer2<cr>', {}, buf, "")
+    keymap('n', '<a-3>', '<cmd>BufferLineGoToBuffer3<cr>', {}, buf, "")
+    keymap('n', '<a-4>', '<cmd>BufferLineGoToBuffer4<cr>', {}, buf, "")
+    keymap('n', '<a-5>', '<cmd>BufferLineGoToBuffer5<cr>', {}, buf, "")
+    keymap('n', '<a-5>', '<cmd>BufferLineGoToBuffer5<cr>', {}, buf, "")
+    keymap('n', '<a-6>', '<cmd>BufferLineGoToBuffer6<cr>', {}, buf, "")
+    keymap('n', '<a-7>', '<cmd>BufferLineGoToBuffer7<cr>', {}, buf, "")
+    keymap('n', '<a-8>', '<cmd>BufferLineGoToBuffer8<cr>', {}, buf, "")
+    keymap('n', '<a-9>', '<cmd>BufferLineGoToBuffer9<cr>', {}, buf, "")
+    keymap('n', '<c-tab>', '<cmd>BufferLineCycleNext<cr>', {}, buf, "")
+    keymap('n', '<c-\\>', '<cmd>BufferLineCyclePrev<cr>', {}, buf, "")
 
     -- Buffer editing
     keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
@@ -448,20 +449,21 @@ do
 
   use { -- telescope
     'nvim-telescope/telescope.nvim',
+    opt = false,
     requires = {
-      { 'nvim-telescope/telescope-symbols.nvim', event='VimEnter' },
+      { 'nvim-telescope/telescope-symbols.nvim', opt = false },
     },
+    event = "VimEnter",
     config = function()
       local ok, telescope = pcall(require, 'telescope')
       if ok then
         telescope.setup {
           pickers = {
-            find_files = true,
+            -- find_files = true,
           }
         }
       end
     end,
-    event = 'VimEnter',
   }
 
   use { -- nvim-treesitter
@@ -469,44 +471,46 @@ do
     event  = { "BufNewFile", "FileReadPost" },
     ft     = { "lua", "python", "c", "cpp" },
     config = function()
-      require 'nvim-treesitter.configs'.setup {
-        -- A list of parser names, or "all"
-        ensure_installed = { "cpp", "lua", "vim", "help", "python" },
+      local ok, treesitter_config = pcall(require, 'nvim-treesitter.configs')
+      if ok then
+        treesitter_config.setup {
+          -- A list of parser names, or "all"
+          ensure_installed = { "cpp", "lua", "vim", "help", "python" },
 
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = false,
+          -- Install parsers synchronously (only applied to `ensure_installed`)
+          sync_install = false,
 
-        auto_install = true,
+          auto_install = true,
 
-        ignore_install = {},
+          ignore_install = {},
 
-        ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-        -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+          ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+          -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
 
-        highlight = {
-          enable = true,
+          highlight = {
+            enable = true,
 
-          -- list of language that will be disabled
-          disable = {},
-          -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-          -- disable = function(lang, buf)
-          --   local max_filesize = 100 * 1024 -- 100 KB
-          --   local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-          --   if ok and stats and stats.size > max_filesize then
-          --     return true
-          --   end
-          -- end,
+            -- list of language that will be disabled
+            disable = {},
+            -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+            -- disable = function(lang, buf)
+            --   local max_filesize = 100 * 1024 -- 100 KB
+            --   local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+            --   if ok and stats and stats.size > max_filesize then
+            --     return true
+            --   end
+            -- end,
 
-          -- Instead of true it can also be a list of languages
-          additional_vim_regex_highlighting = false,
-        },
-      }
+            -- Instead of true it can also be a list of languages
+            additional_vim_regex_highlighting = false,
+          },
+        }
 
-      vim.cmd [[
-      set foldmethod=expr
-      set foldexpr=nvim_treesitter#foldexpr()
-    ]]
-
+        vim.cmd [[
+        set foldmethod=expr
+        set foldexpr=nvim_treesitter#foldexpr()
+        ]]
+      end
     end,
   }
 
@@ -616,7 +620,9 @@ do
 
   -- sync packer if installed
   if packer_bootstrap then
-    require 'packer'.sync()
+    local packer = require 'packer'
+    packer.sync()
+    packer.compile()
   end
 
   -- sync and compile when saving this file
