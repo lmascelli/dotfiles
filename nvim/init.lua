@@ -40,7 +40,7 @@ do
   opt.splitbelow = true
   opt.splitright = true
   opt.swapfile = false
-  opt.termguicolors = true
+  opt.termguicolors = false
   opt.timeoutlen = 1000
   opt.undofile = true
   opt.updatetime = 300
@@ -54,6 +54,7 @@ do
   opt.scrolloff = 8
   opt.sidescrolloff = 8
   opt.virtualedit = "onemore" -- can move cursor one character before the end
+  opt.foldlevel = 99
   vim.o.colorcolumn = "80"
 
   -- line number
@@ -235,6 +236,7 @@ do
     keymap('n', '<leader>a', '', opts, buf, 'Appearence')
     keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Increase Font')
     keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Decrease Font')
+    keymap('n', '<leader>ac', '<cmd>Telescope colorscheme enable_preview=true<cr>', opts, buf, 'Colorscheme')
     keymap("n", "<C-+>", ":lua LM.font.increase_font_size()<cr>", opts, buf, 'Increase Font')
     keymap("n", "<C-->", ":lua LM.font.decrease_font_size()<cr>", opts, buf, 'Decrease Font')
 
@@ -433,7 +435,7 @@ do
     if ok then
       bufferline.setup {
         options = {
-          diagnostics_indicator = function(count, level, diagnostics_dict, context)
+          diagnostics_indicator = function(_, _, diagnostics_dict, _) -- hidden count, level, context
             local s = " "
             for e, n in pairs(diagnostics_dict) do
               local sym = e == "error" and " "
@@ -579,9 +581,9 @@ do
     use {
       "windwp/nvim-autopairs",
       event = "VimEnter",
-       config = function()
-         require("nvim-autopairs").setup {}
-       end
+      config = function()
+        require("nvim-autopairs").setup {}
+      end
     }
   end
 
@@ -622,7 +624,7 @@ do
   -- sync and compile when saving this file
   vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "*/nvim/init.lua",
-    callback = function(par)
+    callback = function(_)
       vim.cmd(':source ' .. os.getenv("MYVIMRC"))
       local packer = require 'packer'
       packer.sync()
@@ -648,7 +650,7 @@ do
   end
 
   if ok_lsp then
-    local on_attach = function(client, bufnr)
+    local on_attach = function(_, bufnr) -- hidden client
       local keymap = LM.keymap
       local opts = { noremap = true, silent = true }
       keymap('n', '<leader>l', '', opts, bufnr, 'lsp')
@@ -776,17 +778,16 @@ do
 
   LM.font = font
 
-  -- vim.cm 'colorscheme slate'
-
-  -- italic font for comments
-  vim.cmd "highlight Comment cterm=italic gui=italic"
-
   vim.api.nvim_create_autocmd('ColorScheme', {
     callback = function()
       vim.cmd [[
-        :hi link NormalFloat FloatShadow
-        :hi link Pmenu FloatShadow
+        :hi link WhichKeyFloat Conceal
       ]]
     end
   })
+
+  vim.cmd 'colorscheme default'
+
+  -- italic font for comments
+  vim.cmd "highlight Comment cterm=italic gui=italic"
 end
