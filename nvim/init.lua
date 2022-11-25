@@ -138,6 +138,7 @@ end
 --                                                                           --
 -------------------------------------------------------------------------------
 local set_keymap = nil
+
 do
   vim.g.mapleader = " "
   vim.g.maplocalleader = " "
@@ -222,7 +223,8 @@ do
 
     -- Script evaluating
     keymap('n', '<leader>v', '', opts, buf, 'Script')
-    keymap('n', '<leader>vc', '<cmd>source %<cr>', {}, buf, 'Source this file')
+    keymap('n', '<leader>vs', '<cmd>source %<cr>', {}, buf, 'Source this file')
+    keymap('n', '<leader>vc', '<cmd>e $MYVIMRC<cr>', {}, buf, 'Open init.lua')
     keymap('n', '<leader>vl', '<cmd>lua LM.project_lua()<cr>', {
       silent = true,
       nowait = true,
@@ -251,10 +253,11 @@ do
     keymap("i", "<c-cr>", "<c-o>o", opts, buf, '')
 
     -- Completion
-    keymap("i", "<C-Space>", "<C-x><C-o>", opts, buf, '')
+    keymap("i", "<C-Space>", "<C-x><C-o>", { noremap = false, silent = true }, buf, '')
 
     -- File saving
     keymap("i", "<C-s>", "<cmd>:w!<cr>", opts, buf, '')
+
 
 
     ------------------------------------- VISUAL -------------------------------
@@ -576,7 +579,6 @@ do
     { "neovim/nvim-lspconfig", opt = false },
   }
 
-
   do -- nvim-autopairs
     use {
       "windwp/nvim-autopairs",
@@ -602,6 +604,77 @@ do
       end
     end,
   }
+
+  use { -- luasnip
+    'rafamadriz/friendly-snippets',
+    'L3MON4D3/LuaSnip',
+    event = "VimEnter",
+    config = function()
+      local ok, luasnip = pcall(require, 'luasnip')
+      if ok then
+        require("luasnip.loaders.from_vscode").lazy_load()
+
+        vim.cmd [[
+    imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
+    inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+    snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+    snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+    ]]
+      end
+    end
+  }
+
+
+  do -- nvim-cmp
+    use {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-document-symbol',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/nvim-cmp',
+      'saadparwaiz1/cmp_luasnip',
+      keys = {"<C-n>", "<C-x><C-o>"},
+      config = function()
+        local ok, cmp = pcall(require, 'cmp')
+        if ok then
+          cmp.setup {
+            snippet = {
+              -- REQUIRED - you must specify a snippet engine
+              expand = function(args)
+                -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+                -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+              end,
+            },
+            --[[ window = {
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+      }, ]]
+            mapping = cmp.mapping.preset.insert({
+              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ['<C-y>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+            }),
+            sources = cmp.config.sources({
+              { name = 'nvim_lsp' },
+              -- { name = 'vsnip' }, -- For vsnip users.
+              { name = 'luasnip' }, -- For luasnip users.
+              -- { name = 'ultisnips' }, -- For ultisnips users.
+              -- { name = 'snippy' }, -- For snippy users.
+            }, {
+              { name = 'buffer' },
+            })
+
+          }
+          vim.fn.nvim_set_keymap('i', '<c-x><c-o>', '<cmd>lua require("cmp").complete()', { noremap = false })
+        end
+      end
+    }
+  end
 
   use {
     'numToStr/Comment.nvim',
