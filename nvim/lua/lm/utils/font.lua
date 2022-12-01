@@ -3,7 +3,7 @@ local font = {
   font_size = 10,
 }
 
-local custom = LM.custom.load_custom()
+local custom = LM.config
 
 if custom and custom.font_size then
   font.font_size = custom.font_size

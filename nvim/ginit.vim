@@ -1,5 +1,3 @@
-:colorscheme slate
-
 lua << EOF
   if vim.fn.exists(':GuiFont') then
     LM.font.update_font = function()

@@ -1,9 +1,10 @@
 return {
   setup = function(use)
-    use 'akinsho/toggleterm.nvim'
-  end,
-
-  config = function()
+    use {
+      'akinsho/toggleterm.nvim',
+      opt = true,
+      cmd = "ToggleTerm",
+      config = function()
     local shell = 'pwsh'
     require 'toggleterm'.setup {
       direction = 'float',
@@ -12,5 +13,10 @@ return {
     }
     LM.keymap.set_keymap('n', '<leader>ò', '<cmd>ToggleTerm<cr>',
       { silent = true, noremap = true }, nil, 'terminal')
+  end
+  }
+  end,
+
+  config = function()
   end
 }

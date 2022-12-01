@@ -1,16 +1,6 @@
--------------------------------------------------------------------------------
--- gloabl LM table
--------------------------------------------------------------------------------
-LM = {
-  g = {
-    opts = {},
-    settings = {},
-  },
-}
-
-require 'lm.os'
-LM.options = require 'lm.options'
-LM.custom = require 'lm.custom'
+LM = require 'lm.globals'
+local options = require 'lm.options'
+local custom = require 'lm.custom'
 LM.plugins = require 'lm.plugins'
 require 'lm.utils'
 require 'lm.filetypes'
@@ -18,33 +8,37 @@ require 'lm.filetypes'
 -------------------------------------------------------------------------------
 -- load default environment values
 -------------------------------------------------------------------------------
-local defaults = LM.options.defaults
-LM.options.load_options(defaults.opts, defaults.settings)
+local defaults = options.defaults
+options.load_options(defaults.opts, defaults.settings)
 
 -------------------------------------------------------------------------------
 -- setup custom config
 -------------------------------------------------------------------------------
-local custom = LM.custom.load_custom()
-if custom then
+local config = custom.load_custom()
+if config then
+  LM.config = config
   --- apply vim options and settings
-  LM.options.load_options(custom.opts, custom.settings)
+  options.load_options(config.opts, config.settings)
 end
-
 
 -------------------------------------------------------------------------------
 -- apply options and settings
 -------------------------------------------------------------------------------
-LM.options.apply_options(LM.g.opts, LM.g.settings)
+options.apply_options(LM.g.opts, LM.g.settings)
 
 -------------------------------------------------------------------------------
 -- defaults providers
 -------------------------------------------------------------------------------
-require 'lm.keymaps'
+local default_keymap = require 'lm.keymaps'
+LM.keymap = {
+  set_keymap = default_keymap,
+}
+
 require 'lm.explorer'
 
-if custom then
+if config then
   -- install plugins
-  for _, v in pairs(custom.plugin_list) do
+  for _, v in pairs(config.plugin_list) do
     LM.plugins.install(v)
   end
 end
@@ -55,6 +49,6 @@ end
 
 require 'lm.colorscheme'
 
-if custom and custom.after then
-  custom.after()
+if config and config.after then
+  config.after()
 end

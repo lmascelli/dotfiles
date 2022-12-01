@@ -13,6 +13,4 @@ local function default_keymap(mode, map, expr, opts, buf, name)
   end
 end
 
-LM.keymap = {
-  set_keymap = default_keymap,
-}
+return default_keymap

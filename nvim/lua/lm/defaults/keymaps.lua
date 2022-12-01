@@ -4,15 +4,10 @@ local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
 local buf = nil
 
-
-
-
-
 -- keymap("", "<Space>", "<Nop>", opts, buf, '')
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
 
 --------------------------------------  NORMAL --------------------------------
 

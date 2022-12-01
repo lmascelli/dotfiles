@@ -1,4 +1,4 @@
-local custom = LM.custom.load_custom()
+local custom = LM.config
 
 if custom then
   local colorscheme = custom.colorscheme

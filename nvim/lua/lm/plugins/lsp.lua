@@ -38,26 +38,33 @@ end
 
 return {
   setup = function(use)
-    use { 'williamboman/nvim-lsp-installer',
-      { 'neovim/nvim-lspconfig' },
-      'p00f/clangd_extensions.nvim',
-    }
+    use{ -- lsp
+    { "williamboman/mason.nvim", opt = false },
+    { "williamboman/mason-lspconfig.nvim", opt = false },
+    { "neovim/nvim-lspconfig", opt = false },
+  }
   end,
 
   config = function()
-    local lspconfig = require 'lspconfig'
+  local ok_mason, mason = pcall(require, 'mason')
+  local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
+  local ok_lsp, lsp_config = pcall(require, 'lspconfig')
 
-    require 'nvim-lsp-installer'.setup {}
+  if ok_mason and ok_mason_lspconfig then
+    mason.setup()
+    mason_lspconfig.setup()
+  end
 
-    lspconfig.util.default_config = vim.tbl_extend(
+
+    lsp_config.util.default_config = vim.tbl_extend(
       "force",
-      lspconfig.util.default_config,
+      lsp_config.util.default_config,
       {
         on_attach = on_attach
       }
     )
 
-    local lsp_list = LM.custom.load_custom().lsp_list or {}
+    local lsp_list = LM.config.lsp_list or {}
 
     for k, v in pairs(lsp_list) do
       status_ok, server = pcall(require, 'lm.lsp_servers.' .. v)

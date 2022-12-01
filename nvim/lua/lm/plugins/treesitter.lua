@@ -1,9 +1,14 @@
 return {
   setup = function(use)
-    use 'nvim-treesitter/nvim-treesitter'
-  end,
-  config = function()
+    use {
+      'nvim-treesitter/nvim-treesitter',
+      opt = true,
+    event  = { "BufNewFile", "FileReadPost" },
+    ft     = { "lua", "python", "c", "cpp" },
+    config = function()
   require 'nvim-treesitter.configs'.setup {
+          ensure_installed = { "cpp", "lua", "vim", "help", "python" },
+          auto_install = true,
     highlight = {
       enable = true,
       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
@@ -16,5 +21,13 @@ return {
       enable = false
     }
   }
+        vim.cmd [[
+        set foldmethod=expr
+        set foldexpr=nvim_treesitter#foldexpr()
+        ]]
+    end
+  }
+  end,
+  config = function()
   end,
 }
