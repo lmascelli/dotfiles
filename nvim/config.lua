@@ -1,15 +1,8 @@
 local config = {}
 
-config.colorscheme = 'slate'
+config.colorscheme = 'default'
 config.font_name = 'FiraCode NF'
 config.font_size = 10
-
-config.after = function()
-  if LM.which_key_enabled then
-    vim.cmd 'hi WhichKeyFloat ctermbg=Black ctermfg=Black guibg=Black guifg=White'
-  end
-  vim.cmd 'hi Pmenu ctermbg=Black ctermfg=White guibg=Black guifg=White'
-end
 
 config.opts = {
 

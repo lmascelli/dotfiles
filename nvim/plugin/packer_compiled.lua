@@ -94,6 +94,11 @@ _G.packer_plugins = {
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
+  ["clangd_extensions.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\clangd_extensions.nvim",
+    url = "https://github.com/p00f/clangd_extensions.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\cmp-buffer",
@@ -202,7 +207,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope-symbols.nvim"
   },
   ["telescope.nvim"] = {
-    config = { "\27LJ\2\n¸\5\0\0\v\0\"\0I6\0\0\0006\2\1\0'\3\2\0B\0\3\3\15\0\0\0X\2BÄ9\2\3\0015\4\a\0005\5\5\0005\6\4\0=\6\6\5=\5\b\4B\2\2\0016\2\t\0009\2\n\0029\2\v\2\18\3\2\0'\5\f\0'\6\r\0'\a\14\0004\b\0\0+\t\0\0'\n\15\0B\3\a\1\18\3\2\0'\5\f\0'\6\16\0'\a\17\0004\b\0\0+\t\0\0'\n\18\0B\3\a\1\18\3\2\0'\5\f\0'\6\19\0'\a\20\0005\b\21\0+\t\0\0'\n\22\0B\3\a\1\18\3\2\0'\5\f\0'\6\23\0'\a\24\0004\b\0\0+\t\0\0'\n\25\0B\3\a\1\18\3\2\0'\5\f\0'\6\26\0'\a\27\0004\b\0\0+\t\0\0'\n\28\0B\3\a\1\18\3\2\0'\5\f\0'\6\29\0'\a\30\0004\b\0\0+\t\0\0'\n\15\0B\3\a\1\18\3\2\0'\5\f\0'\6\31\0'\a \0004\b\0\0+\t\0\0'\n!\0B\3\a\1K\0\1\0\19find in buffer1<cmd>Telescope current_buffer_fuzzy_find<cr>\15<leader>tz=<cmd>Telescope find_files noignore=true hiddent=true<cr>\15<leader>tf\18find in files!<cmd>Telescope live_grep<cr>\15<leader>tg\18list searches\23<cmd>Telescope<cr>\15<leader>ts\rcommands\1\0\2\vnowait\2\vsilent\2 <cmd>Telescope commands<cr>\15<leader>tc\14Telescope\5\14<leader>t\15find files\"<cmd>Telescope find_files<cr>\14<leader>f\6n\15set_keymap\vkeymap\aLM\fpickers\1\0\0\15find_files\1\0\0\1\0\1\vhidden\2\nsetup\14telescope\frequire\npcall\0" },
+    config = { "\27LJ\2\n¸\5\0\0\v\0\"\0I6\0\0\0006\2\1\0'\3\2\0B\0\3\3\15\0\0\0X\2BÄ9\2\3\0015\4\a\0005\5\5\0005\6\4\0=\6\6\5=\5\b\4B\2\2\0016\2\t\0009\2\n\0029\2\v\2\18\3\2\0'\5\f\0'\6\r\0'\a\14\0004\b\0\0+\t\0\0'\n\15\0B\3\a\1\18\3\2\0'\5\f\0'\6\16\0'\a\17\0004\b\0\0+\t\0\0'\n\18\0B\3\a\1\18\3\2\0'\5\f\0'\6\19\0'\a\20\0005\b\21\0+\t\0\0'\n\22\0B\3\a\1\18\3\2\0'\5\f\0'\6\23\0'\a\24\0004\b\0\0+\t\0\0'\n\25\0B\3\a\1\18\3\2\0'\5\f\0'\6\26\0'\a\27\0004\b\0\0+\t\0\0'\n\28\0B\3\a\1\18\3\2\0'\5\f\0'\6\29\0'\a\30\0004\b\0\0+\t\0\0'\n\15\0B\3\a\1\18\3\2\0'\5\f\0'\6\31\0'\a \0004\b\0\0+\t\0\0'\n!\0B\3\a\1K\0\1\0\19find in buffer1<cmd>Telescope current_buffer_fuzzy_find<cr>\15<leader>tz=<cmd>Telescope find_files noignore=true hiddent=true<cr>\15<leader>tf\18find in files!<cmd>Telescope live_grep<cr>\15<leader>tg\18list searches\23<cmd>Telescope<cr>\15<leader>ts\rcommands\1\0\2\vsilent\2\vnowait\2 <cmd>Telescope commands<cr>\15<leader>tc\14Telescope\5\14<leader>t\15find files\"<cmd>Telescope find_files<cr>\14<leader>f\6n\15set_keymap\vkeymap\aLM\fpickers\1\0\0\15find_files\1\0\0\1\0\1\vhidden\2\nsetup\14telescope\frequire\npcall\0" },
     loaded = false,
     needs_bufread = true,
     only_cond = false,
@@ -211,7 +216,7 @@ _G.packer_plugins = {
   },
   ["toggleterm.nvim"] = {
     commands = { "ToggleTerm" },
-    config = { "\27LJ\2\nÅ\2\0\0\t\0\16\0\21'\0\0\0006\1\1\0'\3\2\0B\1\2\0029\1\3\0015\3\4\0005\4\5\0=\4\6\3=\0\a\3B\1\2\0016\1\b\0009\1\t\0019\1\n\1'\3\v\0'\4\f\0'\5\r\0005\6\14\0+\a\0\0'\b\15\0B\1\a\1K\0\1\0\rterminal\1\0\2\fnoremap\2\vsilent\2\24<cmd>ToggleTerm<cr>\15<leader>√≤\6n\15set_keymap\vkeymap\aLM\nshell\15float_opts\1\0\1\vborder\vcurved\1\0\1\14direction\nfloat\nsetup\15toggleterm\frequire\tpwsh\0" },
+    config = { "\27LJ\2\nÅ\2\0\0\t\0\16\0\21'\0\0\0006\1\1\0'\3\2\0B\1\2\0029\1\3\0015\3\4\0005\4\5\0=\4\6\3=\0\a\3B\1\2\0016\1\b\0009\1\t\0019\1\n\1'\3\v\0'\4\f\0'\5\r\0005\6\14\0+\a\0\0'\b\15\0B\1\a\1K\0\1\0\rterminal\1\0\2\vsilent\2\fnoremap\2\24<cmd>ToggleTerm<cr>\15<leader>√≤\6n\15set_keymap\vkeymap\aLM\nshell\15float_opts\1\0\1\vborder\vcurved\1\0\1\14direction\nfloat\nsetup\15toggleterm\frequire\tpwsh\0" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -242,16 +247,16 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType cpp ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "cpp" }, _G.packer_plugins)]]
-vim.cmd [[au FileType python ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "python" }, _G.packer_plugins)]]
 vim.cmd [[au FileType lua ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType cpp ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "cpp" }, _G.packer_plugins)]]
 vim.cmd [[au FileType c ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "c" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "python" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
+vim.cmd [[au BufNewFile * ++once lua require("packer.load")({'nvim-treesitter'}, { event = "BufNewFile *" }, _G.packer_plugins)]]
 vim.cmd [[au FileReadPost * ++once lua require("packer.load")({'nvim-treesitter'}, { event = "FileReadPost *" }, _G.packer_plugins)]]
 vim.cmd [[au VimEnter * ++once lua require("packer.load")({'telescope.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au BufNewFile * ++once lua require("packer.load")({'nvim-treesitter'}, { event = "BufNewFile *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 

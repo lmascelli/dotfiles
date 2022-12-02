@@ -1,10 +1,10 @@
-LM.clangd_create_mingw_conf = function()
-  vim.fn.writefile({ "CompileFlags:",
-    " Add: [-target, x86_64-pc-windows-gnu]" },
-    ".clangd")
-end
-
 return function(data)
+  LM.clangd_create_mingw_conf = function()
+    vim.fn.writefile({ "CompileFlags:",
+      " Add: [-target, x86_64-pc-windows-gnu]" },
+      ".clangd")
+  end
+
   require 'clangd_extensions'.setup {
     server = {
       on_attach = function(client, bufnr)

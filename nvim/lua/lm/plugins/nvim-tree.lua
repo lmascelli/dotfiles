@@ -8,7 +8,6 @@ return {
     },
     cmd = "NvimTreeToggle",
     config = function()
-
     require 'nvim-tree'.setup {
       view = {
         mappings = {

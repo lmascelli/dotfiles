@@ -1,5 +1,3 @@
-local lspconfig = require 'lspconfig'
-
 return function(data)
   -- lspconfig.pylsp.setup {
   --   on_attach = data.on_attach,
@@ -8,11 +6,15 @@ return function(data)
   --   --   PATH = lsputil.path.join(get_python_venv(), 'bin') .. ':' .. vim.env.PATH,
   --   -- }
   -- }
-  lspconfig.pyright.setup {
-    on_attach = function(client, bufnr)
-      data.on_attach(client, bufnr)
-      LM.keymap.set_keymap("n", "<leader>lf",
-        '<cmd>lua LM.format_black()<cr>', {}, nil, 'format with black')
-    end
-  }
+  local ok, lspconfig = pcall(require, 'lspconfig')
+  if ok then
+    lspconfig.pyright.setup {
+      on_attach = function(client, bufnr)
+        data.on_attach(client, bufnr)
+        LM.keymap.set_keymap("n", "<leader>lf",
+          '<cmd>lua LM.format_black()<cr>', {}, nil, 'format with black')
+      end
+    }
+  else
+  end
 end

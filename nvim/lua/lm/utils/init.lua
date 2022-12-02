@@ -1,3 +1,6 @@
+local utils = {}
 require 'lm.utils.buffer_edit'
-require 'lm.utils.font'
+utils.font = require 'lm.utils.font'
 require 'lm.utils.scripts'
+
+return utils

@@ -38,22 +38,23 @@ end
 
 return {
   setup = function(use)
-    use{ -- lsp
-    { "williamboman/mason.nvim", opt = false },
-    { "williamboman/mason-lspconfig.nvim", opt = false },
-    { "neovim/nvim-lspconfig", opt = false },
-  }
+    use { -- lsp
+      { "williamboman/mason.nvim", opt = false },
+      { "williamboman/mason-lspconfig.nvim", opt = false },
+      { "neovim/nvim-lspconfig", opt = false },
+      { "p00f/clangd_extensions.nvim", opt = false },
+    }
   end,
 
   config = function()
-  local ok_mason, mason = pcall(require, 'mason')
-  local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
-  local ok_lsp, lsp_config = pcall(require, 'lspconfig')
+    local ok_mason, mason = pcall(require, 'mason')
+    local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
+    local ok_lsp, lsp_config = pcall(require, 'lspconfig')
 
-  if ok_mason and ok_mason_lspconfig then
-    mason.setup()
-    mason_lspconfig.setup()
-  end
+    if ok_mason and ok_mason_lspconfig then
+      mason.setup()
+      mason_lspconfig.setup()
+    end
 
 
     lsp_config.util.default_config = vim.tbl_extend(
@@ -67,11 +68,14 @@ return {
     local lsp_list = LM.config.lsp_list or {}
 
     for k, v in pairs(lsp_list) do
-      status_ok, server = pcall(require, 'lm.lsp_servers.' .. v)
+      local status_ok, server = pcall(require, 'lm.lsp_servers.' .. v)
       if status_ok then
-        server {
+        local ok, _ = pcall(server, {
           on_attach = on_attach,
-        }
+        })
+        if not ok then
+          vim.notify('server ' .. v .. ' not loaded')
+        end
       else
         vim.notify('server ' .. v .. ' not loaded')
       end
