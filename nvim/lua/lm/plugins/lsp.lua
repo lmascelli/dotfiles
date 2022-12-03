@@ -1,6 +1,6 @@
 local keymap = LM.keymap.set_keymap
 
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr) -- hidden parameter client
   local opts = { noremap = true, silent = true }
   keymap('n', '<leader>l', '', opts, bufnr, 'lsp')
   keymap('n', '<leader>ld', '', opts, bufnr, 'diagnostic')
@@ -57,27 +57,29 @@ return {
     end
 
 
-    lsp_config.util.default_config = vim.tbl_extend(
-      "force",
-      lsp_config.util.default_config,
-      {
-        on_attach = on_attach
-      }
-    )
+    if ok_lsp then
+      lsp_config.util.default_config = vim.tbl_extend(
+        "force",
+        lsp_config.util.default_config,
+        {
+          on_attach = on_attach
+        }
+      )
 
-    local lsp_list = LM.config.lsp_list or {}
+      local lsp_list = LM.config.lsp_list or {}
 
-    for k, v in pairs(lsp_list) do
-      local status_ok, server = pcall(require, 'lm.lsp_servers.' .. v)
-      if status_ok then
-        local ok, _ = pcall(server, {
-          on_attach = on_attach,
-        })
-        if not ok then
+      for k, v in pairs(lsp_list) do
+        local status_ok, server = pcall(require, 'lm.lsp_servers.' .. v)
+        if status_ok then
+          local ok, _ = pcall(server, {
+            on_attach = on_attach,
+          })
+          if not ok then
+            vim.notify('server ' .. v .. ' not loaded')
+          end
+        else
           vim.notify('server ' .. v .. ' not loaded')
         end
-      else
-        vim.notify('server ' .. v .. ' not loaded')
       end
     end
   end

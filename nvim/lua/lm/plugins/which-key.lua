@@ -35,9 +35,10 @@ return {
     local wk = require 'which-key'
     wk.setup {
       window = {
-        border = "double",
+        border = "none",
         margin = { 1, 1, 1, 1 },
         padding = { 2, 2, 2, 2 },
+        winblend = 0,
       },
       layout = {
         height = { min = 4, max = 25 },
@@ -48,5 +49,11 @@ return {
       show_help = true,
     }
     vim.opt.timeoutlen = 500
+
+    vim.api.nvim_create_autocmd("Colorscheme", {
+      callback = function()
+        vim.cmd "highlight link WhichKeyFloat CursorColumn"
+      end
+    })
   end
 }

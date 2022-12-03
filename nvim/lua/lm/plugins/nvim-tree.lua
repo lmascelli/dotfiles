@@ -3,22 +3,22 @@ return {
     use {
       'kyazdani42/nvim-tree.lua',
       opt = true,
-    requires = {
-      'nvim-tree/nvim-web-devicons', -- optional, for file icons
-    },
-    cmd = "NvimTreeToggle",
-    config = function()
-    require 'nvim-tree'.setup {
-      view = {
-        mappings = {
-          list = {
-            { key = "cd", action = "cd" },
-            { key = "cc", action = "copy" },
+      requires = {
+        'nvim-tree/nvim-web-devicons', -- optional, for file icons
+      },
+      cmd = "NvimTreeToggle",
+      config = function()
+        require 'nvim-tree'.setup {
+          view = {
+            mappings = {
+              list = {
+                { key = "cd", action = "cd" },
+                { key = "cc", action = "copy" },
+              }
+            }
           }
         }
-      }
-    }
-    end
+      end
     }
   end,
 

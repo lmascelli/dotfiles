@@ -19,6 +19,7 @@ config.plugin_list = {
   'lualine',
   'bufferline',
   'lsp',
+  'lspsaga',
   'nvim-cmp',
   'luasnip',
   'comment',

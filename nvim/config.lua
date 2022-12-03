@@ -19,14 +19,13 @@ config.plugin_list = {
   'lualine',
   'bufferline',
   'lsp',
+  'lspsaga',
   'nvim-cmp',
   'luasnip',
   'comment',
   'nvim-autopairs',
   'toggleterm',
-  'bufdelete',
   'treesitter',
-  'matlab',
 }
 
 

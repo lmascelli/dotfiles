@@ -12,7 +12,11 @@ if custom then
 end
 
 -- italic font for comments
-vim.cmd "highlight Comment cterm=italic gui=italic"
+vim.api.nvim_create_autocmd("Colorscheme", {
+  callback = function()
+    vim.cmd "highlight Comment cterm=italic gui=italic"
+  end
+})
 
 local open_time = os.date("*t", os.time())
 

@@ -1,5 +1,5 @@
-#+title: My Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
+#+title: My Emacs Configuration
 
 * Global variables
 #+begin_src emacs-lisp
@@ -7,7 +7,6 @@
 #+end_src
 
 * Basic configuration
-
 ** Gui configuration
 *** gui widgets
 #+begin_src emacs-lisp
@@ -55,7 +54,7 @@
 	      (message "Emacs loaded in %s."
 		       (emacs-init-time))))
 
-  (setq gc-cons-threshold (* 50 1000 1000))
+  (setq gc-cons-threshold (* 50 1000 1000))                     ;; increase gc size
 
   (setq inhibit-startup-message t)                              ;; no startup screen
   (setq backup-inhibited t)                                     ;; no backup files
@@ -75,7 +74,6 @@
   (setq explicit-pwsh.exe-args '())
 
 #+end_src
-
 
 ** Shell configuration
 Set PowerShell as the main console interpreter
@@ -104,7 +102,7 @@ Set PowerShell as the main console interpreter
   (setq use-package-always-ensure t)
   (use-package diminish)
 #+end_src
-** ivy, swiper, counsel
+** COMMENT ivy, swiper, counsel
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish
@@ -119,15 +117,20 @@ Set PowerShell as the main console interpreter
   (use-package swiper)
   (use-package counsel)
 #+end_src
-** which-key
+** COMMENT which-key
 #+begin_src emacs-lisp
   (use-package which-key
     :init (which-key-mode)
     :diminish which-key-mode
     :config (setq which-key-idle-delay 0.3))
 #+end_src
-
-** lsp-mode
+** COMMENT eglot
+eglot is now integrated in emacs 29
+#+begin_src emacs-lisp
+;  (use-package eglot)
+#+end_src
+** COMMENT lsp-mode
+i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
     (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -151,8 +154,17 @@ Set PowerShell as the main console interpreter
 
 ** company
 #+begin_src emacs-lisp
-  (use-package company
-    :bind (("C-." . company-complete)))
+			(use-package company
+				:bind (("C-." . company-complete))
+				:config
+				(global-company-mode t))
+#+end_src
+
+** vterm
+vterm is a nice and powerful terminal emulator that works fine on linux but
+does not compile under windows. i'll wrote there an eventual solution
+#+begin_src emacs-lisp
+;;	(use-package vterm)
 #+end_src
 
 ** various modes
@@ -186,46 +198,64 @@ Plugins maybe worth to be installed:
 ** Powershell
 ** Python
 #+begin_src emacs-lisp
-  (add-hook 'python-mode-hook #'(lambda () (lsp)))
+  (add-hook 'python-mode-hook #'(lambda () (eglot)))
 #+end_src
 
 * Keybindings
+There are two kinds of keybinding i use:
+- global ones
+- leader map ones
+as now the leader ones are commented because i'm trying to understand the way
+emacs is meant to be used and configured while the leader combo is more a vim
+related way of make keymaps.
+
 ** global
+The folling keybinding are:
+- <Escape> does not need to be pressed three times to behave like <C-g> but this
+	has the countereffect of closing other windows when pressed
+- <f2> is like <M-x> (experimental)
+- <C-z> undo
+- <M-z> redo
+- <C-ì> insert the char ~
+- <C-'> insert the char 
+- <C-.> company-mode completion
+	
 #+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "<f2>") 'counsel-M-x)
-  (global-set-key (kbd "C-z") 'undo)
-  ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
-  (global-set-key (kbd "C-z") 'undo)
-  (global-set-key (kbd "M-z") 'undo-redo)
-  (global-set-key (kbd "C-ì") #'(lambda ()
-				   (interactive)
-				   (insert-char (char-from-name "TILDE"))))
-  (global-set-key (kbd "C-'") #'(lambda ()
-				  (interactive)
-				  (insert-char (char-from-name "ACUTE ACCENT"))))
-  (global-set-key (kbd "C-.") 'company-complete)
+	(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+	(global-set-key (kbd "<f2>") 'counsel-M-x)
+	(global-set-key (kbd "C-z") 'undo)
+	;; (global-set-key (kbd "C-.") 'dabbrev-expand)
+	(global-set-key (kbd "C-z") 'undo)
+	(global-set-key (kbd "M-z") 'undo-redo)
+	(global-set-key (kbd "C-ì") #'(lambda ()
+					(interactive)
+					(insert-char (char-from-name "TILDE"))))
+	(global-set-key (kbd "C-'") #'(lambda ()
+					(interactive)
+					(insert-char (char-from-name "GRAVE ACCENT"))))
+	(global-set-key (kbd "C-.") 'company-complete)
+	(global-set-key (kbd "<f9>") 'lm/run-wezterm)
 
-  (windmove-default-keybindings 'meta)
+	(windmove-default-keybindings 'meta)
 #+end_src
 
-
-** general
+** leader keymap...
+*** COMMENT general
 #+begin_src emacs-lisp
-  (use-package general
-    :config
-    (general-create-definer lm/leader-keys
-      :keymaps 'override
-      :prefix "<f3>"))
+	(use-package general
+		:config
+		(general-create-definer lm/leader-keys
+			:keymaps 'override
+			:prefix "<f3>"))
+	
+	(lm/leader-keys
+		"RET" '(counsel-M-x :which-key "M-x"))
 
-  (lm/leader-keys
-    "RET" '(counsel-M-x :which-key "M-x"))
-
-  (lm/leader-keys
-    "SPC" '(set-mark-command :which-key "toggle mark"))
+	(lm/leader-keys
+		"SPC" '(set-mark-command :which-key "toggle mark"))
 
 #+end_src
-** tabs
+*** COMMENT tabs
 #+begin_src emacs-lisp
   (lm/leader-keys
     "t" '(:ignored t :which-key "tab")
@@ -236,8 +266,7 @@ Plugins maybe worth to be installed:
     "TAB" '(tab-next :which-key "next tab")
     "<backtab>" '(tab-previous :which-key "previous tab"))
 #+end_src
-
-** buffer
+*** COMMENT buffer
 #+begin_src emacs-lisp
   (lm/leader-keys
     "b"  '(:ignore t :which-key "buffer")
@@ -247,8 +276,7 @@ Plugins maybe worth to be installed:
     "bl" '(ivy-switch-buffer :which-key "switch buffer")
     "bL" '(list-buffers :which-key "list buffers"))
 #+end_src
-
-** search
+*** COMMENT search
 #+begin_src emacs-lisp
   (lm/leader-keys
     "s" '(:ignore t :which-key "search")
@@ -256,7 +284,7 @@ Plugins maybe worth to be installed:
     "sr" '(replace-string :which-key "replace"))
 #+end_src
 
-** appearence
+*** COMMENT appearence
 #+begin_src emacs-lisp
   (lm/leader-keys
     "a"  '(:ignore t :which-key "appearence")
@@ -264,8 +292,7 @@ Plugins maybe worth to be installed:
     "a-" '(text-scale-decrease :which-key "decrease scale")
     "at" '(counsel-load-theme :which-key "choose theme"))
 #+end_src
-
-** eval
+*** COMMENT eval
 #+begin_src emacs-lisp
   (defun load-init () (interactive)
 	 (load-file "~/.config/emacs/init.el"))
@@ -276,7 +303,7 @@ Plugins maybe worth to be installed:
     "vi" '(load-init :which-key "load init.el"))
 #+end_src
 
-** window
+*** COMMENT window
 #+begin_src emacs-lisp
   (lm/leader-keys
     "w" '(:ignored t :which-key "window")
@@ -286,7 +313,7 @@ Plugins maybe worth to be installed:
     "wv" '(split-window-right :which-key "split vertical"))
 #+end_src
 
-** termin al
+*** COMMENT termin al
 #+begin_src emacs-lisp
   (lm/leader-keys
     "T" '(:ignored t :which-key "terminal")
@@ -294,15 +321,14 @@ Plugins maybe worth to be installed:
     "Ts" '(eshell :which-key "eshell"))
 #+end_src
 
-** explore
+*** COMMENT explore
 #+begin_src emacs-lisp
   (lm/leader-keys
     "e" '(:ignored t :which-key "explore")
     "ed" '(dired :which-key "dired")
     "ec" '(pwd :which-key "pwd"))
 #+end_src
-
-** lsp
+*** COMMENT lsp
 #+begin_src emacs-lisp
   (defun lm/lsp-keymap ()
     (interactive)
@@ -350,8 +376,23 @@ Plugins maybe worth to be installed:
     :config )
 #+end_src
 
+* Wezterm
+Often i use wezterm as terminal choise
+https://wezfurlong.org/wezterm/installation.html
+because emacs, expecially on windows does not provide a good terminal mode. So
+i need a way to easily call wezterm and open it in the current directory.
+
+#+begin_src emacs-lisp
+	(defun lm/run-wezterm ()
+		(interactive)
+		(start-process "wezterm" nil "wezterm" "start" "--cwd" default-directory))
+#+end_src
+
 
 * COMMENT Keybindings (with evil)
+Those are keybinding i use with evil mode, anyway i found evil conflicting a lot
+with other keymapping of basic emacs and with most of the usefull tips that can
+be found online
 ** global
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -480,4 +521,5 @@ Plugins maybe worth to be installed:
       "l" '(:ignored t :which-key "lsp")
       "lf" '(lsp-format-buffer :which-key "format")))
   (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
-#+end_src
+#+end_sr
+c
