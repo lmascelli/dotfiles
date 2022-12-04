@@ -152,6 +152,17 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     (lsp-ui-doc-position 'bottom))
 #+end_src
 
+** tree-sitter
+#+begin_src emacs-lisp
+		(use-package tree-sitter
+			:config
+			(require 'tree-sitter)
+			(global-tree-sitter-mode))
+		(use-package tree-sitter-langs
+			:config
+			(require 'tree-sitter-langs))
+
+#+end_src
 ** company
 #+begin_src emacs-lisp
 			(use-package company
@@ -160,12 +171,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 				(global-company-mode t))
 #+end_src
 
-** vterm
-vterm is a nice and powerful terminal emulator that works fine on linux but
-does not compile under windows. i'll wrote there an eventual solution
-#+begin_src emacs-lisp
-;;	(use-package vterm)
-#+end_src
 
 ** various modes
 #+begin_src emacs-lisp
@@ -376,7 +381,19 @@ The folling keybinding are:
     :config )
 #+end_src
 
-* Wezterm
+* My functions
+** ripgrep
+ask for searching in files with ripgrep
+#+begin_src emacs-lisp
+	(defun lm/ripgrep (&optional pattern path)
+		(interactive)
+		(let ((_pattern (if pattern pattern
+							(read-from-minibuffer "grep pattern: ")))
+					(_path (if path path
+						 (read-from-minibuffer "grep path: " default-directory))))
+			(grep-find (concat "rg -n -H --no-heading -e " _pattern " " _path))))
+#+end_src
+** Wezterm
 Often i use wezterm as terminal choise
 https://wezfurlong.org/wezterm/installation.html
 because emacs, expecially on windows does not provide a good terminal mode. So
