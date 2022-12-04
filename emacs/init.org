@@ -3,7 +3,10 @@
 
 * Global variables
 #+begin_src emacs-lisp
-  (setq lm/dotfiles "d:/.dotfiles")
+  (setq lm/dotfiles "/home/leonardo/.dotfiles")
+  (setq lm/font (cond
+		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
+		 ((string-equal system-type "windows-nt") "FiraCode NF")))
 #+end_src
 
 * Basic configuration
@@ -20,7 +23,7 @@
 *** font style
 #+begin_src emacs-lisp
   (defvar lm/default-font-size 100)
-  (set-face-attribute 'default nil :font "FiraCode NF" :height lm/default-font-size) 
+  (set-face-attribute 'default nil :font lm/font :height lm/default-font-size) 
   (global-hl-line-mode)
   (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
 #+end_src
