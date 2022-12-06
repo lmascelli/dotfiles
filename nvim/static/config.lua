@@ -26,7 +26,9 @@ config.plugin_list = {
   'nvim-autopairs',
   'toggleterm',
   'bufdelete',
-  'treesitter'
+  'treesitter',
+  'startup-time',
+  'black',
 }
 
 

@@ -84,6 +84,13 @@ _G.packer_plugins = {
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["black.vim"] = {
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\black.vim",
+    url = "https://github.com/C:/Users/leonardo/AppData/Local/nvim/lua/lm/plugins/src/black.vim"
+  },
   ["bufferline.nvim"] = {
     loaded = true,
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\bufferline.nvim",
@@ -135,7 +142,7 @@ _G.packer_plugins = {
     url = "https://github.com/lewis6991/impatient.nvim"
   },
   ["lspsaga.nvim"] = {
-    config = { "\27LJ\2\n�\b\0\0\6\0\28\0!6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\0035\4\6\0=\4\a\0035\4\b\0=\4\t\0035\4\n\0=\4\v\0035\4\r\0005\5\f\0=\5\14\0045\5\15\0=\5\16\4=\4\17\0035\4\18\0=\4\19\0035\4\20\0=\4\21\0035\4\22\0=\4\23\0035\4\24\0=\4\25\0034\4\0\0=\4\26\0034\4\0\0=\4\27\3B\1\2\1K\0\1\0\24server_filetype_map\16custom_kind\17show_outline\1\0\b\15auto_enter\2\14win_width\3\30\rwin_with\5\17auto_refresh\2\17win_position\nright\rjump_key\6o\14virt_text\b┃\17auto_preview\2\21symbol_in_winbar\1\0\6\14show_file\2\14separator\t \14in_custom\1\venable\2\18click_support\1\19file_formatter\5\27definition_action_keys\1\0\5\ttabe\v<C-c>t\vvsplit\v<C-c>v\nsplit\v<C-c>i\tedit\v<C-c>o\tquit\6q\21code_action_keys\1\0\2\texec\t<CR>\tquit\6q\23finder_action_keys\tquit\1\3\0\0\6q\n<ESC>\topen\1\0\3\ttabe\6t\vvsplit\6s\nsplit\6i\1\3\0\0\6o\t<CR>\17finder_icons\1\0\3\tlink\n  \bref\t諭 \bdef\n  \26code_action_lightbulb\1\0\a\venable\2\17virtual_text\2\18sign_priority\3\20\tsign\2\22cache_code_action\2\21enable_in_insert\2\16update_time\3�\1\22diagnostic_header\1\5\0\0\t \t \t \tﴞ \17move_in_saga\1\0\2\tnext\n<C-n>\tprev\n<C-p>\1\0\t\23rename_action_quit\n<C-c>\21code_action_icon\t💡\22max_preview_lines\3\n\24preview_lines_above\3\0\21rename_in_select\2\18saga_winblend\3\0\17border_style\vsingle\27finder_request_timeout\3�\v\29code_action_num_shortcut\2\18init_lsp_saga\flspsaga\frequire\0" },
+    config = { "\27LJ\2\n�\b\0\0\6\0\28\0!6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\0035\4\6\0=\4\a\0035\4\b\0=\4\t\0035\4\n\0=\4\v\0035\4\r\0005\5\f\0=\5\14\0045\5\15\0=\5\16\4=\4\17\0035\4\18\0=\4\19\0035\4\20\0=\4\21\0035\4\22\0=\4\23\0035\4\24\0=\4\25\0034\4\0\0=\4\26\0034\4\0\0=\4\27\3B\1\2\1K\0\1\0\24server_filetype_map\16custom_kind\17show_outline\1\0\b\17auto_preview\2\15auto_enter\2\14win_width\3\30\rwin_with\5\rjump_key\6o\17win_position\nright\17auto_refresh\2\14virt_text\b┃\21symbol_in_winbar\1\0\6\19file_formatter\5\14show_file\2\venable\2\14separator\t \14in_custom\1\18click_support\1\27definition_action_keys\1\0\5\tquit\6q\ttabe\v<C-c>t\vvsplit\v<C-c>v\tedit\v<C-c>o\nsplit\v<C-c>i\21code_action_keys\1\0\2\tquit\6q\texec\t<CR>\23finder_action_keys\tquit\1\3\0\0\6q\n<ESC>\topen\1\0\3\ttabe\6t\vvsplit\6s\nsplit\6i\1\3\0\0\6o\t<CR>\17finder_icons\1\0\3\bdef\n  \bref\t諭 \tlink\n  \26code_action_lightbulb\1\0\a\16update_time\3�\1\17virtual_text\2\venable\2\18sign_priority\3\20\tsign\2\22cache_code_action\2\21enable_in_insert\2\22diagnostic_header\1\5\0\0\t \t \t \tﴞ \17move_in_saga\1\0\2\tprev\n<C-p>\tnext\n<C-n>\1\0\t\23rename_action_quit\n<C-c>\18saga_winblend\3\0\17border_style\vsingle\27finder_request_timeout\3�\v\29code_action_num_shortcut\2\21code_action_icon\t💡\22max_preview_lines\3\n\24preview_lines_above\3\0\21rename_in_select\2\18init_lsp_saga\flspsaga\frequire\0" },
     loaded = true,
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lspsaga.nvim",
     url = "https://github.com/glepnir/lspsaga.nvim"
@@ -180,7 +187,7 @@ _G.packer_plugins = {
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
-    config = { "\27LJ\2\n�\2\0\0\4\0\r\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\0025\3\b\0=\3\t\2B\0\2\0016\0\n\0009\0\v\0'\2\f\0B\0\2\1K\0\1\0Y        set foldmethod=expr\n        set foldexpr=nvim_treesitter#foldexpr()\n        \bcmd\bvim\vindent\1\0\1\venable\1\14highlight\1\0\2&additional_vim_regex_highlighting\1\venable\2\21ensure_installed\1\0\1\17auto_install\2\1\6\0\0\bcpp\blua\bvim\thelp\vpython\nsetup\28nvim-treesitter.configs\frequire\0" },
+    config = { "\27LJ\2\n�\2\0\0\4\0\r\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\0025\3\b\0=\3\t\2B\0\2\0016\0\n\0009\0\v\0'\2\f\0B\0\2\1K\0\1\0Y        set foldmethod=expr\n        set foldexpr=nvim_treesitter#foldexpr()\n        \bcmd\bvim\vindent\1\0\1\venable\1\14highlight\1\0\2\venable\2&additional_vim_regex_highlighting\1\21ensure_installed\1\0\1\17auto_install\2\1\6\0\0\bcpp\blua\bvim\thelp\vpython\nsetup\28nvim-treesitter.configs\frequire\0" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -224,6 +231,14 @@ _G.packer_plugins = {
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\toggleterm.nvim",
     url = "https://github.com/akinsho/toggleterm.nvim"
   },
+  ["vim-startuptime"] = {
+    commands = { "StartupTime" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\vim-startuptime",
+    url = "https://github.com/dstein64/vim-startuptime"
+  },
   ["which-key.nvim"] = {
     loaded = true,
     path = "C:\\Users\\leonardo\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\which-key.nvim",
@@ -234,23 +249,42 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Config for: lspsaga.nvim
 time([[Config for lspsaga.nvim]], true)
-try_loadstring("\27LJ\2\n�\b\0\0\6\0\28\0!6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\0035\4\6\0=\4\a\0035\4\b\0=\4\t\0035\4\n\0=\4\v\0035\4\r\0005\5\f\0=\5\14\0045\5\15\0=\5\16\4=\4\17\0035\4\18\0=\4\19\0035\4\20\0=\4\21\0035\4\22\0=\4\23\0035\4\24\0=\4\25\0034\4\0\0=\4\26\0034\4\0\0=\4\27\3B\1\2\1K\0\1\0\24server_filetype_map\16custom_kind\17show_outline\1\0\b\15auto_enter\2\14win_width\3\30\rwin_with\5\17auto_refresh\2\17win_position\nright\rjump_key\6o\14virt_text\b┃\17auto_preview\2\21symbol_in_winbar\1\0\6\14show_file\2\14separator\t \14in_custom\1\venable\2\18click_support\1\19file_formatter\5\27definition_action_keys\1\0\5\ttabe\v<C-c>t\vvsplit\v<C-c>v\nsplit\v<C-c>i\tedit\v<C-c>o\tquit\6q\21code_action_keys\1\0\2\texec\t<CR>\tquit\6q\23finder_action_keys\tquit\1\3\0\0\6q\n<ESC>\topen\1\0\3\ttabe\6t\vvsplit\6s\nsplit\6i\1\3\0\0\6o\t<CR>\17finder_icons\1\0\3\tlink\n  \bref\t諭 \bdef\n  \26code_action_lightbulb\1\0\a\venable\2\17virtual_text\2\18sign_priority\3\20\tsign\2\22cache_code_action\2\21enable_in_insert\2\16update_time\3�\1\22diagnostic_header\1\5\0\0\t \t \t \tﴞ \17move_in_saga\1\0\2\tnext\n<C-n>\tprev\n<C-p>\1\0\t\23rename_action_quit\n<C-c>\21code_action_icon\t💡\22max_preview_lines\3\n\24preview_lines_above\3\0\21rename_in_select\2\18saga_winblend\3\0\17border_style\vsingle\27finder_request_timeout\3�\v\29code_action_num_shortcut\2\18init_lsp_saga\flspsaga\frequire\0", "config", "lspsaga.nvim")
+try_loadstring("\27LJ\2\n�\b\0\0\6\0\28\0!6\0\0\0'\2\1\0B\0\2\0029\1\2\0005\3\3\0005\4\4\0=\4\5\0035\4\6\0=\4\a\0035\4\b\0=\4\t\0035\4\n\0=\4\v\0035\4\r\0005\5\f\0=\5\14\0045\5\15\0=\5\16\4=\4\17\0035\4\18\0=\4\19\0035\4\20\0=\4\21\0035\4\22\0=\4\23\0035\4\24\0=\4\25\0034\4\0\0=\4\26\0034\4\0\0=\4\27\3B\1\2\1K\0\1\0\24server_filetype_map\16custom_kind\17show_outline\1\0\b\17auto_preview\2\15auto_enter\2\14win_width\3\30\rwin_with\5\rjump_key\6o\17win_position\nright\17auto_refresh\2\14virt_text\b┃\21symbol_in_winbar\1\0\6\19file_formatter\5\14show_file\2\venable\2\14separator\t \14in_custom\1\18click_support\1\27definition_action_keys\1\0\5\tquit\6q\ttabe\v<C-c>t\vvsplit\v<C-c>v\tedit\v<C-c>o\nsplit\v<C-c>i\21code_action_keys\1\0\2\tquit\6q\texec\t<CR>\23finder_action_keys\tquit\1\3\0\0\6q\n<ESC>\topen\1\0\3\ttabe\6t\vvsplit\6s\nsplit\6i\1\3\0\0\6o\t<CR>\17finder_icons\1\0\3\bdef\n  \bref\t諭 \tlink\n  \26code_action_lightbulb\1\0\a\16update_time\3�\1\17virtual_text\2\venable\2\18sign_priority\3\20\tsign\2\22cache_code_action\2\21enable_in_insert\2\22diagnostic_header\1\5\0\0\t \t \t \tﴞ \17move_in_saga\1\0\2\tprev\n<C-p>\tnext\n<C-n>\1\0\t\23rename_action_quit\n<C-c>\18saga_winblend\3\0\17border_style\vsingle\27finder_request_timeout\3�\v\29code_action_num_shortcut\2\21code_action_icon\t💡\22max_preview_lines\3\n\24preview_lines_above\3\0\21rename_in_select\2\18init_lsp_saga\flspsaga\frequire\0", "config", "lspsaga.nvim")
 time([[Config for lspsaga.nvim]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file NvimTreeToggle lua require("packer.load")({'nvim-tree.lua'}, { cmd = "NvimTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
-pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file ToggleTerm lua require("packer.load")({'toggleterm.nvim'}, { cmd = "ToggleTerm", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+pcall(vim.api.nvim_create_user_command, 'NvimTreeToggle', function(cmdargs)
+          require('packer.load')({'nvim-tree.lua'}, { cmd = 'NvimTreeToggle', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'nvim-tree.lua'}, { cmd = 'NvimTreeToggle' }, _G.packer_plugins)
+          vim.api.nvim_input('<space><bs><tab>')
+      end})
+pcall(vim.api.nvim_create_user_command, 'ToggleTerm', function(cmdargs)
+          require('packer.load')({'toggleterm.nvim'}, { cmd = 'ToggleTerm', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'toggleterm.nvim'}, { cmd = 'ToggleTerm' }, _G.packer_plugins)
+          vim.api.nvim_input('<space><bs><tab>')
+      end})
+pcall(vim.api.nvim_create_user_command, 'StartupTime', function(cmdargs)
+          require('packer.load')({'vim-startuptime'}, { cmd = 'StartupTime', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-startuptime'}, { cmd = 'StartupTime' }, _G.packer_plugins)
+          vim.api.nvim_input('<space><bs><tab>')
+      end})
 time([[Defining lazy-load commands]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType cpp ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "cpp" }, _G.packer_plugins)]]
+vim.cmd [[au FileType python ++once lua require("packer.load")({'nvim-treesitter', 'black.vim'}, { ft = "python" }, _G.packer_plugins)]]
 vim.cmd [[au FileType lua ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "lua" }, _G.packer_plugins)]]
 vim.cmd [[au FileType c ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "c" }, _G.packer_plugins)]]
-vim.cmd [[au FileType python ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "python" }, _G.packer_plugins)]]
-vim.cmd [[au FileType cpp ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "cpp" }, _G.packer_plugins)]]
 vim.cmd [[au FileType markdown ++once lua require("packer.load")({'nvim-treesitter'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads

@@ -72,16 +72,13 @@
   (setq tab-width 2)                                            ;; tab width 2
   (add-hook 'prog-mode-hook 'electric-pair-mode)
   (setq use-short-answers t)
-  (setq explicit-shell-file-name "pwsh.exe")
-  (setq read-process-output-max (* 10 1000 1000))
-  (setq explicit-pwsh.exe-args '())
-
 #+end_src
 
 ** Shell configuration
 Set PowerShell as the main console interpreter
 #+begin_src emacs-lisp
   (setq explicit-shell-file-name "pwsh")
+  (setq read-process-output-max (* 10 1000 1000))
   (setq excplicit-powershell.exe-args '("-Command" "-"))
 #+end_src
 
@@ -105,56 +102,6 @@ Set PowerShell as the main console interpreter
   (setq use-package-always-ensure t)
   (use-package diminish)
 #+end_src
-** COMMENT ivy, swiper, counsel
-#+begin_src emacs-lisp
-  (use-package ivy
-    :diminish
-    :config
-    (ivy-mode 1))
-  (use-package ivy-rich
-    :diminish
-    :config
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (ivy-rich-mode 1))
-  (use-package swiper)
-  (use-package counsel)
-#+end_src
-** COMMENT which-key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config (setq which-key-idle-delay 0.3))
-#+end_src
-** COMMENT eglot
-eglot is now integrated in emacs 29
-#+begin_src emacs-lisp
-;  (use-package eglot)
-#+end_src
-** COMMENT lsp-mode
-i'm trying to use eglot instead of lsp-mode but i keep this configuration code
-#+begin_src emacs-lisp
-  (defun lm/lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
-
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :hook (lsp-mode . lm/lsp-mode-setup)
-    :init
-    (setq lsp-keymap-prefix "C-l")
-    :config
-    (lsp-enable-which-key-integration t))
-#+end_src
-*** lsp-ui
-#+begin_src emacs-lisp
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'bottom))
-#+end_src
-
 ** tree-sitter
 #+begin_src emacs-lisp
 		(use-package tree-sitter
@@ -220,7 +167,9 @@ related way of make keymaps.
 ** global
 The folling keybinding are:
 - <Escape> does not need to be pressed three times to behave like <C-g> but this
-	has the countereffect of closing other windows when pressed
+	has the countereffect of closing other windows when pressed; to avoid
+	that a workaround is to redefine *buffer-quit-function* inside the
+	*keyboard-escape-quit* clojure
 - <f2> is like <M-x> (experimental)
 - <C-z> undo
 - <M-z> redo
@@ -229,22 +178,29 @@ The folling keybinding are:
 - <C-.> company-mode completion
 	
 #+begin_src emacs-lisp
-	(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-	(global-set-key (kbd "<f2>") 'counsel-M-x)
-	(global-set-key (kbd "C-z") 'undo)
-	;; (global-set-key (kbd "C-.") 'dabbrev-expand)
-	(global-set-key (kbd "C-z") 'undo)
-	(global-set-key (kbd "M-z") 'undo-redo)
-	(global-set-key (kbd "C-ì") #'(lambda ()
-					(interactive)
-					(insert-char (char-from-name "TILDE"))))
-	(global-set-key (kbd "C-'") #'(lambda ()
-					(interactive)
-					(insert-char (char-from-name "GRAVE ACCENT"))))
-	(global-set-key (kbd "C-.") 'company-complete)
-	(global-set-key (kbd "<f9>") 'lm/run-wezterm)
 
-	(windmove-default-keybindings 'meta)
+  ;; this code avoid *keyboard-escape-quit* to close all other windows
+  (defadvice keyboard-escape-quit
+      (around keyboard-escape-quit-dont-close-windows activate)
+    (let ((buffer-quit-function (lambda () ())))
+      ad-do-it))
+  
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "<f2>") 'counsel-M-x)
+  (global-set-key (kbd "C-z") 'undo)
+  ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
+  (global-set-key (kbd "C-z") 'undo)
+  (global-set-key (kbd "M-z") 'undo-redo)
+  (global-set-key (kbd "C-ì") #'(lambda ()
+				  (interactive)
+				  (insert-char (char-from-name "TILDE"))))
+  (global-set-key (kbd "C-'") #'(lambda ()
+				  (interactive)
+				  (insert-char (char-from-name "GRAVE ACCENT"))))
+  (global-set-key (kbd "C-.") 'company-complete)
+  (global-set-key (kbd "<f9>") 'lm/run-wezterm)
+
+  (windmove-default-keybindings 'meta)
 #+end_src
 
 ** leader keymap...
@@ -388,13 +344,13 @@ The folling keybinding are:
 ** ripgrep
 ask for searching in files with ripgrep
 #+begin_src emacs-lisp
-	(defun lm/ripgrep (&optional pattern path)
-		(interactive)
-		(let ((_pattern (if pattern pattern
-							(read-from-minibuffer "grep pattern: ")))
-					(_path (if path path
-						 (read-from-minibuffer "grep path: " default-directory))))
-			(grep-find (concat "rg -n -H --no-heading -e " _pattern " " _path))))
+  (defun lm/ripgrep (&optional pattern path)
+    (interactive)
+    (let ((_pattern (if pattern pattern
+		      (read-from-minibuffer "grep pattern: ")))
+	  (_path (if path path
+		   (read-from-minibuffer "grep path: " default-directory))))
+      (grep-find (concat "rg -n -H --no-heading -e " _pattern " " _path))))
 #+end_src
 ** Wezterm
 Often i use wezterm as terminal choise
@@ -408,17 +364,77 @@ i need a way to easily call wezterm and open it in the current directory.
 		(start-process "wezterm" nil "wezterm" "start" "--cwd" default-directory))
 #+end_src
 
+* Other stuff
+** initial warnings
+Those are some workarounds for warning messages at startup. Not all are
+understood and explained
+#+begin_src emacs-lisp
+(setq org-element-use-cache t)
+#+end_src
 
-* COMMENT Keybindings (with evil)
+
+* COMMENT Disabled features
+** plugins
+*** ivy, swiper, counsel
+#+begin_src emacs-lisp
+  (use-package ivy
+    :diminish
+    :config
+    (ivy-mode 1))
+  (use-package ivy-rich
+    :diminish
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (ivy-rich-mode 1))
+  (use-package swiper)
+  (use-package counsel)
+#+end_src
+*** which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.3))
+#+end_src
+*** eglot
+eglot is now integrated in emacs 29
+#+begin_src emacs-lisp
+;  (use-package eglot)
+#+end_src
+*** lsp-mode
+i'm trying to use eglot instead of lsp-mode but i keep this configuration code
+#+begin_src emacs-lisp
+  (defun lm/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook (lsp-mode . lm/lsp-mode-setup)
+    :init
+    (setq lsp-keymap-prefix "C-l")
+    :config
+    (lsp-enable-which-key-integration t))
+#+end_src
+*** lsp-ui
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
+#+end_src
+
+** Keybindings (with evil)
 Those are keybinding i use with evil mode, anyway i found evil conflicting a lot
 with other keymapping of basic emacs and with most of the usefull tips that can
 be found online
-** global
+*** global
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
-** general
+*** general
 #+begin_src emacs-lisp
   (use-package general
     :config
@@ -431,7 +447,7 @@ be found online
     "RET" '(counsel-M-x :which-key "M-x"))
 #+end_src
 
-** evil
+*** evil
 #+begin_src emacs-lisp
   (use-package evil
     :init
@@ -452,7 +468,7 @@ be found online
     (evil-collection-init))
 #+end_src
 
-** tabs
+*** tabs
 #+begin_src emacs-lisp
   (lm/leader-keys
     "t" '(:ignored t :which-key "tab")
@@ -464,7 +480,7 @@ be found online
     "<backtab>" '(tab-previous :which-key "previous tab"))
 #+end_src
 
-** buffer
+*** buffer
 #+begin_src emacs-lisp
   (lm/leader-keys
     "b"  '(:ignore t :which-key "buffer")
@@ -475,7 +491,7 @@ be found online
     "bL" '(list-buffers :which-key "list buffers"))
 #+end_src
 
-** search
+*** search
 #+begin_src emacs-lisp
   (lm/leader-keys
     "s" '(:ignore t :which-key "search")
@@ -483,7 +499,7 @@ be found online
     "sr" '(replace-string :which-key "replace"))
 #+end_src
 
-** appearence
+*** appearence
 #+begin_src emacs-lisp
   (lm/leader-keys
     "a"  '(:ignore t :which-key "appearence")
@@ -492,7 +508,7 @@ be found online
     "at" '(counsel-load-theme :which-key "choose theme"))
 #+end_src
 
-** eval
+*** eval
 #+begin_src emacs-lisp
   (defun load-init () (interactive)
 	 (load-file "~/.config/emacs/init.el"))
@@ -503,7 +519,7 @@ be found online
     "vi" '(load-init :which-key "load init.el"))
 #+end_src
 
-** window
+*** window
 #+begin_src emacs-lisp
   (lm/leader-keys
     "w" '(:ignored t :which-key "window")
@@ -517,7 +533,7 @@ be found online
     "wl" '(evil-window-right :which-key "move right"))
 #+end_src
 
-** terminal
+*** terminal
 #+begin_src emacs-lisp
   (lm/leader-keys
     "T" '(:ignored t :which-key "terminal")
@@ -525,7 +541,7 @@ be found online
     "Ts" '(eshell :which-key "eshell"))
 #+end_src
 
-** explore
+*** explore
 #+begin_src emacs-lisp
   (lm/leader-keys
     "e" '(:ignored t :which-key "explore")
@@ -533,7 +549,7 @@ be found online
     "ec" '(pwd :which-key "pwd"))
 #+end_src
 
-** lsp
+*** lsp
 #+begin_src emacs-lisp
   (defun lm/lsp-keymap ()
     (interactive)

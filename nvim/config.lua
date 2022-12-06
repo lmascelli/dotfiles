@@ -26,6 +26,8 @@ config.plugin_list = {
   'nvim-autopairs',
   'toggleterm',
   'treesitter',
+  'startup-time',
+  'black',
 }
 
 
