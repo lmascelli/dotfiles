@@ -1,7 +1,12 @@
 local config = {}
 
 config.colorscheme = 'default'
-config.font_name = 'FiraCode NF'
+if LM.os_version == 'Linux' then
+   config.font_name = 'FiraCode Nerd Fonts'
+elseif LM.os_version == "Windows" then
+   config.font_name = 'FiraCode NF'
+end
+   
 config.font_size = 10
 
 config.opts = {
@@ -25,6 +30,7 @@ config.plugin_list = {
   'comment',
   'nvim-autopairs',
   'toggleterm',
+  'bufdelete',
   'treesitter',
   'startup-time',
   'black',
@@ -38,7 +44,5 @@ config.lsp_list = {
   'rust_analyzer',
   'powershell',
 }
-
-config.matlab_exec = 'D:/Program Files/MATLAB/R2022b/bin/matlab'
 
 return config
