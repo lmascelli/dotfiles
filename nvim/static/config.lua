@@ -1,7 +1,12 @@
 local config = {}
 
 config.colorscheme = 'default'
-config.font_name = 'FiraCode NF'
+if LM.os_version == 'Linux' then
+   config.font_name = 'FiraCode Nerd Fonts'
+elseif LM.os_version == "Windows" then
+   config.font_name = 'FiraCode NF'
+end
+   
 config.font_size = 10
 
 config.opts = {
