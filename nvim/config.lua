@@ -34,7 +34,8 @@ config.plugin_list = {
 config.lsp_list = {
   'lua',
   'clangd',
-  'pyright',
+--  'pyright',
+  'pylsp',
   'rust_analyzer',
   'powershell',
 }
