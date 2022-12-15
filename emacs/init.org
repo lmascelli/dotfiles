@@ -21,6 +21,9 @@ configuration
 *** gui widgets
 #+begin_src emacs-lisp
   (scroll-bar-mode -1)
+  ;; disable scroll-bar even in new frames
+  (add-to-list 'default-frame-alist
+	     '(vertical-scroll-bars . nil))
   (tool-bar-mode -1)
   (tooltip-mode -1)
   (menu-bar-mode 1)
