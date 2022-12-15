@@ -140,8 +140,29 @@ and ask just for (y/n) instead of complete yes and no
   (setq use-short-answers t)
 #+end_src
 
+*** prefer newer editor files
+this is expecially useful for loading the changes to term.el in Windows for
+running powershell in term and ansi-term
+#+begin_src emacs-lisp
+(setq load-prefer-newer t)
+#+end_src
+
 ** PowerShell configuration
 Set PowerShell as the main console interpreter
+To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
+the code around
+#+begin_src
+ "/bin/sh" "-c"
+#+end_src
+
+to
+
+#+begin_src
+ "pwsh"
+#+end_src
+
+Then the /load-prefer-newer/ option must be set to enable the recent edited file.
+
 #+begin_src emacs-lisp
   (setq explicit-shell-file-name "pwsh")
   (setq excplicit-powershell.exe-args '("-Command" "-"))
