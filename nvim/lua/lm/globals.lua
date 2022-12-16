@@ -12,10 +12,10 @@ local LM = {
   }
 }
 
-if vim.fn.has('unix') then
-  LM.os_version = 'Linux'
-elseif vim.fn.has('win32') then
+if vim.fn.has('win32') then
   LM.os_version = 'Windows'
+elseif vim.fn.has('unix') then
+  LM.os_version = 'Linux'
 end
 
 LM.dirs = {

@@ -2,12 +2,19 @@
 #+title: My Emacs Configuration
 
 * Global variables
+Those are global variables used in the configuation that can easily change from
+a system to an other one. Check the values of those before tangling the org
+configuration
+
 #+begin_src emacs-lisp
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
   (setq lm/font (cond
 		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
 		 ((string-equal system-type "windows-nt") "FiraCode NF")))
+  (setq lm/autosave_dir "D:/emacs/autosaves/")
+  (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
+
 
 * Basic configuration
 ** Gui configuration
@@ -16,19 +23,23 @@
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-  (menu-bar-mode t)
+  (menu-bar-mode 1)
   (setq visible-bell t)
-
 #+end_src
+
+the scroll-bar is still present in newer frames at this point. To remove it also
+in them it must be changed the /default-frame-alist/ but since it is reset in the
+*geometry and aspect* section this change is applied there.
 *** font style
 #+begin_src emacs-lisp
   (defvar lm/default-font-size 100)
-  (set-face-attribute 'default nil :font lm/font :height lm/default-font-size) 
+  (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
+  (set-face-attribute 'italic nil :family "Dejavu Sans Mono" :height 100 :slant 'italic)
   (global-hl-line-mode)
   (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
 #+end_src
 
-*** scrolling
+*** buffer scrolling
 #+begin_src emacs-lisp
   (pixel-scroll-precision-mode)
   (setq fast-but-imprecise-scrolling t
@@ -46,45 +57,129 @@
 #+begin_src emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(95 . 100))
   (setq default-frame-alist '((width . 90) (height . 40) (alpha . (95 . 100))))
+  ;; disable scroll-bar even in new frames
+  (add-to-list 'default-frame-alist
+	     '(vertical-scroll-bars . nil))
   (load-theme 'wombat)
 #+end_src
 
+*** show row number, highlight current line and column 70
+
+#+begin_src emacs-lisp
+  (column-number-mode) 
+  (global-display-line-numbers-mode t) 
+  (custom-set-variables '(fill-column 80)) 
+  (global-display-fill-column-indicator-mode)
+  (dolist (mode '(org-mode-hook
+		  term-mode-hook
+		  shell-mode-hook
+		  eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
 ** Editor behaviour
+*** tab width
+Set the default width of tab to 2
+
+#+begin_src emacs-lisp
+  (setq tab-width 2)
+#+end_src
+*** profile emacs startup
 #+begin_src emacs-lisp
   ;; Profile emacs startup
   (add-hook 'emacs-startup-hook
 	    (lambda ()
 	      (message "Emacs loaded in %s."
 		       (emacs-init-time))))
+#+end_src
 
-  (setq gc-cons-threshold (* 50 1000 1000))                     ;; increase gc size
+*** garbage collector
+increase the gargbage collector size; default is 
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold (* 50 1000 1000)) ;; 50 Mb
+#+end_src  
 
-  (setq inhibit-startup-message t)                              ;; no startup screen
-  (setq backup-inhibited t)                                     ;; no backup files
-  (setq message-kill-buffer-query nil)                          ;; no prompt kill buffer
-  (column-number-mode)                                          ;; column number
-  (global-display-line-numbers-mode t)                          ;; line number
-  (dolist (mode '(org-mode-hook
-		  term-mode-hook
-		  shell-mode-hook
-		  eshell-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
-  (setq tab-width 2)                                            ;; tab width 2
+*** process buffer
+increase the amount of data that emacs can read from processes; default is 4 kb
+
+#+begin_src emacs-lisp
+  (setq read-process-output-max (* 10 1024 1024)) ;; 10 Mb
+#+end_src
+
+*** autosaving
+disable backup of files by default
+change the defaults directory where to store ~ and # files, respectively
+backup and autosaves.
+
+#+begin_src emacs-lisp
+  (setq backup-inhibited t)                              
+  ;; autosaves files in one common directory
+  (setq backup-directory-alist  `(("." . ,(if lm/autosave_dir lm/autosave_dir (concat user-emacs-directory "backups")))))
+  (setq auto-save-file-name-transforms
+	`((".*" ,lm/autosave_dir t)))
+#+end_src
+
+*** auto revert mode
+automatically refresh the buffer when the correspondig file has been changed
+externally
+
+#+begin_src emacs-lisp
+     (global-auto-revert-mode t)
+#+end_src
+
+*** automatic pairs mode
+automatically insert the pair of some symbols like braces, parenthesis, etc...
+
+#+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'electric-pair-mode)
+#+end_src
+
+*** noises messages
+disable:
+- the startup screen,
+- the prompt for killing buffer
+and ask just for (y/n) instead of complete yes and no
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)                              ;; no startup screen
+  (setq message-kill-buffer-query nil)                          ;; no prompt kill buffer
   (setq use-short-answers t)
 #+end_src
 
-** Shell configuration
+*** prefer newer editor files
+this is expecially useful for loading the changes to term.el in Windows for
+running powershell in term and ansi-term
+#+begin_src emacs-lisp
+(setq load-prefer-newer t)
+#+end_src
+
+** PowerShell configuration
 Set PowerShell as the main console interpreter
+To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
+the code around
+#+begin_src
+ "/bin/sh" "-c"
+#+end_src
+
+to
+
+#+begin_src
+ "pwsh"
+#+end_src
+
+Then the /load-prefer-newer/ option must be set to enable the recent edited file.
+
 #+begin_src emacs-lisp
   (setq explicit-shell-file-name "pwsh")
-  (setq read-process-output-max (* 10 1000 1000))
   (setq excplicit-powershell.exe-args '("-Command" "-"))
 #+end_src
 
+
 * Plugins
+
 ** package
-Install the melpa repository and refresh contents
+Setup the melpa repository and refresh the contents of package-archives to be
+prepared for plugins installation.
 #+begin_src emacs-lisp
   (require 'package)
 
@@ -94,8 +189,9 @@ Install the melpa repository and refresh contents
   (unless package-archive-contents
     (package-refresh-contents))
 #+end_src
+
 ** use-package
-*use-package* permits to easily install and configure plugins
+/use-package/ is a nice and useful package manager
 #+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
@@ -110,25 +206,70 @@ To hide a minor-mode put
 #+begin_src emacs-lisp
   (use-package diminish)
 #+end_src
+
+** which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config (setq which-key-idle-delay 0.3))
+#+end_src
+
 ** tree-sitter
 #+begin_src emacs-lisp
-		(use-package tree-sitter
-			:config
-			(require 'tree-sitter)
-			(global-tree-sitter-mode))
-		(use-package tree-sitter-langs
-			:config
-			(require 'tree-sitter-langs))
-
+  (use-package tree-sitter
+    :diminish
+    :config
+    (require 'tree-sitter)
+    (global-tree-sitter-mode))
+  (use-package tree-sitter-langs
+    :config
+    (require 'tree-sitter-langs))
 #+end_src
+
 ** company
 #+begin_src emacs-lisp
-			(use-package company
-				:bind (("C-." . company-complete))
-				:config
-				(global-company-mode t))
+  (use-package company
+    :bind (("C-." . company-complete))
+    :config
+    (global-company-mode t)
+    (setq company-idle-delay 0.5))
 #+end_src
+** yasnippet
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1)
+    (global-set-key (kbd "C-c y") 'company-yasnippet))
+  (use-package yasnippet-snippets)
+  (use-package yasnippet-classic-snippets)
+#+end_src
+** lsp-mode
+i'm trying to use eglot instead of lsp-mode but i keep this configuration code
+#+begin_src emacs-lisp
+  (setenv "LSP_USE_PLIST" "true")
 
+  (defun lm/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook (lsp-mode . lm/lsp-mode-setup)
+    :init
+    (setq lsp-keymap-prefix "C-M-l")
+    :config
+    (setq lsp-idle-delay 0.500)
+    (setq lsp-use-plist t)
+    (lsp-enable-which-key-integration t))
+#+end_src
+*** lsp-ui
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
+#+end_src
 
 ** various modes
 #+begin_src emacs-lisp
@@ -139,7 +280,8 @@ To hide a minor-mode put
 Plugins maybe worth to be installed:
 - lsp-treemacs
 - lsp-ivy
-
+  
+ 
 * Languages
 ** C/C++
 
@@ -148,12 +290,13 @@ Plugins maybe worth to be installed:
   (add-to-list 'auto-mode-alist '("\\.ino" .
 				  (lambda ()
 				    (c-or-c++-mode)
-				    (setq lsp-clients-clangd-args `(
-								    "-j=2"
-								    "--background-index"
-								    "--clang-tidy"
-								    "--completion-style=detailed"
-								    (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
+				    (setq lsp-clients-clangd-args
+					  `(
+					    "-j=2"
+					    "--background-index"
+					    "--clang-tidy"
+					    "--completion-style=detailed"
+					    (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
 #+end_src
 
 
@@ -161,8 +304,10 @@ Plugins maybe worth to be installed:
 ** Powershell
 ** Python
 #+begin_src emacs-lisp
-  (add-hook 'python-mode-hook #'(lambda () (eglot)))
+  ;; (add-hook 'python-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook #'(lambda () (lsp)))
 #+end_src
+
 
 * Keybindings
 There are two kinds of keybinding i use:
@@ -192,9 +337,8 @@ The folling keybinding are:
       (around keyboard-escape-quit-dont-close-windows activate)
     (let ((buffer-quit-function (lambda () ())))
       ad-do-it))
-  
+
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "<f2>") 'counsel-M-x)
   (global-set-key (kbd "C-z") 'undo)
   ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
   (global-set-key (kbd "C-z") 'undo)
@@ -211,7 +355,7 @@ The folling keybinding are:
   (windmove-default-keybindings 'meta)
 #+end_src
 
-** leader keymap...
+** COMMENT leader keymap...
 *** COMMENT general
 #+begin_src emacs-lisp
 	(use-package general
@@ -310,7 +454,19 @@ The folling keybinding are:
   (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
 #+end_src
 
+
 * Org-mode
+Basic configuration of org mode files
+#+begin_src emacs-lisp
+  ;; enable auto-fill in org-mode (automatically insert newline after columnt 80)
+  (add-hook 'org-mode-hook #'(lambda () (auto-fill-mode)))
+#+end_src
+
+** hide rich-text symbols
+#+begin_src emacs-lisp
+(setq org-hide-emphasis-markers t)
+#+end_src
+
 ** auto tangle configuration files
 #+begin_src emacs-lisp
   ;; Automatically tangle our init.org config file when we save it
@@ -340,6 +496,7 @@ The folling keybinding are:
   (add-to-list 'org-structure-template-alist '("py" . "src python"))
 #+end_src
 
+
 * Dired
 #+begin_src emacs-lisp
   (use-package dired
@@ -347,6 +504,7 @@ The folling keybinding are:
     :custom ((dired-listing-switches "-agho --group-directories-first"))
     :config )
 #+end_src
+
 
 * My functions
 ** ripgrep
@@ -372,6 +530,7 @@ i need a way to easily call wezterm and open it in the current directory.
 		(start-process "wezterm" nil "wezterm" "start" "--cwd" default-directory))
 #+end_src
 
+
 * Other stuff
 ** initial warnings
 Those are some workarounds for warning messages at startup. Not all are
@@ -379,6 +538,33 @@ understood and explained
 #+begin_src emacs-lisp
 (setq org-element-use-cache t)
 #+end_src
+
+
+* Testing
+** ido-mode
+ido-mode enable some autocompletions in minibuffer
+#+begin_src emacs-lisp
+  (use-package ido
+    :config
+    (ido-mode))
+#+end_src
+
+** COMMENT cygwin64
+If under windows may be a good choise to use a native emacs build with the
+support of bash provided by cygwin64
+#+begin_src emacs-lisp
+  (if (string-equal system-type "windows-nt")
+      (let* ((cygwin-root "D:/cygwin64")
+	     (cygwin-bin (concat cygwin-root "/bin")))
+	(if (file-readable-p cygwin-root)
+	    (progn
+	      (setq shell-file-name "bash")
+	      (setenv "SHELL" shell-file-name)
+	      (setq explicit-shell-file-name shell-file-name)))))
+#+end_src
+
+#+RESULTS:
+: bash
 
 
 * COMMENT Disabled features
@@ -406,31 +592,15 @@ understood and explained
     :config (setq which-key-idle-delay 0.3))
 #+end_src
 *** eglot
-eglot is now integrated in emacs 29
 #+begin_src emacs-lisp
-;  (use-package eglot)
-#+end_src
-*** lsp-mode
-i'm trying to use eglot instead of lsp-mode but i keep this configuration code
-#+begin_src emacs-lisp
-  (defun lm/lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
-
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :hook (lsp-mode . lm/lsp-mode-setup)
-    :init
-    (setq lsp-keymap-prefix "C-l")
+  (use-package eglot
+    :commands eglot
     :config
-    (lsp-enable-which-key-integration t))
-#+end_src
-*** lsp-ui
-#+begin_src emacs-lisp
-  (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'bottom))
+    (add-to-list 'eglot-server-programs
+		 `(python-mode
+		   . ,(eglot-alternatives '("pylsp"))))
+    (setq eglot-autoshutdown t))
+
 #+end_src
 
 ** Keybindings (with evil)
@@ -565,5 +735,4 @@ be found online
       "l" '(:ignored t :which-key "lsp")
       "lf" '(lsp-format-buffer :which-key "format")))
   (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
-#+end_sr
-c
+#+end_src
