@@ -1,0 +1,8 @@
+* Notes taken here and there from various emacs topics
+
+Topics:
+** elisp
+this function lets you view the previous invoked commands
+#+begin_src emacs-lisp
+(view-lossage)
+#+end_src

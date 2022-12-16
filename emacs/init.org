@@ -16,7 +16,7 @@
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-  (menu-bar-mode -1)
+  (menu-bar-mode t)
   (setq visible-bell t)
 
 #+end_src
@@ -84,6 +84,7 @@ Set PowerShell as the main console interpreter
 
 * Plugins
 ** package
+Install the melpa repository and refresh contents
 #+begin_src emacs-lisp
   (require 'package)
 
@@ -94,12 +95,19 @@ Set PowerShell as the main console interpreter
     (package-refresh-contents))
 #+end_src
 ** use-package
+*use-package* permits to easily install and configure plugins
 #+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
   (require 'use-package)
   (setq use-package-always-ensure t)
+#+end_src
+** diminish
+*diminish* enable to hide minor-mode names from minibuffer.
+To hide a minor-mode put
+`:diminish` in the use-package configuration of the mode package
+#+begin_src emacs-lisp
   (use-package diminish)
 #+end_src
 ** tree-sitter
