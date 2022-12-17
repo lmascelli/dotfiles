@@ -180,7 +180,6 @@ Then the /load-prefer-newer/ option must be set to enable the recent edited file
 ** package
 Setup the melpa repository and refresh the contents of package-archives to be
 prepared for plugins installation.
-
 #+begin_src emacs-lisp
   (require 'package)
 
@@ -193,13 +192,18 @@ prepared for plugins installation.
 
 ** use-package
 /use-package/ is a nice and useful package manager
-
 #+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
   (require 'use-package)
   (setq use-package-always-ensure t)
+#+end_src
+** diminish
+*diminish* enable to hide minor-mode names from minibuffer.
+To hide a minor-mode put
+`:diminish` in the use-package configuration of the mode package
+#+begin_src emacs-lisp
   (use-package diminish)
 #+end_src
 
@@ -731,6 +735,4 @@ be found online
       "l" '(:ignored t :which-key "lsp")
       "lf" '(lsp-format-buffer :which-key "format")))
   (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
-#+end_sr
-c
-
+#+end_src
