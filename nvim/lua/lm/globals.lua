@@ -9,7 +9,7 @@ local LM = {
   font = {
     font_name = '',
     font_size = 10,
-  }
+  },
 }
 
 if vim.fn.has('win32') then

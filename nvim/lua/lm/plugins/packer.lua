@@ -96,7 +96,9 @@ packer.check_load = function()
 
     if PACKER_BOOTSTRAP then
       require("packer").sync()
-      vim.notify('If new packages have been installed restart nvim')
+      vim.notify('If new packages have been installed restart nvim and run')
+      vim.notify('PackerSync')
+      vim.notify('PackerCompile profile=true')
     end
 
     return packer_

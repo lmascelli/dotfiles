@@ -3,9 +3,10 @@ return {
     use {
       LM.dirs.config .. "/lua/lm/plugins/src/black.vim",
       opt = true,
-      ft = { "python" }
+      ft = { "python" },
+      lock = true,
     }
   end,
-  config = function ()
+  config = function()
   end
 }

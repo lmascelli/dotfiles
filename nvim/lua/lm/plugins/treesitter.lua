@@ -6,7 +6,9 @@ return {
       event  = { "BufNewFile", "FileReadPost" },
       ft     = { "lua", "python", "c", "cpp", "markdown" },
       config = function()
-        require 'nvim-treesitter.configs'.setup {
+      local found, treesitter = pcall(require, 'nvim-treesitter.configs')
+      if found then
+        treesitter.setup {
           ensure_installed = { "cpp", "lua", "vim", "help", "python" },
           auto_install = true,
           highlight = {
@@ -26,6 +28,7 @@ return {
         set foldexpr=nvim_treesitter#foldexpr()
         ]]
       end
+    end
     }
   end,
   config = function()
