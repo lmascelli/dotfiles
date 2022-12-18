@@ -153,6 +153,12 @@ running powershell in term and ansi-term
 (setq load-prefer-newer t)
 #+end_src
 
+*** native compilation
+#+begin_src emacs-lisp
+  (setq native-compile-always-compile t)
+  (setq package-native-compile t)
+#+end_src
+
 ** PowerShell configuration
 Set PowerShell as the main console interpreter
 To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
@@ -219,27 +225,42 @@ To hide a minor-mode put
 #+begin_src emacs-lisp
   (use-package tree-sitter
     :diminish
+    :defer t
     :config
-    (require 'tree-sitter)
-    (global-tree-sitter-mode))
-  (use-package tree-sitter-langs
-    :config
-    (require 'tree-sitter-langs))
+    :hook ((prog-mode-hook . (lambda
+			       () 
+			       (require 'tree-sitter)
+			       (use-package tree-sitter-langs)))))
+
+
 #+end_src
 
+** rg
+#+begin_src emacs-lisp
+  (use-package rg
+    :config
+    (rg-enable-default-bindings))
+#+end_src
 ** company
 #+begin_src emacs-lisp
   (use-package company
     :bind (("C-." . company-complete))
     :config
     (global-company-mode t)
+    (setq company-keywords-ignore-case t)
     (setq company-idle-delay 0.5))
 #+end_src
 ** yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet
+    :hook
+    ((text-mode
+      prog-mode
+      conf-mode
+      snippet-mode
+      org-mode) . yas-minor-mode-on)
+    :init
     :config
-    (yas-global-mode 1)
     (global-set-key (kbd "C-c y") 'company-yasnippet))
   (use-package yasnippet-snippets)
   (use-package yasnippet-classic-snippets)
