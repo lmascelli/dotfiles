@@ -77,6 +77,11 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
+*** max minibuffer size
+#+begin_src emacs-lisp
+  (setq max-mini-window-height 0.5)
+#+end_src
+
 ** Editor behaviour
 *** tab width
 Set the default width of tab to 2
@@ -155,8 +160,20 @@ running powershell in term and ansi-term
 
 *** native compilation
 #+begin_src emacs-lisp
-  (setq native-compile-always-compile t)
-  (setq package-native-compile t)
+    (setq native-compile-always-compile t)
+  ;  (setq package-native-compile t)
+#+end_src
+
+*** complation-at-point
+#+begin_src emacs-lisp
+  (require 'dabbrev)
+  (defun lm/dabbrev-capf ()
+    (dabbrev--reset-global-variables)
+    (let* ((abbrev (dabbrev--abbrev-at-point))
+	   (candidates (dabbrev--find-all-expansions abbrev t))
+	   (bnd (bounds-of-thing-at-point 'symbol)))
+      (list (car bnd) (cdr bnd) candidates)))
+  (add-to-list 'completion-at-point-functions 'lm/dabbrev-capf)
 #+end_src
 
 ** PowerShell configuration
@@ -182,7 +199,6 @@ Then the /load-prefer-newer/ option must be set to enable the recent edited file
 
 
 * Plugins
-
 ** package
 Setup the melpa repository and refresh the contents of package-archives to be
 prepared for plugins installation.
@@ -224,31 +240,38 @@ To hide a minor-mode put
 ** tree-sitter
 #+begin_src emacs-lisp
   (use-package tree-sitter
-    :diminish
-    :defer t
     :config
-    :hook ((prog-mode-hook . (lambda
-			       () 
-			       (require 'tree-sitter)
-			       (use-package tree-sitter-langs)))))
-
+    (add-to-list 'prog-mode-hook
+	    #'(lambda () 
+		(tree-sitter-hl-mode))))
+  (use-package tree-sitter-langs
+    :after tree-sitter)
 
 #+end_src
 
 ** rg
+This package enable to grep in files and it is cross-platform.
+Requires [[https://github.com/BurntSushi/ripgrep][ripgrep]] to work.
+
 #+begin_src emacs-lisp
   (use-package rg
     :config
-    (rg-enable-default-bindings))
+    (rg-enable-default-bindings)
+    (setq rg-group-result t)
+    (setq rg-ignore-case 'smart)
+    (setq rg-show-header nil)
+    )
 #+end_src
-** company
+** find-file-in-project
+Enable to find files in project. Project can be interpreted with various
+packages like projectile or the built-in project.el.
+Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coerently.
+
 #+begin_src emacs-lisp
-  (use-package company
-    :bind (("C-." . company-complete))
+  (use-package find-file-in-project
     :config
-    (global-company-mode t)
-    (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5))
+    (setq ffip-use-rust-fd t)
+    (setq ffip-prefer-ido-mode t))
 #+end_src
 ** yasnippet
 #+begin_src emacs-lisp
@@ -261,7 +284,7 @@ To hide a minor-mode put
       org-mode) . yas-minor-mode-on)
     :init
     :config
-    (global-set-key (kbd "C-c y") 'company-yasnippet))
+    (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
   (use-package yasnippet-snippets)
   (use-package yasnippet-classic-snippets)
 #+end_src
@@ -276,9 +299,13 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
-    :hook (lsp-mode . lm/lsp-mode-setup)
+    :hook ((lsp-mode . lm/lsp-mode-setup)
+	   (c++-mode . lsp)
+	   (python-mode . lsp))
+
     :init
     (setq lsp-keymap-prefix "C-M-l")
+
     :config
     (setq lsp-idle-delay 0.500)
     (setq lsp-use-plist t)
@@ -292,7 +319,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     (lsp-ui-doc-position 'bottom))
 #+end_src
 
-** various modes
+** powershell
 #+begin_src emacs-lisp
   (use-package powershell)
 #+end_src
@@ -300,7 +327,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 ** to consider plugins
 Plugins maybe worth to be installed:
 - lsp-treemacs
-- lsp-ivy
   
  
 * Languages
@@ -370,8 +396,11 @@ The folling keybinding are:
   (global-set-key (kbd "C-'") #'(lambda ()
 				  (interactive)
 				  (insert-char (char-from-name "GRAVE ACCENT"))))
-  (global-set-key (kbd "C-.") 'company-complete)
   (global-set-key (kbd "<f9>") 'lm/run-wezterm)
+
+  (global-set-key (kbd "C-.")
+		  (cond ((boundp 'lm/company) 'company-complete)
+			(t 'complete-symbol)))
 
   (windmove-default-keybindings 'meta)
 #+end_src
@@ -528,6 +557,15 @@ Basic configuration of org mode files
 
 
 * My functions
+** lm/yasnippet-complete
+This function is used to choose the correct yasnippets completion function
+depending of the current selection method
+#+begin_src emacs-lisp
+  (defun lm/yasnippet-complete ()
+    (interactive)
+    (cond ((boundp 'lm/company) (company-complete))
+	  (t (yas-insert-snippet))))
+#+end_src
 ** ripgrep
 ask for searching in files with ripgrep
 #+begin_src emacs-lisp
@@ -562,14 +600,19 @@ understood and explained
 
 
 * Testing
-** ido-mode
+** COMMENT ido-mode
 ido-mode enable some autocompletions in minibuffer
+
 #+begin_src emacs-lisp
   (use-package ido
     :config
-    (ido-mode))
+    (ido-mode t))
 #+end_src
 
+** fido
+#+begin_src emacs-lisp
+  (fido-vertical-mode t)
+#+end_src
 ** COMMENT cygwin64
 If under windows may be a good choise to use a native emacs build with the
 support of bash provided by cygwin64
@@ -587,9 +630,27 @@ support of bash provided by cygwin64
 #+RESULTS:
 : bash
 
+** tab-always-indent
+Set the behaviour of tab so that it first try to indent the line, if the line is
+already indented then it does the selected action
+#+begin_src emacs-lisp
+  (setq tab-always-intent 'complete)
+#+end_src
+
 
 * COMMENT Disabled features
 ** plugins
+*** company
+#+begin_src emacs-lisp
+  (use-package company
+    :bind (("C-." . company-complete))
+    :init
+    (setq lm/company t)
+    :config
+    (global-company-mode t)
+    (setq company-keywords-ignore-case t)
+    (setq company-idle-delay 0.5))
+#+end_src
 *** ivy, swiper, counsel
 #+begin_src emacs-lisp
   (use-package ivy
