@@ -1,5 +1,5 @@
-#+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 #+title: My Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 
 * Global variables
 Those are global variables used in the configuation that can easily change from
@@ -367,7 +367,7 @@ The folling keybinding are:
 - <f2> is like <M-x> (experimental)
 - <C-z> undo
 - <M-z> redo
-- <C-ì> insert the char ~
+- <C-Ã¬> insert the char ~
 - <C-'> insert the char 
 - <C-.> company-mode completion
 	
@@ -384,7 +384,7 @@ The folling keybinding are:
   ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
   (global-set-key (kbd "C-z") 'undo)
   (global-set-key (kbd "M-z") 'undo-redo)
-  (global-set-key (kbd "C-ì") #'(lambda ()
+  (global-set-key (kbd "C-Ã¬") #'(lambda ()
 				  (interactive)
 				  (insert-char (char-from-name "TILDE"))))
   (global-set-key (kbd "C-'") #'(lambda ()
