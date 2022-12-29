@@ -95,8 +95,8 @@ Set the default width of tab to 2
   ;; Profile emacs startup
   (add-hook 'emacs-startup-hook
 	    (lambda ()
-	      (message "Emacs loaded in %s."
-		       (emacs-init-time))))
+	      (message "Emacs loaded in %s with %d garbage collections."
+		       (emacs-init-time) gcs-done)))
 #+end_src
 
 *** garbage collector
@@ -240,8 +240,12 @@ To hide a minor-mode put
 
 ** tree-sitter
 #+begin_src emacs-lisp
-  (use-package tree-sitter)
-  (use-package tree-sitter-langs)
+  (use-package tree-sitter
+    :hook (c-or-c++-mode python-mode)
+    :config
+    (tree-sitter-hl-mode))
+  (use-package tree-sitter-langs
+    :after tree-sitter)
 #+end_src
 
 ** rg
@@ -250,6 +254,7 @@ Requires [[https://github.com/BurntSushi/ripgrep][ripgrep]] to work.
 
 #+begin_src emacs-lisp
   (use-package rg
+    :bind ("C-c s" . rg-menu)
     :config
     (rg-enable-default-bindings)
     (setq rg-group-result t)
@@ -276,11 +281,13 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
       conf-mode
       snippet-mode
       org-mode) . yas-minor-mode-on)
-    :init
-    (use-package yasnippet-snippets)
-    (use-package yasnippet-classic-snippets)
     :config
     (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
+  (use-package yasnippet-snippets
+    :after yasnippet)
+  (use-package yasnippet-classic-snippets
+    :after yasnippet)
+
 #+end_src
 ** lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
@@ -315,7 +322,8 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 
 ** powershell
 #+begin_src emacs-lisp
-  (use-package powershell)
+    (use-package powershell
+      :commands powershell)
 #+end_src
 
 ** to consider plugins
@@ -357,6 +365,26 @@ There are two kinds of keybinding i use:
 as now the leader ones are commented because i'm trying to understand the way
 emacs is meant to be used and configured while the leader combo is more a vim
 related way of make keymaps.
+
+** ways to swap CTRL and CAPS-LOCK
+
+*** Windows
+to activate run this script as a .reg file
+#+begin_src
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,3a,00,1d,00,00,00,00,00
+#+end_src
+
+and run that as a .reg file to deactivate it
+
+#+begin_src 
+REGEDIT4
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=-
+#+end_src
+
 
 ** global
 The folling keybinding are:
@@ -812,3 +840,12 @@ be found online
       "lf" '(lsp-format-buffer :which-key "format")))
   (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
 #+end_src
+
+* COMMENT Notes
+** elisp
+this function lets you view the previous invoked commands
+#+begin_src emacs-lisp
+(view-lossage)
+#+end_src
+
+
