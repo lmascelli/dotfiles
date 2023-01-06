@@ -1,0 +1,1 @@
+return { path = "D:\\Projects\\cpp\\test", documents = {["views"]={[1]={["type"]="doc",["text"]=false,["selection"]={[1]=3,[2]=1,[3]=3,[4]=1},["scroll"]={["x"]=0,["y"]=0},["active"]=false,["filename"]="a.cpp"}},["type"]="leaf",["active_view"]=1}, directories = {} }

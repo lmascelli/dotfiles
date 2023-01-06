@@ -1,5 +1,5 @@
-#+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 #+title: My Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 
 * Global variables
 Those are global variables used in the configuation that can easily change from
@@ -10,7 +10,7 @@ configuration
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
   (setq lm/font (cond
 		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
-		 ((string-equal system-type "windows-nt") "FiraCode NF")))
+		 ((string-equal system-type "windows-nt") "Fira Code")))
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
@@ -34,8 +34,8 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
 #+begin_src emacs-lisp
   (defvar lm/default-font-size 100)
   (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
-  (set-face-attribute 'italic nil :family "Dejavu Sans Mono" :height 100 :slant
-		      'italic)
+  ;; (set-face-attribute 'italic nil :family "Dejavu Sans Mono" :height 100 :slant
+  ;; 		    'italic)
   (global-hl-line-mode)
   (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
 #+end_src
@@ -289,7 +289,7 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
     :after yasnippet)
 
 #+end_src
-** lsp-mode
+** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (setenv "LSP_USE_PLIST" "true")
@@ -311,10 +311,9 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     (setq lsp-idle-delay 0.500)
     (setq lsp-use-plist t)
     (lsp-enable-which-key-integration t))
-#+end_src
-*** lsp-ui
-#+begin_src emacs-lisp
+
   (use-package lsp-ui
+    :after lsp-mode
     :hook (lsp-mode . lsp-ui-mode)
     :custom
     (lsp-ui-doc-position 'bottom))
@@ -326,13 +325,18 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
       :commands powershell)
 #+end_src
 
-** to consider plugins
-Plugins maybe worth to be installed:
-- lsp-treemacs
-  
  
 * Languages
 ** C/C++
+On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
+configuration file named /.clangd/ or a global one named
+/~\AppData\Local\clangd\config.yaml/ is required. 
+The content of the file must be
+
+#+begin_src dot
+CompileFlags:
+  Add: [-target, x86_64-pc-windows-gnu]
+#+end_src
 
 ** Arduino
 #+begin_src emacs-lisp
