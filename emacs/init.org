@@ -46,10 +46,11 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
 	;;       ;;	scroll-conservatively 10000
 	auto-window-vscroll nil
 	)
-  ;; (setq					
-  ;;  ;; mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))
-  ;;  mouse-wheel-progressive-speed nil)
-
+  (if (string-equal system-type "gnu/linux")
+      (setq					
+       mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))
+       mouse-wheel-progressive-speed nil))
+  
   (setq redisplay-dont-pause t)
 #+end_src
 
