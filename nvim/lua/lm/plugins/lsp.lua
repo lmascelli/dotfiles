@@ -41,7 +41,7 @@ return {
     use { -- lsp
       { "williamboman/mason.nvim", opt = false },
       { "williamboman/mason-lspconfig.nvim", opt = false },
-      { "neovim/nvim-lspconfig", opt = false },
+      -- { "neovim/nvim-lspconfig", opt = false },
       { "p00f/clangd_extensions.nvim", opt = false },
     }
   end,
@@ -73,6 +73,7 @@ return {
         if status_ok then
           local ok, _ = pcall(server, {
             on_attach = on_attach,
+            lspconfig = lsp_config,
           })
           if not ok then
             vim.notify('server ' .. v .. ' not loaded')

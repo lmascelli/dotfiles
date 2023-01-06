@@ -1,5 +1,6 @@
-local function wk_set_keymap(mode, map, expr, opts, buf, name)
-  local wk = require 'which-key'
+local ok, wk = pcall(require, 'which-key')
+if ok then
+   local function wk_set_keymap(mode, map, expr, opts, buf, name)
   opts = opts or {
     silent = true,
     noremap = true,
@@ -23,12 +24,15 @@ local function wk_set_keymap(mode, map, expr, opts, buf, name)
     nowait = opts.nowait,
   }
   wk.register(mapping, wk_opts)
+  end
+
+    LM.keymap.set_keymap = wk_set_keymap
+
 end
 
 return {
   setup = function(use)
     use 'folke/which-key.nvim'
-    LM.keymap.set_keymap = wk_set_keymap
   end,
 
   config = function()

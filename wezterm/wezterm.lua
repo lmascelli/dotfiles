@@ -67,7 +67,7 @@ local conf = {
   initial_cols = 90,
   initial_rows = 40,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
-  font = wezterm.font('FiraCode NF'),
+  font = wezterm.font('Fira Code'),
   font_size = 10,
   cell_width = 1.0,
   -- color_scheme = "Slate",
@@ -83,10 +83,10 @@ local conf = {
     { key = "ì", mods = "CTRL", action = wezterm.action { SendString = "~" } },
     { key = "'", mods = "CTRL", action = wezterm.action { SendString = "`" } },
     { key = "!", mods = "CTRL|SHIFT|ALT", action = ewc_command },
-    { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
-      wezterm.action.SendKey {key = "x", mods = "CTRL"},
-      wezterm.action.SendKey {key = "o", mods = "CTRL"},
-    }},
+    -- { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
+    --   wezterm.action.SendKey {key = "x", mods = "CTRL"},
+    --   wezterm.action.SendKey {key = "o", mods = "CTRL"},
+    -- }},
   },
   debug_key_events = true,
   enable_csi_u_key_encoding = true,

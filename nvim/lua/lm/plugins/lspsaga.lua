@@ -4,8 +4,8 @@ return {
       "glepnir/lspsaga.nvim",
       branch = "main",
       config = function()
-        local saga = require("lspsaga")
-
+        local found, saga = pcall(require, "lspsaga")
+	if found then
         saga.init_lsp_saga({
           -- Options with default value
           -- "single" | "double" | "rounded" | "bold" | "plus"
@@ -112,7 +112,8 @@ return {
           -- like server_filetype_map = { metals = { "sbt", "scala" } }
           server_filetype_map = {},
         })
-      end,
+      end
+    end
     }
   end,
   config = function()
