@@ -177,7 +177,7 @@ running powershell in term and ansi-term
 	   (candidates (dabbrev--find-all-expansions abbrev t))
 	   (bnd (bounds-of-thing-at-point 'symbol)))
       (list (car bnd) (cdr bnd) candidates)))
-  (add-to-list 'completion-at-point-functions 'lm/dabbrev-capf)
+  (add-hook 'completion-at-point-functions 'lm/dabbrev-capf)
 #+end_src
 
 ** PowerShell configuration
@@ -244,9 +244,8 @@ To hide a minor-mode put
 ** tree-sitter
 #+begin_src emacs-lisp
   (use-package tree-sitter
-    :hook (c-or-c++-mode python-mode)
     :config
-    (tree-sitter-hl-mode))
+    (global-tree-sitter-mode))
   (use-package tree-sitter-langs
     :after tree-sitter)
 #+end_src
@@ -412,7 +411,7 @@ The folling keybinding are:
 - <M-z> redo
 - <C-ì> insert the char ~
 - <C-'> insert the char 
-- <C-.> company-mode completion
+- <C-.> completion
 	
 #+begin_src emacs-lisp
 
