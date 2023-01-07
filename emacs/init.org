@@ -43,7 +43,8 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
 
 *** buffer scrolling
 #+begin_src emacs-lisp
-  (pixel-scroll-precision-mode)
+  (unless (version< emacs-version "29")
+    (pixel-scroll-precision-mode))
   (setq fast-but-imprecise-scrolling t
 	;;       ;;	scroll-conservatively 10000
 	auto-window-vscroll nil
@@ -52,7 +53,7 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
       (setq					
        mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))
        mouse-wheel-progressive-speed nil))
-  
+
   (setq redisplay-dont-pause t)
 #+end_src
 
