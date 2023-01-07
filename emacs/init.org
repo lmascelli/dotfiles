@@ -1,3 +1,4 @@
+
 #+title: My Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 
@@ -374,6 +375,7 @@ related way of make keymaps.
 ** ways to swap CTRL and CAPS-LOCK
 
 *** Windows
+
 to activate run this script as a .reg file
 #+begin_src
 REGEDIT4
@@ -390,6 +392,13 @@ REGEDIT4
 "Scancode Map"=-
 #+end_src
 
+*** Linux
+On Linux, using the X Windows Server it just need to run or put it in the init
+script.
+
+#+begin_src shell
+setxkbmap -option ctrl:swapcaps
+#+end_src
 
 ** global
 The folling keybinding are:
