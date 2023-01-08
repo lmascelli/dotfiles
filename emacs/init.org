@@ -1,4 +1,3 @@
-
 #+title: My Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 
@@ -218,12 +217,19 @@ prepared for plugins installation.
 
 ** use-package
 /use-package/ is a nice and useful package manager
+
+- the /use-package-always-ensure/ variable means that package not already
+  downloaded will be
+- the /use-package-compute-statistics/ enable to profile the startup time of
+  installed packages via the *use-package-profile* command.
+  
 #+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
 
   (require 'use-package)
   (setq use-package-always-ensure t)
+  (setq use-package-compute-statistics t)
 #+end_src
 ** diminish
 *diminish* enable to hide minor-mode names from minibuffer.
@@ -290,6 +296,13 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
   (use-package yasnippet-classic-snippets
     :after yasnippet)
 
+#+end_src
+** pdf-tools
+pdf-tools enable to visualize pdf inside emacs and provides useful features like
+midnight mode
+on windows it require msys2
+#+begin_src emacs-lisp
+(use-package pdf-tools)
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
