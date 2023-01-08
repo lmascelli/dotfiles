@@ -249,11 +249,13 @@ To hide a minor-mode put
 
 ** tree-sitter
 #+begin_src emacs-lisp
-  (use-package tree-sitter
+  (if (version< emacs-version "29")
+      (use-package tree-sitter))
+
+  (use-package tree-sitter-langs
+    :after tree-sitter
     :config
     (global-tree-sitter-mode))
-  (use-package tree-sitter-langs
-    :after tree-sitter)
 #+end_src
 
 ** rg
@@ -302,7 +304,9 @@ pdf-tools enable to visualize pdf inside emacs and provides useful features like
 midnight mode
 on windows it require msys2
 #+begin_src emacs-lisp
-(use-package pdf-tools)
+  (use-package pdf-tools
+    :mode ("\\.pdf\\'" . pdf-view-mode)
+    :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
