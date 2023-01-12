@@ -10,7 +10,7 @@ configuration
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
   (setq lm/font (cond
 		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
-		 ((string-equal system-type "windows-nt") "Fira Code")))
+		 ((string-equal system-type "windows-nt") "JetBrains Mono")))
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
@@ -37,23 +37,26 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
   ;; (set-face-attribute 'italic nil :family "Dejavu Sans Mono" :height 100 :slant
   ;; 		    'italic)
   (global-hl-line-mode)
-  (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
+;;  (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
 #+end_src
 
 *** buffer scrolling
 #+begin_src emacs-lisp
   (unless (version< emacs-version "29")
     (pixel-scroll-precision-mode))
-  (setq fast-but-imprecise-scrolling t
-	;;       ;;	scroll-conservatively 10000
-	auto-window-vscroll nil
-	)
-  (if (string-equal system-type "gnu/linux")
-      (setq					
-       mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))
-       mouse-wheel-progressive-speed nil))
 
+  (if (string-equal system-type "gnu/linux")
+      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
+
+  (setq fast-but-imprecise-scrolling t)
+  (setq auto-window-vscroll nil)
   (setq redisplay-dont-pause t)
+  (setq scroll-conservatively scroll-margin)
+  (setq scroll-step 1)
+  (setq scroll-preserve-screen-position t)
+  (setq scroll-error-top-bottom t)
+  (setq mouse-wheel-progressive-speed nil)
+  (setq mouse-wheel-inhibit-click-time nil)
 #+end_src
 
 *** geometry and aspect
@@ -344,7 +347,12 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
       :commands powershell)
 #+end_src
 
- 
+** cmake-mode
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+    :mode ("\\CMakeLists.txt" . cmake-mode))
+#+end_src
+
 * Languages
 ** C/C++
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
