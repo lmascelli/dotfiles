@@ -1,5 +1,5 @@
-#+title: My Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
+#+title: My Emacs Configuration
 
 * Global variables
 Those are global variables used in the configuation that can easily change from
@@ -46,17 +46,15 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
   (if (string-equal system-type "gnu/linux")
       (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
 
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   (setq fast-but-imprecise-scrolling t)
   (setq auto-window-vscroll nil)
   (setq redisplay-dont-pause t)
-  (setq scroll-conservatively 10000)
+  (setq scroll-conservatively scroll-margin)
   (setq scroll-step 1)
   (setq scroll-preserve-screen-position t)
   (setq scroll-error-top-bottom t)
   (setq mouse-wheel-progressive-speed nil)
   (setq mouse-wheel-inhibit-click-time nil)
-  (setq mouse-wheel-follow-mouse 't)
 #+end_src
 
 *** geometry and aspect
@@ -75,7 +73,7 @@ Those are settings relative to:
 
 *** theme
 #+begin_src emacs-lisp
-  (load-theme 'modus-vivendi t)
+  (load-theme 'wombat)
 #+end_src
 *** show row number, highlight current line and column 70
 
@@ -440,7 +438,7 @@ The folling keybinding are:
 - <f2> is like <M-x> (experimental)
 - <C-z> undo
 - <M-z> redo
-- <C-ì> insert the char ~
+- <C-Ã¬> insert the char ~
 - <C-'> insert the char 
 - <C-.> completion
 	
@@ -457,7 +455,7 @@ The folling keybinding are:
   ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
   (global-set-key (kbd "C-z") 'undo)
   (global-set-key (kbd "M-z") 'undo-redo)
-  (global-set-key (kbd "C-ì") #'(lambda ()
+  (global-set-key (kbd "C-Ã¬") #'(lambda ()
 				  (interactive)
 				  (insert-char (char-from-name "TILDE"))))
   (global-set-key (kbd "C-'") #'(lambda ()
