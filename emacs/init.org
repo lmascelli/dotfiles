@@ -572,10 +572,24 @@ The folling keybinding are:
 #+end_src
 
 * Org-mode
-Basic configuration of org mode files
+Basic configuration of org mode files.
+
+Enable auto-fill in org-mode (automatically insert newline after columnt 80) and
+syntax coloring source code when exporting in latex. To enable the syntax
+highlights remember to add
+
+#+begin_src 
+  #+LATEX_HEADER: \usepackage{listings}
+#+end_src
+
+on the top of the org file.
+
 #+begin_src emacs-lisp
-  ;; enable auto-fill in org-mode (automatically insert newline after columnt 80)
-  (add-hook 'org-mode-hook #'(lambda () (auto-fill-mode)))
+  (add-hook 'org-mode-hook #'(lambda ()
+			       (auto-fill-mode)
+			       (require 'ox-latex)
+			       (setq org-latex-listings t)
+			       (setq org-latex-listings-langs '(C python))))
 #+end_src
 
 ** hide rich-text symbols
