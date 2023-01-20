@@ -1,6 +1,29 @@
 #+title: My Emacs Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
 
+* Startup-init
+** COMMENT Benchmark-init
+#+begin_src emacs-lisp
+  (if (package-installed-p 'use-package)
+      (use-package benchmark-init
+	:config
+	(add-hook 'after-init-hook 'benchmark-init/deactivate)))
+#+end_src
+** profile emacs startup
+#+begin_src emacs-lisp
+  ;; Profile emacs startup
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (message "Emacs loaded in %s with %d garbage collections."
+		       (emacs-init-time) gcs-done)))
+#+end_src
+
+** garbage collector
+increase the gargbage collector size; default is less then 1 Mb
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold (* 50 1000 1000)) ;; 50 Mb
+#+end_src  
+
 * Global variables
 Those are global variables used in the configuation that can easily change from
 a system to an other one. Check the values of those before tangling the org
@@ -11,6 +34,7 @@ configuration
   (setq lm/font (cond
 		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
 		 ((string-equal system-type "windows-nt") "JetBrains Mono")))
+  (defvar lm/default-font-size 100)
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
@@ -31,12 +55,8 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
 *geometry and aspect* section this change is applied there.
 *** font style
 #+begin_src emacs-lisp
-  (defvar lm/default-font-size 100)
   (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
-  ;; (set-face-attribute 'italic nil :family "Dejavu Sans Mono" :height 100 :slant
-  ;; 		    'italic)
   (global-hl-line-mode)
-;;  (set-face-attribute 'hl-line nil :inherit nil :background "gray10")
 #+end_src
 *** buffer scrolling
 #+begin_src emacs-lisp
@@ -97,27 +117,19 @@ Those are settings relative to:
 #+end_src
 
 ** Editor behaviour
+*** tab-always-indent
+Set the behaviour of tab so that it first try to indent the line, if the line is
+already indented then it does the selected action
+#+begin_src emacs-lisp
+  (setq tab-always-intent 'complete)
+#+end_src
+
 *** tab width
 Set the default width of tab to 2
 
 #+begin_src emacs-lisp
   (setq tab-width 2)
 #+end_src
-*** profile emacs startup
-#+begin_src emacs-lisp
-  ;; Profile emacs startup
-  (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (message "Emacs loaded in %s with %d garbage collections."
-		       (emacs-init-time) gcs-done)))
-#+end_src
-
-*** garbage collector
-increase the gargbage collector size; default is 
-#+begin_src emacs-lisp
-  (setq gc-cons-threshold (* 50 1000 1000)) ;; 50 Mb
-#+end_src  
-
 *** process buffer
 increase the amount of data that emacs can read from processes; default is 4 kb
 
@@ -252,6 +264,7 @@ To hide a minor-mode put
 ** which-key
 #+begin_src emacs-lisp
   (use-package which-key
+    :defer 5
     :init (which-key-mode)
     :diminish which-key-mode
     :config (setq which-key-idle-delay 0.3))
@@ -260,7 +273,8 @@ To hide a minor-mode put
 ** tree-sitter
 #+begin_src emacs-lisp
   (if (version< emacs-version "29")
-      (use-package tree-sitter))
+      (use-package tree-sitter
+	:defer 5))
 
   (use-package tree-sitter-langs
     :after tree-sitter
@@ -288,6 +302,7 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
 
 #+begin_src emacs-lisp
   (use-package find-file-in-project
+    :defer 5
     :config
     (setq ffip-use-rust-fd t)
     (setq ffip-prefer-ido-mode t))
@@ -296,11 +311,11 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
 #+begin_src emacs-lisp
   (use-package yasnippet
     :hook
-    ((text-mode
-      prog-mode
-      conf-mode
+    ((conf-mode
       snippet-mode
-      org-mode) . yas-minor-mode-on)
+      org-mode
+      c-or-c++-mode
+      python-mode) . yas-minor-mode-on)
     :config
     (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
   (use-package yasnippet-snippets
@@ -315,6 +330,7 @@ midnight mode
 on windows it require msys2
 #+begin_src emacs-lisp
   (use-package pdf-tools
+    :defer 5
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
 #+end_src
@@ -348,7 +364,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     (lsp-ui-doc-position 'bottom))
 #+end_src
 
-** powershell
+** COMMENT powershell
 #+begin_src emacs-lisp
     (use-package powershell
       :commands powershell)
@@ -392,7 +408,7 @@ CompileFlags:
 ** Python
 #+begin_src emacs-lisp
   ;; (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook #'(lambda () (lsp)))
+  ;; (add-hook 'python-mode-hook #'(lambda () (lsp)))
 #+end_src
 
 * Keybindings
@@ -573,7 +589,7 @@ The folling keybinding are:
 
 * Org-mode
 Basic configuration of org mode files.
-
+** Syntax colouring on latex export
 Enable auto-fill in org-mode (automatically insert newline after columnt 80) and
 syntax coloring source code when exporting in latex. To enable the syntax
 highlights remember to add
@@ -594,7 +610,7 @@ on the top of the org file.
 
 ** hide rich-text symbols
 #+begin_src emacs-lisp
-(setq org-hide-emphasis-markers t)
+  (setq org-hide-emphasis-markers t)
 #+end_src
 
 ** auto tangle configuration files
@@ -620,18 +636,21 @@ on the top of the org file.
 
 ** org-babel
 #+begin_src emacs-lisp
-  (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-hook 'org-mode-hook #' (lambda ()
+				(require 'org-tempo)
+				(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+				(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+				(add-to-list 'org-structure-template-alist '("py" . "src python"))))
 #+end_src
 
 * Dired
 #+begin_src emacs-lisp
   (use-package dired
+    :defer 5
     :ensure nil
     :custom ((dired-listing-switches "-agho --group-directories-first"))
-    :config )
+    :config
+    (put 'dired-find-alternate-file 'disabled nil))
 #+end_src
 
 * My functions
@@ -675,7 +694,6 @@ understood and explained
 (setq org-element-use-cache t)
 #+end_src
 
-
 * Testing
 ** COMMENT ido-mode
 ido-mode enable some autocompletions in minibuffer
@@ -707,12 +725,10 @@ support of bash provided by cygwin64
 #+RESULTS:
 : bash
 
-** tab-always-indent
-Set the behaviour of tab so that it first try to indent the line, if the line is
-already indented then it does the selected action
-#+begin_src emacs-lisp
-  (setq tab-always-intent 'complete)
-#+end_src
+
+
+
+
 
 
 * COMMENT Disabled features
