@@ -1,5 +1,5 @@
 #+title: My Emacs Configuration
-#+PROPERTY: header-args:emacs-lisp :tangle "~/.emacs.d/init.el" :mkdirp yes
+#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
 
 * Startup-init
 ** COMMENT Benchmark-init
@@ -48,6 +48,8 @@ configuration
   (tooltip-mode -1)
   (menu-bar-mode 1)
   (setq visible-bell t)
+  (unless (display-graphic-p)
+    (setq ring-bell-function 'ignore))
 #+end_src
 
 the scroll-bar is still present in newer frames at this point. To remove it also
@@ -56,7 +58,6 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
 *** font style
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
-  (global-hl-line-mode)
 #+end_src
 *** buffer scrolling
 #+begin_src emacs-lisp
@@ -97,18 +98,26 @@ Those are settings relative to:
 #+begin_src emacs-lisp
   (load-theme 'modus-vivendi t)
 #+end_src
-*** show row number, highlight current line and column 70
-
+*** show row number, highlight current line and column 80
 #+begin_src emacs-lisp
-  (column-number-mode) 
-  (global-display-line-numbers-mode t) 
-  (custom-set-variables '(fill-column 80)) 
-  (global-display-fill-column-indicator-mode)
+  (column-number-mode)
+
+  (global-display-line-numbers-mode t)
   (dolist (mode '(org-mode-hook
 		  term-mode-hook
 		  shell-mode-hook
 		  eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+  (custom-set-variables '(fill-column 80)) 
+  (global-display-fill-column-indicator-mode)
+  (dolist (mode '(term-mode-hook
+		  shell-mode-hook
+		  eshell-mode-hook))
+    (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
+
+  (if (display-graphic-p)
+      (global-hl-line-mode))
 #+end_src
 
 *** max minibuffer size
@@ -314,7 +323,7 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
     ((conf-mode
       snippet-mode
       org-mode
-      c-or-c++-mode
+      c-mode-common
       python-mode) . yas-minor-mode-on)
     :config
     (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
@@ -334,7 +343,11 @@ on windows it require msys2
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
 #+end_src
-** COMMENT lsp-mode
+** COMMENT eglot
+#+begin_src emacs-lisp
+(use-package eglot)
+#+end_src
+** lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (setenv "LSP_USE_PLIST" "true")
@@ -344,11 +357,11 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     (lsp-headerline-breadcrumb-mode))
 
   (use-package lsp-mode
+    :defer t
     :commands (lsp lsp-deferred)
     :hook ((lsp-mode . lm/lsp-mode-setup)
 	   (c++-mode . lsp)
 	   (python-mode . lsp))
-
     :init
     (setq lsp-keymap-prefix "C-M-l")
 
@@ -362,6 +375,13 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     :hook (lsp-mode . lsp-ui-mode)
     :custom
     (lsp-ui-doc-position 'bottom))
+
+  (use-package lsp-pyright
+    :after lsp-mode
+    :ensure t
+    :hook (python-mode . (lambda ()
+			   (require 'lsp-pyright)
+			   (lsp-deferred))))
 #+end_src
 
 ** COMMENT powershell
@@ -641,6 +661,7 @@ on the top of the org file.
 				(add-to-list 'org-structure-template-alist '("sh" . "src shell"))
 				(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 				(add-to-list 'org-structure-template-alist '("py" . "src python"))))
+  (setq org-confirm-babel-evaluate nil)
 #+end_src
 
 * Dired
