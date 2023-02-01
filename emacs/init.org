@@ -34,7 +34,7 @@ configuration
   (setq lm/font (cond
 		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
 		 ((string-equal system-type "windows-nt") "JetBrains Mono")))
-  (defvar lm/default-font-size 100)
+  (defvar lm/default-font-size 90)
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
@@ -343,11 +343,17 @@ on windows it require msys2
     :mode ("\\.pdf\\'" . pdf-view-mode)
     :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
 #+end_src
-** COMMENT eglot
+** olivetti
 #+begin_src emacs-lisp
-(use-package eglot)
+  (use-package olivetti
+    :defer t)
 #+end_src
-** lsp-mode
+
+** eglot
+#+begin_src emacs-lisp
+  (use-package eglot)
+#+end_src
+** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (setenv "LSP_USE_PLIST" "true")
@@ -702,9 +708,10 @@ because emacs, expecially on windows does not provide a good terminal mode. So
 i need a way to easily call wezterm and open it in the current directory.
 
 #+begin_src emacs-lisp
-	(defun lm/run-wezterm ()
-		(interactive)
-		(start-process "wezterm" nil "wezterm" "start" "--cwd" default-directory))
+  (defun lm/run-wezterm ()
+    (interactive)
+    (start-process "wezterm" nil "wezterm" "start" "--cwd"
+		   default-directory))
 #+end_src
 
 * Other stuff
