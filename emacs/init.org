@@ -1,5 +1,5 @@
-#+title: My Emacs Configuration
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
+#+title: My Emacs Configuration
 
 * Startup-init
 ** COMMENT Benchmark-init
@@ -279,6 +279,12 @@ To hide a minor-mode put
     :config (setq which-key-idle-delay 0.3))
 #+end_src
 
+** corfu
+#+begin_src emacs-lisp
+  (use-package corfu
+    :init
+    (global-corfu-mode))
+#+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
   (if (version< emacs-version "29")
@@ -351,7 +357,13 @@ on windows it require msys2
 
 ** eglot
 #+begin_src emacs-lisp
-  (use-package eglot)
+  (use-package eglot
+    :defer t
+    :init
+    (add-hook 'python-mode-hook 'eglot-ensure)
+    (add-hook 'c-mode-common-hook 'eglot-ensure)
+    (add-hook 'cmake-mode-hook 'eglot-ensure)
+  )
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
