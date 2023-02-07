@@ -1,0 +1,6 @@
+plugin/packer_compiled.lua
+_plugin/
+install_check
+packer_installed
+plugin_downloaded
+.luarc.json

@@ -42,11 +42,11 @@ configuration
 * Basic configuration
 ** Gui configuration
 *** gui widgets
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs"))
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-  (menu-bar-mode 1)
+  (menu-bar-mode -1)
   (setq visible-bell t)
   (unless (display-graphic-p)
     (setq ring-bell-function 'ignore))
@@ -96,7 +96,7 @@ Those are settings relative to:
 
 *** theme
 #+begin_src emacs-lisp
-  (load-theme 'modus-vivendi t)
+  (load-theme 'modus-vivendi-tinted t)
 #+end_src
 *** show row number, highlight current line and column 80
 #+begin_src emacs-lisp
