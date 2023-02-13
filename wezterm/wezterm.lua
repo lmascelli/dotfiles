@@ -38,11 +38,46 @@ end)
 
 --------------------------------------------------------------------------------
 --                                                                            --
---                              KEY TABLES                                    --
+--                         KEYBINDS AND KEY TABLES                            --
 --                                                                            --
 --------------------------------------------------------------------------------
 
-key_tables = {
+local keys = {
+   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
+   { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
+   { key = "c", mods = "LEADER", action = ewc_command },
+   { key = "e", mods = "LEADER", action = wezterm.action.ActivateKeyTable {
+	name = 'edit_pane',
+	one_shot = false,
+	timeout_milliseconds = 500,
+   }},
+   { key = "a", mods = "LEADER", action = wezterm.action.ActivateKeyTable {
+	name = "activate_pane",
+	timeout_milliseconds = 1000,
+   }},
+   { key = 'LeftArrow',
+     mods="LEADER",
+     action = wezterm.action.ActivatePaneDirection 'Left' },
+   
+   { key = 'RightArrow',
+     mods="LEADER",
+     action = wezterm.action.ActivatePaneDirection 'Right' },
+   
+   { key = 'UpArrow',
+     mods="LEADER",
+     action = wezterm.action.ActivatePaneDirection 'Up' },
+   
+   { key = 'DownArrow',
+     mods="LEADER",
+     action = wezterm.action.ActivatePaneDirection 'Down' },
+   
+   -- { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
+   --   wezterm.action.SendKey {key = "x", mods = "CTRL"},
+   --   wezterm.action.SendKey {key = "o", mods = "CTRL"},
+   -- }},
+}
+
+local key_tables = {
    edit_pane = {
       { key = 'LeftArrow', action = wezterm.action.AdjustPaneSize { 'Left', 1 } },
       { key = 'h', action = wezterm.action.AdjustPaneSize { 'Left', 1 } },
@@ -102,33 +137,17 @@ local conf = {
    font = wezterm.font('JetBrains Mono'),
    font_size = 10,
    cell_width = 1.0,
-   color_scheme = "Slate",
-   -- color_scheme = "Gruvbox Dark",
+   -- color_scheme = "Slate",
+   color_scheme = "Gruvbox Dark",
    -- color_scheme = "Blazer",
    default_prog = { "pwsh" },
    warn_about_missing_glyphs = false,
-   window_background_opacity = 0.90,
+   window_background_opacity = 1,
    window_close_confirmation = "NeverPrompt",
    exit_behavior = "Close",
    max_fps = 30,
-   leader = { key = 'F1', mods = 'ALT'},
-   keys = {
-      { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
-      { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
-      { key = "c", mods = "LEADER", action = ewc_command },
-      { key = "e", mods = "LEADER", action = wezterm.action.ActivateKeyTable {
-	   name = 'edit_pane',
-	   one_shot = false,
-      }},
-      { key = "a", mods = "LEADER", action = wezterm.action.ActivateKeyTable {
-	   name = "activate_pane",
-	   timeout_milliseconds = 1000,
-      }},
-      -- { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
-      --   wezterm.action.SendKey {key = "x", mods = "CTRL"},
-      --   wezterm.action.SendKey {key = "o", mods = "CTRL"},
-      -- }},
-   },
+   leader = { key = '\\', mods = 'ALT'},
+   keys = keys,
    key_tables = key_tables,
    debug_key_events = true,
    enable_csi_u_key_encoding = true,
