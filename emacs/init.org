@@ -152,7 +152,8 @@ change the defaults directory where to store ~ and # files, respectively
 backup and autosaves.
 
 #+begin_src emacs-lisp
-  (setq backup-inhibited t)                              
+  (setq backup-inhibited t)
+  (setq auto-save-default nil)
   ;; autosaves files in one common directory
   (setq backup-directory-alist  `(("." . ,(if lm/autosave_dir lm/autosave_dir (concat user-emacs-directory "backups")))))
   (setq auto-save-file-name-transforms
