@@ -132,7 +132,20 @@ already indented then it does the selected action
 #+begin_src emacs-lisp
   (setq tab-always-intent 'complete)
 #+end_src
+*** coding system
+#+begin_src emacs-lisp
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  ;; backwards compatibility as default-buffer-file-coding-system
+  ;; is deprecated in 23.2.
+  (if (boundp 'buffer-file-coding-system)
+      (setq-default buffer-file-coding-system 'utf-8)
+    (setq default-buffer-file-coding-system 'utf-8))
 
+  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+#+end_src
 *** tab width
 Set the default width of tab to 2
 
@@ -282,9 +295,13 @@ To hide a minor-mode put
 
 ** corfu
 #+begin_src emacs-lisp
-  (use-package corfu
-    :init
-    (global-corfu-mode))
+      (use-package corfu
+	:init
+	(setq corfu-auto t
+	      corfu-quit-no-match 'separator
+	      completion-styles '(basic ))
+	(global-corfu-mode)
+	)
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
@@ -361,9 +378,9 @@ on windows it require msys2
   (use-package eglot
     :defer t
     :init
-    (add-hook 'python-mode-hook 'eglot-ensure)
-    (add-hook 'c-mode-common-hook 'eglot-ensure)
-    (add-hook 'cmake-mode-hook 'eglot-ensure)
+    ;; (add-hook 'python-mode-hook 'eglot-ensure)
+    ;; (add-hook 'c-mode-common-hook 'eglot-ensure)
+    ;; (add-hook 'cmake-mode-hook 'eglot-ensure)
   )
 #+end_src
 ** COMMENT lsp-mode
@@ -405,8 +422,8 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 
 ** COMMENT powershell
 #+begin_src emacs-lisp
-    (use-package powershell
-      :commands powershell)
+  (use-package powershell    
+    :commands powershell)
 #+end_src
 
 ** cmake-mode
@@ -446,8 +463,7 @@ CompileFlags:
 ** Powershell
 ** Python
 #+begin_src emacs-lisp
-  ;; (add-hook 'python-mode-hook 'eglot-ensure)
-  ;; (add-hook 'python-mode-hook #'(lambda () (lsp)))
+  (setq python-indent-offset 2)
 #+end_src
 
 * Keybindings
@@ -495,12 +511,13 @@ The folling keybinding are:
 - <f2> is like <M-x> (experimental)
 - <C-z> undo
 - <M-z> redo
-- <C-�> insert the char ~
+- <C-Ã¬> insert the char ~
 - <C-'> insert the char 
 - <C-.> completion
-	
-#+begin_src emacs-lisp
+- <C-x><M-+> global font increase
+- <C-x><M--> global font decrease	
 
+#+begin_src emacs-lisp
   ;; this code avoid *keyboard-escape-quit* to close all other windows
   (defadvice keyboard-escape-quit
       (around keyboard-escape-quit-dont-close-windows activate)
@@ -512,7 +529,7 @@ The folling keybinding are:
   ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
   (global-set-key (kbd "C-z") 'undo)
   (global-set-key (kbd "M-z") 'undo-redo)
-  (global-set-key (kbd "C-�") #'(lambda ()
+  (global-set-key (kbd "C-ì") #'(lambda ()
 				  (interactive)
 				  (insert-char (char-from-name "TILDE"))))
   (global-set-key (kbd "C-'") #'(lambda ()
@@ -524,9 +541,19 @@ The folling keybinding are:
 		  (cond ((boundp 'lm/company) 'company-complete)
 			(t 'complete-symbol)))
 
+  (global-set-key (kbd "C-x M-+") 'lm/font-increase)
+  (global-set-key (kbd "C-x M--") 'lm/font-decrease)
+
   (windmove-default-keybindings 'meta)
 #+end_src
 
+** eglot keymaps
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-M-ì l") 'eglot)
+  (global-set-key (kbd "C-M-ì f") 'eglot-format-buffer)
+  (global-set-key (kbd "C-M-ì gd") 'eglot-find-declaration)
+  (global-set-key (kbd "C-M-ì e") 'flymake-show-project-diagnostics)
+#+end_src
 ** COMMENT leader keymap...
 *** COMMENT general
 #+begin_src emacs-lisp
@@ -727,6 +754,24 @@ i need a way to easily call wezterm and open it in the current directory.
 		   default-directory))
 #+end_src
 
+** Resize font
+#+begin_src emacs-lisp
+  (defvar lm/font-increase-step 5)
+  (defun lm/font-increase ()
+    (interactive)
+    (set-face-attribute
+     'default
+     nil
+     :height (+ (face-attribute 'default :height) lm/font-increase-step)))
+
+  (defun lm/font-decrease ()
+    (interactive)
+    (set-face-attribute
+     'default
+     nil
+     :height (- (face-attribute 'default :height) lm/font-increase-step)))
+
+#+end_src
 * Other stuff
 ** initial warnings
 Those are some workarounds for warning messages at startup. Not all are
