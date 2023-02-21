@@ -1,5 +1,5 @@
-#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
 #+title: My Emacs Configuration
+#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
 
 * Startup-init
 ** COMMENT Benchmark-init
@@ -225,6 +225,11 @@ running powershell in term and ansi-term
   (add-hook 'completion-at-point-functions 'lm/dabbrev-capf)
 #+end_src
 
+*** fido
+#+begin_src emacs-lisp
+  (fido-vertical-mode t)
+#+end_src
+
 ** PowerShell configuration
 Set PowerShell as the main console interpreter
 To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
@@ -295,13 +300,19 @@ To hide a minor-mode put
 
 ** corfu
 #+begin_src emacs-lisp
-      (use-package corfu
-	:init
-	(setq corfu-auto t
-	      corfu-quit-no-match 'separator
-	      completion-styles '(basic ))
-	(global-corfu-mode)
-	)
+  (use-package corfu
+    :init
+    (setq corfu-auto t
+	  corfu-quit-no-match 'separator
+	  completion-styles '(basic ))
+    (global-corfu-mode))
+
+  (unless (display-graphic-p)
+    (use-package corfu-terminal
+      :init
+      (custom-set-faces
+       '(corfu-default ((t (:background "black")))))
+      (corfu-terminal-mode)))
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
@@ -373,7 +384,7 @@ on windows it require msys2
     :defer t)
 #+end_src
 
-** eglot
+** COMMENT eglot
 #+begin_src emacs-lisp
   (use-package eglot
     :defer t
@@ -383,15 +394,15 @@ on windows it require msys2
     ;; (add-hook 'cmake-mode-hook 'eglot-ensure)
   )
 #+end_src
-** COMMENT lsp-mode
+** lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
-  (setenv "LSP_USE_PLIST" "true")
-
   (defun lm/lsp-mode-setup ()
     (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
     (lsp-headerline-breadcrumb-mode))
 
+  (setenv "LSP_USE_PLISTS" "true")
+  (setq lsp-use-plists t)
   (use-package lsp-mode
     :defer t
     :commands (lsp lsp-deferred)
@@ -403,7 +414,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 
     :config
     (setq lsp-idle-delay 0.500)
-    (setq lsp-use-plist t)
     (lsp-enable-which-key-integration t))
 
   (use-package lsp-ui
@@ -544,15 +554,20 @@ The folling keybinding are:
   (global-set-key (kbd "C-x M-+") 'lm/font-increase)
   (global-set-key (kbd "C-x M--") 'lm/font-decrease)
 
+  (defun lm/leader-set-key (key body)
+    (let ((leader "S-SPC SPC"))
+      (global-set-key (kbd (concat leader " " key)) body)))
+
+  (lm/leader-set-key "l" 'eglot)
+  (lm/leader-set-key "f" 'eglot-format-buffer)
+  (lm/leader-set-key "gd" 'eglot-find-declaration)
+  (lm/leader-set-key "e" 'flymake-show-project-diagnostics)
+
   (windmove-default-keybindings 'meta)
 #+end_src
 
-** eglot keymaps
+**  keymaps
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-M-ì l") 'eglot)
-  (global-set-key (kbd "C-M-ì f") 'eglot-format-buffer)
-  (global-set-key (kbd "C-M-ì gd") 'eglot-find-declaration)
-  (global-set-key (kbd "C-M-ì e") 'flymake-show-project-diagnostics)
 #+end_src
 ** COMMENT leader keymap...
 *** COMMENT general
@@ -790,10 +805,6 @@ ido-mode enable some autocompletions in minibuffer
     (ido-mode t))
 #+end_src
 
-** fido
-#+begin_src emacs-lisp
-  (fido-vertical-mode t)
-#+end_src
 ** COMMENT cygwin64
 If under windows may be a good choise to use a native emacs build with the
 support of bash provided by cygwin64
@@ -817,7 +828,7 @@ support of bash provided by cygwin64
 
 
 
-* COMMENT Disabled features
+* COMMENT abled features
 ** plugins
 *** company
 #+begin_src emacs-lisp

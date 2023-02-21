@@ -2,6 +2,19 @@
 -- lmascelli@gmail.com
 -- My simple one file Neovim configuration
 
+-------------------------------------------------------------------------------
+--                                                                           --
+--                              LSP COMPLAINTS                               --
+--                                                                           --
+-------------------------------------------------------------------------------
+
+local vim = vim
+local pcall = pcall
+local math = math
+local print = print
+local require = require
+local table = table
+
 -- try compile the conf with impatient
 pcall(require, 'impatient')
 
@@ -11,7 +24,7 @@ pcall(require, 'impatient')
 --                                                                           --
 -------------------------------------------------------------------------------
 local opt = vim.opt
-local fn = vim.fn
+LM = {}
 
 ------------------------------------------------------------------------------
 --                                                                           --
@@ -306,6 +319,8 @@ do
   end
   vim.opt.rtp:prepend(lazypath)
 
+  do 
+
   use { 'lewis6991/impatient.nvim', opt = false }
 
   use { 'wbthomason/packer.nvim', opt = false }
@@ -573,11 +588,21 @@ do
     end,
   }
 
+  -- sync packer if installed
+  if packer_bootstrap then
+    local packer = require 'packer'
+    packer.sync()
+    packer.compile()
+  end
+
   -- sync and compile when saving this file
   vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "*/nvim/init.lua",
     callback = function(_)
       vim.cmd(':source ' .. os.getenv("MYVIMRC"))
+      local packer = require 'packer'
+      packer.sync()
+      packer.compile()
     end
   })
 end
