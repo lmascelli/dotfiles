@@ -410,7 +410,7 @@ on windows it require msys2
       :defer t))
 #+end_src
 
-** eglot
+** COMMENT eglot
 #+begin_src emacs-lisp
   (if (daemonp)
 	(use-package eglot
@@ -422,7 +422,7 @@ on windows it require msys2
       (use-package eglot
 	:defer t))
 #+end_src
-** COMMENT lsp-mode
+** lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
@@ -585,7 +585,11 @@ The folling keybinding are:
   (global-set-key (kbd "C-x M--") 'lm/font-decrease)
 
   (defun lm/leader-set-key (key body)
+<<<<<<< HEAD
     (let ((leader "C-S-SPC"))
+=======
+    (let ((leader "S-SPC SPC"))
+>>>>>>> ff9199dca30612c60b2b19d0d48959505b328598
       (global-set-key (kbd (concat leader " " key)) body)))
 
   (lm/leader-set-key "l" 'eglot)
@@ -596,6 +600,12 @@ The folling keybinding are:
   (windmove-default-keybindings 'meta)
 #+end_src
 
+<<<<<<< HEAD
+=======
+**  keymaps
+#+begin_src emacs-lisp
+#+end_src
+>>>>>>> ff9199dca30612c60b2b19d0d48959505b328598
 ** COMMENT leader keymap...
 *** COMMENT general
 #+begin_src emacs-lisp
@@ -855,6 +865,7 @@ support of bash provided by cygwin64
 
 
 
+<<<<<<< HEAD
 * COMMENT disabled features
 ** plugins
 *** company
