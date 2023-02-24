@@ -17,6 +17,8 @@ config.settings = {
   colorcolumn = 80,
 }
 
+config.load_plugins = false
+
 config.plugin_list = {
   'which-key',
   'nvim-tree',

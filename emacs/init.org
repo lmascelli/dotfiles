@@ -1,5 +1,5 @@
-#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
 #+title: My Emacs Configuration
+#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
 
 * Startup-init
 ** COMMENT Benchmark-init
@@ -31,9 +31,9 @@ configuration
 
 #+begin_src emacs-lisp
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
-  (setq lm/font (cond
-		 ((string-equal system-type "gnu/linux") "FiraCode Nerd Font")
-		 ((string-equal system-type "windows-nt") "JetBrains Mono")))
+  (defvar lm/font (cond
+		 ((string-equal system-type "gnu/linux") "JetBrains Mono NF-10")
+		 ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
   (defvar lm/default-font-size 90)
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
@@ -55,7 +55,7 @@ configuration
 the scroll-bar is still present in newer frames at this point. To remove it also
 in them it must be changed the /default-frame-alist/ but since it is reset in the
 *geometry and aspect* section this change is applied there.
-*** font style
+*** COMMENT font style
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
 #+end_src
@@ -80,7 +80,7 @@ in them it must be changed the /default-frame-alist/ but since it is reset in th
   (setq mouse-wheel-follow-mouse 't)
 #+end_src
 
-*** geometry and aspect
+*** geometry and aspect and font
 Those are settings relative to:
 - transparency: /alpha/
 - window size at start: /width/ and /height/
@@ -88,8 +88,13 @@ Those are settings relative to:
 - avoid the vertical scroll bar on new frames: /vertical-scroll-bar/
 #+begin_src emacs-lisp
   ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 100))
-  (setq default-frame-alist '((width . 90) (height . 40) (alpha . (95 . 100))))
-   ;; disable scroll-bar even in new frames
+  (setq default-frame-alist '((width . 90)
+			      (height . 40)
+			      (alpha . (100 . 100))))
+
+  (setf (alist-get 'font default-frame-alist) lm/font)
+
+  ;; disable scroll-bar even in new frames
   (add-to-list 'default-frame-alist
 	       '(vertical-scroll-bars . nil))
 #+end_src
@@ -132,8 +137,9 @@ already indented then it does the selected action
 #+begin_src emacs-lisp
   (setq tab-always-intent 'complete)
 #+end_src
-*** coding system
+*** encoding system
 #+begin_src emacs-lisp
+  (set-language-environment "UTF-8")
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
@@ -225,6 +231,11 @@ running powershell in term and ansi-term
   (add-hook 'completion-at-point-functions 'lm/dabbrev-capf)
 #+end_src
 
+*** fido
+#+begin_src emacs-lisp
+  (fido-vertical-mode t)
+#+end_src
+
 ** PowerShell configuration
 Set PowerShell as the main console interpreter
 To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
@@ -286,28 +297,37 @@ To hide a minor-mode put
 
 ** which-key
 #+begin_src emacs-lisp
-  (use-package which-key
-    :defer 5
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config (setq which-key-idle-delay 0.3))
+  (if (daemonp)
+      (use-package which-key)
+      (use-package which-key
+	:defer 5
+	:init (which-key-mode)
+	:diminish which-key-mode
+	:config (setq which-key-idle-delay 0.3)))
 #+end_src
 
 ** corfu
 #+begin_src emacs-lisp
-      (use-package corfu
-	:init
-	(setq corfu-auto t
-	      corfu-quit-no-match 'separator
-	      completion-styles '(basic ))
-	(global-corfu-mode)
-	)
+  (use-package corfu
+    :init
+    (setq corfu-auto t
+	  corfu-quit-no-match 'separator
+	  completion-styles '(basic ))
+    (global-corfu-mode))
+
+  (unless (display-graphic-p)
+    (use-package corfu-terminal
+      :init
+      (custom-set-faces
+       '(corfu-default ((t (:background "black")))))
+      (corfu-terminal-mode)))
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
-  (if (version< emacs-version "29")
-      (use-package tree-sitter
-	:defer 5))
+  (if (daemonp)
+      (use-package tree-sitter)
+    (use-package tree-sitter
+      :defer 5))
 
   (use-package tree-sitter-langs
     :after tree-sitter
@@ -320,13 +340,15 @@ This package enable to grep in files and it is cross-platform.
 Requires [[https://github.com/BurntSushi/ripgrep][ripgrep]] to work.
 
 #+begin_src emacs-lisp
-  (use-package rg
-    :bind ("C-c s" . rg-menu)
-    :config
-    (rg-enable-default-bindings)
-    (setq rg-group-result t)
-    (setq rg-ignore-case 'smart)
-    (setq rg-show-header nil))
+  (if (daemonp)
+      (use-package rg)
+    (use-package rg
+      :bind ("C-c s" . rg-menu)
+      :config
+      (rg-enable-default-bindings)
+      (setq rg-group-result t)
+      (setq rg-ignore-case 'smart)
+      (setq rg-show-header nil)))
 #+end_src
 ** find-file-in-project
 Enable to find files in project. Project can be interpreted with various
@@ -334,64 +356,81 @@ packages like projectile or the built-in project.el.
 Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coerently.
 
 #+begin_src emacs-lisp
-  (use-package find-file-in-project
-    :defer 5
-    :config
-    (setq ffip-use-rust-fd t)
-    (setq ffip-prefer-ido-mode t))
+  (if (daemonp)
+      (use-package find-file-in-project
+	:config
+	(setq ffip-use-rust-fd t)
+	(setq ffip-prefer-ido-mode t))
+    (use-package find-file-in-project
+      :defer 5
+      :config
+      (setq ffip-use-rust-fd t)
+      (setq ffip-prefer-ido-mode t)))
 #+end_src
 ** yasnippet
+
 #+begin_src emacs-lisp
-  (use-package yasnippet
-    :hook
-    ((conf-mode
-      snippet-mode
-      org-mode
-      c-mode-common
-      python-mode) . yas-minor-mode-on)
-    :config
-    (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
+  (if (daemonp)
+      (use-package yasnippet
+	:config
+	(global-set-key (kbd "C-c y") 'lm/yasnippet-complete)
+	(yas-global-mode))
+    (use-package yasnippet
+      :hook
+      ((conf-mode
+	snippet-mode
+	org-mode
+	c-mode-common
+	python-mode) . yas-minor-mode-on)
+      :config
+      (global-set-key (kbd "C-c y") 'lm/yasnippet-complete)))
   (use-package yasnippet-snippets
     :after yasnippet)
   (use-package yasnippet-classic-snippets
     :after yasnippet)
-
 #+end_src
 ** pdf-tools
 pdf-tools enable to visualize pdf inside emacs and provides useful features like
 midnight mode
 on windows it require msys2
 #+begin_src emacs-lisp
-  (use-package pdf-tools
-    :defer 5
-    :mode ("\\.pdf\\'" . pdf-view-mode)
-    :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+  (if (daemonp)
+      (use-package pdf-tools
+	:config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+    (use-package pdf-tools
+      :defer 5
+      :mode ("\\.pdf\\'" . pdf-view-mode)
+      :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)))
 #+end_src
 ** olivetti
 #+begin_src emacs-lisp
-  (use-package olivetti
-    :defer t)
+  (if (daemonp)
+      (use-package olivetti)
+    (use-package olivetti
+      :defer t))
 #+end_src
 
 ** eglot
 #+begin_src emacs-lisp
-  (use-package eglot
-    :defer t
-    :init
-    ;; (add-hook 'python-mode-hook 'eglot-ensure)
-    ;; (add-hook 'c-mode-common-hook 'eglot-ensure)
-    ;; (add-hook 'cmake-mode-hook 'eglot-ensure)
-  )
+  (if (daemonp)
+	(use-package eglot
+	  :init
+	  (add-hook 'python-mode-hook 'eglot-ensure)
+	  (add-hook 'c-mode-common-hook 'eglot-ensure)
+	  (add-hook 'cmake-mode-hook 'eglot-ensure)
+	  )
+      (use-package eglot
+	:defer t))
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
-  (setenv "LSP_USE_PLIST" "true")
-
   (defun lm/lsp-mode-setup ()
     (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
     (lsp-headerline-breadcrumb-mode))
 
+  (setenv "LSP_USE_PLISTS" "true")
+  (setq lsp-use-plists t)
   (use-package lsp-mode
     :defer t
     :commands (lsp lsp-deferred)
@@ -403,7 +442,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 
     :config
     (setq lsp-idle-delay 0.500)
-    (setq lsp-use-plist t)
     (lsp-enable-which-key-integration t))
 
   (use-package lsp-ui
@@ -428,8 +466,10 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 
 ** cmake-mode
 #+begin_src emacs-lisp
-  (use-package cmake-mode
-    :mode ("\\CMakeLists.txt" . cmake-mode))
+  (if (daemonp)
+      (use-package cmake-mode)
+    (use-package cmake-mode
+      :mode ("\\CMakeLists.txt" . cmake-mode)))
 #+end_src
 
 * Languages
@@ -511,7 +551,7 @@ The folling keybinding are:
 - <f2> is like <M-x> (experimental)
 - <C-z> undo
 - <M-z> redo
-- <C-Ã¬> insert the char ~
+- <C-Ã¬Â¬> insert the char ~
 - <C-'> insert the char 
 - <C-.> completion
 - <C-x><M-+> global font increase
@@ -544,16 +584,18 @@ The folling keybinding are:
   (global-set-key (kbd "C-x M-+") 'lm/font-increase)
   (global-set-key (kbd "C-x M--") 'lm/font-decrease)
 
+  (defun lm/leader-set-key (key body)
+    (let ((leader "C-S-SPC"))
+      (global-set-key (kbd (concat leader " " key)) body)))
+
+  (lm/leader-set-key "l" 'eglot)
+  (lm/leader-set-key "f" 'eglot-format-buffer)
+  (lm/leader-set-key "gd" 'eglot-find-declaration)
+  (lm/leader-set-key "e" 'flymake-show-project-diagnostics)
+
   (windmove-default-keybindings 'meta)
 #+end_src
 
-** eglot keymaps
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-M-ì l") 'eglot)
-  (global-set-key (kbd "C-M-ì f") 'eglot-format-buffer)
-  (global-set-key (kbd "C-M-ì gd") 'eglot-find-declaration)
-  (global-set-key (kbd "C-M-ì e") 'flymake-show-project-diagnostics)
-#+end_src
 ** COMMENT leader keymap...
 *** COMMENT general
 #+begin_src emacs-lisp
@@ -790,10 +832,6 @@ ido-mode enable some autocompletions in minibuffer
     (ido-mode t))
 #+end_src
 
-** fido
-#+begin_src emacs-lisp
-  (fido-vertical-mode t)
-#+end_src
 ** COMMENT cygwin64
 If under windows may be a good choise to use a native emacs build with the
 support of bash provided by cygwin64
@@ -817,7 +855,7 @@ support of bash provided by cygwin64
 
 
 
-* COMMENT Disabled features
+* COMMENT disabled features
 ** plugins
 *** company
 #+begin_src emacs-lisp

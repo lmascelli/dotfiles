@@ -2,9 +2,9 @@ local config = {}
 
 config.colorscheme = 'default'
 if LM.os_version == 'Linux' then
-   config.font_name = 'FiraCode Nerd Fonts'
+   config.font_name = 'JetBrains Mono NF'
 elseif LM.os_version == "Windows" then
-   config.font_name = 'FiraCode NF'
+   config.font_name = 'JetBrains Mono'
 end
    
 config.font_size = 10
