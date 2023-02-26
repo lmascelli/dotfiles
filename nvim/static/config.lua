@@ -17,7 +17,7 @@ config.settings = {
   colorcolumn = 80,
 }
 
-config.load_plugins = false
+config.load_plugins = true
 
 config.plugin_list = {
   'which-key',

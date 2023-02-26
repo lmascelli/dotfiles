@@ -35,6 +35,7 @@ configuration
 		 ((string-equal system-type "gnu/linux") "JetBrains Mono NF-10")
 		 ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
   (defvar lm/default-font-size 90)
+  (defvar lm/leader "<f1>")
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
@@ -410,19 +411,20 @@ on windows it require msys2
       :defer t))
 #+end_src
 
-** COMMENT eglot
+** eglot
 #+begin_src emacs-lisp
   (if (daemonp)
-	(use-package eglot
-	  :init
-	  (add-hook 'python-mode-hook 'eglot-ensure)
-	  (add-hook 'c-mode-common-hook 'eglot-ensure)
-	  (add-hook 'cmake-mode-hook 'eglot-ensure)
-	  )
       (use-package eglot
-	:defer t))
+	:pin melpa
+	:init
+	(add-hook 'python-mode-hook 'eglot-ensure)
+	(add-hook 'c-mode-common-hook 'eglot-ensure)
+	(add-hook 'cmake-mode-hook 'eglot-ensure))
+    (use-package eglot
+      :pin melpa
+      :defer t))
 #+end_src
-** lsp-mode
+** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
@@ -585,12 +587,11 @@ The folling keybinding are:
   (global-set-key (kbd "C-x M--") 'lm/font-decrease)
 
   (defun lm/leader-set-key (key body)
-<<<<<<< HEAD
-    (let ((leader "C-S-SPC"))
-=======
-    (let ((leader "S-SPC SPC"))
->>>>>>> ff9199dca30612c60b2b19d0d48959505b328598
+    (let ((leader lm/leader))
+      (global-unset-key (kbd (concat leader " " key)))
       (global-set-key (kbd (concat leader " " key)) body)))
+
+  (global-unset-key (kbd lm/leader))
 
   (lm/leader-set-key "l" 'eglot)
   (lm/leader-set-key "f" 'eglot-format-buffer)
@@ -600,12 +601,6 @@ The folling keybinding are:
   (windmove-default-keybindings 'meta)
 #+end_src
 
-<<<<<<< HEAD
-=======
-**  keymaps
-#+begin_src emacs-lisp
-#+end_src
->>>>>>> ff9199dca30612c60b2b19d0d48959505b328598
 ** COMMENT leader keymap...
 *** COMMENT general
 #+begin_src emacs-lisp

@@ -16,9 +16,9 @@ defaults.options()
 -------------------------------------------------------------------------------
 local config = custom.load_custom()
 if config then
-  LM.config = config
-  --- apply vim options and settings
-  options.load_options(config.opts, config.settings)
+	LM.config = config
+	--- apply vim options and settings
+	options.load_options(config.opts, config.settings)
 end
 
 -------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ LM.font.load_custom()
 -- keymap provider
 local default_keymap = require 'lm.keymaps'
 LM.keymap = {
-  set_keymap = default_keymap,
+	set_keymap = default_keymap,
 }
 
 -- explorer provider
@@ -43,12 +43,13 @@ require 'lm.explorer'
 -- install plugins
 -------------------------------------------------------------------------------
 if config.load_plugins then
-   for _, v in pairs(config.plugin_list) do
-      local ok, p = pcall(require, 'lm.plugins.' .. v)
-      if ok then
-	 LM.plugins.install(p)
-      end
-  end
+	for _, v in pairs(config.plugin_list) do
+		local ok, p = pcall(require, 'lm.plugins.' .. v)
+		if ok then
+			LM.plugins.install(p)
+		end
+	end
+	LM.plugins.pre()
 end
 
 -------------------------------------------------------------------------------

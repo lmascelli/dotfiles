@@ -22,14 +22,28 @@ M.check_load = function()
 end
 
 M.install_plugin = function(plugin)
-	local opts = plugin.opts
-	LM.plugins.manager.setup({
-	      plugin.url,
-	      lazy = opts.lazy,
-	      config = function(p)
-		 opts.config()
-	      end,
+	local dependencies = {}
+	if plugin.requires then
+		for _, v in pairs(plugin.requires) do
+			table.insert(dependencies, v.url)
+		end
+	end
+	table.insert(LM.plugins.setup_list, {
+		plugin.url,
+		-- lazy = plugin.lazy,
+		-- event = plugin.event,
+		dependencies = dependencies,
+		config = function(p)
+			print(plugin.name)
+			if plugin.config then
+				plugin.config()
+			end
+		end,
 	})
+end
+
+M.pre = function()
+   LM.plugins.manager.setup(LM.plugins.setup_list)
 end
 
 return M
