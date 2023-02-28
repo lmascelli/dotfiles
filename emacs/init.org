@@ -32,8 +32,8 @@ configuration
 #+begin_src emacs-lisp
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
   (defvar lm/font (cond
-		 ((string-equal system-type "gnu/linux") "JetBrains Mono NF-10")
-		 ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
+		 ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-9")
+		 ((string-equal system-type "windows-nt") "JetBrains Mono-9")))
   (defvar lm/default-font-size 90)
   (defvar lm/leader "<f1>")
   (setq lm/autosave_dir "D:/emacs/autosaves/")
@@ -175,9 +175,9 @@ backup and autosaves.
   (setq backup-inhibited t)
   (setq auto-save-default nil)
   ;; autosaves files in one common directory
-  (setq backup-directory-alist  `(("." . ,(if lm/autosave_dir lm/autosave_dir (concat user-emacs-directory "backups")))))
-  (setq auto-save-file-name-transforms
-	`((".*" ,lm/autosave_dir t)))
+  ;; (setq backup-directory-alist  `(("." . ,(if lm/autosave_dir lm/autosave_dir (concat user-emacs-directory "backups")))))
+  ;; (setq auto-save-file-name-transforms
+  ;;       `((".*" ,lm/autosave_dir t)))
 #+end_src
 
 *** auto revert mode
@@ -299,8 +299,11 @@ To hide a minor-mode put
 ** which-key
 #+begin_src emacs-lisp
   (if (daemonp)
-      (use-package which-key)
       (use-package which-key
+	:init (which-key-mode)
+	:diminish which-key-mode
+	:config (setq which-key-idle-delay 0.3))
+    (use-package which-key
 	:defer 5
 	:init (which-key-mode)
 	:diminish which-key-mode
@@ -310,8 +313,11 @@ To hide a minor-mode put
 ** corfu
 #+begin_src emacs-lisp
   (use-package corfu
+    :defer (if (daemonp) nil 5)
     :init
     (setq corfu-auto t
+	  corfu-auto-delay 0.3
+	  corfu-preview-current nil
 	  corfu-quit-no-match 'separator
 	  completion-styles '(basic ))
     (global-corfu-mode))
@@ -322,6 +328,13 @@ To hide a minor-mode put
       (custom-set-faces
        '(corfu-default ((t (:background "black")))))
       (corfu-terminal-mode)))
+
+  (use-package cape
+    :defer (if (daemonp) nil 5)
+    :bind (("S-<SPC>" . completion-at-point))
+    :init
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-file))
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
@@ -415,14 +428,18 @@ on windows it require msys2
 #+begin_src emacs-lisp
   (if (daemonp)
       (use-package eglot
+	:defer (if (daemonp) nil t)
 	:pin melpa
 	:init
+	(setq eglot-connect-timeout 60)
+	(define-key eglot-mode-map (kbd (concat lm/leader "ar")) 'eglot-rename)
+	(define-key eglot-mode-map (kbd (concat lm/leader "ao")) 'eglot-code-action-organize-imports)
+	(define-key eglot-mode-map (kbd (concat lm/leader "h")) 'eldoc)
+	(define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
+	:config
 	(add-hook 'python-mode-hook 'eglot-ensure)
 	(add-hook 'c-mode-common-hook 'eglot-ensure)
-	(add-hook 'cmake-mode-hook 'eglot-ensure))
-    (use-package eglot
-      :pin melpa
-      :defer t))
+		  (add-hook 'cmake-mode-hook 'eglot-ensure)))
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
@@ -515,7 +532,6 @@ There are two kinds of keybinding i use:
 as now the leader ones are commented because i'm trying to understand the way
 emacs is meant to be used and configured while the leader combo is more a vim
 related way of make keymaps.
-
 ** ways to swap CTRL and CAPS-LOCK
 
 *** Windows
@@ -579,9 +595,9 @@ The folling keybinding are:
 				  (insert-char (char-from-name "GRAVE ACCENT"))))
   (global-set-key (kbd "<f9>") 'lm/run-wezterm)
 
-  (global-set-key (kbd "C-.")
-		  (cond ((boundp 'lm/company) 'company-complete)
-			(t 'complete-symbol)))
+  ;; (global-set-key (kbd "S-<SPC>")
+  ;; 		(cond ((boundp 'lm/company) 'company-complete)
+  ;; 		      (t 'complete-symbol)))
 
   (global-set-key (kbd "C-x M-+") 'lm/font-increase)
   (global-set-key (kbd "C-x M--") 'lm/font-decrease)
@@ -599,105 +615,6 @@ The folling keybinding are:
   (lm/leader-set-key "e" 'flymake-show-project-diagnostics)
 
   (windmove-default-keybindings 'meta)
-#+end_src
-
-** COMMENT leader keymap...
-*** COMMENT general
-#+begin_src emacs-lisp
-	(use-package general
-		:config
-		(general-create-definer lm/leader-keys
-			:keymaps 'override
-			:prefix "<f3>"))
-	
-	(lm/leader-keys
-		"RET" '(counsel-M-x :which-key "M-x"))
-
-	(lm/leader-keys
-		"SPC" '(set-mark-command :which-key "toggle mark"))
-
-#+end_src
-*** COMMENT tabs
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "t" '(:ignored t :which-key "tab")
-    "tn" '(tab-new :which-key "new")
-    "tj" '(tab-next :which-key "next")
-    "tk" '(tab-previous :which-key "previous")
-    "td" '(tab-close :which-key "close")
-    "TAB" '(tab-next :which-key "next tab")
-    "<backtab>" '(tab-previous :which-key "previous tab"))
-#+end_src
-*** COMMENT buffer
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "b"  '(:ignore t :which-key "buffer")
-    "bf" '(counsel-find-file :which-key "find file")
-    "bs" '(save-buffer :which-key "save buffer")
-    "bd" '(kill-buffer :which-key "kill buffer")
-    "bl" '(ivy-switch-buffer :which-key "switch buffer")
-    "bL" '(list-buffers :which-key "list buffers"))
-#+end_src
-*** COMMENT search
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "s" '(:ignore t :which-key "search")
-    "ss" '(swiper-isearch :which-key "search")
-    "sr" '(replace-string :which-key "replace"))
-#+end_src
-
-*** COMMENT appearence
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "a"  '(:ignore t :which-key "appearence")
-    "a+" '(text-scale-increase :which-key "increase scale")
-    "a-" '(text-scale-decrease :which-key "decrease scale")
-    "at" '(counsel-load-theme :which-key "choose theme"))
-#+end_src
-*** COMMENT eval
-#+begin_src emacs-lisp
-  (defun load-init () (interactive)
-	 (load-file "~/.config/emacs/init.el"))
-  (lm/leader-keys
-    "v" '(:ignored t :which-key "eval")
-    "vb" '(eval-buffer :which-key "eval buffer")
-    "vl" '(eval-last-sexp :which-key "eval last sexp")
-    "vi" '(load-init :which-key "load init.el"))
-#+end_src
-
-*** COMMENT window
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "w" '(:ignored t :which-key "window")
-    "wo" '(delete-other-windows :which-key "delete other windows")
-    "wc" '(delete-window :which-key "delete window")
-    "ws" '(split-window-below :which-key "split horizontal")
-    "wv" '(split-window-right :which-key "split vertical"))
-#+end_src
-
-*** COMMENT termin al
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "T" '(:ignored t :which-key "terminal")
-    "Tv" '(term :which-key "term")
-    "Ts" '(eshell :which-key "eshell"))
-#+end_src
-
-*** COMMENT explore
-#+begin_src emacs-lisp
-  (lm/leader-keys
-    "e" '(:ignored t :which-key "explore")
-    "ed" '(dired :which-key "dired")
-    "ec" '(pwd :which-key "pwd"))
-#+end_src
-*** COMMENT lsp
-#+begin_src emacs-lisp
-  (defun lm/lsp-keymap ()
-    (interactive)
-    (lm/leader-keys
-      "l" '(:ignored t :which-key "lsp")
-      "lf" '(lsp-format-buffer :which-key "format")))
-  (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
 #+end_src
 
 * Org-mode
@@ -874,40 +791,6 @@ support of bash provided by cygwin64
     (setq company-keywords-ignore-case t)
     (setq company-idle-delay 0.5))
 #+end_src
-*** ivy, swiper, counsel
-#+begin_src emacs-lisp
-  (use-package ivy
-    :diminish
-    :config
-    (ivy-mode 1))
-  (use-package ivy-rich
-    :diminish
-    :config
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (ivy-rich-mode 1))
-  (use-package swiper)
-  (use-package counsel)
-#+end_src
-*** which-key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config (setq which-key-idle-delay 0.3))
-#+end_src
-*** eglot
-#+begin_src emacs-lisp
-  (use-package eglot
-    :commands eglot
-    :config
-    (add-to-list 'eglot-server-programs
-		 `(python-mode
-		   . ,(eglot-alternatives '("pylsp"))))
-    (setq eglot-autoshutdown t))
-
-#+end_src
-
 ** Keybindings (with evil)
 Those are keybinding i use with evil mode, anyway i found evil conflicting a lot
 with other keymapping of basic emacs and with most of the usefull tips that can

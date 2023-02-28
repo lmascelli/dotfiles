@@ -34,7 +34,6 @@ M.install_plugin = function(plugin)
 		-- event = plugin.event,
 		dependencies = dependencies,
 		config = function(p)
-			print(plugin.name)
 			if plugin.config then
 				plugin.config()
 			end

@@ -37,15 +37,6 @@ local on_attach = function(_, bufnr) -- hidden parameter client
 	keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format()<CR>', opts, bufnr, 'format')
 end
 
-
-M.name = "lsp"
-M.url = "williamboman/mason.nvim"
-
-M.requires = {
-	{ url = "williamboman/mason-lspconfig.nvim", },
-	{ url = "p00f/clangd_extensions.nvim", }
-}
-
 M.config = function()
 	local ok_mason, mason = pcall(require, 'mason')
 	local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
