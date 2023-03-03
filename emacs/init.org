@@ -32,8 +32,8 @@ configuration
 #+begin_src emacs-lisp
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
   (defvar lm/font (cond
-		 ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-9")
-		 ((string-equal system-type "windows-nt") "JetBrains Mono-9")))
+		   ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-9")
+		   ((string-equal system-type "windows-nt") "JetBrains Mono-9")))
   (defvar lm/default-font-size 90)
   (defvar lm/leader "<f1>")
   (setq lm/autosave_dir "D:/emacs/autosaves/")
@@ -112,7 +112,8 @@ Those are settings relative to:
   (dolist (mode '(org-mode-hook
 		  term-mode-hook
 		  shell-mode-hook
-		  eshell-mode-hook))
+		  eshell-mode-hook
+		  treemacs-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
   (custom-set-variables '(fill-column 80)) 
@@ -185,7 +186,7 @@ automatically refresh the buffer when the correspondig file has been changed
 externally
 
 #+begin_src emacs-lisp
-     (global-auto-revert-mode t)
+  (global-auto-revert-mode t)
 #+end_src
 
 *** automatic pairs mode
@@ -211,13 +212,13 @@ and ask just for (y/n) instead of complete yes and no
 this is expecially useful for loading the changes to term.el in Windows for
 running powershell in term and ansi-term
 #+begin_src emacs-lisp
-(setq load-prefer-newer t)
+  (setq load-prefer-newer t)
 #+end_src
 
 *** native compilation
 #+begin_src emacs-lisp
-    (setq native-compile-always-compile t)
-  ;  (setq package-native-compile t)
+  (setq native-compile-always-compile t)
+					  ;  (setq package-native-compile t)
 #+end_src
 
 *** complation-at-point
@@ -237,36 +238,148 @@ running powershell in term and ansi-term
   (fido-vertical-mode t)
 #+end_src
 
-** PowerShell configuration
-Set PowerShell as the main console interpreter
-To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
-the code around
-#+begin_src
- "/bin/sh" "-c"
+* Languages
+** C/C++
+On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
+configuration file named /.clangd/ or a global one named
+/~\AppData\Local\clangd\config.yaml/ is required. 
+The content of the file must be
+
+#+begin_src dot
+  CompileFlags:
+  Add: [-target, x86_64-pc-windows-gnu]
 #+end_src
 
-to
-
-#+begin_src
- "pwsh"
+** Arduino
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.ino" .
+				  (lambda ()
+				    (c-or-c++-mode)
+				    (setq lsp-clients-clangd-args
+					  `(
+					    "-j=2"
+					    "--background-index"
+					    "--clang-tidy"
+					    "--completion-style=detailed"
+					    (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
 #+end_src
 
-Then the /load-prefer-newer/ option must be set to enable the recent edited file.
+
+# * Keybindings
+** Python
+#+begin_src emacs-lisp
+  (setq python-indent-offset 2)
+#+end_src
+
+* Keybindings
+** ways to swap CTRL and CAPS-LOCK
+*** Windows
+
+to activate run this script as a .reg file
+#+begin_src
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,3a,00,1d,00,00,00,00,00
+#+end_src
+
+and run that as a .reg file to deactivate it
+
+#+begin_src 
+REGEDIT4
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=-
+#+end_src
+
+*** Linux
+On Linux, using the X Windows Server it just need to run or put it in the init
+script.
+
+#+begin_src shell
+  setxkbmap -option ctrl:swapcaps
+#+end_src
+
+** global
+The folling keybinding are:
+- <f2> is like <M-x> (experimental)
+- <C-z> undo
+- <M-z> redo
+- <C-Ã¬Â¬> insert the char ~
+- <C-'> insert the char 
+- <C-.> completion
+- <C-x><M-+> global font increase
+- <C-x><M--> global font decrease
+  
+** lm/leader
+#+begin_src emacs-lisp
+  (defun lm/leader-set-key (key body)
+    (let ((leader lm/leader))
+      (global-unset-key (kbd (concat leader " " key)))
+      (global-set-key (kbd (concat leader " " key)) body)))
+  (global-unset-key (kbd lm/leader))
+
+  (lm/leader-set-key "ll" 'eglot)
+  (lm/leader-set-key "lr" 'eglot-reconnect)
+  (lm/leader-set-key "dp" 'flymake-show-project-diagnostics)
+  (lm/leader-set-key "db" 'flymake-show-buffer-diagnostics)  
+#+end_src
+** escape as C-g
+- <Escape> does not need to be pressed three times to behave like <C-g> but this
+  has the countereffect of closing other windows when pressed; to avoid
+  that a workaround is to redefine *buffer-quit-function* inside the
+  *keyboard-escape-quit* clojure
 
 #+begin_src emacs-lisp
-  (setq explicit-shell-file-name "pwsh")
-  (setq excplicit-powershell.exe-args '("-Command" "-"))
+  ;; this code avoid *keyboard-escape-quit* to close all other windows
+  (defadvice keyboard-escape-quit
+      (around keyboard-escape-quit-dont-close-windows activate)
+    (let ((buffer-quit-function (lambda () ())))
+      ad-do-it))
+
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+end_src	
+** undo redo
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-z") 'undo)
+  (global-set-key (kbd "M-z") 'undo-redo)
 #+end_src
 
+** special characters
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-ì") #'(lambda ()
+				  (interactive)
+				  (insert-char (char-from-name "TILDE"))))
+  (global-set-key (kbd "C-'") #'(lambda ()
+				  (interactive)
+				  (insert-char (char-from-name "GRAVE ACCENT"))))
+#+end_src
+** windows movement
+#+begin_src emacs-lisp
+  (windmove-default-keybindings 'meta)
+#+end_src
+** others
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<f9>") 'lm/run-wezterm)
+  (global-set-key (kbd "C-x M-+") 'lm/font-increase)
+  (global-set-key (kbd "C-x M--") 'lm/font-decrease)
+#+end_src
+
+** COMMENT completion keybinds
+#+begin_src emacs-lisp
+  (global-set-key (kbd "S-<SPC>")
+		  (cond ((boundp 'lm/company) 'company-complete)
+			(t 'complete-symbol)))
+  (global-set-key (kbd "C-.") 'dabbrev-expand)
+#+end_src
 * Plugins
 ** package
 Setup the melpa repository and refresh the contents of package-archives to be
 prepared for plugins installation.
 #+begin_src emacs-lisp
   (require 'package)
-
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+			   ("elpa" . "https://elpa.gnu.org/packages/")
+			   ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents))
@@ -298,16 +411,14 @@ To hide a minor-mode put
 
 ** which-key
 #+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package which-key
-	:init (which-key-mode)
-	:diminish which-key-mode
-	:config (setq which-key-idle-delay 0.3))
-    (use-package which-key
-	:defer 5
-	:init (which-key-mode)
-	:diminish which-key-mode
-	:config (setq which-key-idle-delay 0.3)))
+  (use-package which-key
+    :defer (if (daemonp) nil 5)
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0.1)
+    (which-key-setup-minibuffer)
+    )
 #+end_src
 
 ** corfu
@@ -382,24 +493,17 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
       (setq ffip-prefer-ido-mode t)))
 #+end_src
 ** yasnippet
-
 #+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package yasnippet
-	:config
-	(global-set-key (kbd "C-c y") 'lm/yasnippet-complete)
-	(yas-global-mode))
-    (use-package yasnippet
-      :hook
-      ((conf-mode
-	snippet-mode
-	org-mode
-	c-mode-common
-	python-mode) . yas-minor-mode-on)
-      :config
-      (global-set-key (kbd "C-c y") 'lm/yasnippet-complete)))
   (use-package yasnippet-snippets
-    :after yasnippet)
+    :after yasnippet
+    :hook
+    ((conf-mode
+      snippet-mode
+      org-mode
+      c-mode-common
+      python-mode) . yas-minor-mode-on)
+    :config
+    (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
   (use-package yasnippet-classic-snippets
     :after yasnippet)
 #+end_src
@@ -426,20 +530,28 @@ on windows it require msys2
 
 ** eglot
 #+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package eglot
-	:defer (if (daemonp) nil t)
-	:pin melpa
-	:init
-	(setq eglot-connect-timeout 60)
-	(define-key eglot-mode-map (kbd (concat lm/leader "ar")) 'eglot-rename)
-	(define-key eglot-mode-map (kbd (concat lm/leader "ao")) 'eglot-code-action-organize-imports)
-	(define-key eglot-mode-map (kbd (concat lm/leader "h")) 'eldoc)
-	(define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
-	:config
-	(add-hook 'python-mode-hook 'eglot-ensure)
-	(add-hook 'c-mode-common-hook 'eglot-ensure)
-		  (add-hook 'cmake-mode-hook 'eglot-ensure)))
+  (use-package eglot
+    :defer (if (daemonp) nil t)
+    :pin melpa
+    :init
+    (setq eglot-connect-timeout 60)
+    (add-hook 'python-mode-hook 'eglot-ensure)
+    (add-hook 'c-mode-common-hook 'eglot-ensure)
+    (add-hook 'cmake-mode-hook 'eglot-ensure)
+    :config
+    (define-key eglot-mode-map (kbd (concat lm/leader "lar")) 'eglot-rename)
+    (define-key eglot-mode-map (kbd (concat lm/leader "lao")) 'eglot-code-action-organize-imports)
+    (define-key eglot-mode-map (kbd (concat lm/leader "laa")) 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd (concat lm/leader "h")) 'eldoc)
+    (define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
+    (define-key eglot-mode-map (kbd (concat lm/leader "gr")) 'xref-find-references))
+#+end_src
+** treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :defer (if (daemonp) nil t)
+    :init
+    (lm/leader-set-key "e" 'treemacs))
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
@@ -489,132 +601,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
       (use-package cmake-mode)
     (use-package cmake-mode
       :mode ("\\CMakeLists.txt" . cmake-mode)))
-#+end_src
-
-* Languages
-** C/C++
-On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
-configuration file named /.clangd/ or a global one named
-/~\AppData\Local\clangd\config.yaml/ is required. 
-The content of the file must be
-
-#+begin_src dot
-CompileFlags:
-  Add: [-target, x86_64-pc-windows-gnu]
-#+end_src
-
-** Arduino
-#+begin_src emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.ino" .
-				  (lambda ()
-				    (c-or-c++-mode)
-				    (setq lsp-clients-clangd-args
-					  `(
-					    "-j=2"
-					    "--background-index"
-					    "--clang-tidy"
-					    "--completion-style=detailed"
-					    (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
-#+end_src
-
-
-# * Keybindings
-** Powershell
-** Python
-#+begin_src emacs-lisp
-  (setq python-indent-offset 2)
-#+end_src
-
-* Keybindings
-There are two kinds of keybinding i use:
-- global ones
-- leader map ones
-as now the leader ones are commented because i'm trying to understand the way
-emacs is meant to be used and configured while the leader combo is more a vim
-related way of make keymaps.
-** ways to swap CTRL and CAPS-LOCK
-
-*** Windows
-
-to activate run this script as a .reg file
-#+begin_src
-REGEDIT4
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
-"Scancode Map"=hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,3a,00,1d,00,00,00,00,00
-#+end_src
-
-and run that as a .reg file to deactivate it
-
-#+begin_src 
-REGEDIT4
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
-"Scancode Map"=-
-#+end_src
-
-*** Linux
-On Linux, using the X Windows Server it just need to run or put it in the init
-script.
-
-#+begin_src shell
-setxkbmap -option ctrl:swapcaps
-#+end_src
-
-** global
-The folling keybinding are:
-- <Escape> does not need to be pressed three times to behave like <C-g> but this
-	has the countereffect of closing other windows when pressed; to avoid
-	that a workaround is to redefine *buffer-quit-function* inside the
-	*keyboard-escape-quit* clojure
-- <f2> is like <M-x> (experimental)
-- <C-z> undo
-- <M-z> redo
-- <C-Ã¬Â¬> insert the char ~
-- <C-'> insert the char 
-- <C-.> completion
-- <C-x><M-+> global font increase
-- <C-x><M--> global font decrease	
-
-#+begin_src emacs-lisp
-  ;; this code avoid *keyboard-escape-quit* to close all other windows
-  (defadvice keyboard-escape-quit
-      (around keyboard-escape-quit-dont-close-windows activate)
-    (let ((buffer-quit-function (lambda () ())))
-      ad-do-it))
-
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "C-z") 'undo)
-  ;; (global-set-key (kbd "C-.") 'dabbrev-expand)
-  (global-set-key (kbd "C-z") 'undo)
-  (global-set-key (kbd "M-z") 'undo-redo)
-  (global-set-key (kbd "C-ì") #'(lambda ()
-				  (interactive)
-				  (insert-char (char-from-name "TILDE"))))
-  (global-set-key (kbd "C-'") #'(lambda ()
-				  (interactive)
-				  (insert-char (char-from-name "GRAVE ACCENT"))))
-  (global-set-key (kbd "<f9>") 'lm/run-wezterm)
-
-  ;; (global-set-key (kbd "S-<SPC>")
-  ;; 		(cond ((boundp 'lm/company) 'company-complete)
-  ;; 		      (t 'complete-symbol)))
-
-  (global-set-key (kbd "C-x M-+") 'lm/font-increase)
-  (global-set-key (kbd "C-x M--") 'lm/font-decrease)
-
-  (defun lm/leader-set-key (key body)
-    (let ((leader lm/leader))
-      (global-unset-key (kbd (concat leader " " key)))
-      (global-set-key (kbd (concat leader " " key)) body)))
-
-  (global-unset-key (kbd lm/leader))
-
-  (lm/leader-set-key "l" 'eglot)
-  (lm/leader-set-key "f" 'eglot-format-buffer)
-  (lm/leader-set-key "gd" 'eglot-find-declaration)
-  (lm/leader-set-key "e" 'flymake-show-project-diagnostics)
-
-  (windmove-default-keybindings 'meta)
 #+end_src
 
 * Org-mode
@@ -694,7 +680,7 @@ depending of the current selection method
     (cond ((boundp 'lm/company) (company-complete))
 	  (t (yas-insert-snippet))))
 #+end_src
-** ripgrep
+** COMMENT ripgrep
 ask for searching in files with ripgrep
 #+begin_src emacs-lisp
   (defun lm/ripgrep (&optional pattern path)
@@ -741,7 +727,7 @@ i need a way to easily call wezterm and open it in the current directory.
 Those are some workarounds for warning messages at startup. Not all are
 understood and explained
 #+begin_src emacs-lisp
-(setq org-element-use-cache t)
+  (setq org-element-use-cache t)
 #+end_src
 
 * Testing
@@ -805,12 +791,12 @@ be found online
   (use-package general
     :config
     (general-create-definer lm/leader-keys
-      :keymaps '(normal insert visual emacs)
-      :prefix "SPC"
-      :global-prefix "C-SPC"))
+			    :keymaps '(normal insert visual emacs)
+			    :prefix "SPC"
+			    :global-prefix "C-SPC"))
 
   (lm/leader-keys
-    "RET" '(counsel-M-x :which-key "M-x"))
+   "RET" '(counsel-M-x :which-key "M-x"))
 #+end_src
 
 *** evil
@@ -837,41 +823,41 @@ be found online
 *** tabs
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "t" '(:ignored t :which-key "tab")
-    "tn" '(tab-new :which-key "new")
-    "tj" '(tab-next :which-key "next")
-    "tk" '(tab-previous :which-key "previous")
-    "td" '(tab-close :which-key "close")
-    "TAB" '(tab-next :which-key "next tab")
-    "<backtab>" '(tab-previous :which-key "previous tab"))
+   "t" '(:ignored t :which-key "tab")
+   "tn" '(tab-new :which-key "new")
+   "tj" '(tab-next :which-key "next")
+   "tk" '(tab-previous :which-key "previous")
+   "td" '(tab-close :which-key "close")
+   "TAB" '(tab-next :which-key "next tab")
+   "<backtab>" '(tab-previous :which-key "previous tab"))
 #+end_src
 
 *** buffer
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "b"  '(:ignore t :which-key "buffer")
-    "bf" '(counsel-find-file :which-key "find file")
-    "bs" '(save-buffer :which-key "save buffer")
-    "bd" '(kill-buffer :which-key "kill buffer")
-    "bl" '(ivy-switch-buffer :which-key "switch buffer")
-    "bL" '(list-buffers :which-key "list buffers"))
+   "b"  '(:ignore t :which-key "buffer")
+   "bf" '(counsel-find-file :which-key "find file")
+   "bs" '(save-buffer :which-key "save buffer")
+   "bd" '(kill-buffer :which-key "kill buffer")
+   "bl" '(ivy-switch-buffer :which-key "switch buffer")
+   "bL" '(list-buffers :which-key "list buffers"))
 #+end_src
 
 *** search
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "s" '(:ignore t :which-key "search")
-    "ss" '(swiper-isearch :which-key "search")
-    "sr" '(replace-string :which-key "replace"))
+   "s" '(:ignore t :which-key "search")
+   "ss" '(swiper-isearch :which-key "search")
+   "sr" '(replace-string :which-key "replace"))
 #+end_src
 
 *** appearence
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "a"  '(:ignore t :which-key "appearence")
-    "a+" '(text-scale-increase :which-key "increase scale")
-    "a-" '(text-scale-decrease :which-key "decrease scale")
-    "at" '(counsel-load-theme :which-key "choose theme"))
+   "a"  '(:ignore t :which-key "appearence")
+   "a+" '(text-scale-increase :which-key "increase scale")
+   "a-" '(text-scale-decrease :which-key "decrease scale")
+   "at" '(counsel-load-theme :which-key "choose theme"))
 #+end_src
 
 *** eval
@@ -879,40 +865,40 @@ be found online
   (defun load-init () (interactive)
 	 (load-file "~/.config/emacs/init.el"))
   (lm/leader-keys
-    "v" '(:ignored t :which-key "eval")
-    "vb" '(eval-buffer :which-key "eval buffer")
-    "vl" '(eval-last-sexp :which-key "eval last sexp")
-    "vi" '(load-init :which-key "load init.el"))
+   "v" '(:ignored t :which-key "eval")
+   "vb" '(eval-buffer :which-key "eval buffer")
+   "vl" '(eval-last-sexp :which-key "eval last sexp")
+   "vi" '(load-init :which-key "load init.el"))
 #+end_src
 
 *** window
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "w" '(:ignored t :which-key "window")
-    "wo" '(delete-other-windows :which-key "delete other windows")
-    "wc" '(evil-window-delete :which-key "delete window")
-    "ws" '(evil-window-split :which-key "split horizontal")
-    "wv" '(evil-window-vsplit :which-key "split vertical")
-    "wh" '(evil-window-left :which-key "move left")
-    "wj" '(evil-window-down :which-key "move down")
-    "wk" '(evil-window-up :which-key "move up")
-    "wl" '(evil-window-right :which-key "move right"))
+   "w" '(:ignored t :which-key "window")
+   "wo" '(delete-other-windows :which-key "delete other windows")
+   "wc" '(evil-window-delete :which-key "delete window")
+   "ws" '(evil-window-split :which-key "split horizontal")
+   "wv" '(evil-window-vsplit :which-key "split vertical")
+   "wh" '(evil-window-left :which-key "move left")
+   "wj" '(evil-window-down :which-key "move down")
+   "wk" '(evil-window-up :which-key "move up")
+   "wl" '(evil-window-right :which-key "move right"))
 #+end_src
 
 *** terminal
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "T" '(:ignored t :which-key "terminal")
-    "Tv" '(vterm :which-key "vterm")
-    "Ts" '(eshell :which-key "eshell"))
+   "T" '(:ignored t :which-key "terminal")
+   "Tv" '(vterm :which-key "vterm")
+   "Ts" '(eshell :which-key "eshell"))
 #+end_src
 
 *** explore
 #+begin_src emacs-lisp
   (lm/leader-keys
-    "e" '(:ignored t :which-key "explore")
-    "ed" '(dired :which-key "dired")
-    "ec" '(pwd :which-key "pwd"))
+   "e" '(:ignored t :which-key "explore")
+   "ed" '(dired :which-key "dired")
+   "ec" '(pwd :which-key "pwd"))
 #+end_src
 
 *** lsp
@@ -920,16 +906,42 @@ be found online
   (defun lm/lsp-keymap ()
     (interactive)
     (lm/leader-keys
-      "l" '(:ignored t :which-key "lsp")
-      "lf" '(lsp-format-buffer :which-key "format")))
+     "l" '(:ignored t :which-key "lsp")
+     "lf" '(lsp-format-buffer :which-key "format")))
   (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
+#+end_src
+
+** PowerShell configuration
+Set PowerShell as the main console interpreter
+To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
+the code around
+#+begin_src
+ "/bin/sh" "-c"
+#+end_src
+
+to
+
+#+begin_src
+ "pwsh"
+#+end_src
+
+Then the /load-prefer-newer/ option must be set to enable the recent edited file.
+
+#+begin_src emacs-lisp
+  (setq explicit-shell-file-name "pwsh")
+  (setq explicit-powershell.exe-args '("-Command" "-"))
 #+end_src
 
 * COMMENT Notes
 ** elisp
 this function lets you view the previous invoked commands
 #+begin_src emacs-lisp
-(view-lossage)
+  (view-lossage)
 #+end_src
+
+
+
+
+
 
 
