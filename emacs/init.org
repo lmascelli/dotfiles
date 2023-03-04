@@ -1,5 +1,5 @@
 #+title: My Emacs Configuration
-#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs")) :mkdirp yes
+#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~/.config") "/emacs")) :mkdirp yes
 
 * Startup-init
 ** COMMENT Benchmark-init
@@ -534,7 +534,7 @@ on windows it require msys2
     :defer (if (daemonp) nil t)
     :pin melpa
     :init
-    (setq eglot-connect-timeout 60)
+    (setq eglot-connect-timeout 90)
     (add-hook 'python-mode-hook 'eglot-ensure)
     (add-hook 'c-mode-common-hook 'eglot-ensure)
     (add-hook 'cmake-mode-hook 'eglot-ensure)
@@ -542,6 +542,7 @@ on windows it require msys2
     (define-key eglot-mode-map (kbd (concat lm/leader "lar")) 'eglot-rename)
     (define-key eglot-mode-map (kbd (concat lm/leader "lao")) 'eglot-code-action-organize-imports)
     (define-key eglot-mode-map (kbd (concat lm/leader "laa")) 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd (concat lm/leader "lf")) 'eglot-format-buffer)
     (define-key eglot-mode-map (kbd (concat lm/leader "h")) 'eldoc)
     (define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
     (define-key eglot-mode-map (kbd (concat lm/leader "gr")) 'xref-find-references))
