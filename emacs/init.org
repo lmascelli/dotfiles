@@ -43,7 +43,7 @@ configuration
 * Basic configuration
 ** Gui configuration
 *** gui widgets
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (getenv "XDG_CONFIG_HOME") "/emacs"))
+#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~/.config") "/emacs"))
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
