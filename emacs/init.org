@@ -31,11 +31,12 @@ configuration
 
 #+begin_src emacs-lisp
   (setq lm/dotfiles "/home/leonardo/.dotfiles")
-  (defvar lm/font (cond
-		   ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-9")
-		   ((string-equal system-type "windows-nt") "JetBrains Mono-9")))
+  (defvar lm/font
+    (cond
+     ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-10")
+     ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
   (defvar lm/default-font-size 90)
-  (defvar lm/leader "<f1>")
+  (defvar lm/leader "C-c ")
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
@@ -47,7 +48,7 @@ configuration
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-  (menu-bar-mode -1)
+  ;; (menu-bar-mode -1)
   (setq visible-bell t)
   (unless (display-graphic-p)
     (setq ring-bell-function 'ignore))
@@ -221,9 +222,10 @@ running powershell in term and ansi-term
 					  ;  (setq package-native-compile t)
 #+end_src
 
-*** complation-at-point
+*** COMMENT complation-at-point
 #+begin_src emacs-lisp
   (require 'dabbrev)
+  (setq completion-ignore-case t)
   (defun lm/dabbrev-capf ()
     (dabbrev--reset-global-variables)
     (let* ((abbrev (dabbrev--abbrev-at-point))
@@ -321,7 +323,7 @@ The folling keybinding are:
   (lm/leader-set-key "ll" 'eglot)
   (lm/leader-set-key "lr" 'eglot-reconnect)
   (lm/leader-set-key "dp" 'flymake-show-project-diagnostics)
-  (lm/leader-set-key "db" 'flymake-show-buffer-diagnostics)  
+  (lm/leader-set-key "db" 'flymake-show-buffer-diagnostics)
 #+end_src
 ** escape as C-g
 - <Escape> does not need to be pressed three times to behave like <C-g> but this
@@ -444,16 +446,15 @@ To hide a minor-mode put
     :defer (if (daemonp) nil 5)
     :bind (("S-<SPC>" . completion-at-point))
     :init
+    (setq completion-ignore-case t)
     (add-to-list 'completion-at-point-functions #'cape-dabbrev)
     (add-to-list 'completion-at-point-functions #'cape-file))
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package tree-sitter)
-    (use-package tree-sitter
-      :defer 5))
-
+  (use-package tree-sitter
+    :defer (if (daemonp) nil 5)
+    :diminish)
   (use-package tree-sitter-langs
     :after tree-sitter
     :config
@@ -494,16 +495,18 @@ Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coere
 #+end_src
 ** yasnippet
 #+begin_src emacs-lisp
-  (use-package yasnippet-snippets
-    :after yasnippet
+  (use-package yasnippet
+    :defer (if (daemonp) nil t)
     :hook
     ((conf-mode
       snippet-mode
       org-mode
       c-mode-common
-      python-mode) . yas-minor-mode-on)
+      python-mode) . yas-minor-mode-on )
     :config
     (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
+  (use-package yasnippet-snippets
+    :after yasnippet)
   (use-package yasnippet-classic-snippets
     :after yasnippet)
 #+end_src
@@ -535,9 +538,9 @@ on windows it require msys2
     :pin melpa
     :init
     (setq eglot-connect-timeout 90)
-    (add-hook 'python-mode-hook 'eglot-ensure)
-    (add-hook 'c-mode-common-hook 'eglot-ensure)
-    (add-hook 'cmake-mode-hook 'eglot-ensure)
+    ;; (add-hook 'python-mode-hook 'eglot-ensure)
+    ;; (add-hook 'c-mode-common-hook 'eglot-ensure)
+    ;; (add-hook 'cmake-mode-hook 'eglot-ensure)
     :config
     (define-key eglot-mode-map (kbd (concat lm/leader "lar")) 'eglot-rename)
     (define-key eglot-mode-map (kbd (concat lm/leader "lao")) 'eglot-code-action-organize-imports)
