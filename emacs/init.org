@@ -37,12 +37,12 @@ configuration
      ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
   (defvar lm/default-font-size 90)
   (defvar lm/leader "C-c ")
+  (defvar lm/complete-chord "S-<SPC>")
   (setq lm/autosave_dir "D:/emacs/autosaves/")
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
 
-* Basic configuration
-** Gui configuration
+* Gui configuration
 *** gui widgets
 #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~/.config") "/emacs"))
   (scroll-bar-mode -1)
@@ -133,7 +133,7 @@ Those are settings relative to:
   (setq max-mini-window-height 0.5)
 #+end_src
 
-** Editor behaviour
+* Editor behaviour
 *** tab-always-indent
 Set the behaviour of tab so that it first try to indent the line, if the line is
 already indented then it does the selected action
@@ -170,12 +170,13 @@ increase the amount of data that emacs can read from processes; default is 4 kb
 
 *** autosaving
 disable backup of files by default
-change the defaults directory where to store ~ and # files, respectively
-backup and autosaves.
+change the defaults directory where to store ~ , # and .# files, respectively
+backup and autosaves and lockfiles.
 
 #+begin_src emacs-lisp
   (setq backup-inhibited t)
   (setq auto-save-default nil)
+  (setq create-lockfiles nil)
   ;; autosaves files in one common directory
   ;; (setq backup-directory-alist  `(("." . ,(if lm/autosave_dir lm/autosave_dir (concat user-emacs-directory "backups")))))
   ;; (setq auto-save-file-name-transforms
@@ -423,7 +424,18 @@ To hide a minor-mode put
     )
 #+end_src
 
-** corfu
+** company
+#+begin_src emacs-lisp
+  (use-package company
+    :bind (("S-<SPC>" . company-complete))
+    :init
+    (setq lm/company t)
+    :config
+    (global-company-mode t)
+    (setq company-keywords-ignore-case t)
+    (setq company-idle-delay 0.5))
+#+end_src
+** COMMENT corfu
 #+begin_src emacs-lisp
   (use-package corfu
     :defer (if (daemonp) nil 5)
@@ -458,7 +470,8 @@ To hide a minor-mode put
   (use-package tree-sitter-langs
     :after tree-sitter
     :config
-    (global-tree-sitter-mode))
+    (global-tree-sitter-mode)
+    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 #+end_src
 
 ** rg
@@ -770,17 +783,6 @@ support of bash provided by cygwin64
 <<<<<<< HEAD
 * COMMENT disabled features
 ** plugins
-*** company
-#+begin_src emacs-lisp
-  (use-package company
-    :bind (("C-." . company-complete))
-    :init
-    (setq lm/company t)
-    :config
-    (global-company-mode t)
-    (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5))
-#+end_src
 ** Keybindings (with evil)
 Those are keybinding i use with evil mode, anyway i found evil conflicting a lot
 with other keymapping of basic emacs and with most of the usefull tips that can

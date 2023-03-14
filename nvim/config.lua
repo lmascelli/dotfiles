@@ -25,7 +25,7 @@ config.plugin_list = {
   'telescope',
   -- 'lualine',
   -- 'bufferline',
-  'lsp',
+  -- 'lsp',
   -- 'lspsaga',
   -- 'nvim-cmp',
   -- 'luasnip',
