@@ -57,6 +57,15 @@ configuration
 the scroll-bar is still present in newer frames at this point. To remove it also
 in them it must be changed the /default-frame-alist/ but since it is reset in the
 *geometry and aspect* section this change is applied there.
+*** terminal colors
+values to adjust some colors when working in terminal
+#+begin_src emacs-lisp
+  (unless (display-graphic-p) 
+    (custom-set-faces
+     '(corfu-default ((t (:background "black"))))
+     '(linemark-go-face ((t (:background "darkgray"))))
+     '(show-paren-match ((t (:background "red"))))))
+#+end_src
 *** COMMENT font style
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
@@ -223,7 +232,7 @@ running powershell in term and ansi-term
 					  ;  (setq package-native-compile t)
 #+end_src
 
-*** COMMENT complation-at-point
+*** complation-at-point
 #+begin_src emacs-lisp
   (require 'dabbrev)
   (setq completion-ignore-case t)
@@ -424,18 +433,22 @@ To hide a minor-mode put
     )
 #+end_src
 
-** company
+** COMMENT company
 #+begin_src emacs-lisp
   (use-package company
+    :defer (if (daemonp) nil t)
     :bind (("S-<SPC>" . company-complete))
     :init
     (setq lm/company t)
-    :config
-    (global-company-mode t)
+    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-code-ignore-case t)    
     (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5))
+    (setq company-idle-delay 0.5)
+    :config
+    (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+    (global-company-mode t))
 #+end_src
-** COMMENT corfu
+** corfu
 #+begin_src emacs-lisp
   (use-package corfu
     :defer (if (daemonp) nil 5)
@@ -455,7 +468,6 @@ To hide a minor-mode put
       (corfu-terminal-mode)))
 
   (use-package cape
-    :defer (if (daemonp) nil 5)
     :bind (("S-<SPC>" . completion-at-point))
     :init
     (setq completion-ignore-case t)
@@ -563,7 +575,7 @@ on windows it require msys2
     (define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
     (define-key eglot-mode-map (kbd (concat lm/leader "gr")) 'xref-find-references))
 #+end_src
-** treemacs
+** COMMENT treemacs
 #+begin_src emacs-lisp
   (use-package treemacs
     :defer (if (daemonp) nil t)
@@ -620,6 +632,11 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
       :mode ("\\CMakeLists.txt" . cmake-mode)))
 #+end_src
 
+** matlab-mode
+#+begin_src emacs-lisp
+  (use-package matlab-mode
+    :defer (if (daemonp) nil t))
+#+end_src
 * Org-mode
 Basic configuration of org mode files.
 ** Syntax colouring on latex export
@@ -681,6 +698,7 @@ on the top of the org file.
 #+begin_src emacs-lisp
   (use-package dired
     :defer 5
+    :hook (dired-mode . dired-hide-details-mode)
     :ensure nil
     :custom ((dired-listing-switches "-agho --group-directories-first"))
     :config
