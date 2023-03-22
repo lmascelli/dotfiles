@@ -1,7 +1,7 @@
 #+title: My Emacs Configuration
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~/.config") "/emacs")) :mkdirp yes
 
-* Startup-init
+* Startup
 ** COMMENT Benchmark-init
 #+begin_src emacs-lisp
   (if (package-installed-p 'use-package)
@@ -42,8 +42,24 @@ configuration
   (setq lm/backup_dir "D:/emacs/backups/")
 #+end_src
 
+* Colors and theme
+** terminal colors
+values to adjust some colors when working in terminal
+#+begin_src emacs-lisp
+  (unless (display-graphic-p) 
+    (custom-set-faces
+     '(corfu-default ((t (:background "black"))))
+     '(linemark-go-face ((t (:background "darkgray"))))
+     '(show-paren-match ((t (:background "red"))))))
+#+end_src
+
+** theme
+#+begin_src emacs-lisp
+  (load-theme 'modus-vivendi-tinted t)
+#+end_src
+
 * Gui configuration
-*** gui widgets
+** gui widgets
 #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~/.config") "/emacs"))
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
@@ -57,20 +73,7 @@ configuration
 the scroll-bar is still present in newer frames at this point. To remove it also
 in them it must be changed the /default-frame-alist/ but since it is reset in the
 *geometry and aspect* section this change is applied there.
-*** terminal colors
-values to adjust some colors when working in terminal
-#+begin_src emacs-lisp
-  (unless (display-graphic-p) 
-    (custom-set-faces
-     '(corfu-default ((t (:background "black"))))
-     '(linemark-go-face ((t (:background "darkgray"))))
-     '(show-paren-match ((t (:background "red"))))))
-#+end_src
-*** COMMENT font style
-#+begin_src emacs-lisp
-  (set-face-attribute 'default nil :font lm/font :height lm/default-font-size)
-#+end_src
-*** buffer scrolling
+** buffer scrolling
 #+begin_src emacs-lisp
   (unless (version< emacs-version "29")
     (pixel-scroll-precision-mode))
@@ -91,7 +94,7 @@ values to adjust some colors when working in terminal
   (setq mouse-wheel-follow-mouse 't)
 #+end_src
 
-*** geometry and aspect and font
+** geometry and font
 Those are settings relative to:
 - transparency: /alpha/
 - window size at start: /width/ and /height/
@@ -110,11 +113,7 @@ Those are settings relative to:
 	       '(vertical-scroll-bars . nil))
 #+end_src
 
-*** theme
-#+begin_src emacs-lisp
-  (load-theme 'modus-vivendi-tinted t)
-#+end_src
-*** show row number, highlight current line and column 80
+** row numbers, highlight current line and column 80
 #+begin_src emacs-lisp
   (column-number-mode)
 
@@ -137,19 +136,26 @@ Those are settings relative to:
       (global-hl-line-mode))
 #+end_src
 
-*** max minibuffer size
+** max minibuffer size
 #+begin_src emacs-lisp
   (setq max-mini-window-height 0.5)
 #+end_src
 
 * Editor behaviour
-*** tab-always-indent
+** tab width
+Set the default width of tab to 2
+
+#+begin_src emacs-lisp
+  (setq tab-width 2)
+#+end_src
+
+** tab-always-indent
 Set the behaviour of tab so that it first try to indent the line, if the line is
 already indented then it does the selected action
 #+begin_src emacs-lisp
   (setq tab-always-intent 'complete)
 #+end_src
-*** encoding system
+** encoding system
 #+begin_src emacs-lisp
   (set-language-environment "UTF-8")
   (set-default-coding-systems 'utf-8)
@@ -164,20 +170,14 @@ already indented then it does the selected action
   ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 #+end_src
-*** tab width
-Set the default width of tab to 2
-
-#+begin_src emacs-lisp
-  (setq tab-width 2)
-#+end_src
-*** process buffer
+** process buffer
 increase the amount of data that emacs can read from processes; default is 4 kb
 
 #+begin_src emacs-lisp
   (setq read-process-output-max (* 10 1024 1024)) ;; 10 Mb
 #+end_src
 
-*** autosaving
+** autosaving
 disable backup of files by default
 change the defaults directory where to store ~ , # and .# files, respectively
 backup and autosaves and lockfiles.
@@ -192,7 +192,7 @@ backup and autosaves and lockfiles.
   ;;       `((".*" ,lm/autosave_dir t)))
 #+end_src
 
-*** auto revert mode
+** auto revert mode
 automatically refresh the buffer when the correspondig file has been changed
 externally
 
@@ -200,14 +200,14 @@ externally
   (global-auto-revert-mode t)
 #+end_src
 
-*** automatic pairs mode
+** automatic pairs mode
 automatically insert the pair of some symbols like braces, parenthesis, etc...
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'electric-pair-mode)
 #+end_src
 
-*** noises messages
+** noises messages
 disable:
 - the startup screen,
 - the prompt for killing buffer
@@ -219,20 +219,20 @@ and ask just for (y/n) instead of complete yes and no
   (setq use-short-answers t)
 #+end_src
 
-*** prefer newer editor files
+** prefer newer editor files
 this is expecially useful for loading the changes to term.el in Windows for
 running powershell in term and ansi-term
 #+begin_src emacs-lisp
   (setq load-prefer-newer t)
 #+end_src
 
-*** native compilation
+** native compilation
 #+begin_src emacs-lisp
   (setq native-compile-always-compile t)
 					  ;  (setq package-native-compile t)
 #+end_src
 
-*** complation-at-point
+** complation-at-point
 #+begin_src emacs-lisp
   (require 'dabbrev)
   (setq completion-ignore-case t)
@@ -245,12 +245,259 @@ running powershell in term and ansi-term
   (add-hook 'completion-at-point-functions 'lm/dabbrev-capf)
 #+end_src
 
-*** fido
+** fido
 #+begin_src emacs-lisp
   (fido-vertical-mode t)
 #+end_src
 
-* Languages
+* Repositories
+Setup the melpa repository and refresh the contents of package-archives to be
+prepared for plugins installation.
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")
+			   ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+#+end_src
+
+* use-package
+/use-package/ is a nice and useful package manager
+
+- the /use-package-always-ensure/ variable means that package not already
+  downloaded will be
+- the /use-package-compute-statistics/ enable to profile the startup time of
+  installed packages via the *use-package-profile* command.
+  
+#+begin_src emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  (setq use-package-compute-statistics t)
+#+end_src
+
+** diminish
+*diminish* enable to hide minor-mode names from minibuffer.
+To hide a minor-mode put
+`:diminish` in the use-package configuration of the mode package
+#+begin_src emacs-lisp
+  (use-package diminish)
+#+end_src
+
+* Which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :defer (if (daemonp) nil 5)
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0.1)
+    (which-key-setup-minibuffer)
+    )
+#+end_src
+
+* Autocompletion
+** COMMENT company
+#+begin_src emacs-lisp
+  (use-package company
+    :defer (if (daemonp) nil t)
+    :bind (("S-<SPC>" . company-complete))
+    :init
+    (setq lm/company t)
+    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-code-ignore-case t)    
+    (setq company-keywords-ignore-case t)
+    (setq company-idle-delay 0.5)
+    :config
+    (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+    (global-company-mode t))
+#+end_src
+** corfu
+#+begin_src emacs-lisp
+  (use-package corfu
+    :defer (if (daemonp) nil 5)
+    :init
+    (setq corfu-auto t
+	  corfu-auto-delay 0.3
+	  corfu-preview-current nil
+	  corfu-quit-no-match 'separator
+	  completion-styles '(basic ))
+    :config
+    (global-corfu-mode))
+
+  (unless (display-graphic-p)
+    (use-package corfu-terminal
+      :init
+      (custom-set-faces
+       '(corfu-default ((t (:background "black")))))
+      (corfu-terminal-mode)))
+
+  (use-package cape
+    :bind (("S-<SPC>" . completion-at-point))
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-file))
+#+end_src
+
+* Snippets
+** yasnippet
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :defer (if (daemonp) nil t)
+    :hook
+    ((conf-mode
+      snippet-mode
+      org-mode
+      c-mode-common
+      python-mode) . yas-minor-mode-on )
+    :config
+    (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
+  (use-package yasnippet-snippets
+    :after yasnippet)
+  (use-package yasnippet-classic-snippets
+    :after yasnippet)
+#+end_src
+
+** lm/yasnippet-complete
+This function is used to choose the correct yasnippets completion function
+depending of the current selection method
+#+begin_src emacs-lisp
+  (defun lm/yasnippet-complete ()
+    (interactive)
+    (cond ((boundp 'lm/company) (company-complete))
+	  (t (yas-insert-snippet))))
+#+end_src
+
+* pdf-tools
+pdf-tools enable to visualize pdf inside emacs and provides useful features like
+midnight mode
+on windows it require msys2
+#+begin_src emacs-lisp
+  (if (daemonp)
+      (use-package pdf-tools
+	:config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+    (use-package pdf-tools
+      :defer 5
+      :mode ("\\.pdf\\'" . pdf-view-mode)
+      :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)))
+#+end_src
+* olivetti
+#+begin_src emacs-lisp
+  (if (daemonp)
+      (use-package olivetti)
+    (use-package olivetti
+      :defer t))
+#+end_src
+
+* lsp
+** eglot
+#+begin_src emacs-lisp
+  (use-package eglot
+    :defer (if (daemonp) nil t)
+    :pin melpa
+    :init
+    (setq eglot-connect-timeout 90)
+    ;; (add-hook 'python-mode-hook 'eglot-ensure)
+    ;; (add-hook 'c-mode-common-hook 'eglot-ensure)
+    ;; (add-hook 'cmake-mode-hook 'eglot-ensure)
+    :config
+    (define-key eglot-mode-map (kbd (concat lm/leader "lar")) 'eglot-rename)
+    (define-key eglot-mode-map (kbd (concat lm/leader "lao")) 'eglot-code-action-organize-imports)
+    (define-key eglot-mode-map (kbd (concat lm/leader "laa")) 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd (concat lm/leader "lf")) 'eglot-format-buffer)
+    (define-key eglot-mode-map (kbd (concat lm/leader "h")) 'eldoc)
+    (define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
+    (define-key eglot-mode-map (kbd (concat lm/leader "gr")) 'xref-find-references))
+#+end_src
+** COMMENT lsp-mode
+i'm trying to use eglot instead of lsp-mode but i keep this configuration code
+#+begin_src emacs-lisp
+  (defun lm/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+  (setenv "LSP_USE_PLISTS" "true")
+  (setq lsp-use-plists t)
+  (use-package lsp-mode
+    :defer t
+    :commands (lsp lsp-deferred)
+    :hook ((lsp-mode . lm/lsp-mode-setup)
+	   (c++-mode . lsp)
+	   (python-mode . lsp))
+    :init
+    (setq lsp-keymap-prefix "C-M-l")
+
+    :config
+    (setq lsp-idle-delay 0.500)
+    (lsp-enable-which-key-integration t))
+
+  (use-package lsp-ui
+    :after lsp-mode
+    :hook (lsp-mode . lsp-ui-mode)
+    :custom
+    (lsp-ui-doc-position 'bottom))
+
+  (use-package lsp-pyright
+    :after lsp-mode
+    :ensure t
+    :hook (python-mode . (lambda ()
+			   (require 'lsp-pyright)
+			   (lsp-deferred))))
+#+end_src
+
+* tree-sitter
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :defer (if (daemonp) nil 5)
+    :diminish)
+  (use-package tree-sitter-langs
+    :after tree-sitter
+    :config
+    (global-tree-sitter-mode)
+    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
+
+* Search and find 
+** rg
+This package enable to grep in files and it is cross-platform.
+Requires [[https://github.com/BurntSushi/ripgrep][ripgrep]] to work.
+
+#+begin_src emacs-lisp
+  (if (daemonp)
+      (use-package rg)
+    (use-package rg
+      :bind ("C-c s" . rg-menu)
+      :config
+      (rg-enable-default-bindings)
+      (setq rg-group-result t)
+      (setq rg-ignore-case 'smart)
+      (setq rg-show-header nil)))
+#+end_src
+
+** find-file-in-project
+Enable to find files in project. Project can be interpreted with various
+packages like projectile or the built-in project.el.
+Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coerently.
+
+#+begin_src emacs-lisp
+  (if (daemonp)
+      (use-package find-file-in-project
+	:config
+	(setq ffip-use-rust-fd t)
+	(setq ffip-prefer-ido-mode t))
+    (use-package find-file-in-project
+      :defer 5
+      :config
+      (setq ffip-use-rust-fd t)
+      (setq ffip-prefer-ido-mode t)))
+#+end_src
+
+* Programming languages
 ** C/C++
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
 configuration file named /.clangd/ or a global one named
@@ -260,6 +507,11 @@ The content of the file must be
 #+begin_src dot
   CompileFlags:
   Add: [-target, x86_64-pc-windows-gnu]
+#+end_src
+*** cmake
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+  :mode ("\\CMakeLists.txt" . cmake-mode))
 #+end_src
 
 ** Arduino
@@ -280,7 +532,21 @@ The content of the file must be
 # * Keybindings
 ** Python
 #+begin_src emacs-lisp
+  (use-package python-black
+    :after python-mode)
   (setq python-indent-offset 2)
+#+end_src
+
+** Powershell
+#+begin_src emacs-lisp
+  (use-package powershell    
+    :commands powershell)
+#+end_src
+
+** MATLAB
+#+begin_src emacs-lisp
+    (use-package matlab-mode
+      :defer (if (daemonp) nil t))
 #+end_src
 
 * Keybindings
@@ -383,260 +649,6 @@ The folling keybinding are:
 			(t 'complete-symbol)))
   (global-set-key (kbd "C-.") 'dabbrev-expand)
 #+end_src
-* Plugins
-** package
-Setup the melpa repository and refresh the contents of package-archives to be
-prepared for plugins installation.
-#+begin_src emacs-lisp
-  (require 'package)
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")
-			   ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents))
-#+end_src
-
-** use-package
-/use-package/ is a nice and useful package manager
-
-- the /use-package-always-ensure/ variable means that package not already
-  downloaded will be
-- the /use-package-compute-statistics/ enable to profile the startup time of
-  installed packages via the *use-package-profile* command.
-  
-#+begin_src emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-
-  (require 'use-package)
-  (setq use-package-always-ensure t)
-  (setq use-package-compute-statistics t)
-#+end_src
-** diminish
-*diminish* enable to hide minor-mode names from minibuffer.
-To hide a minor-mode put
-`:diminish` in the use-package configuration of the mode package
-#+begin_src emacs-lisp
-  (use-package diminish)
-#+end_src
-
-** which-key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :defer (if (daemonp) nil 5)
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config
-    (setq which-key-idle-delay 0.1)
-    (which-key-setup-minibuffer)
-    )
-#+end_src
-
-** COMMENT company
-#+begin_src emacs-lisp
-  (use-package company
-    :defer (if (daemonp) nil t)
-    :bind (("S-<SPC>" . company-complete))
-    :init
-    (setq lm/company t)
-    (setq company-dabbrev-ignore-case t)
-    (setq company-dabbrev-code-ignore-case t)    
-    (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5)
-    :config
-    (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-    (global-company-mode t))
-#+end_src
-** corfu
-#+begin_src emacs-lisp
-  (use-package corfu
-    :defer (if (daemonp) nil 5)
-    :init
-    (setq corfu-auto t
-	  corfu-auto-delay 0.3
-	  corfu-preview-current nil
-	  corfu-quit-no-match 'separator
-	  completion-styles '(basic ))
-    (global-corfu-mode))
-
-  (unless (display-graphic-p)
-    (use-package corfu-terminal
-      :init
-      (custom-set-faces
-       '(corfu-default ((t (:background "black")))))
-      (corfu-terminal-mode)))
-
-  (use-package cape
-    :bind (("S-<SPC>" . completion-at-point))
-    :init
-    (setq completion-ignore-case t)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-file))
-#+end_src
-** tree-sitter
-#+begin_src emacs-lisp
-  (use-package tree-sitter
-    :defer (if (daemonp) nil 5)
-    :diminish)
-  (use-package tree-sitter-langs
-    :after tree-sitter
-    :config
-    (global-tree-sitter-mode)
-    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-#+end_src
-
-** rg
-This package enable to grep in files and it is cross-platform.
-Requires [[https://github.com/BurntSushi/ripgrep][ripgrep]] to work.
-
-#+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package rg)
-    (use-package rg
-      :bind ("C-c s" . rg-menu)
-      :config
-      (rg-enable-default-bindings)
-      (setq rg-group-result t)
-      (setq rg-ignore-case 'smart)
-      (setq rg-show-header nil)))
-#+end_src
-** find-file-in-project
-Enable to find files in project. Project can be interpreted with various
-packages like projectile or the built-in project.el.
-Requires [[https://github.com/sharkdp/fd][fd]] to search in cross-platform coerently.
-
-#+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package find-file-in-project
-	:config
-	(setq ffip-use-rust-fd t)
-	(setq ffip-prefer-ido-mode t))
-    (use-package find-file-in-project
-      :defer 5
-      :config
-      (setq ffip-use-rust-fd t)
-      (setq ffip-prefer-ido-mode t)))
-#+end_src
-** yasnippet
-#+begin_src emacs-lisp
-  (use-package yasnippet
-    :defer (if (daemonp) nil t)
-    :hook
-    ((conf-mode
-      snippet-mode
-      org-mode
-      c-mode-common
-      python-mode) . yas-minor-mode-on )
-    :config
-    (global-set-key (kbd "C-c y") 'lm/yasnippet-complete))
-  (use-package yasnippet-snippets
-    :after yasnippet)
-  (use-package yasnippet-classic-snippets
-    :after yasnippet)
-#+end_src
-** pdf-tools
-pdf-tools enable to visualize pdf inside emacs and provides useful features like
-midnight mode
-on windows it require msys2
-#+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package pdf-tools
-	:config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
-    (use-package pdf-tools
-      :defer 5
-      :mode ("\\.pdf\\'" . pdf-view-mode)
-      :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes)))
-#+end_src
-** olivetti
-#+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package olivetti)
-    (use-package olivetti
-      :defer t))
-#+end_src
-
-** eglot
-#+begin_src emacs-lisp
-  (use-package eglot
-    :defer (if (daemonp) nil t)
-    :pin melpa
-    :init
-    (setq eglot-connect-timeout 90)
-    ;; (add-hook 'python-mode-hook 'eglot-ensure)
-    ;; (add-hook 'c-mode-common-hook 'eglot-ensure)
-    ;; (add-hook 'cmake-mode-hook 'eglot-ensure)
-    :config
-    (define-key eglot-mode-map (kbd (concat lm/leader "lar")) 'eglot-rename)
-    (define-key eglot-mode-map (kbd (concat lm/leader "lao")) 'eglot-code-action-organize-imports)
-    (define-key eglot-mode-map (kbd (concat lm/leader "laa")) 'eglot-code-actions)
-    (define-key eglot-mode-map (kbd (concat lm/leader "lf")) 'eglot-format-buffer)
-    (define-key eglot-mode-map (kbd (concat lm/leader "h")) 'eldoc)
-    (define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
-    (define-key eglot-mode-map (kbd (concat lm/leader "gr")) 'xref-find-references))
-#+end_src
-** COMMENT treemacs
-#+begin_src emacs-lisp
-  (use-package treemacs
-    :defer (if (daemonp) nil t)
-    :init
-    (lm/leader-set-key "e" 'treemacs))
-#+end_src
-** COMMENT lsp-mode
-i'm trying to use eglot instead of lsp-mode but i keep this configuration code
-#+begin_src emacs-lisp
-  (defun lm/lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
-
-  (setenv "LSP_USE_PLISTS" "true")
-  (setq lsp-use-plists t)
-  (use-package lsp-mode
-    :defer t
-    :commands (lsp lsp-deferred)
-    :hook ((lsp-mode . lm/lsp-mode-setup)
-	   (c++-mode . lsp)
-	   (python-mode . lsp))
-    :init
-    (setq lsp-keymap-prefix "C-M-l")
-
-    :config
-    (setq lsp-idle-delay 0.500)
-    (lsp-enable-which-key-integration t))
-
-  (use-package lsp-ui
-    :after lsp-mode
-    :hook (lsp-mode . lsp-ui-mode)
-    :custom
-    (lsp-ui-doc-position 'bottom))
-
-  (use-package lsp-pyright
-    :after lsp-mode
-    :ensure t
-    :hook (python-mode . (lambda ()
-			   (require 'lsp-pyright)
-			   (lsp-deferred))))
-#+end_src
-
-** COMMENT powershell
-#+begin_src emacs-lisp
-  (use-package powershell    
-    :commands powershell)
-#+end_src
-
-** cmake-mode
-#+begin_src emacs-lisp
-  (if (daemonp)
-      (use-package cmake-mode)
-    (use-package cmake-mode
-      :mode ("\\CMakeLists.txt" . cmake-mode)))
-#+end_src
-
-** matlab-mode
-#+begin_src emacs-lisp
-  (use-package matlab-mode
-    :defer (if (daemonp) nil t))
-#+end_src
 * Org-mode
 Basic configuration of org mode files.
 ** Syntax colouring on latex export
@@ -706,15 +718,6 @@ on the top of the org file.
 #+end_src
 
 * My functions
-** lm/yasnippet-complete
-This function is used to choose the correct yasnippets completion function
-depending of the current selection method
-#+begin_src emacs-lisp
-  (defun lm/yasnippet-complete ()
-    (interactive)
-    (cond ((boundp 'lm/company) (company-complete))
-	  (t (yas-insert-snippet))))
-#+end_src
 ** COMMENT ripgrep
 ask for searching in files with ripgrep
 #+begin_src emacs-lisp
@@ -739,7 +742,7 @@ i need a way to easily call wezterm and open it in the current directory.
 		   default-directory))
 #+end_src
 
-** Resize font
+** COMMENT Resize font
 #+begin_src emacs-lisp
   (defvar lm/font-increase-step 5)
   (defun lm/font-increase ()
@@ -766,196 +769,6 @@ understood and explained
 #+end_src
 
 * Testing
-** COMMENT ido-mode
-ido-mode enable some autocompletions in minibuffer
-
-#+begin_src emacs-lisp
-  (use-package ido
-    :config
-    (ido-mode t))
-#+end_src
-
-** COMMENT cygwin64
-If under windows may be a good choise to use a native emacs build with the
-support of bash provided by cygwin64
-#+begin_src emacs-lisp
-  (if (string-equal system-type "windows-nt")
-      (let* ((cygwin-root "D:/cygwin64")
-	     (cygwin-bin (concat cygwin-root "/bin")))
-	(if (file-readable-p cygwin-root)
-	    (progn
-	      (setq shell-file-name "bash")
-	      (setenv "SHELL" shell-file-name)
-	      (setq explicit-shell-file-name shell-file-name)))))
-#+end_src
-
-#+RESULTS:
-: bash
-
-
-
-
-
-
-
-<<<<<<< HEAD
-* COMMENT disabled features
-** plugins
-** Keybindings (with evil)
-Those are keybinding i use with evil mode, anyway i found evil conflicting a lot
-with other keymapping of basic emacs and with most of the usefull tips that can
-be found online
-*** global
-#+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+end_src
-
-*** general
-#+begin_src emacs-lisp
-  (use-package general
-    :config
-    (general-create-definer lm/leader-keys
-			    :keymaps '(normal insert visual emacs)
-			    :prefix "SPC"
-			    :global-prefix "C-SPC"))
-
-  (lm/leader-keys
-   "RET" '(counsel-M-x :which-key "M-x"))
-#+end_src
-
-*** evil
-#+begin_src emacs-lisp
-  (use-package evil
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-undo-system 'undo-redo)
-    :config
-    (evil-mode 1)
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal))
-
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
-#+end_src
-
-*** tabs
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "t" '(:ignored t :which-key "tab")
-   "tn" '(tab-new :which-key "new")
-   "tj" '(tab-next :which-key "next")
-   "tk" '(tab-previous :which-key "previous")
-   "td" '(tab-close :which-key "close")
-   "TAB" '(tab-next :which-key "next tab")
-   "<backtab>" '(tab-previous :which-key "previous tab"))
-#+end_src
-
-*** buffer
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "b"  '(:ignore t :which-key "buffer")
-   "bf" '(counsel-find-file :which-key "find file")
-   "bs" '(save-buffer :which-key "save buffer")
-   "bd" '(kill-buffer :which-key "kill buffer")
-   "bl" '(ivy-switch-buffer :which-key "switch buffer")
-   "bL" '(list-buffers :which-key "list buffers"))
-#+end_src
-
-*** search
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "s" '(:ignore t :which-key "search")
-   "ss" '(swiper-isearch :which-key "search")
-   "sr" '(replace-string :which-key "replace"))
-#+end_src
-
-*** appearence
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "a"  '(:ignore t :which-key "appearence")
-   "a+" '(text-scale-increase :which-key "increase scale")
-   "a-" '(text-scale-decrease :which-key "decrease scale")
-   "at" '(counsel-load-theme :which-key "choose theme"))
-#+end_src
-
-*** eval
-#+begin_src emacs-lisp
-  (defun load-init () (interactive)
-	 (load-file "~/.config/emacs/init.el"))
-  (lm/leader-keys
-   "v" '(:ignored t :which-key "eval")
-   "vb" '(eval-buffer :which-key "eval buffer")
-   "vl" '(eval-last-sexp :which-key "eval last sexp")
-   "vi" '(load-init :which-key "load init.el"))
-#+end_src
-
-*** window
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "w" '(:ignored t :which-key "window")
-   "wo" '(delete-other-windows :which-key "delete other windows")
-   "wc" '(evil-window-delete :which-key "delete window")
-   "ws" '(evil-window-split :which-key "split horizontal")
-   "wv" '(evil-window-vsplit :which-key "split vertical")
-   "wh" '(evil-window-left :which-key "move left")
-   "wj" '(evil-window-down :which-key "move down")
-   "wk" '(evil-window-up :which-key "move up")
-   "wl" '(evil-window-right :which-key "move right"))
-#+end_src
-
-*** terminal
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "T" '(:ignored t :which-key "terminal")
-   "Tv" '(vterm :which-key "vterm")
-   "Ts" '(eshell :which-key "eshell"))
-#+end_src
-
-*** explore
-#+begin_src emacs-lisp
-  (lm/leader-keys
-   "e" '(:ignored t :which-key "explore")
-   "ed" '(dired :which-key "dired")
-   "ec" '(pwd :which-key "pwd"))
-#+end_src
-
-*** lsp
-#+begin_src emacs-lisp
-  (defun lm/lsp-keymap ()
-    (interactive)
-    (lm/leader-keys
-     "l" '(:ignored t :which-key "lsp")
-     "lf" '(lsp-format-buffer :which-key "format")))
-  (add-hook 'lsp-mode-hook 'lm/lsp-keymap)
-#+end_src
-
-** PowerShell configuration
-Set PowerShell as the main console interpreter
-To make pwsh run in term and ansi-term you need to edit the /term.el/ file changing
-the code around
-#+begin_src
- "/bin/sh" "-c"
-#+end_src
-
-to
-
-#+begin_src
- "pwsh"
-#+end_src
-
-Then the /load-prefer-newer/ option must be set to enable the recent edited file.
-
-#+begin_src emacs-lisp
-  (setq explicit-shell-file-name "pwsh")
-  (setq explicit-powershell.exe-args '("-Command" "-"))
-#+end_src
-
 * COMMENT Notes
 ** elisp
 this function lets you view the previous invoked commands

@@ -7,6 +7,19 @@
 --------------------------------------------------------------------------------
 
 show_tabs = false
+color_schemes = {
+   dark = {
+      monokai = "Monokai Remastered",
+      gruvbox = "Gruvbox dark, hard (base16)",
+      blazer = "Blazer",
+      slate = "Slate",
+   },
+   light = {
+      material = "Material",
+      man_page = "Man Page",
+      github = "Github (base16)",
+   },
+}
 
 --------------------------------------------------------------------------------
 --                                                                            --
@@ -169,10 +182,6 @@ local conf = {
    font = wezterm.font('JetBrains Mono'),
    font_size = 10,
    cell_width = 1.0,
-   --color_scheme = "Slate",
-   -- color_scheme = "Gruvbox dark, hard (base16)",
-   color_scheme = "Monokai Remastered",
-   -- color_scheme = "Blazer",
    default_prog = { "pwsh" },
    warn_about_missing_glyphs = false,
    window_background_opacity = 1.0,
@@ -184,6 +193,7 @@ local conf = {
    key_tables = key_tables,
    debug_key_events = true,
    enable_csi_u_key_encoding = true,
+   color_scheme = color_schemes.light["github"],
 }
 
 return conf
