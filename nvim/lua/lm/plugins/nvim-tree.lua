@@ -1,30 +1,33 @@
-return {
-  setup = function(use)
-    use {
-      'kyazdani42/nvim-tree.lua',
-      opt = true,
-      requires = {
-        'nvim-tree/nvim-web-devicons', -- optional, for file icons
-      },
-      cmd = "NvimTreeToggle",
-      config = function()
-        require 'nvim-tree'.setup {
-          view = {
-            mappings = {
-              list = {
-                { key = "cd", action = "cd" },
-                { key = "cc", action = "copy" },
-              }
-            }
+local M = {}
+
+M.name = 'nvim-tree'
+M.url = 'kyazdani42/nvim-tree.lua'
+M.lazy = true
+M.requires = {
+  { url = 'nvim-tree/nvim-web-devicons' }, 
+}
+M.cmd = "NvimTreeToggle"
+M.config = function()
+  local ok, nvim_tree = pcall(require, 'nvim-tree')
+  if ok then
+    nvim_tree.setup {
+      view = {
+        mappings = {
+          list = {
+            { key = "cd", action = "cd" },
+            { key = "cc", action = "copy" },
           }
         }
-      end
+      }
     }
-  end,
+  else
+    print 'nvim-tree: config error'
+  end
+end
+M.init = function()
+  LM.explorer.toggle_explorer = function()
+    vim.cmd ':NvimTreeToggle'
+  end
+end
 
-  config = function()
-    LM.explorer.toggle_explorer = function()
-      vim.cmd ':NvimTreeToggle'
-    end
-  end,
-}
+return M

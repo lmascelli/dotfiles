@@ -1,6 +1,6 @@
 LM.explorer = {
   toggle_explorer = function()
-    vim.cmd ':Lexplore'
+    vim.cmd ':20Lexplore'
   end,
 
   pushed_dir = vim.fn.getcwd(),

@@ -7,7 +7,7 @@ elseif LM.os_version == "Windows" then
    config.font_name = 'JetBrains Mono'
 end
    
-config.font_size = 10
+config.font_size = 9
 
 config.opts = {
 
@@ -21,7 +21,7 @@ config.load_plugins = true
 
 config.plugin_list = {
   'which-key',
-  -- 'nvim-tree',
+  'nvim-tree',
   'telescope',
   -- 'lualine',
   -- 'bufferline',

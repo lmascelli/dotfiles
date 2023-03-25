@@ -31,10 +31,7 @@ LM.font.load_custom()
 -- defaults providers
 -------------------------------------------------------------------------------
 -- keymap provider
-local default_keymap = require 'lm.keymaps'
-LM.keymap = {
-	set_keymap = default_keymap,
-}
+LM.keymaps = require 'lm.keymaps'
 
 -- explorer provider
 require 'lm.explorer'

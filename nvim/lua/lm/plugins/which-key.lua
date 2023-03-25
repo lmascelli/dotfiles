@@ -55,10 +55,8 @@ M.config = function(params)
 			wk.register(mapping, wk_opts)
 		end
 
-		LM.keymap.set_keymap = wk_set_keymap
-
+    LM.keymaps.set_keymap = wk_set_keymap
 	end
-
 end
 
 return M

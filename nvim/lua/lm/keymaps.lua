@@ -1,5 +1,5 @@
 --default keyamp function
-local function default_keymap(mode, map, expr, opts, buf, name)
+local function default_set_keymap(mode, map, expr, opts, buf, name)
   opts = opts or {
     silent = true,
     noremap = false,
@@ -13,4 +13,20 @@ local function default_keymap(mode, map, expr, opts, buf, name)
   end
 end
 
-return default_keymap
+local function default_add_map(mode, map, expr, opts, buf, name)
+  table.insert(LM.keymaps.maps, 
+    {
+      mode = mode,
+      map = map,
+      expr = expr,
+      opts = opts,
+      buf = buf,
+      name = name or nil,
+    })
+end
+
+return {
+  maps = {},
+  add_map = default_add_map,
+  set_keymap = default_set_keymap,
+}

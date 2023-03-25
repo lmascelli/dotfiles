@@ -97,6 +97,16 @@ local keys = {
    { key = 'DownArrow',
      mods = "LEADER",
      action = wezterm.action.ActivatePaneDirection 'Down' },
+   { key = 'v',
+     mods = "LEADER",
+     action = wezterm.action.SplitPane { direction = "Right" }, },
+   { key = 's',
+     mods = "LEADER",
+     action = wezterm.action.SplitPane { direction = "Down" }, },
+   { key = 'd',
+     mods = "LEADER",
+     action = wezterm.action.CloseCurrentPane { confirm = false } },
+
 }
 
 local key_tables = {
@@ -120,15 +130,6 @@ local key_tables = {
 	action = wezterm.action.AdjustPaneSize { 'Down', 1 } },
       { key = 'j',
 	action = wezterm.action.AdjustPaneSize { 'Down', 1 } },
-
-      { key = 'v',
-	action = wezterm.action.SplitPane { direction = "Right" }, },
-
-      { key = 's',
-	action = wezterm.action.SplitPane { direction = "Down" }, },
-
-      { key = 'd',
-	action = wezterm.action.CloseCurrentPane { confirm = false } },
 
       { key = 't',
 	action = wezterm.action.EmitEvent 'toggle-tabs' },
@@ -193,7 +194,7 @@ local conf = {
    key_tables = key_tables,
    debug_key_events = true,
    enable_csi_u_key_encoding = true,
-   color_scheme = color_schemes.light["github"],
+   color_scheme = color_schemes.dark["monokai"],
 }
 
 return conf

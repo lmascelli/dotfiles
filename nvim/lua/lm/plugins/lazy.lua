@@ -33,6 +33,8 @@ M.install_plugin = function(plugin)
 		-- lazy = plugin.lazy,
 		-- event = plugin.event,
 		dependencies = dependencies,
+    cmd = plugin.cmd,
+    init = plugin.init,
 		config = function(p)
 			if plugin.config then
 				plugin.config()

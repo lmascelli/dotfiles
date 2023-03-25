@@ -2,7 +2,7 @@ local M = {}
 
 M.keymaps = function()
 
-  local keymap = LM.keymap.set_keymap
+  local keymap = LM.keymaps.add_map
 
   local opts = { noremap = true, silent = true }
   local term_opts = { silent = true }
@@ -25,6 +25,10 @@ M.keymaps = function()
   keymap("n", "<C-j>", "<C-w>j", opts, buf, 'Window down')
   keymap("n", "<C-k>", "<C-w>k", opts, buf, 'Window up')
   keymap("n", "<C-l>", "<C-w>l", opts, buf, 'Window right')
+  keymap("n", "<A-Left>", "<C-w>h", opts, buf, 'Window left')
+  keymap("n", "<A-Down>", "<C-w>j", opts, buf, 'Window down')
+  keymap("n", "<A-Up>", "<C-w>k", opts, buf, 'Window up')
+  keymap("n", "<A-Right>", "<C-w>l", opts, buf, 'Window right')
   keymap('n', '<leader>qq', '<cmd>qa!<cr>', opts, buf, 'Quit')
   keymap('n', '<m-ScrollWheelUp>', 'zhzh', opts, buf, '')
   keymap('n', '<m-ScrollWheelDown>', 'zlzl', opts, buf, '')

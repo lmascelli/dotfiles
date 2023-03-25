@@ -8,7 +8,7 @@ if custom then
 				p.post()
 			end
 		else
-			print('Error loading plugin ' .. v)
+			print('after:post. Error loading plugin ' .. v)
 		end
 	end
 end
@@ -21,4 +21,12 @@ end
 
 if LM.config and LM.config.after then
 	LM.config.after()
+end
+
+-------------------------------------------------------------------------------
+-- set keymaps
+-------------------------------------------------------------------------------
+
+for _, v in pairs(LM.keymaps.maps) do
+  LM.keymaps.set_keymap(v.mode, v.map, v.expr, v.opts, v.buf, v.name)
 end
