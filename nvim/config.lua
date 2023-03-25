@@ -24,7 +24,7 @@ config.plugin_list = {
   'nvim-tree',
   'telescope',
   -- 'lualine',
-  -- 'bufferline',
+  'bufferline',
   -- 'lsp',
   -- 'lspsaga',
   -- 'nvim-cmp',
