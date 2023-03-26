@@ -28,6 +28,9 @@ M.install_plugin = function(plugin)
 			table.insert(dependencies, v.url)
 		end
 	end
+  if table.getn(dependencies) == 0 then
+    dependencies = nil
+  end
 	table.insert(LM.plugins.setup_list, {
 		plugin.url,
 		-- lazy = plugin.lazy,

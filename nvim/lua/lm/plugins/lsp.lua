@@ -1,8 +1,15 @@
 local M = {}
+M.name = 'lsp stuff'
+M.url = "williamboman/mason-lspconfig.nvim"
 
-local keymap = LM.keymap.set_keymap
+M.requires = {
+	{ url = "williamboman/mason.nvim" },
+  { url = "neovim/nvim-lspconfig" } ,
+	-- { url = "p00f/clangd_extensions.nvim", }
+}
 
 local on_attach = function(_, bufnr) -- hidden parameter client
+  local keymap = LM.keymaps.set_keymap
 	local opts = { noremap = true, silent = true }
 	keymap('n', '<leader>l', '', opts, bufnr, 'lsp')
 	keymap('n', '<leader>ld', '', opts, bufnr, 'diagnostic')

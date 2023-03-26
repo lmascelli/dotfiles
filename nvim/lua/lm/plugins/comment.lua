@@ -1,12 +1,15 @@
-return {
-  setup = function(use)
-    use 'numToStr/Comment.nvim'
-  end,
+local M = {}
 
-  config = function()
-    local comment = require 'Comment'
+M.name = 'nvim-comment'
+M.url = 'numToStr/Comment.nvim'
+
+M.config = function()
+  local ok, comment = pcall(require, 'Comment')
+  if ok then
     comment.setup {
-      --    mappings = false
+    --    mappings = false
     }
-  end,
-}
+  end
+end
+
+return M

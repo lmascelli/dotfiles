@@ -5,22 +5,23 @@ M.name = "mason"
 M.url = "williamboman/mason-lspconfig.nvim"
 
 M.requires = {
-	{ url = "williamboman/mason.nvim", },
+	{ url = "williamboman/mason.nvim" },
+  { url = "neovim/nvim-lspconfig" } ,
 	-- { url = "p00f/clangd_extensions.nvim", }
 }
 
 M.config = function()
 	local ok_mason, mason = pcall(require, 'mason')
-	local ok_mason_lspconfig, lspconfig = pcall(require, 'mason-lspconfig')
+	local ok_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
+	local ok_lspconfig, lspconfig = pcall(require, 'lspconfig')
 
-	if ok_mason and ok_mason_lspconfig then
+	if ok_mason and ok_mason_lspconfig and ok_lspconfig then
 		mason.setup()
-		lspconfig.setup()
+		mason_lspconfig.setup()
 
-
-		lsp_config.util.default_config = vim.tbl_extend(
+		lspconfig.util.default_config = vim.tbl_extend(
 			"force",
-			lsp_config.util.default_config,
+			lspconfig.util.default_config,
 			{
 				on_attach = on_attach
 			}
