@@ -91,10 +91,10 @@ local keys = {
     mods = "LEADER",
     action = wezterm.action.EmitEvent 'terminal-spawn'
   },
-  -- { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
-  --   wezterm.action.SendKey {key = "x", mods = "CTRL"},
-  --   wezterm.action.SendKey {key = "o", mods = "CTRL"},
-  -- }},
+  { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
+    wezterm.action.SendKey {key = "x", mods = "CTRL"},
+    wezterm.action.SendKey {key = "o", mods = "CTRL"},
+  }},
   {
     key = 'LeftArrow',
     mods = "LEADER",

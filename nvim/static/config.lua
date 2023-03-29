@@ -2,11 +2,11 @@ local config = {}
 
 config.colorscheme = 'default'
 if LM.os_version == 'Linux' then
-   config.font_name = 'JetBrains Mono NF'
+  config.font_name = 'JetBrains Mono NF'
 elseif LM.os_version == "Windows" then
-   config.font_name = 'JetBrains Mono'
+  config.font_name = 'JetBrains Mono'
 end
-   
+
 config.font_size = 10
 
 config.opts = {
@@ -26,17 +26,17 @@ config.plugin_list = {
   -- 'lualine',
   -- 'bufferline',
   -- 'lsp',
-  -- 'lspsaga',
   -- 'nvim-cmp',
   -- 'luasnip',
-  -- 'comment',
   -- 'nvim-autopairs',
+  -- 'coc',
+  -- 'lspsaga',
+  -- 'comment',
   -- 'toggleterm',
   -- 'bufdelete',
   -- 'treesitter',
   -- 'startup-time',
   -- 'black',
-  -- 'coc',
 }
 
 

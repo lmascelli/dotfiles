@@ -42,16 +42,18 @@ local config = function()
 
     local keymap = vim.api.nvim_set_keymap
 
-    keymap('n', 'K', 'CocActionAsync("doHover")', {
+    keymap('n', '<leader>l', '', nil, nil, "lsp")
+    keymap('n', '<leader>lg', '', nil, nil, "go to")
+    keymap('n', '<leader>lc', '', nil, nil, "code action")
+    keymap('n', 'lK', 'CocActionAsync("doHover")', {
   silent = true,
   nowait = true,
-  expr = true,
-    })
+    }, nil, nil, "Documentation")
     -- <space>gs --> Signature
-    keymap('i', '<c-l>', '<c-r>=CocActionAsync("showSignatureHelp")<cr>', {
+    keymap('n', '<leader>lk', '<c-r>=CocActionAsync("showSignatureHelp")<cr>', {
   silent = true,
   nowait = true,
-    })
+    }, nil, nil, "signature")
     -- <c-x><c-o> --> Show completion
     keymap('i', '<c-x><c-o>', 'coc#refresh()', {
   silent = true,
@@ -66,7 +68,7 @@ local config = function()
     -- <space>ge --> Diagnostics
     keymap('n', '<leader>gp', '<cmd>CocList diagnostics<cr>', {})
     -- <space>g. --> Fix
-    keymap('n', '<leader>g.', '<cmd>CocFix<cr>', {})
+    keymap('n', '<leader>gca', '<cmd>CocFix<cr>', {})
 end
 
 
