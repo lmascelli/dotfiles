@@ -1,6 +1,6 @@
 local config = {}
 
-config.colorscheme = 'default'
+config.colorscheme = 'slate'
 if LM.os_version == 'Linux' then
   config.font_name = 'JetBrains Mono NF'
 elseif LM.os_version == "Windows" then
@@ -10,7 +10,7 @@ end
 config.font_size = 9
 
 config.opts = {
-
+  termguicolors = true,
 }
 
 config.settings = {
@@ -27,8 +27,9 @@ config.plugin_list = {
   'bufferline',
   'lsp',
   -- 'lspsaga',
-  -- 'nvim-cmp',
-  -- 'luasnip',
+  'nvim-cmp',
+  'luasnip',
+  -- 'coc',
   'comment',
   'nvim-autopairs',
   'toggleterm',

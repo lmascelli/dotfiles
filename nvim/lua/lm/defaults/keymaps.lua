@@ -1,7 +1,6 @@
 local M = {}
 
 M.keymaps = function()
-
   local keymap = LM.keymaps.add_map
 
   local opts = { noremap = true, silent = true }
@@ -14,6 +13,10 @@ M.keymaps = function()
   vim.g.maplocalleader = " "
 
   --------------------------------------  NORMAL --------------------------------
+
+
+  --  <C-g> as Escape
+  keymap("n", "<C-g>", "<Escape>", opts, buf, '')
 
   --  Window navigation
   keymap("n", "<leader>w", "", opts, buf, "Window")
@@ -72,8 +75,20 @@ M.keymaps = function()
   keymap('n', '<leader>a', '', opts, buf, 'Appearence')
   keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Increase font')
   keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Decrease font')
+  keymap('n', '<leader>ac', ':Telescope colorscheme enable_preview=true<cr>', opts, buf, 'Colorscheme')
+
+  -- Searching
+  local search_opts = opts
+  search_opts.silent = false
+  keymap('n', '<leader>s', '', opts, buf, 'Search')
+  keymap('n', '<leader>ss', '/', search_opts, buf, 'search')
+  keymap('n', '<leader>sr', ':%s/', search_opts, buf, 'replace')
+  keymap('n', '<leader>sh', '<cmd>nohl<cr>', search_opts, buf, 'highlight off')
 
   ------------------------------------- INSERT ----------------------------------
+
+  --  <C-g> as Escape
+  keymap("i", "<C-g>", "<Escape>", opts, buf, '')
 
   keymap("i", "<C-ì>", "<C-k>'?", opts, buf, '')
   keymap("c", "<C-ì>", "<C-k>'?", opts, buf, '')
@@ -82,14 +97,16 @@ M.keymaps = function()
   keymap("i", "<s-cr>", "<c-o>O", opts, buf, '')
   keymap("i", "<c-cr>", "<c-o>o", opts, buf, '')
 
-  -- Completion
-  keymap("i", "<C-Space>", "<C-x><C-o>", opts, buf, '')
+  -- -- Completion
+  -- keymap("i", "<C-n>", "<cmd>:lua LM.complete()<cr>", opts, buf, '')
 
   -- File saving
   keymap("i", "<C-s>", "<cmd>:w!<cr>", opts, buf, '')
 
-
   ------------------------------------- VISUAL ----------------------------------
+
+  --  <C-g> as Escape
+  keymap("t", "<C-g>", "<Escape>", opts, buf, '')
 
   -- Moving text
   keymap("v", "<A-j>", ":m .+1<CR>==", opts, buf, '')
@@ -99,6 +116,9 @@ M.keymaps = function()
 
   ----------------------------------- VISUAL BLOCK ------------------------------
 
+  --  <C-g> as Escape
+  keymap("t", "<C-g>", "<Escape>", opts, buf, '')
+
   -- Moving text
   keymap("x", "J", ":move '>+1<CR>gv-gv", opts, buf, '')
   keymap("x", "K", ":move '<-2<CR>gv-gv", opts, buf, '')
@@ -107,6 +127,7 @@ M.keymaps = function()
 
 
   ------------------------------------- TERMINAL --------------------------------
+
   keymap("t", "<Escape>", "<C-\\><C-n>", term_opts, buf, '')
   keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts, buf, '')
   keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts, buf, '')

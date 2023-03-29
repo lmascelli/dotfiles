@@ -4,8 +4,8 @@ M.url = "williamboman/mason-lspconfig.nvim"
 
 M.requires = {
 	{ url = "williamboman/mason.nvim" },
-  { url = "neovim/nvim-lspconfig" } ,
-	-- { url = "p00f/clangd_extensions.nvim", }
+  { url = "neovim/nvim-lspconfig" },
+	{ url = "p00f/clangd_extensions.nvim", },
 }
 
 local on_attach = function(_, bufnr) -- hidden parameter client

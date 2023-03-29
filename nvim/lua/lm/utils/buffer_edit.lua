@@ -7,5 +7,5 @@ end
 
 LM.buffer_delete = function()
   vim.cmd 'bprevious'
-  vim.cmd 'bdelete#'
+  vim.cmd 'bdelete!#'
 end

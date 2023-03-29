@@ -8,7 +8,7 @@ return function(data)
   require 'clangd_extensions'.setup {
     server = {
       on_attach = function(client, bufnr)
-        local keymap = LM.keymap.set_keymap
+        local keymap = LM.keymaps.set_keymap
         data.on_attach(client, bufnr)
         keymap("n", "<leader>lh", "<cmd>ClangdSwitchSourceHeader<cr>", {}, nil,
           "Switch Source-Header")

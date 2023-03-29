@@ -33,11 +33,15 @@ M.install_plugin = function(plugin)
   end
 	table.insert(LM.plugins.setup_list, {
 		plugin.url,
-		-- lazy = plugin.lazy,
-		-- event = plugin.event,
+    dit = plugin.dir,
+		lazy = plugin.lazy,
+    branch = plugin.branch,
+		event = plugin.event,
 		dependencies = dependencies,
     cmd = plugin.cmd,
     init = plugin.init,
+    ft = plugin.ft,
+    pin = plugin.held,
 		config = function(p)
 			if plugin.config then
 				plugin.config()
