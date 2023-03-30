@@ -1,0 +1,6 @@
+{
+  "suggest.pumFloatConfig": {
+    "border": true,
+    "rounded": true
+  }
+}

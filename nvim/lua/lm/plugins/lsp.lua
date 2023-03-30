@@ -1,6 +1,7 @@
 local M = {}
 M.name = 'lsp stuff'
 M.url = "williamboman/mason-lspconfig.nvim"
+M.ft = LM.config.prog_modes
 
 M.requires = {
 	{ url = "williamboman/mason.nvim" },

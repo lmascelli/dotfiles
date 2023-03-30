@@ -14,7 +14,7 @@ M.init = function()
   keymap('n', '<leader>lk', '<c-r>=CocActionAsync("showSignatureHelp")<cr>',
     nil, nil, "signature")
   -- <space>gf --> Format document
-  keymap('n', '<leader>lf', '<cmd>CocCommand editor.action.formatDocument<cr>',
+  keymap('n', '<leader>lf', '<cmd>:call CocActionAsync("format")<cr>',
     nil, nil, "format")
   -- <space>gr --> Refactor
   keymap('n', '<leader>lcr', '<Plug>(coc-rename)', nil, nil, "refactor")

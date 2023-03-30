@@ -37,3 +37,7 @@ LM.edit_conf = function()
   vim.cmd('cd ' .. vim.fn.stdpath('config'))
   vim.cmd 'e .'
 end
+
+LM.spawn_terminal = function()
+  vim.fn.jobstart("wezterm-gui start --cwd .")
+end

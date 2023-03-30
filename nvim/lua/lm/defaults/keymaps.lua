@@ -59,9 +59,9 @@ M.keymaps = function()
   keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
   keymap("n", "U", ":redo<cr>", opts, buf, '')
 
-  -- Script evaluating
-  keymap('n', '<leader>v', '', opts, buf, 'Script')
-  keymap('n', '<leader>vc', '<cmd>source %<cr>', {}, buf, 'Source this file')
+  -- Processes
+  keymap('n', '<leader>v', '', opts, buf, 'Processes')
+  keymap('n', '<leader>vs', '<cmd>source %<cr>', {}, buf, 'Source this file')
   keymap('n', '<leader>vl', '<cmd>lua LM.project_lua()<cr>', {
     silent = true,
     nowait = true,
@@ -70,6 +70,8 @@ M.keymaps = function()
     silent = true,
     nowait = true,
   }, buf, 'project.ps1')
+  keymap('n', '<leader>vc', '<cmd>lua LM.spawn_terminal()<cr>', nil, buf, 
+    'spawn terminal here')
 
   -- Appearence
   keymap('n', '<leader>a', '', opts, buf, 'Appearence')

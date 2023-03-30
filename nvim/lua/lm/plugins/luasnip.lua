@@ -1,10 +1,10 @@
 local M = {}
 
-
 M.url = 'rafamadriz/friendly-snippets'
 M.requires = {
   { url = 'L3MON4D3/LuaSnip' },
 }
+M.ft = LM.config.prog_modes
 M.config = function()
   require("luasnip.loaders.from_vscode").lazy_load()
   require 'luasnip'

@@ -10,7 +10,7 @@ end
 config.font_size = 9
 
 config.opts = {
-  termguicolors = true,
+  termguicolors = false,
 }
 
 config.settings = {
@@ -39,6 +39,14 @@ config.plugin_list = {
   -- 'black',
 }
 
+-- List of modes for which enable the lsp and snippets features
+config.prog_modes = {
+  "python",
+  "c",
+  "cpp",
+  "lua",
+  "matlab",
+}
 
 config.lsp_list = {
   'lua',
