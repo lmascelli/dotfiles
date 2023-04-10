@@ -2,26 +2,18 @@ local M = {}
 
 M.name = 'bufferline'
 M.url = 'akinsho/bufferline.nvim'
-M.requires = { { url='nvim-tree/nvim-web-devicons'}, }
+M.requires = { { url = 'nvim-tree/nvim-web-devicons' }, }
 
 M.config = function()
   require 'bufferline'.setup {
     options = {
-      show_close_icon = false,
-      diagnostics_indicator = function(_, _, diagnostics_dict, _) -- hidden count, level, context
-        local s = " "
-        for e, n in pairs(diagnostics_dict) do
-          local sym = e == "error" and " "
-          or (e == "warning" and " " or "")
-          s = s .. n .. sym
-        end
-        return s
-      end
+      indicator = {
+        style = 'underline',
+      }
     }
   }
 end
 M.init = function()
-
   local keymap = LM.keymaps.add_map
 
   keymap('n', '<a-1>', '<cmd>BufferLineGoToBuffer1<cr>', {})

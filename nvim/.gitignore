@@ -4,3 +4,4 @@ install_check
 packer_installed
 plugin_downloaded
 .luarc.json
+config.lua

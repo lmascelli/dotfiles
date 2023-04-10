@@ -1,6 +1,8 @@
 {
   "suggest.pumFloatConfig": {
     "border": true,
-    "rounded": true
-  }
+    "rounded": true,
+    "highlight": true
+  },
+  "snippets.ultisnips.pythonPrompt": false
 }
