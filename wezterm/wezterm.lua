@@ -91,10 +91,14 @@ local keys = {
     mods = "LEADER",
     action = wezterm.action.EmitEvent 'terminal-spawn'
   },
-  { key = " ", mods = "CTRL", action = wezterm.action.Multiple {
-    wezterm.action.SendKey {key = "x", mods = "CTRL"},
-    wezterm.action.SendKey {key = "o", mods = "CTRL"},
-  }},
+  {
+    key = " ",
+    mods = "CTRL",
+    action = wezterm.action.Multiple {
+      wezterm.action.SendKey { key = "x", mods = "CTRL" },
+      wezterm.action.SendKey { key = "o", mods = "CTRL" },
+    }
+  },
   {
     key = 'LeftArrow',
     mods = "LEADER",
@@ -179,7 +183,7 @@ local key_tables = {
     {
       key = 'Escape',
       action = 'PopKeyTable'
-    },                     -- Cancel the mode by pressing escape
+    }, -- Cancel the mode by pressing escape
   },
   activate_pane = {
     {
@@ -240,7 +244,7 @@ local conf = {
   initial_cols = 90,
   initial_rows = 40,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
-  font = wezterm.font('JetBrains Mono'),
+  -- font = wezterm.font('JetBrains Mono'),
   font_size = 10,
   cell_width = 1.0,
   default_prog = { "pwsh" },
@@ -248,7 +252,7 @@ local conf = {
   window_background_opacity = 1.0,
   window_close_confirmation = "NeverPrompt",
   exit_behavior = "Close",
-  max_fps = 30,
+  max_fps = 60,
   leader = { key = '\\', mods = 'ALT' },
   keys = keys,
   key_tables = key_tables,

@@ -301,7 +301,7 @@ To hide a minor-mode put
   (add-hook 'completion-at-point-functions 'lm/dabbrev-capf)
 #+end_src
 
-** COMMENT company
+** company
 #+begin_src emacs-lisp
   (use-package company
     :defer (if (daemonp) nil t)
@@ -316,7 +316,7 @@ To hide a minor-mode put
     (add-to-list 'company-backends '(company-capf :with company-dabbrev))
     (global-company-mode t))
 #+end_src
-** corfu
+** COMMENT corfu
 #+begin_src emacs-lisp
   (use-package corfu
     :defer (if (daemonp) nil 5)
@@ -396,7 +396,7 @@ on windows it require msys2
 #+end_src
 
 * lsp
-** eglot
+** COMMENT eglot
 #+begin_src emacs-lisp
   (use-package eglot
     :defer (if (daemonp) nil t)
@@ -415,7 +415,7 @@ on windows it require msys2
     (define-key eglot-mode-map (kbd (concat lm/leader "gd")) 'xref-find-definitions)
     (define-key eglot-mode-map (kbd (concat lm/leader "gr")) 'xref-find-references))
 #+end_src
-** COMMENT lsp-mode
+** lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
