@@ -52,8 +52,7 @@ M.keymaps = function()
   keymap("n", "<S-l>", ":bnext<cr>", opts, buf, '')
   keymap("n", "<S-h>", ":bprevious<cr>", opts, buf, '')
   keymap("n", "<leader>b", "", opts, buf, "Buffer")
-  keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
-  keymap("n", "<leader>bf", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Buffer")
+  keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Delete buffer")
 
   -- Buffer editing
   keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
@@ -61,7 +60,6 @@ M.keymaps = function()
 
   -- Processes
   keymap('n', '<leader>v', '', opts, buf, 'Processes')
-  keymap('n', '<leader>vs', '<cmd>source %<cr>', {}, buf, 'Source this file')
   keymap('n', '<leader>vl', '<cmd>lua LM.project_lua()<cr>', {
     silent = true,
     nowait = true,
@@ -70,8 +68,14 @@ M.keymaps = function()
     silent = true,
     nowait = true,
   }, buf, 'project.ps1')
-  keymap('n', '<leader>vc', '<cmd>lua LM.spawn_terminal()<cr>', nil, buf, 
+  keymap('n', '<leader>vc', '<cmd>lua LM.spawn_terminal()<cr>', nil, buf,
     'spawn terminal here')
+
+  -- Configuration
+  keymap('n', '<leader>c', '', opts, buf, 'Configuration')
+  keymap('n', '<leader>cs', '<cmd>source %<cr>', {}, buf, 'Source this file')
+  keymap('n', '<leader>cp', ':lua LM.plugins.add_template()<cr>', {}, buf, 'Create plugin from template')
+  keymap('n', '<leader>cd', ':lua LM.edit_conf(true)<cr>', {}, buf, 'Open configuration directory')
 
   -- Appearence
   keymap('n', '<leader>a', '', opts, buf, 'Appearence')

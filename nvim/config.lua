@@ -10,7 +10,7 @@ end
 config.font_size = 9
 
 config.opts = {
-  termguicolors = false,
+  termguicolors = true,
 }
 
 config.settings = {
@@ -25,6 +25,7 @@ config.plugin_list = {
   'telescope',
   -- 'lualine',
   'bufferline',
+  'zen-mode',
   'lsp',
   'nvim-cmp',
   'luasnip',

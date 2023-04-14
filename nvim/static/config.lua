@@ -25,6 +25,7 @@ config.plugin_list = {
   -- 'telescope',
   -- 'lualine',
   -- 'bufferline',
+  -- 'zen-mode',
   -- 'lsp',
   -- 'nvim-cmp',
   -- 'luasnip',

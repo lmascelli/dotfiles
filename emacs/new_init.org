@@ -18,6 +18,23 @@ frames at this point. To remove it also in them it must be changed the
     (setq ring-bell-function 'ignore))
 #+end_src
 
+* Startup
+During startup is useful to increase the garbage collector memory size
+because it's originally 1 Mb and this could heavily slow the startup
+process and the runtime execution, anyway it should be reset to an
+intermediate value or it will freeze after long time use.
+Most of those tweaks were made following the Doom emacs strategy of lazy loading
+[[https://github.com/doomemacs/doomemacs/blob/develop/docs/faq.org#how-does-doom-start-up-so-quickly][link]]
+
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold most-positive-fixnum
+	gc-cons-percentage 0.6)
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (setq gc-cons-threshold (* 50 1000 1000) ;; 50 Mb
+		    gc-cons-percentage 0.1 )))
+#+end_src
+
 * Editor behaviour
 ** tab width
 Set the default width of tab to 2
@@ -130,6 +147,28 @@ running powershell in term and ansi-term
 					  ;  (setq package-native-compile t)
 #+end_src
 
+** row numbers, highlight current line and column 80
+#+begin_src emacs-lisp
+  (column-number-mode)
+
+  (setq display-line-numbers 'relative)
+  (dolist (mode '(org-mode-hook
+		  term-mode-hook
+		  shell-mode-hook
+		  eshell-mode-hook
+		  treemacs-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+  (custom-set-variables '(fill-column 80)) 
+  (global-display-fill-column-indicator-mode)
+  (dolist (mode '(term-mode-hook
+		  shell-mode-hook
+		  eshell-mode-hook))
+    (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
+
+  (if (display-graphic-p)
+      (global-hl-line-mode))
+#+end_src
 ** fido
 #+begin_src emacs-lisp
   (fido-vertical-mode t)
@@ -177,17 +216,34 @@ mode package
   (use-package diminish)
 #+end_src
 
+* My functions
+** Wezterm
+Often i use wezterm as terminal choise
+https://wezfurlong.org/wezterm/installation.html
+because emacs, expecially on windows does not provide a good terminal mode. So
+i need a way to easily call wezterm and open it in the current directory.
+
+#+begin_src emacs-lisp
+  (defun lm/run-wezterm ()
+    (interactive)
+    (start-process "wezterm" nil "wezterm" "start" "--cwd"
+		   default-directory))
+  (global-set-key (kbd "<f9>") 'lm/run-wezterm)
+#+end_src
 * evil
 #+begin_src emacs-lisp
   (use-package evil
+    :defer 1
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
+    (setq evil-undo-system 'undo-redo)
     :config
     (evil-mode))
   (use-package evil-collection
     :after evil
     :config
+    (define-key evil-normal-state-map (kbd "U") 'undo-redo)
     (evil-collection-init))
 #+end_src
 
@@ -241,6 +297,9 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     :config
     (setq lsp-idle-delay 0.500)
     (lsp-enable-which-key-integration t))
+
+  (use-package yasnippet
+    :after lsp-mode)
 
   (use-package lsp-ui
     :after lsp-mode

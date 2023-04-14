@@ -8,7 +8,7 @@ LM.exec_cmd = function(cmd)
     row = math.floor(vim.o.lines * margin),
     col = math.floor(vim.o.columns * margin),
   })
-  vim.cmd (':terminal ' .. cmd)
+  vim.cmd(':terminal ' .. cmd)
 end
 
 -- exec PROJECT.PS1 script
@@ -32,10 +32,11 @@ LM.project_lua = function()
   end
 end
 
-LM.edit_conf = function()
-  LM.push_dir()
-  vim.cmd('cd ' .. vim.fn.stdpath('config'))
-  vim.cmd 'e .'
+LM.edit_conf = function(open_explorer)
+  vim.fn.chdir(LM.dirs.config)
+  if open_explorer then
+    LM.explorer.toggle_explorer()
+  end
 end
 
 LM.spawn_terminal = function()

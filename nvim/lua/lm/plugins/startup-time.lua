@@ -1,11 +1,9 @@
-return {
-  setup = function(use)
-    use {
-      "dstein64/vim-startuptime",
-      opt = true,
-      cmd = "StartupTime"
-    }
-  end,
-  config = function()
-  end
-}
+local M = {}
+
+M.name = "startup-time"
+M.url = "dstein64/vim-startuptime"
+
+M.lazy = true
+M.cmd = "StartupTime"
+
+return M
