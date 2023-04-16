@@ -1,6 +1,8 @@
 local M = {}
 M.name = 'nvim-cmp'
 M.url = 'hrsh7th/nvim-cmp'
+M.lazy = true
+M.event  = { "BufNewFile", "BufReadPost" }
 M.requires = {
   { url = 'hrsh7th/cmp-nvim-lsp', },
   { url = 'hrsh7th/cmp-nvim-lsp-document-symbol', },

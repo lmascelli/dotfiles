@@ -10,6 +10,7 @@ end
 config.font_size = 9
 
 config.opts = {
+  relativenumber = true,
   termguicolors = true,
 }
 
@@ -26,11 +27,11 @@ config.plugin_list = {
   -- 'lualine',
   'bufferline',
   'zen-mode',
-  'lsp',
-  'nvim-cmp',
-  'luasnip',
-  'nvim-autopairs',
-  -- 'coc',
+  -- 'lsp',
+  -- 'nvim-cmp',
+  -- 'luasnip',
+  -- 'nvim-autopairs',
+  'coc',
   -- 'lspsaga',
   'comment',
   'toggleterm',

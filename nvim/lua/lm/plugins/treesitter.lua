@@ -1,9 +1,7 @@
 local M  = {}
 
 M.name   = 'treesitter'
-
 M.url    = 'nvim-treesitter/nvim-treesitter'
-
 M.lazy   = true
 M.event  = { "BufNewFile", "FileReadPost" }
 M.ft     = { "lua", "python", "c", "cpp", "markdown" }

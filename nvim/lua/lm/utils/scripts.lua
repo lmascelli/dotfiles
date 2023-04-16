@@ -32,13 +32,20 @@ LM.project_lua = function()
   end
 end
 
-LM.edit_conf = function(open_explorer)
+-- open configuration directory
+LM.edit_conf_dir = function(open_explorer)
   vim.fn.chdir(LM.dirs.config)
   if open_explorer then
     LM.explorer.toggle_explorer()
   end
 end
 
+-- open current configuration file
+LM.edit_conf_file = function ()
+  vim.fn.execute('e ' .. LM.dirs.config .. '/config.lua', "")
+end
+
+-- spawn an external terminal in current directory
 LM.spawn_terminal = function()
   vim.fn.jobstart("wezterm-gui start --cwd .")
 end

@@ -75,7 +75,8 @@ M.keymaps = function()
   keymap('n', '<leader>c', '', opts, buf, 'Configuration')
   keymap('n', '<leader>cs', '<cmd>source %<cr>', {}, buf, 'Source this file')
   keymap('n', '<leader>cp', ':lua LM.plugins.add_template()<cr>', {}, buf, 'Create plugin from template')
-  keymap('n', '<leader>cd', ':lua LM.edit_conf(true)<cr>', {}, buf, 'Open configuration directory')
+  keymap('n', '<leader>cd', ':lua LM.edit_conf_dir(true)<cr>', {}, buf, 'Open configuration directory')
+  keymap('n', '<leader>cc', ':lua LM.edit_conf_file()<cr>', {}, buf, 'Open configuration directory')
 
   -- Appearence
   keymap('n', '<leader>a', '', opts, buf, 'Appearence')
