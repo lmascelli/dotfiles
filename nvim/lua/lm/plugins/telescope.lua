@@ -21,12 +21,13 @@ M.config = function(params)
 	end
 end
 M.init = function()
-		local keymap_f = LM.keymaps.add_map
-		keymap_f('n', '<leader>f', '<cmd>Telescope find_files<cr>', {}, nil, 'find files')
-		keymap_f('n', '<leader>sc', '<cmd>Telescope<cr>', {}, nil, 'list possible searches')
-		keymap_f('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', {}, nil, 'find in files')
-		keymap_f('n', '<leader>sf', '<cmd>Telescope find_files noignore=true hiddent=false<cr>', {}, nil, 'find files')
-		keymap_f('n', '<leader>sb', '<cmd>Telescope buffers<cr>', {}, nil, 'list searches')
-		keymap_f('n', '<leader>sz', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {}, nil, 'find in buffer')
+		local keymap = LM.keymaps.add_map
+		keymap('n', '<leader>f', '<cmd>Telescope find_files<cr>', {}, nil, 'find files')
+		keymap('n', '<leader>sc', '<cmd>Telescope<cr>', {}, nil, 'list possible searches')
+		keymap('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', {}, nil, 'find in files')
+		keymap('n', '<leader>sf', '<cmd>Telescope find_files noignore=true hiddent=false<cr>', {}, nil, 'find files')
+		keymap('n', '<leader>sb', '<cmd>Telescope buffers<cr>', {}, nil, 'list searches')
+		keymap('n', '<leader>sz', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {}, nil, 'find in buffer')
+		keymap('n', '<leader>bl', '<cmd>Telescope buffers<cr>', {}, nil, 'list buffer')
 end
 return M
