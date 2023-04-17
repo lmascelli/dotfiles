@@ -105,7 +105,17 @@ local keys = {
     action = wezterm.action.ActivatePaneDirection 'Left'
   },
   {
+    key = 'h',
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection 'Left'
+  },
+  {
     key = 'RightArrow',
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection 'Right'
+  },
+  {
+    key = 'l',
     mods = "LEADER",
     action = wezterm.action.ActivatePaneDirection 'Right'
   },
@@ -115,7 +125,17 @@ local keys = {
     action = wezterm.action.ActivatePaneDirection 'Up'
   },
   {
+    key = 'k',
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection 'Up'
+  },
+  {
     key = 'DownArrow',
+    mods = "LEADER",
+    action = wezterm.action.ActivatePaneDirection 'Down'
+  },
+  {
+    key = 'j',
     mods = "LEADER",
     action = wezterm.action.ActivatePaneDirection 'Down'
   },

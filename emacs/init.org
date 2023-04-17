@@ -35,6 +35,14 @@ Most of those tweaks were made following the Doom emacs strategy of lazy loading
 		    gc-cons-percentage 0.1 )))
 #+end_src
 
+** profile emacs startup
+#+begin_src emacs-lisp
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (message "Emacs loaded in %s with %d garbage collections."
+		       (emacs-init-time) gcs-done)))
+#+end_src
+
 * Editor behaviour
 ** tab width
 Set the default width of tab to 2
@@ -179,7 +187,7 @@ running powershell in term and ansi-term
 
 * Theme
 #+begin_src emacs-lisp
-  (load-theme 'modus-vivendi)
+  (load-theme 'leuven-dark)
 #+end_src
 * Repositories
 Setup the melpa repository and refresh the contents of package-archives to be
@@ -231,7 +239,6 @@ i need a way to easily call wezterm and open it in the current directory.
     (interactive)
     (start-process "wezterm" nil "wezterm" "start" "--cwd"
 		   default-directory))
-  (global-set-key (kbd "<f9>") 'lm/run-wezterm)
 #+end_src
 * Keybindings
 ** which-key
@@ -239,10 +246,10 @@ Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
 #+begin_src emacs-lisp
   (use-package which-key
-    :defer (if (daemonp) nil 5)
-    :init (which-key-mode)
+    :defer 1
     :diminish which-key-mode
     :config
+    (which-key-mode)
     (setq which-key-idle-delay 0.1)
     (which-key-setup-minibuffer)
     )
@@ -251,9 +258,9 @@ application when starting the sequence
 ** general
 general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
-    :defer 1
-    :bind (("<escape>" . keyboard-escape-quit))
+    :defer 3
     :config
     (general-override-mode)
 
@@ -266,6 +273,7 @@ general is a package that allow to use a <leader> keys for the chords.
       :keymaps 'override
       :prefix "SPC")
     (lm/leader-keys
+      "<SPC>" '(execute-extended-command :which-key "M-x")
       "q" '(:ignore t :which-key "Quit")
       "qq" '(save-buffers-kill-terminal :which-key "save all and quit")
       "b" '(:ignore t :which-key "Buffers")
@@ -273,7 +281,7 @@ general is a package that allow to use a <leader> keys for the chords.
       "bs" '(save-buffer :which-key "save buffer")
       "bl" '(list-buffers :which-key "list buffers")
       "bj" '(previous-buffer :which-key "previous buffer")
-      "bk" '(previous-buffer :which-key "next buffer")
+      "bk" '(next-buffer :which-key "next buffer")
       "s" '(:ignore t :which-key "Search")
       "ss" '(evil-search-forward :which-key "search forward")
       "sb" '(evil-search-backward :which-key "search backward")
@@ -282,12 +290,15 @@ general is a package that allow to use a <leader> keys for the chords.
       "ac" '(customize-themes :which-key "customize themes")
       "at" '(toggle-theme :which-key "toggle theme")
       "f" '(project-find-file :which-key "find file")
+      "v" '(:ignore t :which-key "Scripts")
+      "vc" '(lm/run-wezterm :which-key "wezterm here")
       ))
 #+end_src
 
 ** evil
 #+begin_src emacs-lisp
   (use-package evil
+    :defer 1
     :after general
     :init
     (setq evil-want-integration t)
@@ -297,6 +308,7 @@ general is a package that allow to use a <leader> keys for the chords.
     (evil-mode))
   (use-package evil-collection
     :after evil
+    :custom (evil-collection-want-unimpaired-p nil)
     :config
     (define-key evil-normal-state-map (kbd "U") 'undo-redo)
     (evil-collection-init))
@@ -335,15 +347,31 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
   (use-package lsp-mode
     :defer t
     :commands (lsp lsp-deferred)
-    :hook ((lsp-mode . lm/lsp-mode-setup)
-	   (c++-mode . lsp)
-	   (python-mode . lsp))
+    ;; :hook ((lsp-mode . lm/lsp-mode-setup)
+    ;; 	 (c++-mode . lsp)
+    ;; 	 (python-mode . lsp))
     :init
+    (lm/leader-keys
+      "l" '(:ignore t :which-key "lsp")
+      "ll" '(lsp :which-key "start lsp-mode"))
     ;; (setq lsp-keymap-prefix "C-M-l")
 
     :config
     (setq lsp-idle-delay 0.500)
-    (lsp-enable-which-key-integration t))
+    (lsp-enable-which-key-integration t)
+    (lm/leader-keys
+      "lf" '(lsp-format-buffer :which-key "format buffer")
+      "ls" '(lsp-shutdown-workspace :which-key "shutdown workspace")
+      "lg" '(:ignore t :which-key "go to")
+      "lgd" '(lsp-find-definition :which-key "definition")
+      "lgD" '(lsp-find-declaration :which-key "declaration")
+      "lgi" '(lsp-find-implementation :which-key "implementation")
+      "lgr" '(lsp-find-references :which-key "references")
+      "ld" '(:ignore t :which-key "diagnostics")
+      "ldl" '(flymake-show-project-diagnostics :which-key "project")
+      "ldl" '(flymake-goto-next-error :which-key "next")
+      "ldl" '(flymake-goto-prev-error :which-key "previous")
+      ))
 
   (use-package lsp-ui
     :after lsp-mode
