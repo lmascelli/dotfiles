@@ -4,5 +4,10 @@
     "rounded": true,
     "highlight": true
   },
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "80"
+  ],
+  "powershell.integratedConsole.showOnStartup": false,
   "snippets.ultisnips.pythonPrompt": false
 }

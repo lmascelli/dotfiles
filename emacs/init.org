@@ -1,6 +1,37 @@
 #+title: My Emacs Configuration
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") "/.config") "/emacs")) :mkdirp yes
 
+* Setup
+** Windows
+The best way i found to install emacs on windows is via *scoop* and create a
+script on *$USERPATH/Roaming/Microsoft/Windows/Start Menu/Programs/Startup* that
+starts the emacs server automatically at the startup.
+
+#+begin_src shell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
+irm get.scoop.sh | iex
+scoop update *
+scoop buckets add kiennq-scoop
+scoop install emacs-k
+
+# Path to startup file
+$startup_file = "$([Environment]::GetFolderPath('Startup'))\StartEmacsServer.bat"
+
+# Introduce variable HOME:
+# 1. for simplicity
+# 2. runemacs.exe expects it to be
+#
+# %APPDATA% is chosen because runemacs.exe operates there
+#	https://www.gnu.org/software/emacs/manual/html_node/emacs/Find-Init.html#Find-Init
+#	https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html#General-Variables
+New-Item $startup_file -type file
+Set-Content -Path $startup_file -Value "set HOME=%APPDATA%"
+
+# Clean previous server file info first
+Add-Content -Path $startup_file -Value "del /Q ""%HOME%/.emacs.d/server/*"""
+Add-Content -Path $startup_file -Value "runemacs.exe --daemon"
+#+end_src
+
 * Early init
 ** Gui widgets
 On the early init is useful to disable unnecessary gui components to
@@ -12,7 +43,7 @@ frames at this point. To remove it also in them it must be changed the
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-  ;; (menu-bar-mode -1)
+  (menu-bar-mode -1)
   (setq visible-bell t)
   (unless (display-graphic-p)
     (setq ring-bell-function 'ignore))
@@ -35,6 +66,13 @@ Most of those tweaks were made following the Doom emacs strategy of lazy loading
 		    gc-cons-percentage 0.1 )))
 #+end_src
 
+When installing a new package there are often lots of warnings due to native
+compilation that i cannot do nothing about so i decided to silence them.
+#+begin_src emacs-lisp
+  (setq comp-async-report-warnings-errors nil)
+#+end_src
+
+
 ** profile emacs startup
 #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook
@@ -44,6 +82,30 @@ Most of those tweaks were made following the Doom emacs strategy of lazy loading
 #+end_src
 
 * Editor behaviour
+** geometry and font
+Those are settings relative to:
+- transparency: /alpha/
+- window size at start: /width/ and /height/
+- font: /font/
+- avoid the vertical scroll bar on new frames: /vertical-scroll-bar/
+
+#+begin_src emacs-lisp
+  ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 100)
+  (setq default-frame-alist '((width . 90)
+			      (height . 40)
+			      (alpha . (100 . 100))))
+
+  ;; (defvar lm/font
+  ;;   (cond
+  ;;    ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-10")
+  ;;    ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
+  ;; (setf (alist-get 'font default-frame-alist) lm/font)
+
+  ;; disable scroll-bar even in new frames
+  (add-to-list 'default-frame-alist
+	       '(vertical-scroll-bars . nil))
+#+end_src
+
 ** tab width
 Set the default width of tab to 2
 
@@ -98,9 +160,6 @@ backup and autosaves and lockfiles.
 #+begin_src emacs-lisp
   (unless (version< emacs-version "29")
     (pixel-scroll-precision-mode))
-
-  (if (string-equal system-type "gnu/linux")
-      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil))))
 
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   (setq fast-but-imprecise-scrolling t)
@@ -180,6 +239,12 @@ running powershell in term and ansi-term
   (if (display-graphic-p)
       (global-hl-line-mode))
 #+end_src
+** mouse right click
+Enable the context menu with the right click of the mouse
+#+begin_src emacs-lisp
+(context-menu-mode)
+#+end_src
+
 ** fido
 #+begin_src emacs-lisp
   (fido-vertical-mode t)
@@ -241,6 +306,33 @@ i need a way to easily call wezterm and open it in the current directory.
 		   default-directory))
 #+end_src
 * Keybindings
+** ways to swap CTRL and CAPS-LOCK
+*** Windows
+
+to activate run this script as a .reg file
+#+begin_src
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,3a,00,1d,00,00,00,00,00
+#+end_src
+
+and run that as a .reg file to deactivate it
+
+#+begin_src 
+REGEDIT4
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=-
+#+end_src
+
+*** Linux
+On Linux, using the X Windows Server it just need to run or put it in the init
+script.
+
+#+begin_src shell
+  setxkbmap -option ctrl:swapcaps
+#+end_src
+
 ** which-key
 Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
@@ -260,7 +352,7 @@ general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
-    :defer 3
+    :defer 1
     :config
     (general-override-mode)
 
@@ -268,8 +360,21 @@ general is a package that allow to use a <leader> keys for the chords.
      :states '(normal insert)
      "C-s" 'save-buffer)
 
+    (general-define-key
+     :states '(insert)
+     "C-g" 'evil-normal-state)
+
+    (general-define-key
+     :states '(normal)
+     "H" 'previous-buffer
+     "L" 'next-buffer)
+
+    (general-define-key
+     :states '(visual)
+     "gc" 'comment-dwim)
+
     (general-create-definer lm/leader-keys
-      :states '(normal emacs motion)
+      :states '(normal motion)
       :keymaps 'override
       :prefix "SPC")
     (lm/leader-keys
@@ -281,8 +386,8 @@ general is a package that allow to use a <leader> keys for the chords.
       "bs" '(save-buffer :which-key "save buffer")
       "bl" '(switch-to-buffer :which-key "switch to buffer")
       "bL" '(list-buffers :which-key "list buffers")
-      "bj" '(previous-buffer :which-key "previous buffer")
-      "bk" '(next-buffer :which-key "next buffer")
+      "j" '(previous-buffer :which-key "previous buffer")
+      "k" '(next-buffer :which-key "next buffer")
       "s" '(:ignore t :which-key "Search")
       "ss" '(evil-search-forward :which-key "search forward")
       "sb" '(evil-search-backward :which-key "search backward")
@@ -290,6 +395,7 @@ general is a package that allow to use a <leader> keys for the chords.
       "a" '(:ignore t :which-key "Appearence")
       "ac" '(customize-themes :which-key "customize themes")
       "at" '(toggle-theme :which-key "toggle theme")
+      "am" '(menu-bar-mode :which-key "toggle menu bar")
       "f" '(project-find-file :which-key "find file")
       "v" '(:ignore t :which-key "Scripts")
       "vc" '(lm/run-wezterm :which-key "wezterm here")
@@ -311,9 +417,22 @@ general is a package that allow to use a <leader> keys for the chords.
     :after evil
     :custom (evil-collection-want-unimpaired-p nil)
     :config
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
     (define-key evil-normal-state-map (kbd "U") 'undo-redo)
     (evil-collection-init))
 #+end_src
+
+* Dired
+#+begin_src emacs-lisp
+  (use-package dired
+    :defer 1
+    :hook (dired-mode . dired-hide-details-mode)
+    :ensure nil
+    :custom ((dired-listing-switches "-agho --group-directories-first"))
+    :config
+    (put 'dired-find-alternate-file 'disabled nil))
+#+end_src
+
 * company
 #+begin_src emacs-lisp
   (use-package company
@@ -370,8 +489,8 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
       "lgr" '(lsp-find-references :which-key "references")
       "ld" '(:ignore t :which-key "diagnostics")
       "ldl" '(flymake-show-project-diagnostics :which-key "project")
-      "ldl" '(flymake-goto-next-error :which-key "next")
-      "ldl" '(flymake-goto-prev-error :which-key "previous")
+      "ldn" '(flymake-goto-next-error :which-key "next")
+      "ldp" '(flymake-goto-prev-error :which-key "previous")
       ))
 
   (use-package lsp-ui
@@ -391,8 +510,70 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp
   (use-package olivetti
-    :defer t
+    :defer (if (daemonp) nil t)
     :init
     (lm/leader-keys
       "ao" '(olivetti-mode :which-key "olivetti mode")))
+#+end_src
+
+* pdf-tools
+pdf-tools enable to visualize pdf inside emacs and provides useful features like
+midnight mode
+on windows it require msys2
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :defer (if (deamonp) nil t)
+    :mode ("\\.pdf\\'" . pdf-view-mode)
+    :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+#+end_src
+* Programming languages
+** C/C++
+On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
+configuration file named /.clangd/ or a global one named
+/~\AppData\Local\clangd\config.yaml/ is required. 
+The content of the file must be
+
+#+begin_src dot
+  CompileFlags:
+  Add: [-target, x86_64-pc-windows-gnu]
+#+end_src
+*** cmake
+#+begin_src emacs-lisp
+  (use-package cmake-mode
+  :mode ("\\CMakeLists.txt" . cmake-mode))
+#+end_src
+
+** Arduino
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.ino" .
+				  (lambda ()
+				    (c-or-c++-mode)
+				    (setq lsp-clients-clangd-args
+					  `(
+					    "-j=2"
+					    "--background-index"
+					    "--clang-tidy"
+					    "--completion-style=detailed"
+					    (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
+#+end_src
+
+
+# * Keybindings
+** Python
+#+begin_src emacs-lisp
+  (use-package python-black
+    :after python-mode)
+  (setq python-indent-offset 2)
+#+end_src
+
+** Powershell
+#+begin_src emacs-lisp
+  (use-package powershell    
+    :commands powershell)
+#+end_src
+
+** MATLAB
+#+begin_src emacs-lisp
+  (use-package matlab-mode
+    :mode ("\\.m\\'" . matlab-mode))
 #+end_src

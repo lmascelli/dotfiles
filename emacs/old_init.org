@@ -707,7 +707,7 @@ on the top of the org file.
 * Dired
 #+begin_src emacs-lisp
   (use-package dired
-    :defer 5
+    :defer 1
     :hook (dired-mode . dired-hide-details-mode)
     :ensure nil
     :custom ((dired-listing-switches "-agho --group-directories-first"))

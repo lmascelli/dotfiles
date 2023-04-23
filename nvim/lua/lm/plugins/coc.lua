@@ -1,6 +1,7 @@
 local M = {}
 M.url = "neoclide/coc.nvim"
-M.lazy = false
+M.lazy = true
+M.event = "VeryLazy"
 M.branch = "release"
 M.init = function()
   local keymap = LM.keymaps.add_map

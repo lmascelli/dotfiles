@@ -21,8 +21,10 @@ config.load_plugins = true
 
 config.plugin_list = {
   -- 'which-key',
-  -- 'nvim-tree',
   -- 'telescope',
+  -- 'treesitter',
+  -- 'nvim-tree',
+  -- 'comment',
   -- 'lualine',
   -- 'bufferline',
   -- 'zen-mode',
@@ -32,12 +34,11 @@ config.plugin_list = {
   -- 'nvim-autopairs',
   -- 'coc',
   -- 'lspsaga',
-  -- 'comment',
   -- 'toggleterm',
   -- 'bufdelete',
-  -- 'treesitter',
   -- 'startup-time',
   -- 'black',
+  -- 'tagbar',
 }
 
 -- List of modes for which enable the lsp and snippets features
