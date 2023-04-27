@@ -43,7 +43,7 @@ if config.load_plugins then
 	for _, v in pairs(config.plugin_list) do
 		local ok, p = pcall(require, 'lm.plugins.' .. v)
 		if ok then
-			LM.plugins.install(p)
+			LM.plugins.add_to_list(p)
 		end
 	end
 	LM.plugins.pre()

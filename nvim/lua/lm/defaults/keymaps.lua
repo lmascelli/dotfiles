@@ -18,6 +18,8 @@ M.keymaps = function()
   --  <C-g> as Escape
   keymap("n", "<C-g>", "<Escape>", opts, buf, '')
 
+  keymap("n", "<leader><leader>", ":", opts, buf, ":")
+
   --  Window navigation
   keymap("n", "<leader>w", "", opts, buf, "Window")
   keymap('n', '<leader>wc', '<cmd>q<cr>', opts, buf, 'Close window')

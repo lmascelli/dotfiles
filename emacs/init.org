@@ -404,7 +404,7 @@ general is a package that allow to use a <leader> keys for the chords.
 ** evil
 #+begin_src emacs-lisp
   (use-package evil
-    :defer 1
+    :defer 0.5
     :after general
     :init
     (setq evil-want-integration t)

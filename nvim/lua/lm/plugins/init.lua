@@ -1,6 +1,6 @@
 local plugins = {
   manager = nil,
-  install = nil,
+  add_to_list = nil,
   config = nil,
   pre = nil,
   add_template = nil,
@@ -12,7 +12,7 @@ local lazy = require 'lm.plugins.lazy'
 plugins.manager = lazy.check_load()
 
 if plugins.manager then
-  plugins.install = lazy.install_plugin
+  plugins.add_to_list = lazy.install_plugin
   plugins.pre = lazy.pre or function()
   end
 else

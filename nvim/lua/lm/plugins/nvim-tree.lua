@@ -11,14 +11,7 @@ M.config = function()
   local ok, nvim_tree = pcall(require, 'nvim-tree')
   if ok then
     nvim_tree.setup {
-      view = {
-        mappings = {
-          list = {
-            { key = "cd", action = "cd" },
-            { key = "cc", action = "copy" },
-          }
-        }
-      }
+      sync_root_with_cwd = true,
     }
   else
     print 'nvim-tree: config error'

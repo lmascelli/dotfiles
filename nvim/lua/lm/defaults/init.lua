@@ -5,7 +5,4 @@ M.options = require 'lm.defaults.options'.options
 LM.complete = function()
 end
 
-LM.spawn_terminal = function()
-  vim.fn.jobstart("wezterm-gui start --cwd .")
-end
 return M

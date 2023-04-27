@@ -51,6 +51,7 @@ M.install_plugin = function(plugin)
 end
 
 M.pre = function()
+   LM.keymaps.add_map('n', '<leader>cl', '<cmd>Lazy<cr>', nil, nil, 'Lazy')
    LM.plugins.manager.setup(LM.plugins.setup_list)
 end
 
