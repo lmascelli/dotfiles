@@ -9,5 +9,8 @@
     "80"
   ],
   "powershell.integratedConsole.showOnStartup": false,
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "inlayHint.enableParameter": false,
+  "python.linting.pytypeEnabled": false,
+  "inlayHint.enable": false
 }

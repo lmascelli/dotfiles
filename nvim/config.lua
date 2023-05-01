@@ -31,7 +31,7 @@ config.plugin_list = {
   -- 'lsp',
   -- 'nvim-cmp',
   -- 'luasnip',
-  -- 'nvim-autopairs',
+  'nvim-autopairs',
   'coc',
   -- 'lspsaga',
   -- 'toggleterm',

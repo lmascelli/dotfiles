@@ -4,10 +4,24 @@ M.lazy = true
 M.event = "VeryLazy"
 M.branch = "release"
 M.init = function()
+  LM.coc_toggle = function()
+    if vim.g.coc_service_initialized == 0 then
+      vim.cmd 'CocStart'
+    else
+      if vim.g.coc_enabled == 0 then
+        vim.cmd 'CocEnable'
+      else
+        vim.cmd 'CocDisable'
+      end
+    end
+  end
+
+  vim.g.coc_start_at_startup = false;
   local keymap = LM.keymaps.add_map
   keymap('n', '<leader>l', "", nil, nil, "lsp")
   keymap('n', '<leader>lg', "", nil, nil, "go to")
   keymap('n', '<leader>lc', "", nil, nil, "code action")
+  keymap('n', '<leader>ll', '<cmd>lua LM.coc_toggle()<cr>', nil, nil, "enable")
   vim.api.nvim_set_keymap('i', '<c-x><c-o>', 'coc#refresh()', {
     silent = true, expr = true })
   keymap('n', '<leader>lK', '<cmd>eval CocActionAsync("doHover")<cr>', nil,
