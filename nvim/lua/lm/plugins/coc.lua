@@ -16,6 +16,10 @@ M.init = function()
     end
   end
 
+  LM.complete = function()
+    vim.fn["coc#refresh"]()
+  end
+
   vim.g.coc_start_at_startup = false;
   local keymap = LM.keymaps.add_map
   keymap('n', '<leader>l', "", nil, nil, "lsp")

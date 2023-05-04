@@ -2,6 +2,11 @@
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") "/.config") "/emacs")) :mkdirp yes
 
 * Setup
+Evaluate this line before tangling the whole file to avoid being
+asked if confirm every code block
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
 ** Windows
 The best way i found to install emacs on windows is via *scoop* and create a
 script on *$USERPATH/Roaming/Microsoft/Windows/Start Menu/Programs/Startup* that
@@ -31,6 +36,15 @@ Set-Content -Path $startup_file -Value "set HOME=%APPDATA%"
 Add-Content -Path $startup_file -Value "del /Q ""%HOME%/.emacs.d/server/*"""
 Add-Content -Path $startup_file -Value "runemacs.exe --daemon"
 #+end_src
+
+*** find
+Under windows when emacs looks for *find* command it found one, but the wrong
+one. One solution is to use MSYS2's one. So go to the
+<MSYS2 ROOT>/usr/bin/ and copy
+  msys-iconv-2.dll
+  msys-intl-8.dll
+  find.exe
+to the emacs bin folder
 
 * Early init
 ** Gui widgets
@@ -305,6 +319,18 @@ i need a way to easily call wezterm and open it in the current directory.
     (start-process "wezterm" nil "wezterm" "start" "--cwd"
 		   default-directory))
 #+end_src
+** Inserting special characters for italian keyboard
+Tilde and grave accent are not present in italian keyboard but often used in
+programming so this function are a quick way to insert them in text
+
+#+begin_src emacs-lisp
+(defun lm/insert-tilde ()                                      
+    (interactive)                                 
+    (insert-char (char-from-name "TILDE")))
+(defun lm/insert-grave-accent ()                                      
+    (interactive)                                 
+    (insert-char (char-from-name "GRAVE ACCENT")))
+#+end_src
 * Keybindings
 ** ways to swap CTRL and CAPS-LOCK
 *** Windows
@@ -362,10 +388,13 @@ general is a package that allow to use a <leader> keys for the chords.
 
     (general-define-key
      :states '(insert)
-     "C-g" 'evil-normal-state)
+     "C-g" 'evil-normal-state
+     "C-c t" 'lm/insert-tilde
+     "C-c g" 'lm/insert-grave-accent)
 
     (general-define-key
      :states '(normal)
+     :keymaps 'override
      "H" 'previous-buffer
      "L" 'next-buffer)
 
@@ -377,6 +406,7 @@ general is a package that allow to use a <leader> keys for the chords.
       :states '(normal motion)
       :keymaps 'override
       :prefix "SPC")
+
     (lm/leader-keys
       "<SPC>" '(execute-extended-command :which-key "M-x")
       "q" '(:ignore t :which-key "Quit")
@@ -398,6 +428,9 @@ general is a package that allow to use a <leader> keys for the chords.
       "f" '(project-find-file :which-key "find file")
       "v" '(:ignore t :which-key "Scripts")
       "vc" '(lm/run-wezterm :which-key "wezterm here")
+      "i" '(:ignore t :which-key "Insert")
+      "it" '(lm/insert-tilde :which-key "~")
+      "ig" '(lm/insert-grave-accent :which-key "`")
       ))
 #+end_src
 

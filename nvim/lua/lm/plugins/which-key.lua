@@ -47,7 +47,7 @@ M.config = function(params)
 
       local wk_opts = {
         mode = mode,
-        buffer = buf,
+        buffer = buf or nil,
         silent = opts.silent,
         noremap = opts.noremap,
         nowait = opts.nowait,

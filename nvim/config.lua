@@ -1,5 +1,7 @@
 local config = {}
 
+vim.g.python3_host_prog = "d:/scoop/apps/miniconda3/current/python.exe"
+
 config.colorscheme = 'slate'
 if LM.os_version == 'Linux' then
   config.font_name = 'JetBrains Mono NF'

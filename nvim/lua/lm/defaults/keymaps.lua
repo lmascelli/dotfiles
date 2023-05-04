@@ -107,7 +107,7 @@ M.keymaps = function()
   keymap("i", "<c-cr>", "<c-o>o", opts, buf, '')
 
   -- -- Completion
-  keymap("i", "<C-@>", "<cmd>:lua LM.complete()<cr>", opts, buf, '')
+  -- keymap("i", "<C-@>", "<cmd>:lua LM.complete()<cr>", opts, buf, '')
 
   -- File saving
   keymap("i", "<C-s>", "<cmd>:w!<cr>", opts, buf, '')
