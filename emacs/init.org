@@ -46,6 +46,38 @@ one. One solution is to use MSYS2's one. So go to the
   find.exe
 to the emacs bin folder
 
+* My functions
+** Wezterm
+Often i use wezterm as terminal choise
+https://wezfurlong.org/wezterm/installation.html
+because emacs, expecially on windows does not provide a good terminal mode. So
+i need a way to easily call wezterm and open it in the current directory.
+
+#+begin_src emacs-lisp
+  (defun lm/run-wezterm ()
+    (interactive)
+    (start-process "wezterm" nil "wezterm" "start" "--cwd"
+		   default-directory))
+#+end_src
+** Inserting special characters for italian keyboard
+Tilde and grave accent are not present in italian keyboard but often used in
+programming so this function are a quick way to insert them in text
+
+#+begin_src emacs-lisp
+(defun lm/insert-tilde ()                                      
+    (interactive)                                 
+    (insert-char (char-from-name "TILDE")))
+(defun lm/insert-grave-accent ()                                      
+    (interactive)                                 
+    (insert-char (char-from-name "GRAVE ACCENT")))
+#+end_src
+This function returns the directory containing this org file in case it differs
+from the actual emacs config dir
+#+begin_src emacs-lisp
+  (defun lm/get-conf-org-dir ()
+    (interactive)
+    (file-name-directory buffer-file-name))
+#+end_src
 * Early init
 ** Gui widgets
 On the early init is useful to disable unnecessary gui components to
@@ -96,6 +128,11 @@ compilation that i cannot do nothing about so i decided to silence them.
 #+end_src
 
 * Editor behaviour
+** load-path 
+Add the lisp folder of org configuration directory to the load-path
+#+begin_src emacs-lisp :var lm/conf-org-dir=(file-name-directory buffer-file-name)
+(add-to-list 'load-path (concat lm/conf-org-dir "lisp/"))
+#+end_src
 ** geometry and font
 Those are settings relative to:
 - transparency: /alpha/
@@ -264,6 +301,16 @@ Enable the context menu with the right click of the mouse
   (fido-vertical-mode t)
 #+end_src
 
+** highlight TODOs
+#+begin_src emacs-lisp
+  ;; (add-hook 'prog-mode-hook '#(lambda ()
+  ;; 			    (hi-lock-face-phrase-buffer "TODO")))
+  (global-hi-lock-mode)
+  (add-hook 'c-mode-common-hook
+	    (lambda () (font-lock-add-keywords
+			nil'(("\\<\\(FIXME\\|TODO\\|BUG\\):"
+			      1 font-lock-warning-face t))))) 
+#+end_src
 * Theme
 #+begin_src emacs-lisp
   (load-theme 'leuven-dark)
@@ -288,6 +335,7 @@ prepared for plugins installation.
   already present will be downloaded
 - the /use-package-compute-statistics/ enable to profile the startup time of
   installed packages via the *use-package-profile* command.
+- diminish is used to hide some mode from mode bar
   
 #+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
@@ -296,6 +344,8 @@ prepared for plugins installation.
   (require 'use-package)
   (setq use-package-always-ensure t)
   (setq use-package-compute-statistics t)
+
+  (use-package diminish)
 #+end_src
 
 ** COMMENT diminish
@@ -306,31 +356,6 @@ mode package
   (use-package diminish)
 #+end_src
 
-* My functions
-** Wezterm
-Often i use wezterm as terminal choise
-https://wezfurlong.org/wezterm/installation.html
-because emacs, expecially on windows does not provide a good terminal mode. So
-i need a way to easily call wezterm and open it in the current directory.
-
-#+begin_src emacs-lisp
-  (defun lm/run-wezterm ()
-    (interactive)
-    (start-process "wezterm" nil "wezterm" "start" "--cwd"
-		   default-directory))
-#+end_src
-** Inserting special characters for italian keyboard
-Tilde and grave accent are not present in italian keyboard but often used in
-programming so this function are a quick way to insert them in text
-
-#+begin_src emacs-lisp
-(defun lm/insert-tilde ()                                      
-    (interactive)                                 
-    (insert-char (char-from-name "TILDE")))
-(defun lm/insert-grave-accent ()                                      
-    (interactive)                                 
-    (insert-char (char-from-name "GRAVE ACCENT")))
-#+end_src
 * Keybindings
 ** ways to swap CTRL and CAPS-LOCK
 *** Windows
@@ -466,29 +491,36 @@ general is a package that allow to use a <leader> keys for the chords.
     (put 'dired-find-alternate-file 'disabled nil))
 #+end_src
 
-* company
+* LSP
+** eglot
 #+begin_src emacs-lisp
-  (use-package company
-    :defer (if (daemonp) nil t)
-    :bind (("C-<SPC>" . company-complete))
+  (use-package eglot
+    :defer t
+    :pin melpa
     :init
-    (setq lm/company t)
-    (setq company-dabbrev-ignore-case t)
-    (setq company-dabbrev-code-ignore-case t)    
-    (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5)
+    (setq eglot-connect-timeout 90)
+    (lm/leader-keys
+      "l" '(:ignore t :which-key "lsp")
+      "ll" '(eglot :which-key "start lsp-mode"))
     :config
-    (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-    (global-company-mode t))
-
-  (use-package yasnippet
-    :after company
-    :config
-    (yas-minor-mode))
-
-
+    (lm/leader-keys
+      "lf" '(eglot-format-buffer :which-key "format buffer")
+      "ls" '(eglot-shutdown-all :which-key "shutdown workspace")
+      "lg" '(:ignore t :which-key "go to")
+      "lgd" '(xref-find-definitions :which-key "definition")
+      "lgr" '(xref-find-references :which-key "references")
+      "ld" '(:ignore t :which-key "diagnostics")
+      "ldl" '(flymake-show-project-diagnostics :which-key "project")
+      "ldn" '(flymake-goto-next-error :which-key "next")
+      "ldp" '(flymake-goto-prev-error :which-key "previous")
+      "lc" '(:ignore t :which-key "code actions")
+      "lcr" '(eglot-rename :which-key "rename")
+      "lco" '(eglot-code-action-organize-imports :which-key "organize imports")
+      "lco" '(eglot-code-actions :which-key "actions")
+      "lh" '(eldoc :which-key "documentation")
+      ))
 #+end_src
-* lsp-mode
+** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
@@ -539,6 +571,58 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 			   (require 'lsp-pyright)
 			   (lsp-deferred))))
 #+end_src
+* Autocomplete
+** company
+#+begin_src emacs-lisp
+  (use-package company
+    :diminish
+    :bind (("C-<SPC>" . company-complete))
+    :init
+    (setq lm/company t)
+    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-code-ignore-case t)    
+    (setq company-keywords-ignore-case t)
+    (setq company-idle-delay 0.5)
+    :config
+    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+    (global-company-mode t))
+
+  (use-package yasnippet
+    :after company
+    :config
+    (yas-minor-mode))
+
+
+#+end_src
+** COMMENT corfu
+#+begin_src emacs-lisp
+  (use-package corfu
+    :defer (if (daemonp) nil 5)
+    :init
+    (setq corfu-auto t
+	  corfu-auto-delay 0.3
+	  corfu-preview-current nil
+	  corfu-quit-no-match 'separator
+	  completion-styles '(basic ))
+    :config
+    (global-corfu-mode))
+
+  (unless (display-graphic-p)
+    (use-package corfu-terminal
+      :init
+      (custom-set-faces
+       '(corfu-default ((t (:background "black")))))
+      :config
+      (corfu-terminal-mode)))
+
+  (use-package cape
+    :bind (("C-<SPC>" . complete-symbol))
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-file))
+#+end_src
+
 * olivetti
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp
