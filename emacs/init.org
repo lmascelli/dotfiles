@@ -284,7 +284,8 @@ running powershell in term and ansi-term
   (global-display-fill-column-indicator-mode)
   (dolist (mode '(term-mode-hook
 		  shell-mode-hook
-		  eshell-mode-hook))
+		  eshell-mode-hook
+		  latex-mode-hook))
     (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
 
   (if (display-graphic-p)
@@ -311,7 +312,7 @@ Enable the context menu with the right click of the mouse
 			nil'(("\\<\\(FIXME\\|TODO\\|BUG\\):"
 			      1 font-lock-warning-face t))))) 
 #+end_src
-* Theme
+* COMMENT Theme
 #+begin_src emacs-lisp
   (load-theme 'leuven-dark)
 #+end_src

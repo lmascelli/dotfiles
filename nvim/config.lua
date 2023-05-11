@@ -42,6 +42,7 @@ config.plugin_list = {
   -- 'startup-time',
   -- 'black',
   -- 'tagbar',
+  'nvim-qt',
 }
 
 -- List of modes for which enable the lsp and snippets features
