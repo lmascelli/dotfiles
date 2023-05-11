@@ -6,7 +6,7 @@ config.colorscheme = 'slate'
 if LM.os_version == 'Linux' then
   config.font_name = 'JetBrains Mono NF'
 elseif LM.os_version == "Windows" then
-  config.font_name = 'JetBrains Mono'
+  config.font_name = 'JetBrainsMono NFM'
 end
 
 config.font_size = 9
