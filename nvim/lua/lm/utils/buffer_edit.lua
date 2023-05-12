@@ -6,6 +6,6 @@ LM.indent_buffer = function()
 end
 
 LM.buffer_delete = function()
-  vim.cmd 'bprevious'
+  vim.cmd 'bprevious!'
   vim.cmd 'bdelete!#'
 end

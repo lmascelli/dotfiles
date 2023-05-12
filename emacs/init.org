@@ -46,6 +46,14 @@ one. One solution is to use MSYS2's one. So go to the
   find.exe
 to the emacs bin folder
 
+* My global variables
+** Configuration files
+#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+  (setq lm/conf-org-dir lm/this-buffer-path)
+  (setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-org-dir)))
+  (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
+#+end_src
+
 * My functions
 ** Wezterm
 Often i use wezterm as terminal choise
@@ -78,6 +86,24 @@ from the actual emacs config dir
     (interactive)
     (file-name-directory buffer-file-name))
 #+end_src
+** pomodoro
+#+begin_src emacs-lisp
+  (defun lm/pomodoro ()
+    (interactive)
+    (require 'org)
+    (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
+    (unless (boundp 'lm/pomodoro-state)
+      (setq lm/pomodoro-state 0))
+    (let ((time-work "00:25:00")
+	  (time-pause "00:05:00"))
+      (org-timer-set-timer
+       (cond
+	((= (mod lm/pomodoro-state 2) 0) time-work)
+	((= (mod lm/pomodoro-state 3) 0) time-work)
+	(t time-pause)))
+       (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
+#+end_src						
+
 * Early init
 ** Gui widgets
 On the early init is useful to disable unnecessary gui components to
@@ -130,7 +156,7 @@ compilation that i cannot do nothing about so i decided to silence them.
 * Editor behaviour
 ** load-path 
 Add the lisp folder of org configuration directory to the load-path
-#+begin_src emacs-lisp :var lm/conf-org-dir=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
 (add-to-list 'load-path (concat lm/conf-org-dir "lisp/"))
 #+end_src
 ** geometry and font

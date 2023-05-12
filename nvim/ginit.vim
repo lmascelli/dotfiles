@@ -8,6 +8,7 @@ if vim.fn.exists(':GuiFont') then
     vim.cmd(':GuiFont! ' .. LM.font.font_name .. ':h' .. LM.font.font_size)
   end
 end
+
 EOF
 
 " Set Editor Font
@@ -27,12 +28,12 @@ endif
 
 " Enable GUI ScrollBar
 if exists(':GuiScrollBar')
-    GuiScrollBar 1
+    GuiScrollBar 0
 endif
 
-if exists(':GuiRenderLigatures')
-    GuiRenderLigatures 1
-endif
+" if exists(':GuiRenderLigatures')
+"     GuiRenderLigatures 1
+" endif
 
 " Right Click Context Menu (Copy-Cut-Paste)
 nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
