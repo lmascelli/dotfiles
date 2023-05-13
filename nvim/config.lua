@@ -23,6 +23,7 @@ config.settings = {
 config.load_plugins = true
 
 config.plugin_list = {
+  'nvim-qt',
   'which-key',
   'nvim-tree',
   'telescope',
@@ -42,7 +43,6 @@ config.plugin_list = {
   -- 'startup-time',
   -- 'black',
   -- 'tagbar',
-  'nvim-qt',
 }
 
 -- List of modes for which enable the lsp and snippets features
