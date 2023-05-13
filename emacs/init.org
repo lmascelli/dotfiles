@@ -90,7 +90,7 @@ from the actual emacs config dir
 #+begin_src emacs-lisp
   (defun lm/pomodoro ()
     (interactive)
-    (require 'org)
+    (require 'org-element)
     (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
     (unless (boundp 'lm/pomodoro-state)
       (setq lm/pomodoro-state 0))
