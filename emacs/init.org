@@ -100,13 +100,13 @@ from the actual emacs config dir
 #+begin_src emacs-lisp
   (defun lm/open-literate-config ()
     (interactive)
-    (find-file (concat lm/dot-dir "init.org")))
+    (find-file (concat lm/conf-org-dir "init.org")))
 #+end_src
 ** Reload configuration
 #+begin_src emacs-lisp
   (defun lm/reload-config ()
     (interactive)
-    (find-file (concat lm/dot-dir "init.org")))
+    (load (concat user-emacs-directory "init.el")))
 #+end_src
 ** pomodoro
 #+begin_src emacs-lisp
@@ -522,6 +522,7 @@ general is a package that allow to use a <leader> keys for the chords.
       "tp"    '(lm/pomodoro :which-key "pomodoro")
       "c"     '(:ignore t :which-key "Configuration")
       "cc"    '(lm/open-literate-config :which-key "Open literate configuration")
+      "cr"    '(lm/reload-config :which-key "Reload init.el")
       ))
 #+end_src
 
