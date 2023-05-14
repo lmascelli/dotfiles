@@ -1,4 +1,4 @@
-+title: My Emacs Configuration
+#+title: My Emacs Configuration
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") "/.config") "/emacs")) :mkdirp yes
 
 Emacs is a wonderful text editor and more than that; is more like a programming
@@ -542,6 +542,7 @@ general is a package that allow to use a <leader> keys for the chords.
     :config
     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
     (define-key evil-normal-state-map (kbd "U") 'undo-redo)
+    (define-key evil-ex-completion-map (kbd "C-c") nil)
     (define-key evil-ex-completion-map (kbd "C-c t") 'lm/insert-tilde)
     (define-key evil-ex-completion-map (kbd "C-c g") 'lm/insert-grave-accent)
     (evil-collection-init))
