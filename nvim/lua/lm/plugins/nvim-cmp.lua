@@ -52,6 +52,9 @@ end
 
 M.init = function()
   LM.keymaps.add_map('i', '<c-x><c-o>', '<cmd>lua require("cmp").complete()', { noremap = false })
+  LM.complete = function()
+    require('cmp').complete()
+  end
 end
 
 return M

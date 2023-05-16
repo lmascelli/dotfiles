@@ -175,9 +175,10 @@ compilation that i cannot do nothing about so i decided to silence them.
 		       (emacs-init-time) gcs-done)))
 #+end_src
 
-* Server mode load
+* COMMENT Server mode load
 When Emacs starts as a server it could preload more stuff so that it would be
 faster when called in frames.
+** TODO to be perfectioned
 #+begin_src emacs-lisp
   (if (daemonp) (condition-case err (progn
 				      (require 'evil)

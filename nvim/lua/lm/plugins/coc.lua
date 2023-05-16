@@ -45,4 +45,13 @@ M.init = function()
   -- <space>g. --> Fix
   keymap('n', '<leader>lca', '<cmd>CocFix<cr>', nil, nil, "code action")
 end
+
+M.config = function ()
+  vim.cmd [[
+  inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+  ]]
+end
 return M
