@@ -26,18 +26,6 @@ local color_schemes = {
 
 --------------------------------------------------------------------------------
 --                                                                            --
---                        UTILITY FUNCTIONS                                   --
---                                                                            --
---------------------------------------------------------------------------------
-
--- OPEN WEZTERM CONFIG ON AN OTHER WINDOW
-local ewc_command = wezterm.action.SpawnCommandInNewWindow {
-  label = 'Edit wezterm config',
-  args = { 'nvim-qt', wezterm.config_file },
-}
-
---------------------------------------------------------------------------------
---                                                                            --
 --                         STARTUP FUNCTION                                   --
 --                                                                            --
 --------------------------------------------------------------------------------
@@ -51,6 +39,12 @@ end)
 --                                                                            --
 --------------------------------------------------------------------------------
 
+-- OPEN WEZTERM CONFIG WITH NVIM-QT
+wezterm.on('open-config', function()
+  wezterm.run_child_process { 'nvim-qt', wezterm.config_file }
+end)
+
+-- DISPLAY THE CURRENT TABLE VALUE IN TAB PANEL
 wezterm.on('update-right-status', function(window, pane)
   local name = window:active_key_table()
   if name then
@@ -68,7 +62,11 @@ end)
 local keys = {
   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
   { key = "'",  mods = "LEADER", action = wezterm.action { SendString = "`" } },
-  { key = "c",  mods = "LEADER", action = ewc_command },
+  {
+    key = "c",
+    mods = "LEADER",
+    action = wezterm.action.SpawnCommandInNewTab { args = { 'nvim', wezterm.config_file } }
+  },
   {
     key = "e",
     mods = "LEADER",
@@ -95,8 +93,9 @@ local keys = {
     key = " ",
     mods = "CTRL",
     action = wezterm.action.Multiple {
-      wezterm.action.SendKey { key = "x", mods = "CTRL" },
-      wezterm.action.SendKey { key = "o", mods = "CTRL" },
+      wezterm.action.SendKey { key = "_", mods = "CTRL" },
+      -- wezterm.action.SendKey { key = "x", mods = "CTRL" },
+      -- wezterm.action.SendKey { key = "o", mods = "CTRL" },
     }
   },
   {
@@ -265,7 +264,7 @@ local conf = {
   initial_rows = 40,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
   -- font = wezterm.font('JetBrains Mono'),
-  font = wezterm.font('Courier New'),
+  -- font = wezterm.font('Consolas'),
   font_size = 10,
   cell_width = 1.0,
   default_prog = { "pwsh" },
@@ -277,7 +276,7 @@ local conf = {
   leader = { key = '\\', mods = 'ALT' },
   keys = keys,
   key_tables = key_tables,
-  debug_key_events = true,
+  -- debug_key_events = true,
   enable_csi_u_key_encoding = true,
   color_scheme = color_schemes.dark["monokai"],
   -- color_scheme = 'Atelier Cave Light (base16)',

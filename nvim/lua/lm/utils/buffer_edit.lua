@@ -6,6 +6,15 @@ LM.indent_buffer = function()
 end
 
 LM.buffer_delete = function()
+  local count = 0
+  for _, v in pairs(vim.api.nvim_list_bufs()) do
+    if vim.fn.buflisted(v) == 1 then
+      count = count + 1
+    end
+  end
+  if count == 1 then
+    vim.api.nvim_create_buf(true, true)
+  end
   vim.cmd 'bprevious!'
   vim.cmd 'bdelete!#'
 end

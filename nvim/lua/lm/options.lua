@@ -23,8 +23,10 @@ options.apply_options = function(opts, settings)
     vim.opt[k] = v
   end
 
-  if settings.colorcolumn > 0 then
-    vim.o.colorcolumn = tostring(settings.colorcolumn)
+  if settings.colorcolumn then
+    vim.o.colorcolumn = tostring(settings.colorcolumn_number)
+  else
+    vim.o.colorcolumn = tostring(0)
   end
 
   if not settings.terminal_line_number then

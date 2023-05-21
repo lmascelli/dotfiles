@@ -45,7 +45,8 @@ M.options = function()
       virtualedit = "onemore",
     },
     settings = {
-      colorcolumn = 80,
+      colorcolumn = true,
+      colorcolumn_number = 80,
       terminal_line_number = false,
       EOF_indicator = false,
       italic_comments = true,

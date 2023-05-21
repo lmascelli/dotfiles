@@ -3,6 +3,7 @@ local M = {}
 M.name = 'lsp stuff'
 M.url = "williamboman/mason-lspconfig.nvim"
 M.ft = LM.config.prog_modes
+-- M.cmd = 'LspStart'
 
 M.requires = {
 	{ url = "williamboman/mason.nvim" },
@@ -10,7 +11,8 @@ M.requires = {
 	{ url = "p00f/clangd_extensions.nvim", },
 }
 
-local on_attach = function(_, bufnr) -- hidden parameter client
+local on_attach = function(client, bufnr)
+  client.server_capabilities.semanticTokensProvider = nil
   local keymap = LM.keymaps.set_keymap
 	local opts = { noremap = true, silent = true }
 	keymap('n', '<leader>l', '', opts, bufnr, 'lsp')
@@ -44,6 +46,14 @@ local on_attach = function(_, bufnr) -- hidden parameter client
 	keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts, bufnr, 'rename')
 	keymap('n', '<leader>lc', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts, bufnr, 'code action')
 	keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format()<CR>', opts, bufnr, 'format')
+	keymap('n', '<leader>ls', '<cmd>LspStop<cr>', opts, bufnr, 'stop lsp')
+end
+
+M.init = function()
+  local keymap = LM.keymaps.add_map
+	local opts = { noremap = true, silent = true }
+	keymap('n', '<leader>l', '', opts, nil, 'lsp')
+	keymap('n', '<leader>ll', '<cmd>LspStart<cr>', opts, nil, 'start lsp')
 end
 
 M.config = function()

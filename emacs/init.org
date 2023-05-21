@@ -515,7 +515,7 @@ general is a package that allow to use a <leader> keys for the chords.
       "f"     '(project-find-file :which-key "find file")
       "v"     '(:ignore t :which-key "Scripts")
       "vc"    '(lm/run-wezterm :which-key "wezterm here")
-      "vp"    '(async-shell-command :which-key "wezterm here")
+      "vp"    '(project-async-shell-command :which-key "wezterm here")
       "i"     '(:ignore t :which-key "Insert")
       "it"    '(lm/insert-tilde :which-key "~")
       "ig"    '(lm/insert-grave-accent :which-key "`")

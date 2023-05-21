@@ -42,10 +42,6 @@ M.keymaps = function()
   --  File explorer
   keymap("n", "<leader>e", ":lua LM.explorer.toggle_explorer()<cr>", opts, buf, 'Explorer')
 
-  --  Window resizing
-  keymap("n", "<C-+>", ":lua LM.font.increase_font_size()<cr>", opts, buf, 'Increase Font')
-  keymap("n", "<C-->", ":lua LM.font.decrease_font_size()<cr>", opts, buf, 'Decrease Font')
-
   keymap("n", "<C-Up>", ":resize +2<cr>", opts, buf, '')
   keymap("n", "<C-Down>", ":resize -2<cr>", opts, buf, '')
   keymap("n", "<C-Left>", ":vertical resize -2<cr>", opts, buf, '')
@@ -85,6 +81,7 @@ M.keymaps = function()
   keymap('n', '<leader>a', '', opts, buf, 'Appearence')
   keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Increase font')
   keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Decrease font')
+  keymap('n', '<leader>an', ':lua LM.toggle_colorcolumn()<cr>', opts, buf, 'Toggle colorcolumn')
   keymap('n', '<leader>ac', ':Telescope colorscheme enable_preview=true<cr>', opts, buf, 'Colorscheme')
 
   -- Searching
@@ -94,6 +91,10 @@ M.keymaps = function()
   keymap('n', '<leader>ss', '/', search_opts, buf, 'search')
   keymap('n', '<leader>sr', ':%s/', search_opts, buf, 'replace')
   keymap('n', '<leader>sh', '<cmd>nohl<cr>', search_opts, buf, 'highlight off')
+
+  -- Tools
+  keymap('n', '<leader>t', '', opts, buf, 'Tools')
+  keymap('n', '<leader>tt', '<cmd>terminal<cr>', opts, buf, 'integrated terminal')
 
   ------------------------------------- INSERT ----------------------------------
 
@@ -108,7 +109,7 @@ M.keymaps = function()
   keymap("i", "<c-cr>", "<c-o>o", opts, buf, '')
 
   -- -- Completion
-  -- keymap("i", "<C-@>", "<cmd>:lua LM.complete()<cr>", opts, buf, '')
+  keymap("i", "<C-_>", "<cmd>:lua LM.complete()<cr>", opts, buf, '')
 
   -- File saving
   keymap("i", "<C-s>", "<cmd>:w!<cr>", opts, buf, '')

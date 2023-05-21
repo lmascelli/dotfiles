@@ -1,7 +1,6 @@
 lua << EOF
--- LM.keymaps.set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 pcall(vim.cmd, 'GuiLoad')
-vim.api.nvim_set_keymap('i', '<c- >', '<cmd>:lua LM.complete()<cr>', {})
+vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 
 if vim.fn.exists(':GuiFont') then
   LM.font.update_font = function()

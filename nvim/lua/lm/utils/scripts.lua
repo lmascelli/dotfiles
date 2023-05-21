@@ -49,3 +49,7 @@ end
 LM.spawn_terminal = function()
   vim.fn.jobstart("wezterm-gui start --cwd .")
 end
+
+LM.eval_buffer = function()
+  vim.cmd ':source %'
+end
