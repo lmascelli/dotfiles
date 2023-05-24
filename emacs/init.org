@@ -571,7 +571,8 @@ general is a package that allow to use a <leader> keys for the chords.
     (setq eglot-connect-timeout 90)
     (lm/leader-keys
       "l" '(:ignore t :which-key "lsp")
-      "ll" '(eglot :which-key "start lsp-mode"))
+      "ll" '(:ignore t :which-key "start lsp-mode")
+      "lle" '(eglot :which-key "eglot"))
     :config
     (lm/leader-keys
       "lf" '(eglot-format-buffer :which-key "format buffer")
@@ -607,9 +608,9 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     ;; 	 (python-mode . lsp))
     :init
     (lm/leader-keys
-      "l" '(:ignore t :which-key "lsp")
-      "ll" '(lsp :which-key "start lsp-mode"))
-    ;; (setq lsp-keymap-prefix "C-M-l")
+      "l" '(:ignore t :which-key "LSP")
+      "ll" '(:ignore t :which-key "enable")
+      "lll" '(lsp :which-key "lsp-mode"))
 
     :config
     (setq lsp-idle-delay 0.500)
