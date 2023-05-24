@@ -120,10 +120,19 @@ M.keymaps = function()
   keymap("t", "<C-g>", "<Escape>", opts, buf, '')
 
   -- Moving text
-  keymap("v", "<A-j>", ":m .+1<CR>==", opts, buf, '')
-  keymap("v", "<A-k>", ":m .-2<CR>==", opts, buf, '')
-  keymap("v", "p", '"_dP', opts, buf, '')
+  keymap("x", "<A-j>", ":m .+1<CR>==", opts, buf, '')
+  keymap("x", "<A-k>", ":m .-2<CR>==", opts, buf, '')
+  keymap("x", "p", '"_dP', opts, buf, '')
 
+  -- Surrounding selected text
+  vim.cmd ':vnoremap s <Nop>'
+  keymap("x", "s(", '"9xi()<escape>h"9p', opts, buf, '')
+  keymap("x", "s)", '"9xi()<escape>h"9p', opts, buf, '')
+  keymap("x", "s[", '"9xi[]<escape>h"9p', opts, buf, '')
+  keymap("x", "s]", '"9xi[]<escape>h"9p', opts, buf, '')
+  keymap("x", "sc", '"9xi{}<escape>h"9p', opts, buf, '')
+  keymap("x", "s'", "\"9xi''<escape>h\"9p", opts, buf, '')
+  keymap("x", 's"', '"9xi""<escape>h"9p', opts, buf, '')
 
   ----------------------------------- VISUAL BLOCK ------------------------------
 
