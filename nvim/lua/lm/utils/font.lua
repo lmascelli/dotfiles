@@ -18,12 +18,12 @@ font.update_font = function()
 end
 
 font.increase_font_size = function()
-  font.font_size = font.font_size + 1
+  font.font_size = font.font_size * 1.3
   font.update_font()
 end
 
 font.decrease_font_size = function()
-  font.font_size = font.font_size - 1
+  font.font_size = font.font_size / 1.3
   font.update_font()
 end
 

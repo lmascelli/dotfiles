@@ -1,1 +1,0 @@
-return { path = "D:\\.dotfiles\\nvim", documents = {["views"]={[1]={["scroll"]={["x"]=0,["to"]={["x"]=0,["y"]=0},["y"]=0},["type"]="view",["active"]=true,["module"]="core.emptyview"}},["type"]="leaf",["active_view"]=1}, directories = {} }

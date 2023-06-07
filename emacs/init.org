@@ -16,43 +16,108 @@ asked if confirm every code block
 #+begin_src emacs-lisp
   (setq org-confirm-babel-evaluate nil)
 #+end_src
+** ways to swap CTRL and CAPS-LOCK
+*** Windows
+
+to activate run this script as a .reg file
+#+begin_src
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,3a,00,1d,00,00,00,00,00
+#+end_src
+
+and run that as a .reg file to deactivate it
+
+#+begin_src 
+REGEDIT4
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=-
+#+end_src
+
+*** Linux
+On Linux, using the X Windows Server it just need to run or put it in the init
+script.
+
+#+begin_src shell
+  setxkbmap -option ctrl:swapcaps
+#+end_src
+
 ** Windows
+*** start server at startup script
+#+begin_src shell
+  # Path to startup file
+  $startup_file = "$([Environment]::GetFolderPath('Startup'))\StartEmacsServer.bat"
+
+  # Introduce variable HOME:
+  # 1. for simplicity
+  # 2. runemacs.exe expects it to be
+  #
+  # %APPDATA% is chosen because runemacs.exe operates there
+  #	https://www.gnu.org/software/emacs/manual/html_node/emacs/Find-Init.html#Find-Init
+  #	https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html#General-Variables
+  New-Item $startup_file -type file
+  Set-Content -Path $startup_file -Value "set HOME=%APPDATA%"
+
+  # Clean previous server file info first
+  Add-Content -Path $startup_file -Value "del /Q ""%HOME%/.emacs.d/server/*"""
+  Add-Content -Path $startup_file -Value "runemacs.exe --daemon"
+#+end_src
+
+*** install from scoop
 The best way i found to install emacs on windows is via *scoop* and create a
 script on *$USERPATH/Roaming/Microsoft/Windows/Start Menu/Programs/Startup* that
 starts the emacs server automatically at the startup.
 
 #+begin_src shell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
-irm get.scoop.sh | iex
-scoop update *
-scoop buckets add kiennq-scoop
-scoop install emacs-k
+  Set-ExecutionPolicy RemoteSigned -Scope CurrentUser # Optional: Needed to run a remote script the first time
+  irm get.scoop.sh | iex
+  scoop update *
+  scoop buckets add kiennq-scoop
+  scoop install emacs-k
+#+end_src
 
-# Path to startup file
-$startup_file = "$([Environment]::GetFolderPath('Startup'))\StartEmacsServer.bat"
-
-# Introduce variable HOME:
-# 1. for simplicity
-# 2. runemacs.exe expects it to be
-#
-# %APPDATA% is chosen because runemacs.exe operates there
-#	https://www.gnu.org/software/emacs/manual/html_node/emacs/Find-Init.html#Find-Init
-#	https://www.gnu.org/software/emacs/manual/html_node/emacs/General-Variables.html#General-Variables
-New-Item $startup_file -type file
-Set-Content -Path $startup_file -Value "set HOME=%APPDATA%"
-
-# Clean previous server file info first
-Add-Content -Path $startup_file -Value "del /Q ""%HOME%/.emacs.d/server/*"""
-Add-Content -Path $startup_file -Value "runemacs.exe --daemon"
+*** build from source
+- install msys2
+- run this script
+#+begin_src shell
+  git clone https://github.com/emacs-mirror/emacs emacs-master  
+  cd emacs-master
+  mingw64-bat
+  pacman -S --needed \
+	 base-devel \
+	 autoconf \
+	 mingw-w64-x86_64-toolchain \
+	 mingw-w64-x86_64-xpm-nox \
+	 mingw-w64-x86_64-gmp \
+	 mingw-w64-x86_64-gnutls \
+	 mingw-w64-x86_64-libtiff \
+	 mingw-w64-x86_64-giflib \
+	 mingw-w64-x86_64-libpng \
+	 mingw-w64-x86_64-libjpeg-turbo \
+	 mingw-w64-x86_64-librsvg \
+	 mingw-w64-x86_64-libwebp \
+	 mingw-w64-x86_64-lcms2 \
+	 mingw-w64-x86_64-jansson \
+	 mingw-w64-x86_64-libxml2 \
+	 mingw-w64-x86_64-zlib \
+	 mingw-w64-x86_64-harfbuzz \
+	 mingw-w64-x86_64-libgccjit \
+	 mingw-w64-x86_64-sqlite3 \
+	 mingw-w64-x86_64-tree-sitter
+  ./autogen.sh
+  ./configure --with-native-compilation=yes --with-tree-sitter --without-dbus --with-json --with-wide-int
+  make
+  make install
 #+end_src
 
 *** find
 Under windows when emacs looks for *find* command it found one, but the wrong
 one. One solution is to use MSYS2's one. So go to the
 <MSYS2 ROOT>/usr/bin/ and copy
-  msys-iconv-2.dll
-  msys-intl-8.dll
-  find.exe
+msys-iconv-2.dll
+msys-intl-8.dll
+find.exe
 to the emacs bin folder
 
 * My global variables
@@ -81,10 +146,10 @@ Tilde and grave accent are not present in italian keyboard but often used in
 programming so this function are a quick way to insert them in text
 
 #+begin_src emacs-lisp
-(defun lm/insert-tilde ()                                      
+  (defun lm/insert-tilde ()                                      
     (interactive)                                 
     (insert-char (char-from-name "TILDE")))
-(defun lm/insert-grave-accent ()                                      
+  (defun lm/insert-grave-accent ()                                      
     (interactive)                                 
     (insert-char (char-from-name "GRAVE ACCENT")))
 #+end_src
@@ -123,7 +188,7 @@ from the actual emacs config dir
 	((= (mod lm/pomodoro-state 2) 0) time-work)
 	((= (mod lm/pomodoro-state 3) 0) time-work)
 	(t time-pause)))
-       (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
+      (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
 #+end_src						
 
 * Early init
@@ -175,24 +240,11 @@ compilation that i cannot do nothing about so i decided to silence them.
 		       (emacs-init-time) gcs-done)))
 #+end_src
 
-* COMMENT Server mode load
-When Emacs starts as a server it could preload more stuff so that it would be
-faster when called in frames.
-** TODO to be perfectioned
-#+begin_src emacs-lisp
-  (if (daemonp) (condition-case err (progn
-				      (require 'evil)
-				      (require 'general)
-				      (require 'org) 
-				      (require 'company)
-				      (require 'eglot))
-		  (error (princ (format "Error loading a package: %s" err)))))
-#+end_src
 * Editor behaviour
 ** load-path 
 Add the lisp folder of org configuration directory to the load-path
 #+begin_src emacs-lisp
-(add-to-list 'load-path (concat lm/conf-org-dir "lisp/"))
+  (add-to-list 'load-path (concat lm/conf-org-dir "lisp/"))
 #+end_src
 ** geometry and font
 Those are settings relative to:
@@ -341,7 +393,7 @@ running powershell in term and ansi-term
 		  treemacs-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-  (custom-set-variables '(fill-column 80)) 
+  (setq-default fill-column 80)
   (global-display-fill-column-indicator-mode)
   (dolist (mode '(term-mode-hook
 		  shell-mode-hook
@@ -355,7 +407,7 @@ running powershell in term and ansi-term
 ** mouse right click
 Enable the context menu with the right click of the mouse
 #+begin_src emacs-lisp
-(context-menu-mode)
+  (context-menu-mode)
 #+end_src
 
 ** fido
@@ -363,20 +415,6 @@ Enable the context menu with the right click of the mouse
   (fido-vertical-mode t)
 #+end_src
 
-** highlight TODOs
-#+begin_src emacs-lisp
-  ;; (add-hook 'prog-mode-hook '#(lambda ()
-  ;; 			    (hi-lock-face-phrase-buffer "TODO")))
-  (global-hi-lock-mode)
-  (add-hook 'c-mode-common-hook
-	    (lambda () (font-lock-add-keywords
-			nil'(("\\<\\(FIXME\\|TODO\\|BUG\\):"
-			      1 font-lock-warning-face t))))) 
-#+end_src
-* COMMENT Theme
-#+begin_src emacs-lisp
-  (load-theme 'leuven-dark)
-#+end_src
 * Repositories
 Setup the melpa repository and refresh the contents of package-archives to be
 prepared for plugins installation.
@@ -418,35 +456,33 @@ mode package
   (use-package diminish)
 #+end_src
 
-* Keybindings
-** ways to swap CTRL and CAPS-LOCK
-*** Windows
-
-to activate run this script as a .reg file
-#+begin_src
-REGEDIT4
-
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
-"Scancode Map"=hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,3a,00,1d,00,00,00,00,00
+* Modus theme
+#+begin_src emacs-lisp
+  (setq modus-themes-headings
+	'((1 . (variable-pitch light 1.4))))
+#+end_src
+* Dired
+#+begin_src emacs-lisp
+  (use-package dired
+    :defer 1
+    :hook (dired-mode . dired-hide-details-mode)
+    :ensure nil
+    :custom ((dired-listing-switches "-agho --group-directories-first"))
+    :config
+    (put 'dired-find-alternate-file 'disabled nil)
+    (setq dired-dwim-target t))
 #+end_src
 
-and run that as a .reg file to deactivate it
-
-#+begin_src 
-REGEDIT4
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
-"Scancode Map"=-
+* Grep
+use ripgrep as grep-find command
+#+begin_src emacs-lisp
+  (use-package grep
+    :config
+    (grep-apply-setting
+     'grep-find-command
+     '("rg -n -H --no-heading -e  ." . 26)))
 #+end_src
-
-*** Linux
-On Linux, using the X Windows Server it just need to run or put it in the init
-script.
-
-#+begin_src shell
-  setxkbmap -option ctrl:swapcaps
-#+end_src
-
-** which-key
+* which-key
 Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
 #+begin_src emacs-lisp
@@ -460,7 +496,7 @@ application when starting the sequence
     )
 #+end_src
 
-** general
+* general
 general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -470,29 +506,13 @@ general is a package that allow to use a <leader> keys for the chords.
     (general-override-mode)
 
     (general-define-key
-     :states '(normal insert)
-     "C-s" 'save-buffer)
-
-    (general-define-key
-     :states '(insert)
-     "C-g" 'evil-normal-state
-     "C-c t" 'lm/insert-tilde
-     "C-c g" 'lm/insert-grave-accent)
-
-    (general-define-key
-     :states '(normal)
-     :keymaps 'override
-     "H" 'previous-buffer
-     "L" 'next-buffer)
-
-    (general-define-key
-     :states '(visual)
-     "gc" 'comment-dwim)
+     "C-z" 'undo
+     "M-z" 'undo-redo
+     )
 
     (general-create-definer lm/leader-keys
-      :states '(normal motion)
       :keymaps 'override
-      :prefix "SPC")
+      :prefix "S-<SPC>")
 
     (lm/leader-keys
       "<SPC>" '(execute-extended-command :which-key "M-x")
@@ -523,21 +543,40 @@ general is a package that allow to use a <leader> keys for the chords.
       "tp"    '(lm/pomodoro :which-key "pomodoro")
       "c"     '(:ignore t :which-key "Configuration")
       "cc"    '(lm/open-literate-config :which-key "Open literate configuration")
+      "cv"    '(evil-mode :which-key "toggle Vim mode")
       "cr"    '(lm/reload-config :which-key "Reload init.el")
       ))
 #+end_src
 
-** evil
+* evil
 #+begin_src emacs-lisp
   (use-package evil
-    :defer 0.5
-    :after general
+    :defer t
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (setq evil-undo-system 'undo-redo)
     :config
-    (evil-mode))
+    (evil-mode)
+
+    (general-define-key
+     :states '(normal insert)
+     "C-g" 'evil-normal-state
+     "C-s" 'save-buffer)
+
+    (general-define-key
+     :states '(insert)
+     "C-g" 'evil-normal-state
+     )
+    (general-define-key
+     :states '(normal)
+     :keymaps 'override
+     "H" 'previous-buffer
+     "L" 'next-buffer)
+  
+    (general-define-key
+     :states '(visual)
+     "gc" 'comment-dwim))
   (use-package evil-collection
     :after evil
     :custom (evil-collection-want-unimpaired-p nil)
@@ -550,17 +589,72 @@ general is a package that allow to use a <leader> keys for the chords.
     (evil-collection-init))
 #+end_src
 
-* Dired
+* Autocomplete
+** company
 #+begin_src emacs-lisp
-  (use-package dired
-    :defer 1
-    :hook (dired-mode . dired-hide-details-mode)
-    :ensure nil
-    :custom ((dired-listing-switches "-agho --group-directories-first"))
+  (use-package company
+    :diminish
+    :bind (("C-." . company-complete))
+    :init
+    (setq lm/company t)
+    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-code-ignore-case t)    
+    (setq company-keywords-ignore-case t)
+    (setq company-idle-delay 0.5)
     :config
-    (put 'dired-find-alternate-file 'disabled nil))
+    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+    (global-company-mode t))
+
+  (use-package yasnippet
+    :after company
+    :config
+    (yas-minor-mode)
+    (global-set-key (kbd "C-c y") 'company-yasnippet))
+
+  (use-package yasnippet-snippets
+    :after yasnippet)
+
+
+#+end_src
+** COMMENT corfu
+#+begin_src emacs-lisp
+  (use-package corfu
+    :defer 1
+    :bind (("C-<SPC>" . corfu-complete))
+    :init
+    (setq corfu-auto t
+	  corfu-auto-delay 0.3
+	  corfu-preview-current nil
+	  corfu-quit-no-match 'separator
+	  completion-styles '(basic ))
+    :config
+    (global-corfu-mode))
+
+  (unless (display-graphic-p)
+    (use-package corfu-terminal
+      :init
+      (custom-set-faces
+       '(corfu-default ((t (:background "black")))))
+      :config
+      (corfu-terminal-mode)))
+
+  (use-package cape
+    :after corfu
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions #'cape-file))
 #+end_src
 
+** COMMENT only built-in
+#+begin_src emacs-lisp
+  (use-package cape
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions 'cape-file))
+  (global-set-key (kbd "C-<SPC>") 'completion-at-point)
+#+end_src
 * LSP
 ** eglot
 #+begin_src emacs-lisp
@@ -642,78 +736,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 			   (require 'lsp-pyright)
 			   (lsp-deferred))))
 #+end_src
-* Autocomplete
-** company
-#+begin_src emacs-lisp
-  (use-package company
-    :diminish
-    :bind (("C-<SPC>" . company-complete))
-    :init
-    (setq lm/company t)
-    (setq company-dabbrev-ignore-case t)
-    (setq company-dabbrev-code-ignore-case t)    
-    (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5)
-    :config
-    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-    (global-company-mode t))
-
-  (use-package yasnippet
-    :after company
-    :config
-    (yas-minor-mode))
-
-
-#+end_src
-** COMMENT corfu
-#+begin_src emacs-lisp
-  (use-package corfu
-    :defer (if (daemonp) nil 5)
-    :init
-    (setq corfu-auto t
-	  corfu-auto-delay 0.3
-	  corfu-preview-current nil
-	  corfu-quit-no-match 'separator
-	  completion-styles '(basic ))
-    :config
-    (global-corfu-mode))
-
-  (unless (display-graphic-p)
-    (use-package corfu-terminal
-      :init
-      (custom-set-faces
-       '(corfu-default ((t (:background "black")))))
-      :config
-      (corfu-terminal-mode)))
-
-  (use-package cape
-    :bind (("C-<SPC>" . complete-symbol))
-    :init
-    (setq completion-ignore-case t)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-file))
-#+end_src
-
-* olivetti
-This is a nice package for zen mode editing
-#+begin_src emacs-lisp
-  (use-package olivetti
-    :defer (if (daemonp) nil t)
-    :init
-    (lm/leader-keys
-      "ao" '(olivetti-mode :which-key "olivetti mode")))
-#+end_src
-
-* pdf-tools
-pdf-tools enable to visualize pdf inside emacs and provides useful features like
-midnight mode
-on windows it require msys2
-#+begin_src emacs-lisp
-  (use-package pdf-tools
-    :defer (if (deamonp) nil t)
-    :mode ("\\.pdf\\'" . pdf-view-mode)
-    :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
-#+end_src
 * Programming languages
 ** C/C++
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
@@ -728,7 +750,7 @@ The content of the file must be
 *** cmake
 #+begin_src emacs-lisp
   (use-package cmake-mode
-  :mode ("\\CMakeLists.txt" . cmake-mode))
+    :mode ("\\CMakeLists.txt" . cmake-mode))
 #+end_src
 
 ** Arduino
@@ -757,6 +779,8 @@ The content of the file must be
 ** Powershell
 #+begin_src emacs-lisp
   (use-package powershell    
+    :init
+    (setq compile-command "pwsh -c ./project.ps1 ")
     :commands powershell)
 #+end_src
 
@@ -766,3 +790,27 @@ The content of the file must be
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src
 
+* olivetti
+This is a nice package for zen mode editing
+#+begin_src emacs-lisp
+  (use-package olivetti
+    :defer (if (daemonp) nil t)
+    :init
+    (lm/leader-keys
+      "ao" '(olivetti-mode :which-key "olivetti mode"))
+    :config
+    (add-hook 'olivetti-mode-hook (lambda ()
+				    (display-line-numbers-mode 0)
+				    (display-fill-column-indicator-mode 0))))
+#+end_src
+
+* pdf-tools
+pdf-tools enable to visualize pdf inside emacs and provides useful features like
+midnight mode
+on windows it require msys2
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :defer (if (deamonp) nil t)
+    :mode ("\\.pdf\\'" . pdf-view-mode)
+    :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+#+end_src

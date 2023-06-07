@@ -145,6 +145,10 @@ M.keymaps = function()
   keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts, buf, '')
   keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts, buf, '')
 
+  ------------------------------   COMMAND LINE ---------------------------------
+
+  --  <C-g> as Escape
+  keymap("c", "<C-g>", "<Escape>", opts, buf, '')
 
   ------------------------------------- TERMINAL --------------------------------
 

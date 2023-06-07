@@ -12,6 +12,8 @@ local M = {}
 
 -- M.cmd = ""
 
+-- M.ft = {""}
+
 -- M.event = { "", }
 
 -- M.init = function ()

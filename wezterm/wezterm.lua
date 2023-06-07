@@ -6,7 +6,7 @@
 --                                                                            --
 --------------------------------------------------------------------------------
 
-local show_tabs = false
+local show_tabs = true
 local color_schemes = {
   dark = {
     monokai = "Monokai Remastered",
@@ -23,6 +23,12 @@ local color_schemes = {
     gruvbox = "Gruvbox Light",
   },
 }
+
+  local current_scheme = color_schemes.dark["gruvbox"],
+  -- local current_scheme = color_schemes.light["github"],
+  -- local current_scheme = 'Atelier Cave Light (base16)',
+  -- local current_scheme = 'Atelier Lakeside Light (base16)',
+  -- local current_scheme = 'Embers (light) (terminal.sexy)',
 
 --------------------------------------------------------------------------------
 --                                                                            --
@@ -278,10 +284,7 @@ local conf = {
   key_tables = key_tables,
   -- debug_key_events = true,
   enable_csi_u_key_encoding = true,
-  color_scheme = color_schemes.dark["gruvbox"],
-  -- color_scheme = 'Atelier Cave Light (base16)',
-  -- color_scheme = 'Atelier Lakeside Light (base16)',
-  -- color_scheme = 'Embers (light) (terminal.sexy)',
+  color_scheme = current_scheme
 }
 
 return conf

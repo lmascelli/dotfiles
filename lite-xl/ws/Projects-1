@@ -1,1 +1,0 @@
-return { path = "D:\\Projects", documents = {["type"]="leaf",["active_view"]=1,["views"]={[1]={["type"]="view",["scroll"]={["x"]=0,["to"]={["x"]=0,["y"]=0},["y"]=0},["active"]=false,["module"]="core.emptyview"}}}, directories = {} }
