@@ -5,7 +5,7 @@
 PWSH_VERSION="7.3.4"
 
 echo Here
-mkdir ~/.lm/download
+mkdir -p ~/.lm/download
 cd ~/.lm
 mkdir pwsh
 curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
