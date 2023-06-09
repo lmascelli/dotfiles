@@ -81,7 +81,9 @@ M.keymaps = function()
   keymap('n', '<leader>a', '', opts, buf, 'Appearence')
   keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Increase font')
   keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Decrease font')
-  keymap('n', '<leader>an', ':lua LM.toggle_colorcolumn()<cr>', opts, buf, 'Toggle colorcolumn')
+  keymap('n', '<leader>at', '', opts, buf, 'Toggle')
+  keymap('n', '<leader>atc', ':lua LM.toggle_colorcolumn()<cr>', opts, buf, 'Toggle colorcolumn')
+  keymap('n', '<leader>atn', ':lua LM.toggle_linenumber()<cr>', opts, buf, 'Toggle line numbers')
   keymap('n', '<leader>ac', ':Telescope colorscheme enable_preview=true<cr>', opts, buf, 'Colorscheme')
 
   -- Searching

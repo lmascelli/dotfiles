@@ -15,6 +15,7 @@ config.opts = {
 
 config.settings = {
   colorcolumn = 80,
+  global_statusline = true,
 }
 
 config.load_plugins = true

@@ -51,6 +51,7 @@ M.options = function()
       EOF_indicator = false,
       italic_comments = true,
       no_fsync_on_win32 = true,
+      global_statusline = false,
     }
   }
 

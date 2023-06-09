@@ -16,8 +16,10 @@ M.init = function()
     end
   end
 
+  local keys = vim.api.nvim_replace_termcodes('<c-x><c-o>', true, false, true)
+
   LM.complete = function()
-    vim.fn["coc#refresh"]()
+    vim.api.nvim_feedkeys(keys, 'i', false)
   end
 
   vim.g.coc_start_at_startup = false;
@@ -47,11 +49,12 @@ M.init = function()
 end
 
 M.config = function ()
-  vim.cmd [[
-  inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-  ]]
+  local keymap = LM.keymaps.add_map
+  local opts = {silent = true, noremap = true, expr = true, replace_keycodes = false}
+  keymap('i', '<TAB>', 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', ops, nil, nil)
+  function _G.check_back_space()
+      local col = vim.fn.col('.') - 1
+      return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
+  end
 end
 return M

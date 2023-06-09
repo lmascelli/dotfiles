@@ -19,6 +19,7 @@ config.opts = {
 
 config.settings = {
   colorcolumn = 80,
+  global_statusline = true,
 }
 
 config.load_plugins = true
@@ -32,12 +33,12 @@ config.plugin_list = {
   'zen-mode',
   -- 'lualine',
   -- 'bufferline',
-  'lsp',
-  'nvim-cmp',
-  'luasnip',
-  'nvim-autopairs',
+  -- 'lsp',
+  -- 'nvim-cmp',
+  -- 'luasnip',
+  -- 'nvim-autopairs',
   'org',
-  -- 'coc',
+  'coc',
   -- 'lspsaga',
   -- 'toggleterm',
   -- 'bufdelete',

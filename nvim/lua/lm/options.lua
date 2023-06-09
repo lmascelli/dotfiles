@@ -44,6 +44,10 @@ options.apply_options = function(opts, settings)
     vim.cmd "highlight Comment cterm=italic gui=italic"
   end
 
+  if settings.global_statusline then
+    vim.opt.laststatus = 3
+  end
+
   if vim.fn.has('win32') and settings.no_fsync_on_win32 then
     vim.o.fsync = false
   end
