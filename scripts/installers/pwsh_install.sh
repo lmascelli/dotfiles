@@ -1,3 +1,4 @@
+#!/bin/bash 
 # Author: Leonardo Mascelli
 # pwsh installation script
 
