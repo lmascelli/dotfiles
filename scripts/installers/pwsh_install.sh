@@ -4,6 +4,7 @@
 
 PWSH_VERSION="7.3.4"
 
+echo Here
 mkdir ~/.lm/download
 cd ~/.lm
 mkdir pwsh
