@@ -5,4 +5,4 @@ echo "---                                                                    ---
 echo "--------------------------------------------------------------------------"
 echo 
 echo "Installing pwsh ..."
-bash ./scripts/installers/pwsh_install.sh
+bash "./scripts/installers/pwsh_install.sh"
