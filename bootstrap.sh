@@ -5,4 +5,6 @@ echo "---                                                                    ---
 echo "--------------------------------------------------------------------------"
 echo 
 echo "Installing pwsh ..."
-bash "./scripts/installers/pwsh_install.sh"
+bash "./scripts/installers/pwsh.sh"
+
+pwsh -c "./scripts/installers/neovim.ps1"

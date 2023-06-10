@@ -2,7 +2,7 @@ local config = {}
 
 vim.g.python3_host_prog = "d:/scoop/apps/python39/current/python.exe"
 
-config.colorscheme = 'default'
+config.colorscheme = 'slate'
 if LM.os_version == 'Linux' then
   config.font_name = 'JetBrains Mono NF'
 elseif LM.os_version == "Windows" then
@@ -14,7 +14,7 @@ config.font_size = 9
 
 config.opts = {
   relativenumber = true,
-  termguicolors = false,
+  termguicolors = true,
 }
 
 config.settings = {

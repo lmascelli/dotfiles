@@ -15,6 +15,7 @@ end
 vim.api.nvim_create_autocmd("Colorscheme", {
   callback = function()
     vim.cmd "highlight Comment cterm=italic gui=italic"
+    vim.cmd "highlight WinSeparator guibg=None"
   end
 })
 
