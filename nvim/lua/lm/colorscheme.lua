@@ -11,11 +11,12 @@ if custom then
   end
 end
 
+vim.cmd "highlight WinSeparator guibg=None"
+
 -- italic font for comments
 vim.api.nvim_create_autocmd("Colorscheme", {
   callback = function()
     vim.cmd "highlight Comment cterm=italic gui=italic"
-    vim.cmd "highlight WinSeparator guibg=None"
   end
 })
 
