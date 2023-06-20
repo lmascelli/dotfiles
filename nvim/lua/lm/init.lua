@@ -1,4 +1,4 @@
-LM = require 'lm.globals'
+require 'lm.globals'
 local options = require 'lm.options'
 local custom = require 'lm.custom'
 local defaults = require 'lm.defaults'
@@ -7,9 +7,9 @@ LM.plugins = require 'lm.plugins'
 LM.font = utils.font
 
 -------------------------------------------------------------------------------
--- load default environment values
+-- load default options values
 -------------------------------------------------------------------------------
-defaults.options()
+defaults.load_options()
 
 -------------------------------------------------------------------------------
 -- setup custom config

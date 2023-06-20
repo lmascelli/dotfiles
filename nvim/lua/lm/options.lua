@@ -17,6 +17,9 @@ end
 -------------------------------------------------------------------------------
 -- apply options function
 -------------------------------------------------------------------------------
+-- when adding a setting remember to add the related export code in
+-- utils/export.lua !!!
+
 
 options.apply_options = function(opts, settings)
   for k, v in pairs(opts) do
