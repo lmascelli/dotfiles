@@ -8,7 +8,18 @@ echo Here
 mkdir -p ~/.lm/download
 cd ~/.lm
 mkdir pwsh
-curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+if ! command -v curl &> /dev/null then
+  echo "curl not found"
+  if ! command -v wget &> /dev/null then
+    echo "not even wget found"
+    echo "ABORT"
+    exit
+  else
+    wget -o download/pwsh.tar.gz "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+  fi
+else
+  curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+fi
 cd pwsh
 tar -xf ../download/pwsh.tar.gz
 mkdir -p ~/.local/bin
