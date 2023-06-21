@@ -2,7 +2,7 @@ if ($IsLinux) {
   Push-Location ~/.lm
   Invoke-WebRequest -URI "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz" -OutFile ~/.lm/download/neovim.tar.gz
   tar -xf ~/.lm/download/neovim.tar.gz
-  New-Item -ItemType SymbolicLink -Path "~/.local/bin/nvim" -Target "~/.lm/nvim-linux64/bin/nvim"
-  New-Item -ItemType SymbolicLink -Path "~/.config/nvim" -Value "~/.dotfiles/nvim"
+  ln -s ~/.lm/nvim-linux64/bin/nvim ~/.local/bin
+  ln -s ~/.dotfiles/nvim ~/.config/nvim
   Pop-Location
 }
