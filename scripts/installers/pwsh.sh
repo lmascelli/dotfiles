@@ -4,7 +4,6 @@
 
 PWSH_VERSION="7.3.4"
 
-echo Here
 mkdir -p ~/.lm/download
 cd ~/.lm
 mkdir pwsh
@@ -17,7 +16,7 @@ then
     echo "ABORT"
     exit
   else
-    wget -o download/pwsh.tar.gz "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+    wget -O download/pwsh.tar.gz "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
   fi
 else
   curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
