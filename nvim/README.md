@@ -3,9 +3,6 @@ My Neovim configuration
 
 ## TODO
 - [ ] refactor the options system:
-    - [ ] global opts and settings table
-    - [ ] defaults fill that table
-    - [ ] custom eventually change defaults value
     - [ ] later, save options to a file and check at startup if that file
           exists, if so load that options and skip this part
     - [ ] give the possibility to export current options to that file
@@ -21,4 +18,4 @@ My Neovim configuration
 
 - [ ] make every module that could be lazy loaded so. (keymaps, options, ecc...)
 
-- [ ] better explain in init.lua comments what's happening.
+- [ ] better explaination in init.lua comments of what's happening.

@@ -16,4 +16,4 @@ custom.load_custom = function()
   end
 end
 
-return custom
+LM.custom = custom

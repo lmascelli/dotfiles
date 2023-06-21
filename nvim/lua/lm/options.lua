@@ -1,4 +1,7 @@
-local options = {}
+local options = {
+    opts = {},
+    settings = {},
+}
 
 -------------------------------------------------------------------------------
 -- load options function
@@ -6,11 +9,11 @@ local options = {}
 
 options.load_options = function(opts, settings)
   for k, v in pairs(opts) do
-    LM.g.opts[k] = v
+    LM.options.opts[k] = v
   end
 
   for k, v in pairs(settings) do
-    LM.g.settings[k] = v
+    LM.options.settings[k] = v
   end
 end
 
@@ -51,9 +54,9 @@ options.apply_options = function(opts, settings)
     vim.opt.laststatus = 3
   end
 
-  if vim.fn.has('win32') and settings.no_fsync_on_win32 then
+  if LM.os == 'Windows' and settings.no_fsync_on_win32 then
     vim.o.fsync = false
   end
 end
 
-return options
+LM.options = options

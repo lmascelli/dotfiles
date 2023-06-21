@@ -1,44 +1,48 @@
+-------------------------------------------------------------------------------
+-- initialize the global space symbol LM and populate it with the required
+-- modules
+-------------------------------------------------------------------------------
 require 'lm.globals'
-local options = require 'lm.options'
-local custom = require 'lm.custom'
-local defaults = require 'lm.defaults'
-local utils = require 'lm.utils'
-LM.plugins = require 'lm.plugins'
-LM.font = utils.font
+require 'lm.options'
+require 'lm.keymaps'
+require 'lm.explorer'
+require 'lm.utils'
 
 -------------------------------------------------------------------------------
--- load default options values
+-- load default and custom values
 -------------------------------------------------------------------------------
-defaults.load_options()
+require 'lm.defaults'
+require 'lm.custom'
+
 
 -------------------------------------------------------------------------------
 -- load custom config
 -------------------------------------------------------------------------------
-local config = custom.load_custom()
+local config = LM.custom.load_custom()
 if config then
 	LM.config = config
 	--- apply vim options and settings
-	options.load_options(config.opts, config.settings)
+	LM.options.load_options(config.opts, config.settings)
 end
 
 -------------------------------------------------------------------------------
 -- apply options and settings
 -------------------------------------------------------------------------------
-options.apply_options(LM.g.opts, LM.g.settings)
+LM.options.apply_options(LM.options.opts, LM.options.settings)
 LM.font.load_custom()
 
 -------------------------------------------------------------------------------
 -- defaults providers
 -------------------------------------------------------------------------------
 -- keymap provider
-LM.keymaps = require 'lm.keymaps'
 
 -- explorer provider
-require 'lm.explorer'
 
 -------------------------------------------------------------------------------
 -- install plugins
 -------------------------------------------------------------------------------
+LM.plugins = require 'lm.plugins'
+
 if config.load_plugins then
 	for _, v in pairs(config.plugin_list) do
 		local ok, p = pcall(require, 'lm.plugins.' .. v)
@@ -52,4 +56,4 @@ end
 -------------------------------------------------------------------------------
 -- appearence settings
 -------------------------------------------------------------------------------
-require 'lm.colorscheme'
+require 'lm.appearence.colorscheme'

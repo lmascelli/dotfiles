@@ -29,4 +29,4 @@ end
 
 font.update_font()
 
-return font
+LM.font = font

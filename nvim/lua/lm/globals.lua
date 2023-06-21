@@ -2,24 +2,15 @@
 -- global LM table
 -------------------------------------------------------------------------------
 LM = {
-  g = {
-    opts = {},
-    settings = {},
-  },
-  font = {
-    font_name = '',
-    font_size = 10,
-  },
+  dirs = {
+    config = vim.fn.stdpath 'config',
+    cache = vim.fn.stdpath 'cache',
+    data = vim.fn.stdpath 'data',
+  }
 }
 
 if vim.fn.has('win32') then
-  LM.os_version = 'Windows'
+  LM.os = 'Windows'
 elseif vim.fn.has('unix') then
-  LM.os_version = 'Linux'
+  LM.os = 'Linux'
 end
-
-LM.dirs = {
-  config = vim.fn.stdpath 'config',
-  cache = vim.fn.stdpath 'cache',
-  data = vim.fn.stdpath 'data',
-}

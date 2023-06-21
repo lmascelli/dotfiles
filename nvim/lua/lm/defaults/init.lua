@@ -1,8 +1,8 @@
-local M = {}
+-- set default keymaps
+require 'lm.defaults.keymaps'
+-- set default options
+require 'lm.defaults.options'
 
-M.keymaps = require 'lm.defaults.keymaps'.keymaps
-M.load_options = require 'lm.defaults.options'.options
 LM.complete = function()
   print 'No completion function has been set'
 end
-return M
