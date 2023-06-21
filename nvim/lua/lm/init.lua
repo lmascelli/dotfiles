@@ -12,7 +12,7 @@ LM.font = utils.font
 defaults.load_options()
 
 -------------------------------------------------------------------------------
--- setup custom config
+-- load custom config
 -------------------------------------------------------------------------------
 local config = custom.load_custom()
 if config then
