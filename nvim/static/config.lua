@@ -18,6 +18,8 @@ config.settings = {
   global_statusline = true,
 }
 
+config.plugin_manager = 'lazy'
+
 config.load_plugins = true
 
 config.plugin_list = {
@@ -31,6 +33,7 @@ config.plugin_list = {
   -- 'bufferline',
   -- 'zen-mode',
   -- 'lsp',
+  -- 'mason',
   -- 'nvim-cmp',
   -- 'luasnip',
   -- 'nvim-autopairs',

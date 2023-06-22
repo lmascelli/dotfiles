@@ -1,6 +1,4 @@
-local M = {}
-
-M.check_load = function()
+LM.plugins.bootstrap = function()
 	local lazypath = LM.dirs.data .. "/lazy/lazy.nvim"
 	if not vim.loop.fs_stat(lazypath) then
 		vim.fn.system({
@@ -15,13 +13,11 @@ M.check_load = function()
 	vim.opt.rtp:prepend(lazypath)
 	local ok, lazy = pcall(require, 'lazy')
 	if ok then
-		return lazy
-	else
-		return nil
+    LM.plugins.manager = lazy
 	end
 end
 
-M.install_plugin = function(plugin)
+LM.plugins.add_to_list = function(plugin)
 	local dependencies = {}
 	if plugin.requires then
 		for _, v in pairs(plugin.requires) do
@@ -50,9 +46,7 @@ M.install_plugin = function(plugin)
 	})
 end
 
-M.pre = function()
+LM.plugins.before = function()
    LM.keymaps.add_map('n', '<leader>cl', '<cmd>Lazy<cr>', nil, nil, 'Lazy')
    LM.plugins.manager.setup(LM.plugins.setup_list)
 end
-
-return M

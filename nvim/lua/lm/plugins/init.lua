@@ -1,26 +1,27 @@
-local plugins = {
+LM.plugins = {
+  bootstrap = function()
+    print 'No plugin manager '
+  end,
   manager = nil,
   add_to_list = nil,
   config = nil,
-  pre = nil,
+  before = nil,
   add_template = nil,
   setup_list = {},
 }
 
-local lazy = require 'lm.plugins.lazy'
-
-plugins.manager = lazy.check_load()
-
-if plugins.manager then
-  plugins.add_to_list = lazy.install_plugin
-  plugins.pre = lazy.pre or function()
+if LM.config and LM.config.plugin_manager then
+  local ok, _ = pcall(require, 'lm.plugins.' .. LM.config.plugin_manager)
+  if not ok then
+    print ('ERROR loading plugin manager: ' .. LM.config.plugin_manager)
   end
 else
-  vim.notify("error loading package manager")
-  return nil
+  require 'lm.plugins.lazy'
 end
 
-plugins.add_template = function(name)
+LM.plugins.bootstrap()
+
+LM.plugins.add_template = function(name)
   if name == nil then
     name = vim.fn.input("plugin name? ")
   end
@@ -29,5 +30,3 @@ plugins.add_template = function(name)
   print ''
   print 'custom config file copied.'
 end
-
-return plugins

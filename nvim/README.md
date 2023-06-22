@@ -12,10 +12,6 @@ My Neovim configuration
     - [ ] later, add the conversion for the plugin provider to an install
           function so it could be set in a single setup config.
 
-- [ ] refactor lsp system:
-    - [ ] lsp server provider
-    - [ ] lsp client enable/disable
-
 - [ ] make every module that could be lazy loaded so. (keymaps, options, ecc...)
 
 - [ ] better explaination in init.lua comments of what's happening.

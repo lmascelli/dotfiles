@@ -3,17 +3,26 @@ local keymaps = {
 }
 
 keymaps.set_keymap = function(mode, map, expr, opts, buf, name)
-  opts = {
-    silent = opts.silent or true,
-    noremap = opts.noremap or false,
-    expr = opts.expr or false,
-    nowait = opts.nowait or false,
-    desc = name or '',
+  local a_opts = {
+    silent = true,
+    noremap = false,
+    expr = false,
+    nowait = false,
+    desc = '',
   }
+  if opts then
+    a_opts = {
+      silent = opts.silent or true,
+      noremap = opts.noremap or false,
+      expr = opts.expr or false,
+      nowait = opts.nowait or false,
+      desc = name or '',
+    }
+  end
   if buf then
-    vim.api.nvim_buf_set_keymap(buf, mode, map, expr, opts)
+    vim.api.nvim_buf_set_keymap(buf, mode, map, expr, a_opts)
   else
-    vim.api.nvim_set_keymap(mode, map, expr, opts)
+    vim.api.nvim_set_keymap(mode, map, expr, a_opts)
   end
 end
 

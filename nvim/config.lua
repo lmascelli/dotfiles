@@ -22,6 +22,8 @@ config.settings = {
   global_statusline = true,
 }
 
+config.plugin_manager = 'lazy'
+
 config.load_plugins = true
 
 config.plugin_list = {
@@ -33,6 +35,7 @@ config.plugin_list = {
   'zen-mode',
   -- 'lualine',
   -- 'bufferline',
+  'mason',
   'lsp',
   'nvim-cmp',
   'luasnip',
