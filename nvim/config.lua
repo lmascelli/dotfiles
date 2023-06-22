@@ -27,7 +27,7 @@ config.plugin_manager = 'lazy'
 config.load_plugins = true
 
 config.plugin_list = {
-  'nvim-qt',
+  -- 'nvim-qt',
   'which-key',
   'nvim-tree',
   'telescope',
@@ -40,7 +40,7 @@ config.plugin_list = {
   'nvim-cmp',
   'luasnip',
   'nvim-autopairs',
-  'org',
+  -- 'org',
   -- 'coc',
   -- 'lspsaga',
   -- 'toggleterm',
@@ -52,13 +52,13 @@ config.plugin_list = {
 }
 
 -- List of modes for which enable the lsp and snippets features
-config.prog_modes = {
-  "python",
-  "c",
-  "cpp",
-  "lua",
-  "matlab",
-}
+-- config.prog_modes = {
+--   "python",
+--   "c",
+--   "cpp",
+--   "lua",
+--   "matlab",
+-- }
 
 config.lsp_list = {
   'lua',

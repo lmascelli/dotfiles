@@ -48,13 +48,14 @@ config.plugin_list = {
 }
 
 -- List of modes for which enable the lsp and snippets features
-config.prog_modes = {
-  "python",
-  "c",
-  "cpp",
-  "lua",
-  "matlab",
-}
+-- Disabled because now lsp is started manually
+-- config.prog_modes = {
+--   "python",
+--   "c",
+--   "cpp",
+--   "lua",
+--   "matlab",
+-- }
 
 config.lsp_list = {
   'lua',
