@@ -9,8 +9,8 @@ LM = {
   }
 }
 
-if vim.fn.has('win32') then
+if vim.fn.has('win32') == 1 then
   LM.os = 'Windows'
-elseif vim.fn.has('unix') then
+elseif vim.fn.has('unix') == 1 then
   LM.os = 'Linux'
 end

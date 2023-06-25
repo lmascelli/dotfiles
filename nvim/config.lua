@@ -1,12 +1,10 @@
 local config = {}
 
-vim.g.python3_host_prog = "d:/scoop/apps/python39/current/python.exe"
-
 config.colorscheme = 'slate'
-if LM.os_version == 'Linux' then
-  config.font_name = 'JetBrains Mono NF'
-elseif LM.os_version == "Windows" then
-  -- config.font_name = 'Consolas'
+if LM.os == 'Linux' then
+  config.font_name = 'Monospace'
+  -- config.font_name = 'JetBrains Mono NF'
+elseif LM.os == "Windows" then
   config.font_name = 'JetBrainsMono NFM'
 end
 
@@ -27,7 +25,7 @@ config.plugin_manager = 'lazy'
 config.load_plugins = true
 
 config.plugin_list = {
-  -- 'nvim-qt',
+  'nvim-qt',
   'which-key',
   'nvim-tree',
   'telescope',

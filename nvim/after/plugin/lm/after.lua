@@ -1,7 +1,8 @@
-local custom = LM.config
-if custom then
+local config = LM.config
+
+if config then
 	-- config plugins
-	for _, v in pairs(custom.plugin_list) do
+	for _, v in pairs(config.plugin_list) do
 		local ok, p = pcall(require, 'lm.plugins.' .. v)
 		if ok then
 			if p.post then
@@ -13,10 +14,6 @@ if custom then
 	end
 end
 
-if LM.config and LM.config.after then
-	LM.config.after()
-end
-
 -------------------------------------------------------------------------------
 -- set keymaps
 -------------------------------------------------------------------------------
@@ -24,3 +21,8 @@ end
 for _, v in pairs(LM.keymaps.maps) do
   LM.keymaps.set_keymap(v.mode, v.map, v.expr, v.opts, v.buf, v.name)
 end
+
+if LM.config and LM.config.after then
+	LM.config.after()
+end
+

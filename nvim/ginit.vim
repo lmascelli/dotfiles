@@ -7,10 +7,9 @@ if vim.fn.exists(':GuiFont') then
     vim.cmd(':GuiFont! ' .. LM.font.font_name .. ':h' .. LM.font.font_size)
   end
 end
-
 EOF
 
-" Set Editor Font
+" Set Guifont
 if exists(':GuiFont')
   :lua LM.font.update_font()
 endif
