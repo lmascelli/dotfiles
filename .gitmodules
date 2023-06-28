@@ -1,9 +1,0 @@
-[submodule "lite-xl/plugins/lsp"]
-	path = lite-xl/plugins/lsp
-	url = https://github.com/lite-xl/lite-xl-lsp
-[submodule "lite-xl/widget"]
-	path = lite-xl/widget
-	url = https://github.com/lite-xl/lite-xl-widgets
-[submodule "lite-xl/plugins/lintplus"]
-	path = lite-xl/plugins/lintplus
-	url = https://github.com/liquidev/lintplus

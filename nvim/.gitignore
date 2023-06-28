@@ -5,3 +5,4 @@ plugin_downloaded
 .luarc.json
 git_buffer
 config.lua
+lazy-lock.json
