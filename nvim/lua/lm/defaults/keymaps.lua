@@ -48,7 +48,9 @@ keymap("n", "<C-Right>", ":vertical resize +2<cr>", opts, buf, '')
 keymap("n", "<S-l>", ":bnext<cr>", opts, buf, '')
 keymap("n", "<S-h>", ":bprevious<cr>", opts, buf, '')
 keymap("n", "<leader>b", "", opts, buf, "Buffer")
-keymap("n", "<leader>bd", "<cmd>:lua LM.buffer_delete()<cr>", opts, buf, "Delete buffer")
+keymap("n", "<leader>bf", "<cmd>:lua LM.api.buffer_delete()<cr>", opts, buf, "format buffer")
+keymap("n", "<leader>bd", "<cmd>:lua LM.api.buffer_delete()<cr>", opts, buf, "delete buffer")
+keymap("n", "<leader>bl", "<cmd>:lua LM.api.buffer_list()<cr>", opts, buf, "list buffers")
 
 -- Buffer editing
 keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
@@ -81,7 +83,7 @@ keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'D
 keymap('n', '<leader>at', '', opts, buf, 'Toggle')
 keymap('n', '<leader>atc', ':lua LM.toggle_colorcolumn()<cr>', opts, buf, 'Toggle colorcolumn')
 keymap('n', '<leader>atn', ':lua LM.toggle_linenumber()<cr>', opts, buf, 'Toggle line numbers')
-keymap('n', '<leader>ac', ':Telescope colorscheme enable_preview=true<cr>', opts, buf, 'Colorscheme')
+keymap('n', '<leader>ac', ':lua LM.appearence.list_colorschemes()<cr>', opts, buf, 'Colorscheme')
 
 -- Searching
 local search_opts = opts

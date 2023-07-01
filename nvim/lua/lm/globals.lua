@@ -6,7 +6,9 @@ LM = {
     config = vim.fn.stdpath 'config',
     cache = vim.fn.stdpath 'cache',
     data = vim.fn.stdpath 'data',
-  }
+  },
+  api = {
+  },
 }
 
 if vim.fn.has('win32') == 1 then

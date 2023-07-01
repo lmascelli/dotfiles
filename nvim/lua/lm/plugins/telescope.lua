@@ -28,5 +28,9 @@ M.init = function()
 		keymap('n', '<leader>sf', '<cmd>Telescope find_files noignore=true hiddent=false<cr>', {}, nil, 'find files')
 		keymap('n', '<leader>sz', '<cmd>Telescope current_buffer_fuzzy_find<cr>', {}, nil, 'find in buffer')
 		keymap('n', '<leader>bl', '<cmd>Telescope buffers<cr>', {}, nil, 'list buffer')
+
+    LM.appearence.list_colorschemes = function()
+      vim.cmd 'Telescope colorscheme enable_preview=true<cr>'
+    end
 end
 return M

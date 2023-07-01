@@ -11,18 +11,26 @@ if custom then
   end
 end
 
-vim.cmd "highlight WinSeparator guibg=None"
 
 -- italic font for comments
 vim.api.nvim_create_autocmd("Colorscheme", {
   callback = function()
     vim.cmd "highlight Comment cterm=italic gui=italic"
+vim.cmd "highlight WinSeparator guibg=None"
   end
 })
 
 local open_time = os.date("*t", os.time())
 
-LM.dynamic_background = function()
+LM.appearence = {
+  list_colorschemes = function()
+    list_colors_keys = vim.api.nvim_replace_termcodes(
+      '<esc>:colorscheme \t', true, false, true)
+    vim.api.nvim_feedkeys(list_colors_keys, 'n', false)
+  end
+}
+
+LM.appearence.dynamic_background = function()
   if (open_time.hour >= 9 and open_time.hour < 19) then
     vim.opt.background = "light"
   else

@@ -1,9 +1,9 @@
 local config = {}
 
 config.colorscheme = 'default'
-if LM.os_version == 'Linux' then
+if LM.os == 'Linux' then
   config.font_name = 'JetBrains Mono NF'
-elseif LM.os_version == "Windows" then
+elseif LM.os == "Windows" then
   config.font_name = 'JetBrains Mono'
 end
 
