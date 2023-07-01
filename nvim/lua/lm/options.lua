@@ -29,6 +29,10 @@ options.apply_options = function(opts, settings)
     vim.opt[k] = v
   end
 
+  if settings.current_path then
+    vim.o.path = vim.o.path .. '**'
+  end
+
   if settings.colorcolumn then
     vim.o.colorcolumn = tostring(settings.colorcolumn_number)
   else

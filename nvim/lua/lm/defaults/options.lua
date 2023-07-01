@@ -40,6 +40,7 @@ local defaults = {
     virtualedit = "onemore",
   },
   settings = {
+    current_path = true,
     colorcolumn = true,
     colorcolumn_number = 80,
     terminal_line_number = false,

@@ -29,6 +29,10 @@ LM.export.single_file = function()
   end
 
   -- exporting settings
+  if LM.g.settings.current_path then
+    content = add_content(content, 'vim.o.path = vim.o.path .. "**"')
+  end
+  
   if LM.g.settings.colorcolumn then
     content = add_content(content, 'vim.o.colorcolumn = '
     .. tostring(LM.g.settings.colorcolumn_number))
