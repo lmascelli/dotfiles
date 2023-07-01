@@ -1,5 +1,6 @@
-require 'lm.utils.buffer_edit'
+require 'lm.utils.buffer'
 require 'lm.utils.font'
+require 'lm.utils.files'
 require 'lm.utils.scripts'
 require 'lm.utils.appearence'
 require 'lm.utils.export'

@@ -25,7 +25,7 @@ local open_time = os.date("*t", os.time())
 LM.appearence = {
   list_colorschemes = function()
     list_colors_keys = vim.api.nvim_replace_termcodes(
-      '<esc>:colorscheme \t', true, false, true)
+      '<esc>:colorscheme \t\b', true, false, true)
     vim.api.nvim_feedkeys(list_colors_keys, 'n', false)
   end
 }

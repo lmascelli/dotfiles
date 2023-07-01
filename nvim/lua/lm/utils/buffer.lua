@@ -15,8 +15,8 @@ LM.api.buffer_delete = function()
   if count == 1 then
     vim.api.nvim_create_buf(true, true)
   end
-  vim.cmd 'bprevious!'
-  vim.cmd 'bdelete!#'
+  pcall(vim.cmd, 'bprevious!')
+  pcall(vim.cmd, 'bdelete!#')
 end
 
 LM.api.buffer_list = function()

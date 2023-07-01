@@ -22,7 +22,6 @@ M.config = function(params)
 end
 M.init = function()
 		local keymap = LM.keymaps.add_map
-		keymap('n', '<leader>f', '<cmd>Telescope find_files<cr>', {}, nil, 'find files')
 		keymap('n', '<leader>sc', '<cmd>Telescope<cr>', {}, nil, 'list possible searches')
 		keymap('n', '<leader>sg', '<cmd>Telescope live_grep<cr>', {}, nil, 'find in files')
 		keymap('n', '<leader>sf', '<cmd>Telescope find_files noignore=true hiddent=false<cr>', {}, nil, 'find files')
@@ -30,6 +29,10 @@ M.init = function()
 		keymap('n', '<leader>bl', '<cmd>Telescope buffers<cr>', {}, nil, 'list buffer')
 
     LM.appearence.list_colorschemes = function()
+      vim.cmd 'Telescope colorscheme enable_preview=true<cr>'
+    end
+
+    LM.api.find_file = function()
       vim.cmd 'Telescope colorscheme enable_preview=true<cr>'
     end
 end

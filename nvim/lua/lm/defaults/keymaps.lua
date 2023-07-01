@@ -38,6 +38,7 @@ keymap('n', '<m-ScrollWheelDown>', 'zlzl', opts, buf, '')
 
 --  File explorer
 keymap("n", "<leader>e", ":lua LM.explorer.toggle_explorer()<cr>", opts, buf, 'Explorer')
+keymap('n', '<leader>f', '<cmd>lua LM.api.find_file()<cr>', {}, nil, 'find files')
 
 keymap("n", "<C-Up>", ":resize +2<cr>", opts, buf, '')
 keymap("n", "<C-Down>", ":resize -2<cr>", opts, buf, '')
