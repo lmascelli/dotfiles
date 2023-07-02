@@ -1,4 +1,4 @@
-LM.api.buffer_indent = function()
+LM.api.buffer_format = function()
   local curpos = vim.fn.getcurpos()
   vim.api.nvim_feedkeys('gg=G', 'n', false)
   for k, v in ipairs(curpos) do print(k, v) end

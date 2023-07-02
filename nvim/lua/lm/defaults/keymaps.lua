@@ -49,7 +49,7 @@ keymap("n", "<C-Right>", ":vertical resize +2<cr>", opts, buf, '')
 keymap("n", "<S-l>", ":bnext<cr>", opts, buf, '')
 keymap("n", "<S-h>", ":bprevious<cr>", opts, buf, '')
 keymap("n", "<leader>b", "", opts, buf, "Buffer")
-keymap("n", "<leader>bf", "<cmd>:lua LM.api.buffer_delete()<cr>", opts, buf, "format buffer")
+keymap("n", "<leader>bf", "<cmd>:lua LM.api.buffer_format()<cr>", opts, buf, "format buffer")
 keymap("n", "<leader>bd", "<cmd>:lua LM.api.buffer_delete()<cr>", opts, buf, "delete buffer")
 keymap("n", "<leader>bl", "<cmd>:lua LM.api.buffer_list()<cr>", opts, buf, "list buffers")
 
