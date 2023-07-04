@@ -1,5 +1,5 @@
 #+title: My Emacs Configuration
-#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") "/.config") "/emacs")) :mkdirp yes
+#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
 
 Emacs is a wonderful text editor and more than that; is more like a programming
 environment with an included editor. This means it can be customized at like to
@@ -198,7 +198,7 @@ avoid drawing them at all. The scroll-bar is still present in newer
 frames at this point. To remove it also in them it must be changed the
 /default-frame-alist/ but since this variable is reset in the
 *geometry and aspect* section this change is applied there.
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") "/.config") "/emacs")) :mkdirp yes
+#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
@@ -427,6 +427,8 @@ prepared for plugins installation.
   (unless package-archive-contents
     (package-refresh-contents))
 #+end_src
+
+#+RESULTS:
 
 * use-package
 /use-package/ is a nice and useful package manager
@@ -660,7 +662,6 @@ general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (use-package eglot
     :defer t
-    :pin melpa
     :init
     (setq eglot-connect-timeout 90)
     (lm/leader-keys

@@ -94,6 +94,10 @@ keymap('n', '<leader>ss', '/', search_opts, buf, 'search')
 keymap('n', '<leader>sr', ':%s/', search_opts, buf, 'replace')
 keymap('n', '<leader>sh', '<cmd>nohl<cr>', search_opts, buf, 'highlight off')
 
+-- Templates
+keymap('n', '<leader>,', '', opts, buf, 'Templates')
+keymap('n', '<leader>,b', '<cmd>lua LM.comments.insert()<cr>', opts, buf, 'block')
+
 -- Tools
 keymap('n', '<leader>t', '', opts, buf, 'Tools')
 keymap('n', '<leader>tt', '<cmd>terminal<cr>', opts, buf, 'integrated terminal')

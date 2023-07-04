@@ -22,3 +22,8 @@ end
 LM.api.buffer_list = function()
   vim.cmd 'ls'
 end
+
+LM.api.count_char_to_column = function(end_column)
+  column = end_column or 80
+  return column - vim.fn.getpos('.')[3]
+end
