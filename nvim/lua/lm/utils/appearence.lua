@@ -13,7 +13,7 @@ LM.api.dynamic_background = function()
   end
 end
 
-LM.api.load_default_colorscheme = function()
+LM.api.load_colorscheme = function()
   if LM.custom.config then
     local colorscheme = LM.custom.config.colorscheme
     local os = require 'os'

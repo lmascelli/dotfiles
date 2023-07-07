@@ -39,4 +39,4 @@ inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
 xnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
 snoremap <silent><RightMouse> <C-G>:call GuiShowContextMenu()<CR>gv
 
-autocmd FocusGained * :checktime
+autocmd Gui FocusGained * :checktime

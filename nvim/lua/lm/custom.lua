@@ -5,20 +5,15 @@ LM.custom = {
     local ok, custom_config = pcall(dofile, LM.custom.config_path)
 
     if ok then
-      return custom_config
+      LM.custom.config = custom_config
     else
       -- copy the default configuration file
       vim.fn.writefile(vim.fn.readfile(LM.dirs.config .. '/static/config.lua'),
         LM.custom.config_path)
       print 'custom config file copied.'
-      return nil
+      LM.custom.config = nil
     end
   end,
 }
 
-local ok, config = pcall(LM.custom.load_custom)
-if ok then
-  LM.custom.config = config
-else
-  print('error loading custom config')
-end
+LM.custom.load_custom()
