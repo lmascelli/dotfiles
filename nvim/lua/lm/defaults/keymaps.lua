@@ -84,7 +84,7 @@ keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'D
 keymap('n', '<leader>at', '', opts, buf, 'Toggle')
 keymap('n', '<leader>atc', ':lua LM.toggle_colorcolumn()<cr>', opts, buf, 'Toggle colorcolumn')
 keymap('n', '<leader>atn', ':lua LM.toggle_linenumber()<cr>', opts, buf, 'Toggle line numbers')
-keymap('n', '<leader>ac', ':lua LM.appearence.list_colorschemes()<cr>', opts, buf, 'Colorscheme')
+keymap('n', '<leader>ac', ':lua LM.api.list_colorschemes()<cr>', opts, buf, 'Colorscheme')
 
 -- Searching
 local search_opts = opts

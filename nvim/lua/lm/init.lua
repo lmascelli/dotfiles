@@ -3,6 +3,7 @@
 -- modules
 -------------------------------------------------------------------------------
 require 'lm.globals'
+require 'lm.augroups'
 require 'lm.options'
 require 'lm.keymaps'
 require 'lm.explorer'
@@ -14,13 +15,10 @@ require 'lm.utils'
 require 'lm.defaults'
 require 'lm.custom'
 
-local config = LM.custom.load_custom()
-if config then
-  LM.config = config
+if LM.custom.config then
   --- apply vim options and settings
-  LM.options.load_options(config.opts, config.settings)
+  LM.options.load_options(LM.custom.config.opts, LM.custom.config.settings)
 end
-
 LM.options.apply_options(LM.options.opts, LM.options.settings)
 LM.font.load_custom()
 
@@ -30,8 +28,8 @@ LM.font.load_custom()
 require 'lm.plugins'
 
 if LM.plugins.manager then
-  if config and config.load_plugins then
-    for _, v in pairs(config.plugin_list) do
+  if LM.custom.config and LM.custom.config.load_plugins then
+    for _, v in pairs(LM.custom.config.plugin_list) do
       local ok, p = pcall(require, 'lm.plugins.' .. v)
       if ok then
         LM.plugins.add_to_list(p)
@@ -44,6 +42,6 @@ else
 end
 
 -------------------------------------------------------------------------------
--- appearence settings
+-- load colorscheme
 -------------------------------------------------------------------------------
-require 'lm.appearence'
+LM.api.load_default_colorscheme()

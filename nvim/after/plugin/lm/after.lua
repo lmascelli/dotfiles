@@ -1,4 +1,4 @@
-local config = LM.config
+local config = LM.custom.config
 
 if config then
 	-- config plugins
@@ -22,7 +22,6 @@ for _, v in pairs(LM.keymaps.maps) do
   LM.keymaps.set_keymap(v.mode, v.map, v.expr, v.opts, v.buf, v.name)
 end
 
-if LM.config and LM.config.after then
-	LM.config.after()
+if LM.custom.config and LM.custom.config.after then
+	LM.custom.config.after()
 end
-

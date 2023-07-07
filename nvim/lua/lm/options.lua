@@ -1,6 +1,6 @@
 local options = {
-    opts = {},
-    settings = {},
+  opts = {},
+  settings = {},
 }
 
 -------------------------------------------------------------------------------
@@ -51,7 +51,22 @@ options.apply_options = function(opts, settings)
 
   if settings.italic_comments then
     -- italic font for comments
-    vim.cmd "highlight Comment cterm=italic gui=italic"
+    vim.api.nvim_create_autocmd("Colorscheme", {
+      group = "Colorscheme",
+      callback = function()
+        vim.cmd "highlight Comment cterm=italic gui=italic"
+      end,
+    })
+  end
+
+  -- thin line as window separator
+  if settings.thin_winsperator then
+    vim.api.nvim_create_autocmd("Colorscheme", {
+      group = "Colorscheme",
+      callback = function()
+        vim.cmd "highlight WinSeparator guibg=None"
+      end
+    })
   end
 
   if settings.global_statusline then

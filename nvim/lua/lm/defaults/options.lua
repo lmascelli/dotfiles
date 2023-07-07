@@ -46,6 +46,7 @@ local defaults = {
     terminal_line_number = false,
     EOF_indicator = false,
     italic_comments = true,
+    thin_win_separator = true,
     no_fsync_on_win32 = true,
     global_statusline = false,
   }
