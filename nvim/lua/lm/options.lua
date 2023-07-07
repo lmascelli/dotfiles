@@ -60,7 +60,7 @@ options.apply_options = function(opts, settings)
   end
 
   -- thin line as window separator
-  if settings.thin_winsperator then
+  if settings.thin_win_separator then
     vim.api.nvim_create_autocmd("Colorscheme", {
       group = "Colorscheme",
       callback = function()
