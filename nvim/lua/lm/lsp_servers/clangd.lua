@@ -4,7 +4,6 @@ return function(data)
       " Add: [-target, x86_64-pc-windows-gnu]" },
       ".clangd")
   end
-
   require 'clangd_extensions'.setup {
     server = {
       on_attach = function(client, bufnr)

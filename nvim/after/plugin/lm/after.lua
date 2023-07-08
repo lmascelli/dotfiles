@@ -5,9 +5,7 @@ if config then
 	for _, v in pairs(config.plugin_list) do
 		local ok, p = pcall(require, 'lm.plugins.' .. v)
 		if ok then
-			if p.post then
-				p.post()
-			end
+			if p.post then p.post() end
 		else
 			print('after:post. Error loading plugin ' .. v)
 		end

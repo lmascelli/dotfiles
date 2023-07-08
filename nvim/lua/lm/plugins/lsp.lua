@@ -76,7 +76,7 @@ M.config = function()
 			}
 		)
 
-		local lsp_list = LM.config.lsp_list or {}
+		local lsp_list = LM.custom.config.lsp_list or {}
 
 		for k, v in pairs(lsp_list) do
 			local status_ok, server = pcall(require, 'lm.lsp_servers.' .. v)

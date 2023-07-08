@@ -10,10 +10,10 @@ LM.plugins = {
   setup_list = {},
 }
 
-if LM.config and LM.config.plugin_manager then
-  local ok, _ = pcall(require, 'lm.plugins.' .. LM.config.plugin_manager)
+if LM.custom.config and LM.custom.config.plugin_manager then
+  local ok, _ = pcall(require, 'lm.plugins.' .. LM.custom.config.plugin_manager)
   if not ok then
-    print ('ERROR loading plugin manager: ' .. LM.config.plugin_manager)
+    print ('ERROR loading plugin manager: ' .. LM.custom.config.plugin_manager)
   end
 else
   require 'lm.plugins.lazy'
