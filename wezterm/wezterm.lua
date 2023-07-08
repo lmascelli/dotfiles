@@ -269,6 +269,7 @@ local conf = {
   initial_cols = 90,
   initial_rows = 40,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
+  font = wezterm.font('Source Code Pro'),
   -- font = wezterm.font('JetBrains Mono'),
   -- font = wezterm.font('Consolas'),
   font_size = 10,

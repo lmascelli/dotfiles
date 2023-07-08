@@ -4,7 +4,7 @@ LM.font = {
 }
 
 LM.font.load_custom = function()
-  local custom = LM.config
+  local custom = LM.custom.config
   if custom and custom.font_size then
     LM.font.font_size = custom.font_size
   end
