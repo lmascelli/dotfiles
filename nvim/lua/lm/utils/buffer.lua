@@ -1,9 +1,9 @@
 LM.api.toggle_colorcolumn = function()
-  if not LM.g.settings.colorcolumn then
-    LM.g.settings.colorcolumn = true
-    vim.o.colorcolumn = tostring(LM.g.settings.colorcolumn_number)
+  if not LM.options.settings.colorcolumn then
+    LM.options.settings.colorcolumn = true
+    vim.o.colorcolumn = tostring(LM.options.settings.colorcolumn_number)
   else
-    LM.g.settings.colorcolumn = false
+    LM.options.settings.colorcolumn = false
     vim.o.colorcolumn = tostring(0)
   end
 end
@@ -14,7 +14,7 @@ LM.api.toggle_linenumber = function()
     vim.opt.relativenumber = false
   else
     vim.opt.number = true
-    if LM.g.opts.relativenumber then
+    if LM.options.opts.relativenumber then
        vim.opt.relativenumber = true
     end
   end
