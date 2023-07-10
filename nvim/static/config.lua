@@ -23,12 +23,13 @@ config.plugin_manager = 'lazy'
 config.load_plugins = true
 
 config.plugin_list = {
-  -- 'nvim-qt',
+  -- 'nvim-autopairs',
+  -- 'comment',
   -- 'which-key',
   -- 'telescope',
   -- 'treesitter',
+  -- 'nvim-qt',
   -- 'nvim-tree',
-  -- 'comment',
   -- 'lualine',
   -- 'bufferline',
   -- 'zen-mode',
@@ -36,7 +37,6 @@ config.plugin_list = {
   -- 'mason',
   -- 'nvim-cmp',
   -- 'luasnip',
-  -- 'nvim-autopairs',
   -- 'coc',
   -- 'lspsaga',
   -- 'toggleterm',

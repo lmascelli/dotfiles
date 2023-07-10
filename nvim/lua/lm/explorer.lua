@@ -1,3 +1,10 @@
+--------------------------------------------------------------------------------
+--  USE NetRW as default file explorer
+--------------------------------------------------------------------------------
+
+-- set netrw options
+vim.g.netrw_banner = false
+
 LM.explorer = {
   toggle_explorer = function()
     vim.cmd ':20Lexplore'

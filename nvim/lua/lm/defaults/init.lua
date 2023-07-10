@@ -4,5 +4,7 @@ require 'lm.defaults.keymaps'
 require 'lm.defaults.options'
 
 LM.complete = function()
-  print 'No completion function has been set'
+  local keys = vim.api.nvim_replace_termcodes(
+      '<c-x><c-o>', true, false, true)
+  vim.api.nvim_feedkeys(keys, 'i', false)
 end
