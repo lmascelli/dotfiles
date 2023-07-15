@@ -9,7 +9,6 @@ M.config = function()
   local found, treesitter = pcall(require, 'nvim-treesitter.configs')
   if found then
     treesitter.setup {
-      ensure_installed = { "cpp", "lua", "vim", "help", "python" },
       auto_install = true,
       highlight = {
         enable = true,
