@@ -20,7 +20,6 @@ else
     echo "ABORT"
     exit
   fi
-else
 fi
 cd pwsh
 tar -xf ../download/pwsh.tar.gz
