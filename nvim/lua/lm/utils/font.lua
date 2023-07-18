@@ -18,12 +18,12 @@ LM.font.update_font = function()
 end
 
 LM.font.increase_font_size = function()
-  LM.font.font_size = LM.font.font_size * 1.3
+  LM.font.font_size = LM.font.font_size * 1.1
   LM.font.update_font()
 end
 
 LM.font.decrease_font_size = function()
-  LM.font.font_size = LM.font.font_size / 1.3
+  LM.font.font_size = LM.font.font_size / 1.1
   LM.font.update_font()
 end
 

@@ -7,19 +7,20 @@ PWSH_VERSION="7.3.4"
 mkdir -p ~/.lm/download
 cd ~/.lm
 mkdir pwsh
-if ! command -v curl &> /dev/null
+if command -v curl &> /dev/null
 then
+  curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+else
   echo "curl not found"
-  if ! command -v wget &> /dev/null 
+  if command -v wget &> /dev/null 
   then
+    wget -O "download/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+  else
     echo "not even wget found"
     echo "ABORT"
     exit
-  else
-    wget -O download/pwsh.tar.gz "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
   fi
 else
-  curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
 fi
 cd pwsh
 tar -xf ../download/pwsh.tar.gz
