@@ -12,7 +12,7 @@ M.requires = { { url = "nvim-treesitter/nvim-treesitter" }, }
 
 -- M.cmd = ""
 
-M.ft = {'org'}
+-- M.ft = {'org'}
 
 -- M.event = { "", }
 
@@ -24,7 +24,11 @@ M.config = function()
   local ok, orgmode = pcall(require, 'orgmode')
   if ok then
     orgmode.setup_ts_grammar()
-    orgmode.setup{}
+    orgmode.setup{
+      mappings = {
+        prefix = '<C-c>',
+      }
+    }
   else
     print 'fail setup orgmode'
   end
