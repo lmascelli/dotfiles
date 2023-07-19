@@ -4,7 +4,7 @@ M.name   = 'treesitter'
 M.url    = 'nvim-treesitter/nvim-treesitter'
 M.lazy   = true
 -- M.event  = { "BufNewFile", "FileReadPost" }
-M.ft     = { "lua", "python", "c", "cpp", "markdown" }
+M.ft     = { "lua", "python", "c", "cpp", "markdown", "org" }
 M.config = function()
   local found, treesitter = pcall(require, 'nvim-treesitter.configs')
   if found then
