@@ -563,7 +563,7 @@ general is a package that allow to use a <leader> keys for the chords.
     (lm/leader-keys
       :keymaps '(override)
       :states 'normal
-      "<spc>" '(execute-extended-command :which-key "m-x")
+      "SPC"   '(execute-extended-command :which-key "m-x")
       "q"     '(:ignore t :which-key "quit")
       "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
       "b"     '(:ignore t :which-key "buffers")
