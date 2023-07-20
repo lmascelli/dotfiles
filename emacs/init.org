@@ -498,63 +498,12 @@ application when starting the sequence
     )
 #+end_src
 
-* general
-general is a package that allow to use a <leader> keys for the chords.
-#+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (use-package general
-    :defer 1
-    :config
-    (general-override-mode)
-
-    (general-define-key
-     "C-z" 'undo
-     "M-z" 'undo-redo
-     )
-
-    (general-create-definer lm/leader-keys
-      :keymaps 'override
-      :prefix "S-<SPC>")
-
-    (lm/leader-keys
-      "<SPC>" '(execute-extended-command :which-key "M-x")
-      "q"     '(:ignore t :which-key "Quit")
-      "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
-      "b"     '(:ignore t :which-key "Buffers")
-      "bd"    '(kill-this-buffer :which-key "kill buffer")
-      "bs"    '(save-buffer :which-key "save buffer")
-      "bl"    '(switch-to-buffer :which-key "switch to buffer")
-      "bL"    '(list-buffers :which-key "list buffers")
-      "e"     '(dired :which-key "Search")
-      "s"     '(:ignore t :which-key "Search")
-      "ss"    '(evil-search-forward :which-key "search forward")
-      "sb"    '(evil-search-backward :which-key "search backward")
-      "sr"    '(query-replace :which-key "query replace")
-      "a"     '(:ignore t :which-key "Appearence")
-      "ac"    '(customize-themes :which-key "customize themes")
-      "at"    '(toggle-theme :which-key "toggle theme")
-      "am"    '(menu-bar-mode :which-key "toggle menu bar")
-      "f"     '(project-find-file :which-key "find file")
-      "v"     '(:ignore t :which-key "Scripts")
-      "vc"    '(lm/run-wezterm :which-key "wezterm here")
-      "vp"    '(project-async-shell-command :which-key "wezterm here")
-      "i"     '(:ignore t :which-key "Insert")
-      "it"    '(lm/insert-tilde :which-key "~")
-      "ig"    '(lm/insert-grave-accent :which-key "`")
-      "t"     '(:ignore t :which-key "Tools")
-      "tp"    '(lm/pomodoro :which-key "pomodoro")
-      "c"     '(:ignore t :which-key "Configuration")
-      "cc"    '(lm/open-literate-config :which-key "Open literate configuration")
-      "cv"    '(evil-mode :which-key "toggle Vim mode")
-      "cr"    '(lm/reload-config :which-key "Reload init.el")
-      ))
-#+end_src
-
 * evil
 #+begin_src emacs-lisp
   (use-package evil
-    :defer t
+    :defer 1
     :init
+    (setq lm/evil-enabled t)
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (setq evil-undo-system 'undo-redo)
@@ -575,7 +524,7 @@ general is a package that allow to use a <leader> keys for the chords.
      :keymaps 'override
      "H" 'previous-buffer
      "L" 'next-buffer)
-  
+
     (general-define-key
      :states '(visual)
      "gc" 'comment-dwim))
@@ -589,6 +538,62 @@ general is a package that allow to use a <leader> keys for the chords.
     (define-key evil-ex-completion-map (kbd "C-c t") 'lm/insert-tilde)
     (define-key evil-ex-completion-map (kbd "C-c g") 'lm/insert-grave-accent)
     (evil-collection-init))
+#+end_src
+
+* general
+general is a package that allow to use a <leader> keys for the chords.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (use-package general
+    :defer nil
+    :config
+    (general-override-mode)
+
+    (general-define-key
+     "C-z" 'undo
+     "M-z" 'undo-redo
+     )
+
+    (if (boundp 'lm/evil-enabled)
+	(general-create-definer lm/leader-keys
+	  :prefix "<SPC>")
+      (general-create-definer lm/leader-keys
+	:prefix "S-<SPC>"))	
+
+    (lm/leader-keys
+      :keymaps '(override)
+      :states 'normal
+      "<spc>" '(execute-extended-command :which-key "m-x")
+      "q"     '(:ignore t :which-key "quit")
+      "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
+      "b"     '(:ignore t :which-key "buffers")
+      "bd"    '(kill-this-buffer :which-key "kill buffer")
+      "bs"    '(save-buffer :which-key "save buffer")
+      "bl"    '(switch-to-buffer :which-key "switch to buffer")
+      "bl"    '(list-buffers :which-key "list buffers")
+      "e"     '(dired :which-key "search")
+      "s"     '(:ignore t :which-key "search")
+      "ss"    '(evil-search-forward :which-key "search forward")
+      "sb"    '(evil-search-backward :which-key "search backward")
+      "sr"    '(query-replace :which-key "query replace")
+      "a"     '(:ignore t :which-key "appearence")
+      "ac"    '(customize-themes :which-key "customize themes")
+      "at"    '(toggle-theme :which-key "toggle theme")
+      "am"    '(menu-bar-mode :which-key "toggle menu bar")
+      "f"     '(project-find-file :which-key "find file")
+      "v"     '(:ignore t :which-key "scripts")
+      "vc"    '(lm/run-wezterm :which-key "wezterm here")
+      "vp"    '(project-async-shell-command :which-key "wezterm here")
+      "i"     '(:ignore t :which-key "insert")
+      "it"    '(lm/insert-tilde :which-key "~")
+      "ig"    '(lm/insert-grave-accent :which-key "`")
+      "t"     '(:ignore t :which-key "tools")
+      "tp"    '(lm/pomodoro :which-key "pomodoro")
+      "c"     '(:ignore t :which-key "configuration")
+      "cc"    '(lm/open-literate-config :which-key "open literate configuration")
+      "cv"    '(evil-mode :which-key "toggle vim mode")
+      "cr"    '(lm/reload-config :which-key "reload init.el")
+      ))
 #+end_src
 
 * Autocomplete
@@ -665,6 +670,8 @@ general is a package that allow to use a <leader> keys for the chords.
     :init
     (setq eglot-connect-timeout 90)
     (lm/leader-keys
+      :keymaps 'override
+      :states 'normal
       "l" '(:ignore t :which-key "lsp")
       "ll" '(:ignore t :which-key "start lsp-mode")
       "lle" '(eglot :which-key "eglot"))
@@ -798,6 +805,8 @@ This is a nice package for zen mode editing
     :defer (if (daemonp) nil t)
     :init
     (lm/leader-keys
+      :keymaps 'override
+      :states 'normal
       "ao" '(olivetti-mode :which-key "olivetti mode"))
     :config
     (add-hook 'olivetti-mode-hook (lambda ()
