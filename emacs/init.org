@@ -498,12 +498,64 @@ application when starting the sequence
     )
 #+end_src
 
+* general
+general is a package that allow to use a <leader> keys for the chords.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (use-package general
+    :defer nil
+    :config
+    (general-override-mode)
+
+    (general-define-key
+     "C-z" 'undo
+     "M-z" 'undo-redo
+     )
+
+    (general-create-definer lm/leader-keys
+      :prefix "<SPC>")
+
+    (lm/leader-keys
+      :keymaps '(override)
+      :states 'normal
+      "<SPC>" '(execute-extended-command :which-key "m-x")
+      "q"     '(:ignore t :which-key "quit")
+      "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
+      "b"     '(:ignore t :which-key "buffers")
+      "bd"    '(kill-this-buffer :which-key "kill buffer")
+      "bs"    '(save-buffer :which-key "save buffer")
+      "bl"    '(switch-to-buffer :which-key "switch to buffer")
+      "bl"    '(list-buffers :which-key "list buffers")
+      "e"     '(dired :which-key "search")
+      "s"     '(:ignore t :which-key "search")
+      "ss"    '(evil-search-forward :which-key "search forward")
+      "sb"    '(evil-search-backward :which-key "search backward")
+      "sr"    '(query-replace :which-key "query replace")
+      "a"     '(:ignore t :which-key "appearence")
+      "ac"    '(customize-themes :which-key "customize themes")
+      "at"    '(toggle-theme :which-key "toggle theme")
+      "am"    '(menu-bar-mode :which-key "toggle menu bar")
+      "f"     '(project-find-file :which-key "find file")
+      "v"     '(:ignore t :which-key "scripts")
+      "vc"    '(lm/run-wezterm :which-key "wezterm here")
+      "vp"    '(project-async-shell-command :which-key "wezterm here")
+      "i"     '(:ignore t :which-key "insert")
+      "it"    '(lm/insert-tilde :which-key "~")
+      "ig"    '(lm/insert-grave-accent :which-key "`")
+      "t"     '(:ignore t :which-key "tools")
+      "tp"    '(lm/pomodoro :which-key "pomodoro")
+      "c"     '(:ignore t :which-key "configuration")
+      "cc"    '(lm/open-literate-config :which-key "open literate configuration")
+      "cv"    '(evil-mode :which-key "toggle vim mode")
+      "cr"    '(lm/reload-config :which-key "reload init.el")
+      ))
+#+end_src
+
 * evil
 #+begin_src emacs-lisp
   (use-package evil
-    :defer 1
+    :after general
     :init
-    (setq lm/evil-enabled t)
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (setq evil-undo-system 'undo-redo)
@@ -538,62 +590,6 @@ application when starting the sequence
     (define-key evil-ex-completion-map (kbd "C-c t") 'lm/insert-tilde)
     (define-key evil-ex-completion-map (kbd "C-c g") 'lm/insert-grave-accent)
     (evil-collection-init))
-#+end_src
-
-* general
-general is a package that allow to use a <leader> keys for the chords.
-#+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (use-package general
-    :defer nil
-    :config
-    (general-override-mode)
-
-    (general-define-key
-     "C-z" 'undo
-     "M-z" 'undo-redo
-     )
-
-    (if (boundp 'lm/evil-enabled)
-	(general-create-definer lm/leader-keys
-	  :prefix "<SPC>")
-      (general-create-definer lm/leader-keys
-	:prefix "S-<SPC>"))	
-
-    (lm/leader-keys
-      :keymaps '(override)
-      :states 'normal
-      "SPC"   '(execute-extended-command :which-key "m-x")
-      "q"     '(:ignore t :which-key "quit")
-      "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
-      "b"     '(:ignore t :which-key "buffers")
-      "bd"    '(kill-this-buffer :which-key "kill buffer")
-      "bs"    '(save-buffer :which-key "save buffer")
-      "bl"    '(switch-to-buffer :which-key "switch to buffer")
-      "bl"    '(list-buffers :which-key "list buffers")
-      "e"     '(dired :which-key "search")
-      "s"     '(:ignore t :which-key "search")
-      "ss"    '(evil-search-forward :which-key "search forward")
-      "sb"    '(evil-search-backward :which-key "search backward")
-      "sr"    '(query-replace :which-key "query replace")
-      "a"     '(:ignore t :which-key "appearence")
-      "ac"    '(customize-themes :which-key "customize themes")
-      "at"    '(toggle-theme :which-key "toggle theme")
-      "am"    '(menu-bar-mode :which-key "toggle menu bar")
-      "f"     '(project-find-file :which-key "find file")
-      "v"     '(:ignore t :which-key "scripts")
-      "vc"    '(lm/run-wezterm :which-key "wezterm here")
-      "vp"    '(project-async-shell-command :which-key "wezterm here")
-      "i"     '(:ignore t :which-key "insert")
-      "it"    '(lm/insert-tilde :which-key "~")
-      "ig"    '(lm/insert-grave-accent :which-key "`")
-      "t"     '(:ignore t :which-key "tools")
-      "tp"    '(lm/pomodoro :which-key "pomodoro")
-      "c"     '(:ignore t :which-key "configuration")
-      "cc"    '(lm/open-literate-config :which-key "open literate configuration")
-      "cv"    '(evil-mode :which-key "toggle vim mode")
-      "cr"    '(lm/reload-config :which-key "reload init.el")
-      ))
 #+end_src
 
 * Autocomplete
