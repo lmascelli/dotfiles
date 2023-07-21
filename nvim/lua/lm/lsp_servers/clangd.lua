@@ -6,6 +6,7 @@ return function(data)
   end
   require 'clangd_extensions'.setup {
     server = {
+      capabilities = data.capabilities,
       on_attach = function(client, bufnr)
         local keymap = LM.keymaps.set_keymap
         data.on_attach(client, bufnr)
@@ -20,8 +21,12 @@ return function(data)
       },
     },
     extensions = {
+      autoSetHints = true,
       inlay_hints = {
+        inline = vim.fn.has("nvim-0.10") == 1,
         only_current_line = true,
+        only_current_autocmd = "CursorHold",
+        show_parameter_hints = true,
       },
       cmd = { "clangd", "--completion-style=detailed" },
     },

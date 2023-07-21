@@ -541,7 +541,7 @@ general is a package that allow to use a <leader> keys for the chords.
 
     (lm/leader-keys
       :keymaps '(override)
-      :states 'normal
+      :states '(normal motion)
       "<SPC>" '(execute-extended-command :which-key "m-x")
       "q"     '(:ignore t :which-key "quit")
       "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
@@ -549,7 +549,7 @@ general is a package that allow to use a <leader> keys for the chords.
       "bd"    '(kill-this-buffer :which-key "kill buffer")
       "bs"    '(save-buffer :which-key "save buffer")
       "bl"    '(switch-to-buffer :which-key "switch to buffer")
-      "bl"    '(list-buffers :which-key "list buffers")
+      "bL"    '(list-buffers :which-key "list buffers")
       "e"     '(dired :which-key "search")
       "s"     '(:ignore t :which-key "search")
       "ss"    '(evil-search-forward :which-key "search forward")

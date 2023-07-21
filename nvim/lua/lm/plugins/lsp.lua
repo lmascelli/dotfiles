@@ -84,6 +84,7 @@ M.config = function()
 				local ok, _ = pcall(server, {
 					on_attach = on_attach,
 					lspconfig = lsp_config,
+          capabilities = vim.lsp.protocol.make_client_capabilities()
 				})
 				if not ok then
 					vim.notify('server ' .. v .. ' not loaded')

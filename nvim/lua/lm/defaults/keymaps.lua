@@ -57,18 +57,16 @@ keymap("n", "<leader>bl", "<cmd>:lua LM.api.buffer_list()<cr>", opts, buf, "list
 keymap("n", "<C-s>", ":w!<cr>", opts, buf, '')
 keymap("n", "U", ":redo<cr>", opts, buf, '')
 
--- Processes
-keymap('n', '<leader>v', '', opts, buf, 'Processes')
-keymap('n', '<leader>vl', '<cmd>lua LM.project_lua()<cr>', {
+-- Project
+keymap('n', '<leader>p', '', opts, buf, 'Project')
+keymap('n', '<leader>pl', '<cmd>lua LM.project_lua()<cr>', {
   silent = true,
   nowait = true,
 }, buf, 'project.lua')
-keymap('n', '<leader>vp', '<cmd>lua LM.project_ps1()<cr>', {
+keymap('n', '<leader>pp', '<cmd>lua LM.project_ps1()<cr>', {
   silent = true,
   nowait = true,
 }, buf, 'project.ps1')
-keymap('n', '<leader>vc', '<cmd>lua LM.spawn_terminal()<cr>', nil, buf,
-  'spawn terminal here')
 
 -- Configuration
 keymap('n', '<leader>c', '', opts, buf, 'Configuration')
@@ -101,6 +99,8 @@ keymap('n', '<leader>,b', '<cmd>lua LM.comments.insert()<cr>', opts, buf, 'block
 -- Tools
 keymap('n', '<leader>t', '', opts, buf, 'Tools')
 keymap('n', '<leader>tt', '<cmd>terminal<cr>', opts, buf, 'integrated terminal')
+keymap('n', '<leader>tc', '<cmd>lua LM.spawn_terminal()<cr>', nil, buf,
+  'spawn terminal here')
 
 ------------------------------------- INSERT ----------------------------------
 
