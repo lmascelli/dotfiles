@@ -43,6 +43,30 @@ script.
   setxkbmap -option ctrl:swapcaps
 #+end_src
 
+** Linux
+*** start server at startup script
+Copy this to *"~/.config/systemd/user/emacs.service"*
+#+begin_src shell
+[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+#+end_src
+and the enable the service with
+#+begin_src shell
+  systemctl enable --user emacs
+  systemctl start --user emacs
+#+end_src
+
 ** Windows
 *** start server at startup script
 #+begin_src shell
@@ -503,7 +527,7 @@ general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
-    :defer nil
+    :defer 1
     :config
     (general-override-mode)
 

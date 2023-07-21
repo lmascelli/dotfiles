@@ -47,6 +47,21 @@ config.plugin_list = {
   -- 'org',
 }
 
+-- -- Quick plugins with LSP
+-- config.plugin_list = {
+--   'nvim-autopairs',
+--   'comment',
+--   'which-key',
+--   'telescope',
+--   'treesitter',
+--   'nvim-tree',
+--   'lsp',
+--   'mason',
+--   'nvim-cmp',
+--   'luasnip',
+--   -- 'lspsaga',
+-- }
+
 -- List of modes for which enable the lsp and snippets features
 -- Disabled because now lsp is started manually
 -- config.prog_modes = {
