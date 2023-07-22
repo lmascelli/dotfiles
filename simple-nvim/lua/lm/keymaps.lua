@@ -12,24 +12,25 @@ vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>p", function() end, { desc = "+Project" })
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "NetRw" })
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
--- keymap('n', '<leader>pc', '<cmd>lua LM.spawn_terminal()<cr>', nil, buf,
---   'spawn terminal here')
--- vim.keymap.set("n", "<leader>pl", "<cmd>lua LM.project_lua()<cr>", {
---   silent = true,
---   nowait = true,
---   desc = "project.lua"
--- })
--- vim.keymap.set("n", "<leader>pp", "<cmd>lua LM.project_ps1()<cr>", {
---   silent = true,
---   nowait = true,
---   desc = "project.ps1"
--- })
+vim.keymap.set('n', '<leader>pc', '<cmd>lua require("lm.api.project").spawn_terminal()<cr>', {
+  desc = 'spawn terminal here' })
+vim.keymap.set("n", "<leader>pl", '<cmd>lua require("lm.api.project").project_lua()<cr>', {
+  silent = true,
+  nowait = true,
+  desc = "project.lua"
+})
+vim.keymap.set("n", "<leader>pp", '<cmd>lua require("lm.api.project").project_ps1()<cr>', {
+  silent = true,
+  nowait = true,
+  desc = "project.ps1"
+})
 
 -- VARIOUS
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
 vim.keymap.set("n", "<C-g>", "<Escape>", {})
 vim.keymap.set("n", "U", ":redo<cr>", {})
 vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
+vim.keymap.set("n", "<leader>cc", ":lua require('lm.api.project').edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS
 vim.keymap.set("n", "<leader>w", function() end, { desc = "+Window" })

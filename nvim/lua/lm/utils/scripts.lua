@@ -34,15 +34,10 @@ end
 
 -- open configuration directory
 LM.edit_conf_dir = function(open_explorer)
-  vim.fn.chdir(LM.dirs.config)
+  vim.fn.chdir(vim.fn.stdpath('config'))
   if open_explorer then
-    LM.explorer.toggle_explorer()
+    vim.cmd('Ex')
   end
-end
-
--- open current configuration file
-LM.edit_conf_file = function ()
-  vim.fn.execute('e ' .. LM.dirs.config .. '/config.lua', "")
 end
 
 -- spawn an external terminal in current directory
