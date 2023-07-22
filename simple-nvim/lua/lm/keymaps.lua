@@ -1,7 +1,9 @@
 -- LEADER
 vim.g.mapleader = " "
 
+
 ------------------------------------- NORMAL ----------------------------------
+
 -- QUIT
 vim.keymap.set("n", "<leader>q", function() end, { desc = "+Quit" })
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
@@ -54,9 +56,8 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<cr>", { desc = "" })
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "" })
 vim.keymap.set("n", "<leader>b", function() end, { desc = "+Buffer" })
--- vim.keymap.set("n", "<leader>bf", "<cmd>:lua LM.api.buffer_format()<cr>", { desc = "Format" })
--- vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.api.buffer_delete()<cr>", { desc = "Delete" })
--- vim.keymap.set("n", "<leader>bl", "<cmd>:lua LM.api.buffer_list()<cr>", { desc = "List" })
+vim.keymap.set("n", "<leader>bf", "<cmd>:lua require('lm.api.buffer').format()<cr>", { desc = "Format" })
+vim.keymap.set("n", "<leader>bd", "<cmd>:lua require('lm.api.buffer').delete()<cr>", { desc = "Delete" })
 
 -- SEARCHING
 vim.keymap.set('n', '<leader>f', function() end, { desc = '+Find' })
@@ -70,9 +71,7 @@ vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 -- keymap('n', '<leader>cp', ':lua LM.plugins.add_template()<cr>', {}, buf, 'Create plugin from template')
 -- keymap('n', '<leader>cd', ':lua LM.edit_conf_dir(true)<cr>', {}, buf, 'Open configuration directory')
 -- keymap('n', '<leader>cc', ':lua LM.edit_conf_file()<cr>', {}, buf, 'Open configuration file')
---
--- keymap('n', '<leader>a+', ':lua LM.font.increase_font_size()<cr>', opts, buf, 'Increase font')
--- keymap('n', '<leader>a-', ':lua LM.font.decrease_font_size()<cr>', opts, buf, 'Decrease font')
+
 
 -- ------------------------------------- INSERT ----------------------------------
 
@@ -86,6 +85,7 @@ vim.keymap.set("i", "<c-cr>", "<c-o>o", {})
 
 -- File saving
 vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})
+
 
 -- ------------------------------------- VISUAL ----------------------------------
 
@@ -113,12 +113,14 @@ vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", {})
 vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv", {})
 vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", {})
 
+
 ------------------------------   COMMAND LINE ---------------------------------
 
 --  <C-g> as Escape
 vim.keymap.set("c", "<C-g>", "<Escape>", {})
 vim.keymap.set("c", "<C-ì>", "<C-k>'?", {})
 vim.keymap.set("c", "<C-'>", "<C-k>'!", {})
+
 
 ------------------------------------- TERMINAL --------------------------------
 
@@ -127,7 +129,6 @@ vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", {})
 vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", {})
 vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", {})
 vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", {})
-
 
 -- italian keyboard utility
 vim.keymap.set('t', '<c-ì>', '~', {})
