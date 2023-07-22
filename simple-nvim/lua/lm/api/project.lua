@@ -1,23 +1,10 @@
 return {
-  exec_cmd = function(cmd)
-    local buf = vim.api.nvim_create_buf(false, false)
-    local margin = 0.1
-    vim.api.nvim_open_win(buf, true, {
-      relative = "editor",
-      width = math.floor(vim.o.columns * (1 - 2 * margin)),
-      height = math.floor(vim.o.lines * (1 - 2 * margin)),
-      row = math.floor(vim.o.lines * margin),
-      col = math.floor(vim.o.columns * margin),
-    })
-    vim.cmd(':terminal ' .. cmd)
-  end,
-
   -- exec PROJECT.PS1 script
   project_ps1 = function()
     if (vim.fn.findfile('project.ps1') == 'project.ps1') then
       local action = vim.fn.input('arguments: ')
       local cmd = 'pwsh -Command ./project.ps1 ' .. action
-      LM.exec_cmd(cmd)
+      require('lm.api').exec_cmd(cmd)
       vim.cmd ':startinsert'
     else
       print 'project.ps1 script not found'
@@ -30,14 +17,6 @@ return {
       vim.cmd ':source project.lua'
     else
       print 'project.lua script not found'
-    end
-  end,
-
-  -- open configuration directory
-  edit_conf_dir = function(open_explorer)
-    vim.fn.chdir(vim.fn.stdpath 'config')
-    if open_explorer then
-      vim.cmd 'Ex'
     end
   end,
 
