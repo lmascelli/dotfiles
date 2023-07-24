@@ -543,32 +543,31 @@ general is a package that allow to use a <leader> keys for the chords.
       :keymaps '(override)
       :states '(normal motion)
       "<SPC>" '(execute-extended-command :which-key "m-x")
-      "q"     '(:ignore t :which-key "quit")
+      "q"     '(:ignore t :which-key "+Quit")
       "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
-      "b"     '(:ignore t :which-key "buffers")
+      "b"     '(:ignore t :which-key "+Buffers")
       "bd"    '(kill-this-buffer :which-key "kill buffer")
       "bs"    '(save-buffer :which-key "save buffer")
       "bl"    '(switch-to-buffer :which-key "switch to buffer")
       "bL"    '(list-buffers :which-key "list buffers")
-      "e"     '(dired :which-key "search")
-      "s"     '(:ignore t :which-key "search")
-      "ss"    '(evil-search-forward :which-key "search forward")
-      "sb"    '(evil-search-backward :which-key "search backward")
-      "sr"    '(query-replace :which-key "query replace")
-      "a"     '(:ignore t :which-key "appearence")
+      "f"     '(:ignore t :which-key "+Find")
+      "ff"     '(project-find-file :which-key "find file")
+      "fs"    '(evil-search-forward :which-key "search forward")
+      "fb"    '(evil-search-backward :which-key "search backward")
+      "fr"    '(query-replace :which-key "query replace")
+      "a"     '(:ignore t :which-key "+Appearence")
       "ac"    '(customize-themes :which-key "customize themes")
-      "at"    '(toggle-theme :which-key "toggle theme")
+      ;; "at"    '(toggle-theme :which-key "toggle theme")
       "am"    '(menu-bar-mode :which-key "toggle menu bar")
-      "f"     '(project-find-file :which-key "find file")
-      "v"     '(:ignore t :which-key "scripts")
-      "vc"    '(lm/run-wezterm :which-key "wezterm here")
-      "vp"    '(project-async-shell-command :which-key "wezterm here")
-      "i"     '(:ignore t :which-key "insert")
+      "p"     '(:ignore t :which-key "+Project")
+      "pc"    '(lm/run-wezterm :which-key "wezterm here")
+      "pp"    '(project-async-shell-command :which-key "wezterm here")
+      "i"     '(:ignore t :which-key "+Insert")
       "it"    '(lm/insert-tilde :which-key "~")
       "ig"    '(lm/insert-grave-accent :which-key "`")
-      "t"     '(:ignore t :which-key "tools")
+      "t"     '(:ignore t :which-key "+Tools")
       "tp"    '(lm/pomodoro :which-key "pomodoro")
-      "c"     '(:ignore t :which-key "configuration")
+      "c"     '(:ignore t :which-key "+Configuration")
       "cc"    '(lm/open-literate-config :which-key "open literate configuration")
       "cv"    '(evil-mode :which-key "toggle vim mode")
       "cr"    '(lm/reload-config :which-key "reload init.el")
@@ -621,7 +620,7 @@ general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (use-package company
     :diminish
-    :bind (("C-." . company-complete))
+    :bind (("C-<SPC>" . company-complete))
     :init
     (setq lm/company t)
     (setq company-dabbrev-ignore-case t)
@@ -697,6 +696,8 @@ general is a package that allow to use a <leader> keys for the chords.
       "lle" '(eglot :which-key "eglot"))
     :config
     (lm/leader-keys
+      :keymaps 'override
+      :states 'normal
       "lf" '(eglot-format-buffer :which-key "format buffer")
       "ls" '(eglot-shutdown-all :which-key "shutdown workspace")
       "lg" '(:ignore t :which-key "go to")
@@ -730,6 +731,8 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     ;; 	 (python-mode . lsp))
     :init
     (lm/leader-keys
+      :keymaps 'override
+      :states 'normal
       "l" '(:ignore t :which-key "LSP")
       "ll" '(:ignore t :which-key "enable")
       "lll" '(lsp :which-key "lsp-mode"))
@@ -738,6 +741,8 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     (setq lsp-idle-delay 0.500)
     (lsp-enable-which-key-integration t)
     (lm/leader-keys
+      :keymaps 'override
+      :states 'normal
       "lf" '(lsp-format-buffer :which-key "format buffer")
       "ls" '(lsp-shutdown-workspace :which-key "shutdown workspace")
       "lg" '(:ignore t :which-key "go to")
@@ -756,6 +761,29 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     :hook (lsp-mode . lsp-ui-mode)
     :custom
     (lsp-ui-doc-position 'bottom))
+
+  (use-package lsp-docker
+    :after lsp-mode
+    :config
+    (defvar lsp-docker-client-packages
+      '(lsp-css lsp-clients lsp-bash lsp-go lsp-pylsp lsp-html lsp-typescript
+		lsp-terraform lsp-clangd))
+
+    (setq lsp-docker-client-configs
+	  '((:server-id bash-ls :docker-server-id bashls-docker :server-command "bash-language-server start")
+	    (:server-id clangd :docker-server-id clangd-docker :server-command "clangd")
+	    (:server-id css-ls :docker-server-id cssls-docker :server-command "css-languageserver --stdio")
+	    (:server-id dockerfile-ls :docker-server-id dockerfilels-docker :server-command "docker-langserver --stdio")
+	    (:server-id gopls :docker-server-id gopls-docker :server-command "gopls")
+	    (:server-id html-ls :docker-server-id htmls-docker :server-command "html-languageserver --stdio")
+	    (:server-id pylsp :docker-server-id pyls-docker :server-command "pylsp")
+	    (:server-id ts-ls :docker-server-id tsls-docker :server-command "typescript-language-server --stdio")))
+
+    ;; (lsp-docker-init-clients
+    ;;  :path-mappings '(("path-to-projects-you-want-to-use" . "/projects"))
+    ;;  :client-packages lsp-docker-client-packages
+    ;;  :client-configs lsp-docker-client-configs)
+    )
 
   (use-package lsp-pyright
     :after lsp-mode
