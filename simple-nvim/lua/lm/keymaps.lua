@@ -30,7 +30,7 @@ vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
 vim.keymap.set("n", "<C-g>", "<Escape>", {})
 vim.keymap.set("n", "U", ":redo<cr>", {})
 vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
-vim.keymap.set("n", "<leader>cc", ":lua require('lm.api').edit_conf_dir(true)<cr>", { desc = "Open configuration" })
+vim.keymap.set("n", "<leader>c", ":lua require('lm.api').edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS
 vim.keymap.set("n", "<leader>w", function() end, { desc = "+Window" })

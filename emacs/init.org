@@ -145,6 +145,14 @@ find.exe
 to the emacs bin folder
 
 * My global variables
+** Machine dependent variables
+Adjust those variables depending on the machine where emacs runs.
+Maybe this section will be changed to load an external file
+#+begin_src emacs-lisp
+  (setq lm/pylsp-path "~/.local/.lsp/bin/pylsp")
+  (setq lm/pses-path "/home/leonardo/Downloads/pses")
+  (setq lm/pses-log-path "/home/leonardo/tmp")
+#+end_src
 ** Configuration files
 #+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
   (setq lm/conf-org-dir lm/this-buffer-path)
@@ -414,7 +422,9 @@ running powershell in term and ansi-term
 		  shell-mode-hook
 		  eshell-mode-hook
 		  latex-mode-hook
-		  treemacs-mode-hook))
+		  treemacs-mode-hook
+		  eww-mode-hook
+		  ))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
   (setq-default fill-column 80)
@@ -682,12 +692,19 @@ general is a package that allow to use a <leader> keys for the chords.
   (global-set-key (kbd "C-<SPC>") 'completion-at-point)
 #+end_src
 * LSP
+** lsp server commands
+#+begin_src emacs-lisp
+  (setq lm/pylsp-cmd lm/pylsp-path)
+  (setq lm/pses-cmd `("pwsh" "-NoLogo" "-NoProfile" "-Command" ,(concat lm/pses-path "/PowerShellEditorServices/Start-EditorServices.ps1") "-BundledModulesPath" ,(concat lm/pses-path "/PowerShellEditorServices/module") "-Stdio" "-LogPath" ,(concat lm/pses-log-path "/pses.log") "-SessionDetailsPath" ,(concat lm/pses-log-path "/session.json") "-HostName" "Emacs" "-HostProfileId" "Emacs" "-HostVersion" "1.0.0" "-LogLevel" "Diagnostic"))
+#+end_src
 ** eglot
 #+begin_src emacs-lisp
   (use-package eglot
     :defer t
     :init
     (setq eglot-connect-timeout 90)
+
+
     (lm/leader-keys
       :keymaps 'override
       :states 'normal
@@ -712,7 +729,10 @@ general is a package that allow to use a <leader> keys for the chords.
       "lco" '(eglot-code-action-organize-imports :which-key "organize imports")
       "lco" '(eglot-code-actions :which-key "actions")
       "lh" '(eldoc :which-key "documentation")
-      ))
+      )
+
+    (add-to-list 'eglot-server-programs	`(python-mode . (,lm/pylsp-cmd)))
+    (add-to-list 'eglot-server-programs	`(powershell-mode . ,lm/pses-cmd)))
 #+end_src
 ** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
