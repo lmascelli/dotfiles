@@ -5,11 +5,9 @@ vim.g.mapleader = " "
 ------------------------------------- NORMAL ----------------------------------
 
 -- QUIT
-vim.keymap.set("n", "<leader>q", function() end, { desc = "+Quit" })
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 
 -- PROJECT
-vim.keymap.set("n", "<leader>p", function() end, { desc = "+Project" })
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "NetRw" })
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 vim.keymap.set('n', '<leader>pc', '<cmd>lua require("lm.api.project").spawn_terminal()<cr>', {
@@ -33,7 +31,6 @@ vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
 vim.keymap.set("n", "<leader>c", ":lua require('lm.api').edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS
-vim.keymap.set("n", "<leader>w", function() end, { desc = "+Window" })
 vim.keymap.set('n', '<leader>wc', '<cmd>q<cr>', { desc = "Close" })
 vim.keymap.set('n', '<leader>wo', '<cmd>only<cr>', { desc = "Close others" })
 vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = "Split vertical" })
@@ -56,12 +53,10 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<cr>", { desc = "" })
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "" })
-vim.keymap.set("n", "<leader>b", function() end, { desc = "+Buffer" })
 vim.keymap.set("n", "<leader>bf", "<cmd>:lua require('lm.api.buffer').format()<cr>", { desc = "Format" })
 vim.keymap.set("n", "<leader>bd", "<cmd>:lua require('lm.api.buffer').delete()<cr>", { desc = "Delete" })
 
 -- SEARCHING
-vim.keymap.set('n', '<leader>f', function() end, { desc = '+Find' })
 vim.keymap.set('n', '<leader>fs', '/', { desc = 'Search' })
 vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
