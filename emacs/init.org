@@ -144,8 +144,9 @@ msys-intl-8.dll
 find.exe
 to the emacs bin folder
 
-* My global variables
-** Machine dependent variables
+* User defined stuff
+** My global variables
+*** Machine dependent variables
 Adjust those variables depending on the machine where emacs runs.
 Maybe this section will be changed to load an external file
 #+begin_src emacs-lisp
@@ -153,15 +154,15 @@ Maybe this section will be changed to load an external file
   (setq lm/pses-path "/home/leonardo/Downloads/pses")
   (setq lm/pses-log-path "/home/leonardo/tmp")
 #+end_src
-** Configuration files
+*** Configuration files
 #+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
   (setq lm/conf-org-dir lm/this-buffer-path)
   (setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-org-dir)))
   (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 #+end_src
 
-* My functions
-** Wezterm
+** My functions
+*** Wezterm
 Often i use wezterm as terminal choise
 https://wezfurlong.org/wezterm/installation.html
 because emacs, expecially on windows does not provide a good terminal mode. So
@@ -173,7 +174,7 @@ i need a way to easily call wezterm and open it in the current directory.
     (start-process "wezterm" nil "wezterm" "start" "--cwd"
 		   default-directory))
 #+end_src
-** Inserting special characters for italian keyboard
+*** Inserting special characters for italian keyboard
 Tilde and grave accent are not present in italian keyboard but often used in
 programming so this function are a quick way to insert them in text
 
@@ -193,19 +194,19 @@ from the actual emacs config dir
     (file-name-directory buffer-file-name))
 #+end_src
 
-** Open literate config
+*** Open literate config
 #+begin_src emacs-lisp
   (defun lm/open-literate-config ()
     (interactive)
     (find-file (concat lm/conf-org-dir "init.org")))
 #+end_src
-** Reload configuration
+*** Reload configuration
 #+begin_src emacs-lisp
   (defun lm/reload-config ()
     (interactive)
     (load (concat user-emacs-directory "init.el")))
 #+end_src
-** pomodoro
+*** pomodoro
 #+begin_src emacs-lisp
   (defun lm/pomodoro ()
     (interactive)
@@ -480,11 +481,9 @@ prepared for plugins installation.
   (require 'use-package)
   (setq use-package-always-ensure t)
   (setq use-package-compute-statistics t)
-
-  (use-package diminish)
 #+end_src
 
-** COMMENT diminish
+** diminish
 *diminish* enable to hide minor-mode names from minibuffer.  To hide a
 minor-mode put `:diminish` in the use-package configuration of the
 mode package
@@ -492,10 +491,13 @@ mode package
   (use-package diminish)
 #+end_src
 
-* Modus theme
+* COMMENT Modus theme
 #+begin_src emacs-lisp
-  (setq modus-themes-headings
-	'((1 . (variable-pitch light 1.4))))
+  (use-package modus-themes
+    :defer t
+    :config
+    (setq modus-themes-headings
+	  '((1 . (variable-pitch light 1.4)))))
 #+end_src
 * Dired
 #+begin_src emacs-lisp
@@ -882,7 +884,7 @@ This is a nice package for zen mode editing
 				    (display-fill-column-indicator-mode 0))))
 #+end_src
 
-* pdf-tools
+* COMMENT pdf-tools
 pdf-tools enable to visualize pdf inside emacs and provides useful features like
 midnight mode
 on windows it require msys2
