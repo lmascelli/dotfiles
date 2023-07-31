@@ -355,20 +355,28 @@ backup and autosaves and lockfiles.
 
 ** buffer scrolling
 #+begin_src emacs-lisp
-  (unless (version< emacs-version "29")
-    (pixel-scroll-precision-mode))
-
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-  (setq fast-but-imprecise-scrolling t)
-  (setq auto-window-vscroll nil)
+  (setq scroll-margin 5)
   (setq redisplay-dont-pause t)
   (setq scroll-conservatively 10000)
-  (setq scroll-step 1)
   (setq scroll-preserve-screen-position t)
-  (setq scroll-error-top-bottom t)
-  (setq mouse-wheel-progressive-speed nil)
-  (setq mouse-wheel-inhibit-click-time nil)
-  (setq mouse-wheel-follow-mouse 't)
+
+  (unless (version< emacs-version "29")
+    (progn
+      ;; (setq pixel-scroll-precision-use-momentum t)
+      (setq pixel-scroll-precision-interpolate-mice t)
+      (setq pixel-scroll-precision-interpolate-page t)
+      (setq pixel-scroll-precision-large-scroll-height 10.0)
+      (pixel-scroll-precision-mode))
+    (progn
+      (setq fast-but-imprecise-scrolling t)
+      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+      (setq auto-window-vscroll nil)
+      (setq scroll-step 1)
+      (setq scroll-error-top-bottom t)
+      (setq mouse-wheel-progressive-speed nil)
+      (setq mouse-wheel-inhibit-click-time nil)
+      (setq mouse-wheel-follow-mouse 't)))
+
 #+end_src
 
 ** auto revert mode
@@ -491,13 +499,10 @@ mode package
   (use-package diminish)
 #+end_src
 
-* COMMENT Modus theme
+* Modus theme
 #+begin_src emacs-lisp
-  (use-package modus-themes
-    :defer t
-    :config
-    (setq modus-themes-headings
-	  '((1 . (variable-pitch light 1.4)))))
+  (setq modus-themes-headings
+	'((1 . (variable-pitch light 1.4))))
 #+end_src
 * Dired
 #+begin_src emacs-lisp
@@ -569,7 +574,7 @@ general is a package that allow to use a <leader> keys for the chords.
       "fr"    '(query-replace :which-key "query replace")
       "a"     '(:ignore t :which-key "+Appearence")
       "ac"    '(customize-themes :which-key "customize themes")
-      ;; "at"    '(toggle-theme :which-key "toggle theme")
+      "at"    '(toggle-theme :which-key "toggle theme")
       "am"    '(menu-bar-mode :which-key "toggle menu bar")
       "p"     '(:ignore t :which-key "+Project")
       "pc"    '(lm/run-wezterm :which-key "wezterm here")
@@ -632,7 +637,8 @@ general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (use-package company
     :diminish
-    :bind (("C-<SPC>" . company-complete))
+    :bind (("C-<SPC>" . company-complete)
+	   ("^@" . company-complete))
     :init
     (setq lm/company t)
     (setq company-dabbrev-ignore-case t)

@@ -1,0 +1,34 @@
+#+author: Leonardo Mascelli
+#+title: Script System
+#+date : <2023-07-31 Mon>
+
+* Description
+This is the bundle of scripts i use for various tasks. The goal of this document
+is to provide a general overview on how this scripts work togheter and how they
+are organized.
+
+* Powershell
+Powershell is at the moment my preferred way to keep a multiplatform system of
+scripts; it is already present on MS Windows and could be easily installed on
+Linux even without admin rights. Therefore the strategy used to being able to
+utilize powershell is to download it and add its location to the PATH
+environment variable. To apply this strategy also to other softwares it is
+needed a bit of organization on the location of those files.
+
+* Folders hierarchy
+The starting point of all the paths seams natural to be the home folder; then a
+dedicated folder name could be easily chosen. Let it be *.lm*. All software and
+various installed tools must be located inside this folder.
+
+For the moment the folder structure could be:
+
+~/.lm/
+   ├ bin/
+   ├ packages/
+   ├ lsps/
+   ├ tmp/
+
+* Bootstrap
+The folder structure and the powershell download and link plus the geneation of
+a script for activating the environment are responsability of a system dependent
+script called *bootstrap.<sh/ps1>*
