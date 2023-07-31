@@ -19,7 +19,7 @@ else
     echo "curl not found. Trying using wget..."
     if command -v wget &> /dev/null 
     then
-	wget -O "~/.lm/tmp/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+	wget -P "~/.lm/tmp" -O "pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
     else
 	echo "not even wget found. Download pwsh manually"
 	echo "ABORT"
