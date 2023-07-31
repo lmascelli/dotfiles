@@ -31,8 +31,8 @@ For the moment the folder structure could be:
 * Bootstrap
 The folder structure and the powershell download and link plus the geneation of
 a script for activating the environment are responsability of a system dependent
-script called *bootstrap.<sh/ps1>*
-***Note*** Powershell coulds need the following libraries to work:
+script called *bootstrap.<sh/ps1>* \\
+*Note* Powershell coulds need the following libraries to work:
 - libicu (or icu-libs)
 
 ** bootstrap.sh
