@@ -365,7 +365,7 @@ backup and autosaves and lockfiles.
       ;; (setq pixel-scroll-precision-use-momentum t)
       (setq pixel-scroll-precision-interpolate-mice t)
       (setq pixel-scroll-precision-interpolate-page t)
-      (setq pixel-scroll-precision-large-scroll-height 10.0)
+      (setq pixel-scroll-precision-large-scroll-height 90.0)
       (pixel-scroll-precision-mode))
     (progn
       (setq fast-but-imprecise-scrolling t)
@@ -820,6 +820,15 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 			   (require 'lsp-pyright)
 			   (lsp-deferred))))
 #+end_src
+* org-mode
+#+begin_src emacs-lisp
+  (use-package org
+    :defer t
+    :config
+    )
+  (use-package ob-powershell
+    :after org)
+    #+end_src
 * Programming languages
 ** C/C++
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
