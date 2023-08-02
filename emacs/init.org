@@ -514,6 +514,14 @@ mode package
   (use-package diminish)
 #+end_src
 
+* tree-sitter
+#+begin_src emacs-lisp
+	(use-package tree-sitter
+	  :config
+	  (global-tree-sitter-mode))
+	(use-package tree-sitter-langs
+	  :after tree-sitter)
+#+end_src
 * Modus theme
 #+begin_src emacs-lisp
   (setq modus-themes-headings
