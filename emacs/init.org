@@ -359,23 +359,32 @@ backup and autosaves and lockfiles.
   (setq redisplay-dont-pause t)
   (setq scroll-conservatively 10000)
   (setq scroll-preserve-screen-position t)
+  (setq mouse-wheel-follow-mouse 't)
+  ;; at the moment no pixel scroll precision mode
+  (setq fast-but-imprecise-scrolling t)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+  (setq auto-window-vscroll nil)
+  (setq scroll-step 1)
+  (setq scroll-error-top-bottom t)
+  (setq mouse-wheel-progressive-speed nil)
+  (setq mouse-wheel-inhibit-click-time nil)
 
-  (unless (version< emacs-version "29")
-    (progn
-      ;; (setq pixel-scroll-precision-use-momentum t)
-      (setq pixel-scroll-precision-interpolate-mice t)
-      (setq pixel-scroll-precision-interpolate-page t)
-      (setq pixel-scroll-precision-large-scroll-height 90.0)
-      (pixel-scroll-precision-mode))
-    (progn
-      (setq fast-but-imprecise-scrolling t)
-      (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-      (setq auto-window-vscroll nil)
-      (setq scroll-step 1)
-      (setq scroll-error-top-bottom t)
-      (setq mouse-wheel-progressive-speed nil)
-      (setq mouse-wheel-inhibit-click-time nil)
-      (setq mouse-wheel-follow-mouse 't)))
+  ;; (unless (version< emacs-version "29")
+  ;;   (progn
+  ;;     ;; (setq pixel-scroll-precision-use-momentum t)
+  ;;     (setq pixel-scroll-precision-interpolate-mice t)
+  ;;     (setq pixel-scroll-precision-interpolate-page t)
+  ;;     (setq pixel-scroll-precision-large-scroll-height 90.0)
+  ;;     (pixel-scroll-precision-mode))
+  ;;   (progn
+  ;;     (setq fast-but-imprecise-scrolling t)
+  ;;     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+  ;;     (setq auto-window-vscroll nil)
+  ;;     (setq scroll-step 1)
+  ;;     (setq scroll-error-top-bottom t)
+  ;;     (setq mouse-wheel-progressive-speed nil)
+  ;;     (setq mouse-wheel-inhibit-click-time nil)
+  ;;     ))
 
 #+end_src
 
@@ -428,6 +437,7 @@ running powershell in term and ansi-term
   (global-display-line-numbers-mode)
   (dolist (mode '(org-mode-hook
 		  term-mode-hook
+		  vterm-mode-hook
 		  shell-mode-hook
 		  eshell-mode-hook
 		  latex-mode-hook
@@ -439,6 +449,7 @@ running powershell in term and ansi-term
   (setq-default fill-column 80)
   (global-display-fill-column-indicator-mode)
   (dolist (mode '(term-mode-hook
+		  vterm-mode-hook
 		  shell-mode-hook
 		  eshell-mode-hook
 		  latex-mode-hook))
@@ -447,6 +458,10 @@ running powershell in term and ansi-term
   (if (display-graphic-p)
       (global-hl-line-mode))
 #+end_src
+
+#+RESULTS:
+: t
+
 ** mouse right click
 Enable the context menu with the right click of the mouse
 #+begin_src emacs-lisp
@@ -598,10 +613,10 @@ general is a package that allow to use a <leader> keys for the chords.
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
+    (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
     (setq evil-undo-system 'undo-redo)
     :config
     (evil-mode)
-
     (general-define-key
      :states '(normal insert)
      "C-g" 'evil-normal-state
@@ -635,28 +650,30 @@ general is a package that allow to use a <leader> keys for the chords.
 * Autocomplete
 ** company
 #+begin_src emacs-lisp
-  (use-package company
-    :diminish
-    :bind (("C-<SPC>" . company-complete)
-	   ("^@" . company-complete))
-    :init
-    (setq lm/company t)
-    (setq company-dabbrev-ignore-case t)
-    (setq company-dabbrev-code-ignore-case t)    
-    (setq company-keywords-ignore-case t)
-    (setq company-idle-delay 0.5)
-    :config
-    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-    (global-company-mode t))
+    (use-package company
+      :diminish
+      :after evil
+      :bind (("C-<SPC>" . company-complete))
+      :init
+      (unless (display-graphic-p)
+	(define-key evil-insert-state-map (kbd "C-@") 'company-complete))
+      (setq lm/company t)
+      (setq company-dabbrev-ignore-case t)
+      (setq company-dabbrev-code-ignore-case t)    
+      (setq company-keywords-ignore-case t)
+      (setq company-idle-delay 0.5)
+      :config
+      ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+      (global-company-mode t))
 
-  (use-package yasnippet
-    :after company
-    :config
-    (yas-minor-mode)
-    (global-set-key (kbd "C-c y") 'company-yasnippet))
+    (use-package yasnippet
+      :after company
+      :config
+      (yas-minor-mode)
+      (global-set-key (kbd "C-c y") 'company-yasnippet))
 
-  (use-package yasnippet-snippets
-    :after yasnippet)
+    (use-package yasnippet-snippets
+      :after yasnippet)
 
 
 #+end_src

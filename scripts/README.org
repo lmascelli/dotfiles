@@ -1,6 +1,5 @@
 #+author: Leonardo Mascelli
 #+title: Script System
-#+date : <2023-07-31 Mon>
 
 * Description
 This is the bundle of scripts i use for various tasks. The goal of this document
@@ -58,7 +57,7 @@ script called *bootstrap.<sh/ps1>* \\
       echo "curl not found. Trying using wget..."
       if command -v wget &> /dev/null 
       then
-          cd ~/.lm/tmp
+	  cd ~/.lm/tmp
 	  wget -O "pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
       else
 	  echo "not even wget found. Download pwsh manually"
