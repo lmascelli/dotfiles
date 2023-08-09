@@ -240,8 +240,7 @@ frames at this point. To remove it also in them it must be changed the
   (unless (display-graphic-p)
     (setq ring-bell-function 'ignore))
 #+end_src
-
-* Startup
+** Startup
 During startup is useful to increase the garbage collector memory size
 because it's originally 1 Mb and this could heavily slow the startup
 process and the runtime execution, anyway it should be reset to an
@@ -265,7 +264,7 @@ compilation that i cannot do nothing about so i decided to silence them.
 #+end_src
 
 
-** profile emacs startup
+*** profile emacs startup
 #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook
 	    (lambda ()
@@ -477,9 +476,6 @@ prepared for plugins installation.
   (unless package-archive-contents
     (package-refresh-contents))
 #+end_src
-
-#+RESULTS:
-
 * use-package
 /use-package/ is a nice and useful package manager
 
@@ -508,11 +504,12 @@ mode package
 
 * tree-sitter
 #+begin_src emacs-lisp
-	(use-package tree-sitter
-	  :config
-	  (global-tree-sitter-mode))
-	(use-package tree-sitter-langs
-	  :after tree-sitter)
+  (use-package tree-sitter
+    :defer 1
+    :config
+    (global-tree-sitter-mode))
+  (use-package tree-sitter-langs
+    :after tree-sitter)
 #+end_src
 * Modus theme
 #+begin_src emacs-lisp
@@ -535,6 +532,7 @@ mode package
 use ripgrep as grep-find command
 #+begin_src emacs-lisp
   (use-package grep
+    :defer 1
     :config
     (grep-apply-setting
      'grep-find-command
@@ -648,7 +646,7 @@ general is a package that allow to use a <leader> keys for the chords.
 #+end_src
 
 * Autocomplete
-** company
+** COMMENT company
 #+begin_src emacs-lisp
     (use-package company
       :diminish
@@ -707,14 +705,15 @@ general is a package that allow to use a <leader> keys for the chords.
     (add-to-list 'completion-at-point-functions #'cape-file))
 #+end_src
 
-** COMMENT only built-in
+** only built-in
 #+begin_src emacs-lisp
   (use-package cape
+    :defer nil
+    :bind (("C-<SPC>" . 'completion-at-point))
     :init
     (setq completion-ignore-case t)
     (add-to-list 'completion-at-point-functions 'cape-dabbrev)
     (add-to-list 'completion-at-point-functions 'cape-file))
-  (global-set-key (kbd "C-<SPC>") 'completion-at-point)
 #+end_src
 * LSP
 ** lsp server commands
@@ -843,11 +842,10 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     :defer t
     :config
     )
-  (use-package ob-powershell
-    :after org)
-    #+end_src
+#+end_src
 * Programming languages
 ** C/C++
+*** Windows clangd with MSys2/Mingw-w64
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
 configuration file named /.clangd/ or a global one named
 /~\AppData\Local\clangd\config.yaml/ is required. 
@@ -889,22 +887,27 @@ The content of the file must be
 ** Powershell
 #+begin_src emacs-lisp
   (use-package powershell    
+    :defer t
     :init
     (setq compile-command "pwsh -c ./project.ps1 ")
     :commands powershell)
+
+  (use-package ob-powershell
+    :after org)
 #+end_src
 
 ** MATLAB
 #+begin_src emacs-lisp
   (use-package matlab-mode
+    :defer t
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src
 
-* olivetti
+* COMMENT olivetti
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp
   (use-package olivetti
-    :defer (if (daemonp) nil t)
+    :defer 1
     :init
     (lm/leader-keys
       :keymaps 'override

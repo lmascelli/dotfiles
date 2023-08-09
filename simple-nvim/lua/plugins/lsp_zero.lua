@@ -21,6 +21,17 @@ return {
   config = function()
     local lsp = require('lsp-zero').preset({})
 
+    local cmp = require('cmp')
+    cmp.setup({
+      preselect = 'item',
+      completion = {
+        completeopt = 'menu,menuone,noinsert'
+      },
+      mapping = {
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+      }
+    })
+
     lsp.on_attach(function(client, bufnr)
       -- see :help lsp-zero-keybindings
       -- to learn the available actions
