@@ -78,6 +78,7 @@ vim.keymap.set("i", "<C-ì>", "<C-k>'?", {})
 vim.keymap.set("i", "<C-'>", "<C-k>'!", {})
 vim.keymap.set("i", "<s-cr>", "<c-o>O", {})
 vim.keymap.set("i", "<c-cr>", "<c-o>o", {})
+vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.complete()<cr>", {})
 
 -- File saving
 vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})

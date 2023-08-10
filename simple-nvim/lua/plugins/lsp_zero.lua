@@ -19,9 +19,13 @@ return {
     { 'L3MON4D3/LuaSnip' },     -- Required
   },
   config = function()
-    local lsp = require('lsp-zero').preset({})
+    local lsp = require('lsp-zero').preset({
+      manage_nvim_cmp = {
+      },
+    })
 
     local cmp = require('cmp')
+    local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
     cmp.setup({
       preselect = 'item',
       completion = {
@@ -31,6 +35,9 @@ return {
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
       }
     })
+    LM.complete = function()
+      cmp.complete()
+    end
 
     lsp.on_attach(function(client, bufnr)
       -- see :help lsp-zero-keybindings
