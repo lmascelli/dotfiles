@@ -513,6 +513,7 @@ mode package
 #+end_src
 * Modus theme
 #+begin_src emacs-lisp
+  (load-theme 'modus-vivendi)
   (setq modus-themes-headings
 	'((1 . (variable-pitch light 1.4))))
 #+end_src
@@ -646,32 +647,33 @@ general is a package that allow to use a <leader> keys for the chords.
 #+end_src
 
 * Autocomplete
-** COMMENT company
+** company
 #+begin_src emacs-lisp
-    (use-package company
-      :diminish
-      :after evil
-      :bind (("C-<SPC>" . company-complete))
-      :init
-      (unless (display-graphic-p)
-	(define-key evil-insert-state-map (kbd "C-@") 'company-complete))
-      (setq lm/company t)
-      (setq company-dabbrev-ignore-case t)
-      (setq company-dabbrev-code-ignore-case t)    
-      (setq company-keywords-ignore-case t)
-      (setq company-idle-delay 0.5)
-      :config
-      ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-      (global-company-mode t))
+  (use-package company
+    :diminish
+    :after evil
+    :bind (("C-<SPC>" . company-complete))
+    :init
+    (unless (display-graphic-p)
+      (define-key evil-insert-state-map (kbd "C-@") 'company-complete))
+    (setq lm/company t)
+    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-code-ignore-case t)    
+    (setq company-keywords-ignore-case t)
+    (setq company-minimum-prefix-length 1)
+    (setq company-idle-delay 0.0)
+    :config
+    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+    (global-company-mode t))
 
-    (use-package yasnippet
-      :after company
-      :config
-      (yas-minor-mode)
-      (global-set-key (kbd "C-c y") 'company-yasnippet))
+  (use-package yasnippet
+    :after company
+    :config
+    (yas-minor-mode)
+    (global-set-key (kbd "C-c y") 'company-yasnippet))
 
-    (use-package yasnippet-snippets
-      :after yasnippet)
+  (use-package yasnippet-snippets
+    :after yasnippet)
 
 
 #+end_src
@@ -679,7 +681,6 @@ general is a package that allow to use a <leader> keys for the chords.
 #+begin_src emacs-lisp
   (use-package corfu
     :defer 1
-    :bind (("C-<SPC>" . corfu-complete))
     :init
     (setq corfu-auto t
 	  corfu-auto-delay 0.3
@@ -696,16 +697,8 @@ general is a package that allow to use a <leader> keys for the chords.
        '(corfu-default ((t (:background "black")))))
       :config
       (corfu-terminal-mode)))
-
-  (use-package cape
-    :after corfu
-    :init
-    (setq completion-ignore-case t)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions #'cape-file))
 #+end_src
-
-** only built-in
+** COMMENT only built-in
 #+begin_src emacs-lisp
   (use-package cape
     :defer nil
@@ -721,7 +714,7 @@ general is a package that allow to use a <leader> keys for the chords.
   (setq lm/pylsp-cmd lm/pylsp-path)
   (setq lm/pses-cmd `("pwsh" "-NoLogo" "-NoProfile" "-Command" ,(concat lm/pses-path "/PowerShellEditorServices/Start-EditorServices.ps1") "-BundledModulesPath" ,(concat lm/pses-path "/PowerShellEditorServices/module") "-Stdio" "-LogPath" ,(concat lm/pses-log-path "/pses.log") "-SessionDetailsPath" ,(concat lm/pses-log-path "/session.json") "-HostName" "Emacs" "-HostProfileId" "Emacs" "-HostVersion" "1.0.0" "-LogLevel" "Diagnostic"))
 #+end_src
-** eglot
+** COMMENT eglot
 #+begin_src emacs-lisp
   (use-package eglot
     :defer t
@@ -758,7 +751,7 @@ general is a package that allow to use a <leader> keys for the chords.
     (add-to-list 'eglot-server-programs	`(python-mode . (,lm/pylsp-cmd)))
     (add-to-list 'eglot-server-programs	`(powershell-mode . ,lm/pses-cmd)))
 #+end_src
-** COMMENT lsp-mode
+** lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
@@ -774,6 +767,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     ;; 	 (c++-mode . lsp)
     ;; 	 (python-mode . lsp))
     :init
+    (add-hook 'prog-mode-hook #'lsp-deferred)
     (lm/leader-keys
       :keymaps 'override
       :states 'normal
@@ -782,7 +776,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
       "lll" '(lsp :which-key "lsp-mode"))
 
     :config
-    (setq lsp-idle-delay 0.500)
+    (setq lsp-idle-delay 0.100)
     (lsp-enable-which-key-integration t)
     (lm/leader-keys
       :keymaps 'override

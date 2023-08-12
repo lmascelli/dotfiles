@@ -59,9 +59,11 @@ return {
     end)
 
     -- (Optional) Configure lua language server for neovim
-    require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-    require('lspconfig').clangd.setup({})
-    require('lspconfig').pylsp.setup({})
+    local lspconfig = require('lspconfig')
+    lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
+    lspconfig.clangd.setup({})
+    lspconfig.pylsp.setup({})
+    lspconfig.powershell_es.setup({})
     lsp.setup()
   end
 }
