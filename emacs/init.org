@@ -459,6 +459,14 @@ Enable the context menu with the right click of the mouse
   (context-menu-mode)
 #+end_src
 
+** remove dired buffers or those surrounded by * from cycling
+#+begin_src emacs-lisp
+  (set-frame-parameter (selected-frame) 'buffer-predicate
+                     (lambda (buf) 
+                       (let ((name (buffer-name buf)))
+                         (not (or (string-prefix-p "*" name)
+                                  (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
+#+end_src
 ** fido
 #+begin_src emacs-lisp
   (fido-vertical-mode t)
