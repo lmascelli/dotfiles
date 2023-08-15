@@ -12,4 +12,25 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
+local active_plugins = {
+  'lsp_zero',
+  'lsp_saga',
+--  'lsp_signature',
+  'nvim_qt',
+  'telescope',
+  'treesitter',
+  'which_key',
+}
+
+local plugins = {}
+
+for _, plugin in pairs(active_plugins) do
+  local ok, p_table = pcall(require, 'lm.plugins.' .. plugin)
+  if ok then
+   table.insert(plugins, p_table)
+ else
+   print('Problem loading the plugin table lm.plugins.' .. plugin)
+ end
+end
+
+require("lazy").setup(plugins)
