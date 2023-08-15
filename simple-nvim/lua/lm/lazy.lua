@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 local active_plugins = {
   'lsp_zero',
-  'lsp_saga',
+--  'lsp_saga',
 --  'lsp_signature',
   'nvim_qt',
   'telescope',

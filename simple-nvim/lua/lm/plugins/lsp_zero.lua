@@ -17,6 +17,7 @@ return {
     { 'hrsh7th/nvim-cmp' },     -- Required
     { 'hrsh7th/cmp-nvim-lsp' }, -- Required
     { 'L3MON4D3/LuaSnip' },     -- Required
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' }, -- Required
   },
   config = function()
     local lsp = require('lsp-zero').preset({
@@ -33,7 +34,13 @@ return {
       },
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
-      }
+      },
+      sources = {
+        {name = 'nvim_lsp'},
+        {name = 'buffer'},
+        {name = 'luasnip'},
+        {name = 'nvim_lsp_signature_help'},
+      },
     })
     LM.complete = function()
       cmp.complete()
@@ -50,6 +57,7 @@ return {
       vim.keymap.set('n', '<leader>lgo', '<cmd>lua vim.lsp.buf.type_definition()()<cr>', { desc = "Type definition" })
       vim.keymap.set('n', '<leader>lgr', '<cmd>lua vim.lsp.buf.references()<cr>', { desc = "References" })
       vim.keymap.set('n', '<leader>lgs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { desc = "Signature" })
+      vim.keymap.set('i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { desc = "Signature" })
       vim.keymap.set('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<cr>', { desc = "Rename" })
       vim.keymap.set('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format({async=true})<cr>', { desc = "Format" })
       vim.keymap.set('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', { desc = "Code action" })
