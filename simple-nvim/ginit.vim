@@ -23,4 +23,16 @@ if vim.fn.exists(':GuiFont') then
   vim.keymap.set('n', '<leader>+', function() increase_font() end, {desc = 'Increase font'})
   vim.keymap.set('n', '<leader>-', function() decrease_font() end, {desc = 'Decrease font'})
 end
+
+if vim.fn.exists(':GuiWindowOpacity') then
+  LM.appearence.toggle_transparency = function()
+    if LM.appearence.transparency then
+      vim.cmd 'GuiWindowOpacity 1'
+      LM.appearence.transparency = false
+    else
+      vim.cmd 'GuiWindowOpacity 0.9'
+      LM.appearence.transparency = true
+    end
+  end
+end
 EOF
