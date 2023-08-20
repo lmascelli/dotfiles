@@ -1,0 +1,18 @@
+return function(data)
+  -- lspconfig.pylsp.setup {
+  --   on_attach = data.on_attach,
+  --   cmd = { "pylsp", "-v" },
+  --   -- cmd_env = { VIRTUAL_ENV = get_python_venv(),
+  --   --   PATH = lsputil.path.join(get_python_venv(), 'bin') .. ':' .. vim.env.PATH,
+  --   -- }
+  -- }
+  data.lspconfig.pyright.setup {
+    on_attach = function(client, bufnr)
+      data.on_attach(client, bufnr)
+      if LM.format_black then
+        LM.keymaps.set_keymap("n", "<leader>lf",
+          '<cmd>lua LM.format_black()<cr>', {}, nil, 'format with black')
+      end
+    end
+  }
+end
