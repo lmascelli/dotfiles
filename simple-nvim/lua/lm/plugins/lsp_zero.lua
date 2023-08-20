@@ -14,9 +14,9 @@ return {
     { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
     -- Autocompletion
-    { 'hrsh7th/nvim-cmp' },     -- Required
-    { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-    { 'L3MON4D3/LuaSnip' },     -- Required
+    { 'hrsh7th/nvim-cmp' },                    -- Required
+    { 'hrsh7th/cmp-nvim-lsp' },                -- Required
+    { 'L3MON4D3/LuaSnip' },                    -- Required
     { 'hrsh7th/cmp-nvim-lsp-signature-help' }, -- Required
   },
   config = function()
@@ -26,7 +26,9 @@ return {
     })
 
     local cmp = require('cmp')
-    local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
+    --    local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
+    local cmp_action = require('lsp-zero').cmp_action()
+    require('luasnip.loaders.from_vscode').lazy_load()
     cmp.setup({
       preselect = 'item',
       completion = {
@@ -34,12 +36,14 @@ return {
       },
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
       },
       sources = {
-        {name = 'nvim_lsp'},
-        {name = 'buffer'},
-        {name = 'luasnip'},
-        {name = 'nvim_lsp_signature_help'},
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+        { name = 'luasnip' },
+        { name = 'nvim_lsp_signature_help' },
       },
     })
     LM.complete = function()

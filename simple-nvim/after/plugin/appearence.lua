@@ -8,19 +8,5 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-LM.appearence = {
-  colorscheme = 'slate',
-  transparency = false,
-  toggle_transparency = function()
-    if LM.appearence.transparency then
-      vim.cmd('colorscheme ' .. LM.appearence.colorscheme)
-      LM.appearence.transparency = false
-    else
-      vim.cmd 'hi Normal guibg=NONE ctermbg=NONE'
-      vim.cmd 'hi EndOfBuffer guibg=NONE ctermbg=NONE'
-      LM.appearence.transparency = true
-    end
-  end
-}
-
+LM.appearence.colorscheme = 'slate'
 vim.cmd('colorscheme ' .. LM.appearence.colorscheme)

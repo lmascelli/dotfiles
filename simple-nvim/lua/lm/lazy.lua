@@ -1,3 +1,4 @@
+--------------------------------------------------------------------------------
 -- Lazy bootstrap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -12,10 +13,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+--------------------------------------------------------------------------------
+-- Make a plugins table
 local active_plugins = {
   'lsp_zero',
 --  'lsp_saga',
---  'lsp_signature',
   'nvim_qt',
   'telescope',
   'treesitter',
@@ -33,4 +35,6 @@ for _, plugin in pairs(active_plugins) do
  end
 end
 
+--------------------------------------------------------------------------------
+-- Load the plugins table
 require("lazy").setup(plugins)

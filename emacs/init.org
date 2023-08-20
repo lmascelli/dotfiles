@@ -644,10 +644,11 @@ application when starting the sequence
 #+begin_src emacs-lisp
   (use-package company
     :diminish
-    :bind (("C-<SPC>" . company-complete))
+    :defer 1
     :init
-    (unless (display-graphic-p)
-      (define-key evil-insert-state-map (kbd "C-@") 'company-complete))
+    (unless (and (display-graphic-p) (not lm/evil-mode))
+      (add-hook 'evil-mode-hook (lambda ()
+      (keymap-set evil-insert-state-map "C-@" 'company-complete))))
     (setq lm/company t)
     (setq company-dabbrev-ignore-case t)
     (setq company-dabbrev-code-ignore-case t)    
