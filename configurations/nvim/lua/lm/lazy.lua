@@ -22,6 +22,7 @@ local active_plugins = {
   'telescope',
   'treesitter',
   'which_key',
+  'orgmode',
 }
 
 local plugins = {}
