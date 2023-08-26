@@ -256,6 +256,7 @@ local key_tables = {
 --------------------------------------------------------------------------------
 
 local conf = {
+  -- WINDOW BEHAVIOUR
   window_decorations = 'TITLE|RESIZE',
   window_padding = {
     left = 0,
@@ -266,27 +267,37 @@ local conf = {
   hide_tab_bar_if_only_one_tab = true,
   enable_tab_bar = show_tabs,
   use_fancy_tab_bar = false,
-  initial_cols = 120,
-  initial_rows = 35,
-  font_dirs = { wezterm.executable_dir .. "/fonts" },
-  -- font = wezterm.font('Source Code Pro'),
-  font = wezterm.font('JetBrains Mono NF'),
-  -- font = wezterm.font('Consolas'),
-  font_size = 10,
-  cell_width = 1.0,
-  default_prog = { "pwsh" },
-  warn_about_missing_glyphs = false,
   -- window_background_opacity = 0.9,
   -- front_end = 'OpenGL', -- alternatives: 'Software', 'WebGpu'
+  max_fps = 60,
+  color_scheme = current_scheme,
+  ------------------------------------
+  -- GEOMETRY
+  initial_cols = 120,
+  initial_rows = 35,
+  ------------------------------------
+  -- FONT
+  font_size = 10,
+  cell_width = 1.0,
+  font_dirs = { wezterm.executable_dir .. "/fonts" },
+  warn_about_missing_glyphs = false,
+  -- font = wezterm.font('Source Code Pro'),
+  -- font = wezterm.font('JetBrains Mono NF'),
+  -- font = wezterm.font('Consolas'),
+  ------------------------------------
+  -- BEHAVIOUR
+  default_prog = { "pwsh" },
   window_close_confirmation = "NeverPrompt",
   exit_behavior = "Close",
-  max_fps = 60,
+  enable_csi_u_key_encoding = true,
+  audible_bell = "Disabled",
+  -- debug_key_events = true,
+  ------------------------------------
+  -- KEYBINDINGS
   leader = { key = '\\', mods = 'ALT' },
   keys = keys,
   key_tables = key_tables,
-  -- debug_key_events = true,
-  enable_csi_u_key_encoding = true,
-  color_scheme = current_scheme
+  ------------------------------------
 }
 
 return conf

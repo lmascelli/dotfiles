@@ -8,7 +8,7 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 
 -- PROJECT
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "NetRw" })
+vim.keymap.set("n", "<leader>pv", "<cmd>Lex 25<cr>", { desc = "NetRw" })
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 vim.keymap.set('n', '<leader>pc', '<cmd>lua require("lm.api.project").spawn_terminal()<cr>', {
   desc = 'spawn terminal here' })
