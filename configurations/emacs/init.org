@@ -1,15 +1,6 @@
 #+title: My Emacs Configuration
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
 
-Emacs is a wonderful text editor and more than that; is more like a programming
-environment with an included editor. This means it can be customized at like to
-be adapted to the way i prefer. \\
-The only negative aspect of it is that Windows is a second class citized in
-Emacs priority, so that there is not a real terminal emulator and lot of
-functionalities must be fixed in order to works both in Linux and
-Windows. Moreover i feel it a bit slower on Windows machines respect to Linux
-ones.
-
 * Setup
 Evaluate this line before tangling the whole file to avoid being
 asked if confirm every code block

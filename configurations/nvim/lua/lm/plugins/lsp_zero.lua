@@ -76,6 +76,12 @@ return {
     lspconfig.clangd.setup({})
     lspconfig.pylsp.setup({})
     lspconfig.powershell_es.setup({})
+    lspconfig.rust_analyzer.setup {
+      -- Server-specific settings. See `:help lspconfig-setup`
+      settings = {
+        ['rust-analyzer'] = {},
+      },
+    }
     lsp.setup()
   end
 }
