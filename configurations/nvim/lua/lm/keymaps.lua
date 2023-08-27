@@ -8,7 +8,6 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 
 -- PROJECT
-vim.keymap.set("n", "<leader>pv", "<cmd>Lex 25<cr>", { desc = "NetRw" })
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 vim.keymap.set('n', '<leader>pc', '<cmd>lua require("lm.api.project").spawn_terminal()<cr>', {
   desc = 'spawn terminal here' })
@@ -22,6 +21,9 @@ vim.keymap.set("n", "<leader>pp", '<cmd>lua require("lm.api.project").project_ps
   nowait = true,
   desc = "project.ps1"
 })
+
+-- EXPLORER
+vim.keymap.set("n", "<leader>e", "<cmd>Lex 25<cr>", { desc = "NetRw" })
 
 -- VARIOUS
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
@@ -83,6 +85,12 @@ vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.complete()<cr>", {})
 -- File saving
 vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})
 
+vim.keymap.set("i", '<Left>', "")
+vim.keymap.set("i", '<Right>', "")
+vim.keymap.set("i", '<Up>', "")
+vim.keymap.set("i", '<Down>', "")
+vim.keymap.set("i", '<PageUp>', "")
+vim.keymap.set("i", '<PageDown>', "")
 
 -- ------------------------------------- VISUAL ----------------------------------
 
