@@ -5,8 +5,12 @@ return {
   },
   ft = { 'c', 'cpp' },
   config = function()
-    -- require('clangd_extensions').setup {}
-    local on_attach = function ()
+    -- require('clangd_extensions').setup {
+    --   inlay_hints = {
+    --     inline = true,
+    --   }
+    -- }
+    local on_attach = function(client, bufnr)
       require('clangd_extensions.inlay_hints').setup_autocmd()
       require('clangd_extensions.inlay_hints').set_inlay_hints()
     end

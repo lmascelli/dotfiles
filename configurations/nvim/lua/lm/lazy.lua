@@ -18,7 +18,6 @@ vim.opt.rtp:prepend(lazypath)
 local active_plugins = {
   'lsp_zero',
   --  'lsp_saga',
-   'clangd',
   'nvim_qt',
   'nvim-autopairs',
   'nvim-comment',
@@ -27,6 +26,7 @@ local active_plugins = {
   'telescope',
   'treesitter',
   'which_key',
+  'clangd',
   'orgmode',
   'rust',
 }
