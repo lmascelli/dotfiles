@@ -11,11 +11,11 @@ vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 vim.keymap.set('n', '<leader>pc', '<cmd>lua require("lm.api.project").spawn_terminal()<cr>', {
   desc = 'spawn terminal here' })
-vim.keymap.set("n", "<leader>pl", '<cmd>lua require("lm.api.project").project_lua()<cr>', {
-  silent = true,
-  nowait = true,
-  desc = "project.lua"
-})
+-- vim.keymap.set("n", "<leader>pl", '<cmd>lua require("lm.api.project").project_lua()<cr>', {
+--   silent = true,
+--   nowait = true,
+--   desc = "project.lua"
+-- })
 vim.keymap.set("n", "<leader>pp", '<cmd>lua require("lm.api.project").project_ps1()<cr>', {
   silent = true,
   nowait = true,
@@ -23,7 +23,7 @@ vim.keymap.set("n", "<leader>pp", '<cmd>lua require("lm.api.project").project_ps
 })
 
 -- EXPLORER
-vim.keymap.set("n", "<leader>e", "<cmd>Lex 25<cr>", { desc = "NetRw" })
+vim.keymap.set("n", "<leader>e", "<cmd>Lex<cr>", { desc = "NetRw" })
 
 -- VARIOUS
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})

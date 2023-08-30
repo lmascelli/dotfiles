@@ -3,6 +3,9 @@ LM = {
     font_name = '',
     font_size = 10,
   },
+  lsp = {
+    on_attach = {}
+  },
   augroups = {
     colorscheme = vim.api.nvim_create_augroup("Colorscheme", {
       clear = true,

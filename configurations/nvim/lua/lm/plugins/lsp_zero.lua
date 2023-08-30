@@ -68,6 +68,8 @@ return {
       vim.keymap.set('n', '<leader>ldl', '<cmd>lua vim.diagnostic.setloclist()<cr>', { desc = "Show diagnostics" })
       vim.keymap.set('n', '<leader>ldp', '<cmd>lua vim.diagnostic.goto_prev()<cr>', { desc = "Previous diagnostic" })
       vim.keymap.set('n', '<leader>ldn', '<cmd>lua vim.diagnostic.goto_next()<cr>', { desc = "Next diagnostic" })
+
+      require('lm.api.lsp').get_on_attach(vim.bo.filetype)(client, bufnr)
     end)
 
     -- (Optional) Configure lua language server for neovim
@@ -76,12 +78,6 @@ return {
     lspconfig.clangd.setup({})
     lspconfig.pylsp.setup({})
     lspconfig.powershell_es.setup({})
-    lspconfig.rust_analyzer.setup {
-      -- Server-specific settings. See `:help lspconfig-setup`
-      settings = {
-        ['rust-analyzer'] = {},
-      },
-    }
     lsp.setup()
   end
 }
