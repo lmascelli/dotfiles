@@ -1,1 +1,3 @@
-lazy-lock.json
+# NVIM
+configurations/nvim/doc/tags
+configurations/nvim/doc/semantic-commit.txt
