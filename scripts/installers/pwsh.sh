@@ -4,29 +4,23 @@
 
 PWSH_VERSION="7.3.4"
 
-mkdir -p ~/.lm/download
-cd ~/.lm
-mkdir pwsh
+cd ~/.lm/
+mkdir -p opt/pwsh
 if command -v curl &> /dev/null
 then
-  curl -o download/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+  curl -o tmp/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
 else
   echo "curl not found"
   if command -v wget &> /dev/null 
   then
-    wget -O "download/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+    wget -O "tmp/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
   else
     echo "not even wget found"
     echo "ABORT"
     exit
   fi
 fi
-cd pwsh
-tar -xf ../download/pwsh.tar.gz
-mkdir -p ~/.local/bin
+cd opt/pwsh
+tar -xf ~/.lm/tmp/pwsh.tar.gz
 
-# eventually add ~/.local/bin to PATH with
-# export PATH="~/.local/bin:$PATH"
-# or put it in .bashrc
-
-ln -s ~/.lm/pwsh/pwsh ~/.local/bin/pwsh
+ln -s ~/.lm/opt/pwsh/pwsh ~/.lm/bin/pwsh
