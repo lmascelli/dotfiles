@@ -72,6 +72,12 @@ return {
       require('lm.api.lsp').get_on_attach(vim.bo.filetype)(client, bufnr)
     end)
 
+    lsp.ensure_installed({
+      'lua_ls',
+      'clangd',
+      'powershell_es',
+    })
+
     -- (Optional) Configure lua language server for neovim
     local lspconfig = require('lspconfig')
     lspconfig.lua_ls.setup(lsp.nvim_lua_ls())

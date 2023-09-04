@@ -23,7 +23,7 @@ vim.keymap.set("n", "<leader>pp", '<cmd>lua require("lm.api.project").project_ps
 })
 
 -- EXPLORER
-vim.keymap.set("n", "<leader>e", "<cmd>Lex<cr>", { desc = "NetRw" })
+vim.keymap.set("n", "<leader>e", "<cmd>lua LM.api.toggle_explorer()<cr>", { desc = "NetRw" })
 
 -- VARIOUS
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})

@@ -24,11 +24,20 @@ local color_schemes = {
   },
 }
 
-  local current_scheme = color_schemes.dark["gruvbox"],
+  local current_scheme = color_schemes.dark["gruvbox"]
   -- local current_scheme = color_schemes.light["github"],
   -- local current_scheme = 'Atelier Cave Light (base16)',
   -- local current_scheme = 'Atelier Lakeside Light (base16)',
   -- local current_scheme = 'Embers (light) (terminal.sexy)',
+
+  local default_prog = function() 
+    if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+      return {"powershell.exe"}
+    else
+      return {"pwsh", "bash"}
+    end
+  end
+
 
 --------------------------------------------------------------------------------
 --                                                                            --
@@ -286,7 +295,7 @@ local conf = {
   -- font = wezterm.font('Consolas'),
   ------------------------------------
   -- BEHAVIOUR
-  default_prog = { "pwsh" },
+  default_prog = default_prog(),
   window_close_confirmation = "NeverPrompt",
   exit_behavior = "Close",
   enable_csi_u_key_encoding = true,
