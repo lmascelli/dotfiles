@@ -618,6 +618,14 @@ application when starting the sequence
     (keymap-set evil-normal-state-map "U" 'undo-redo)
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+    (defvar lm/insert-map (make-sparse-keymap)
+      "Keymap for shortcuts in insert mode")
+    (keymap-set evil-insert-state-map "C-c" lm/insert-map)
+    (defvar lm/insert-map-special-chars (make-sparse-keymap)
+      "sub-keymap for inserting special characters")
+    (keymap-set lm/insert-map "s" `("+Special" . ,lm/insert-map-special-chars))
+    (keymap-set lm/insert-map-special-chars "t" 'lm/insert-tilde)
+    (keymap-set lm/insert-map-special-chars "g" 'lm/insert-grave-accent)
     ;; ----------------------------- GLOBAL KEYMAPS ------------------------------
     (keymap-set global-map "C-s" 'save-buffer)
     ;; ---------------------------------------------------------------------------

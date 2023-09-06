@@ -24,19 +24,19 @@ local color_schemes = {
   },
 }
 
-  local current_scheme = color_schemes.dark["gruvbox"]
-  -- local current_scheme = color_schemes.light["github"],
-  -- local current_scheme = 'Atelier Cave Light (base16)',
-  -- local current_scheme = 'Atelier Lakeside Light (base16)',
-  -- local current_scheme = 'Embers (light) (terminal.sexy)',
+local current_scheme = color_schemes.dark["gruvbox"]
+-- local current_scheme = color_schemes.light["github"],
+-- local current_scheme = 'Atelier Cave Light (base16)',
+-- local current_scheme = 'Atelier Lakeside Light (base16)',
+-- local current_scheme = 'Embers (light) (terminal.sexy)',
 
-  local default_prog = function() 
-    if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-      return {"powershell.exe"}
-    else
-      return {"pwsh", "bash"}
-    end
+local default_prog = function()
+  if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+    return { "pwsh.exe" }
+  else
+    return { "pwsh" }
   end
+end
 
 
 --------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ end)
 --------------------------------------------------------------------------------
 local keys = {
   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
-  { key = "'",  mods = "LEADER", action = wezterm.action { SendString = "`" } },
+  { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
   {
     key = "c",
     mods = "LEADER",
@@ -104,15 +104,15 @@ local keys = {
     mods = "LEADER",
     action = wezterm.action.EmitEvent 'terminal-spawn'
   },
-  -- {
-  --   key = " ",
-  --   mods = "CTRL",
-  --   action = wezterm.action.Multiple {
-  --     wezterm.action.SendKey { key = "_", mods = "CTRL" },
-  --     -- wezterm.action.SendKey { key = "x", mods = "CTRL" },
-  --     -- wezterm.action.SendKey { key = "o", mods = "CTRL" },
-  --   }
-  -- },
+  {
+    key = " ",
+    mods = "CTRL",
+    action = wezterm.action.Multiple {
+      wezterm.action.SendKey { key = "_", mods = "CTRL" },
+      -- wezterm.action.SendKey { key = "x", mods = "CTRL" },
+      -- wezterm.action.SendKey { key = "o", mods = "CTRL" },
+    }
+  },
   {
     key = 'LeftArrow',
     mods = "LEADER",
@@ -277,7 +277,7 @@ local conf = {
   enable_tab_bar = show_tabs,
   use_fancy_tab_bar = false,
   -- window_background_opacity = 0.9,
-  -- front_end = 'OpenGL', -- alternatives: 'Software', 'WebGpu'
+  front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   max_fps = 60,
   color_scheme = current_scheme,
   ------------------------------------
