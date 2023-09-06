@@ -8,3 +8,7 @@ configurations/emacs/auto-save-list/
 configurations/emacs/eln-cache/
 configurations/emacs/elpa/
 configurations/emacs/recentf
+
+# CONFIGURATIONS
+
+configurations/various/clangd/index/
