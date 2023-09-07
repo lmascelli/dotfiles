@@ -7,7 +7,7 @@ return {
     require('orgmode').setup_ts_grammar()
     require('orgmode').setup {
       mappings = {
-        prefix = '<C-c>',
+        -- prefix = '<C-c>',
       }
     }
   end

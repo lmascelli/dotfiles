@@ -551,7 +551,7 @@ application when starting the sequence
     (which-key-setup-minibuffer))
 #+end_src
 
-* evil-mode
+* COMMENT evil-mode
 #+begin_src emacs-lisp
   (use-package evil
     :defer 1

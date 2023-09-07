@@ -100,6 +100,7 @@ return {
 
     wk.register({
       q = { name = 'Quit' },
+      a = { name = 'Appearence' },
       p = { name = 'Project' },
       w = { name = 'Window' },
       b = { name = 'Buffer' },
