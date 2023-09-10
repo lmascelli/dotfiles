@@ -24,6 +24,7 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.cursorline = true
 
+
 -- line number
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -37,6 +38,8 @@ vim.opt.colorcolumn = '0'
 -- EOF indicator
 vim.cmd ":set fillchars+=eob:\\ "
 
+-- set the unix newline style
+vim.opt.ff = 'unix'
 
 vim.opt.signcolumn = "auto"
 vim.opt.wrap = false

@@ -10,7 +10,30 @@ mkdir -p ~/.lm/bin
 mkdir -p ~/.lm/opt
 mkdir -p ~/.lm/tmp
 echo "Installing pwsh ..."
-bash "./scripts/installers/pwsh.sh"
+
+PWSH_VERSION="7.3.6"
+
+cd ~/.lm/
+mkdir -p ~/.lm/opt/pwsh
+if command -v curl &> /dev/null
+then
+  curl -o ~/.lm/tmp/pwsh.tar.gz -LJO "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+else
+  echo "curl not found"
+  if command -v wget &> /dev/null 
+  then
+    wget -O "~/.lm/tmp/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+  else
+    echo "not even wget found"
+    echo "ABORT"
+    exit
+  fi
+fi
+cd ~/.lm/opt/pwsh
+tar -xf ~/.lm/tmp/pwsh.tar.gz
+
+ln -s ~/.lm/opt/pwsh/pwsh ~/.lm/bin/pwsh
+
 mkdir -p ~/.config
 ln -s ~/.lm/dotfiles/configurations/powershell ~/.config/powershell
 cp "./scripts/start.sh" ~

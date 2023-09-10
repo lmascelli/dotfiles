@@ -8,5 +8,5 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-LM.appearence.colorscheme = 'slate'
+LM.appearence.colorscheme = 'habamax'
 vim.cmd('colorscheme ' .. LM.appearence.colorscheme)

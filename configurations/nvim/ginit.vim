@@ -20,6 +20,8 @@ if vim.fn.exists(':GuiFont') then
     update_font()
   end
 
+  update_font()
+
   vim.keymap.set('n', '<leader>+', function() increase_font() end, {desc = 'Increase font'})
   vim.keymap.set('n', '<leader>-', function() decrease_font() end, {desc = 'Decrease font'})
 end
