@@ -545,7 +545,7 @@ application when starting the sequence
     (setq which-key-idle-delay 0.1)
     (which-key-setup-minibuffer))
 #+end_src
-* COMMENT evil-mode
+* evil-mode
 #+begin_src emacs-lisp
   (use-package evil
     :defer 1

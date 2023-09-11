@@ -1,1 +1,1 @@
-export PATH=$PATH:~/.local/bin
+export PATH=$PATH:~/.lm/bin

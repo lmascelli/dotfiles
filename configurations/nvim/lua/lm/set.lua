@@ -38,9 +38,6 @@ vim.opt.colorcolumn = '0'
 -- EOF indicator
 vim.cmd ":set fillchars+=eob:\\ "
 
--- set the unix newline style
-vim.opt.ff = 'unix'
-
 vim.opt.signcolumn = "auto"
 vim.opt.wrap = false
 vim.opt.scrolloff = 8

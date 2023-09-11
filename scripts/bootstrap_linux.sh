@@ -22,7 +22,7 @@ else
   echo "curl not found"
   if command -v wget &> /dev/null 
   then
-    wget -O "~/.lm/tmp/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
+    wget -P "~/.lm/tmp" -O "tmp/pwsh.tar.gz" "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell-${PWSH_VERSION}-linux-x64.tar.gz"
   else
     echo "not even wget found"
     echo "ABORT"
@@ -32,8 +32,8 @@ fi
 cd ~/.lm/opt/pwsh
 tar -xf ~/.lm/tmp/pwsh.tar.gz
 
-ln -s ~/.lm/opt/pwsh/pwsh ~/.lm/bin/pwsh
+ln -f -s ~/.lm/opt/pwsh/pwsh ~/.lm/bin/pwsh
 
 mkdir -p ~/.config
-ln -s ~/.lm/dotfiles/configurations/powershell ~/.config/powershell
-cp "./scripts/start.sh" ~
+ln -f -s ~/.lm/dotfiles/configurations/powershell ~/.config/powershell
+cp ./start.sh ~
