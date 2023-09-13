@@ -19,17 +19,17 @@ local active_plugins = {
   'lsp_zero',
   --  'lsp_saga',
   'nvim_qt',
-  'nvim-autopairs',
-  'nvim-comment',
-  'nvim-surround',
+  -- 'nvim-autopairs',
+  -- 'nvim-comment',
   -- 'nvim-tree',
+  'nvim-surround',
   'zen-mode',
   'telescope',
   'treesitter',
   'which_key',
   'clangd',
   'orgmode',
-  'rust',
+  -- 'rust',
 }
 
 local plugins = {}

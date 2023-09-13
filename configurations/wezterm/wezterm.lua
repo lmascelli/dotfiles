@@ -24,11 +24,11 @@ local color_schemes = {
   },
 }
 
-local current_scheme = color_schemes.dark["gruvbox"]
+local current_scheme = color_schemes.dark["monokai"]
 -- local current_scheme = color_schemes.light["github"],
 -- local current_scheme = 'Atelier Cave Light (base16)',
 -- local current_scheme = 'Atelier Lakeside Light (base16)',
--- local current_scheme = 'Embers (light) (terminal.sexy)',
+-- local current_scheme = 'Embers (light) (terminal.sexy)'
 
 local default_prog = function()
   if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
@@ -276,7 +276,7 @@ local conf = {
   hide_tab_bar_if_only_one_tab = true,
   enable_tab_bar = show_tabs,
   use_fancy_tab_bar = false,
-  -- window_background_opacity = 0.9,
+  -- window_background_opacity = 0.95,
   front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   max_fps = 60,
   color_scheme = current_scheme,

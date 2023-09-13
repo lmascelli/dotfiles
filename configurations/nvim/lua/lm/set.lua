@@ -14,7 +14,9 @@ vim.opt.foldlevelstart = 99
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.swapfile = false
-vim.opt.termguicolors = true
+if vim.g.colors_name ~= 'default' then
+  vim.opt.termguicolors = true
+end
 vim.opt.timeoutlen = 500
 vim.opt.undofile = true
 vim.opt.updatetime = 100
@@ -23,7 +25,6 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.cursorline = true
-
 
 -- line number
 vim.opt.number = true
