@@ -9,9 +9,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     if vim.g.colors_name == "default" then
       vim.cmd 'hi! link Pmenu DiffAdd'
       vim.cmd 'hi! link SignColumn Normal'
+      vim.opt.termguicolors = false
+    else
+      vim.opt.termguicolors = true
     end
   end,
 })
 
-LM.appearence.colorscheme = 'default'
+LM.appearence.colorscheme = 'habamax'
 vim.cmd('colorscheme ' .. LM.appearence.colorscheme)

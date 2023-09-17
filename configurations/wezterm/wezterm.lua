@@ -25,10 +25,7 @@ local color_schemes = {
 }
 
 local current_scheme = color_schemes.dark["monokai"]
--- local current_scheme = color_schemes.light["github"],
--- local current_scheme = 'Atelier Cave Light (base16)',
--- local current_scheme = 'Atelier Lakeside Light (base16)',
--- local current_scheme = 'Embers (light) (terminal.sexy)'
+-- local current_scheme = color_schemes.light["github"]
 
 local default_prog = function()
   if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
