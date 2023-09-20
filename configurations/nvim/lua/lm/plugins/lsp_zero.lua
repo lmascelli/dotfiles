@@ -69,7 +69,7 @@ return {
       vim.keymap.set('n', '<leader>ldp', '<cmd>lua vim.diagnostic.goto_prev()<cr>', { desc = "Previous diagnostic" })
       vim.keymap.set('n', '<leader>ldn', '<cmd>lua vim.diagnostic.goto_next()<cr>', { desc = "Next diagnostic" })
 
-      require('lm.api.lsp').get_on_attach(vim.bo.filetype)(client, bufnr)
+      require('lm.lsp').get_on_attach(vim.bo.filetype)(client, bufnr)
     end)
 
     lsp.ensure_installed({
@@ -77,11 +77,30 @@ return {
       'clangd',
       'powershell_es',
     })
-
+    local capabilities = require("lm.lsp.capability")
     -- (Optional) Configure lua language server for neovim
     local lspconfig = require('lspconfig')
     lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-    lspconfig.clangd.setup({})
+    lspconfig.clangd.setup({
+      cmd = {
+        "clangd",
+        "--background-index",
+        -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
+        -- to add more checks, create .clang-tidy file in the root directory
+        -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+        "--clang-tidy",
+        "--completion-style=bundled",
+        "--cross-file-rename",
+        "--header-insertion=iwyu",
+      },
+      capabilities = capabilities,
+      init_options = {
+        clangdFileStatus = true, -- Provides information about activity on clangd’s per-file worker thread
+        usePlaceholders = true,
+        completeUnimported = true,
+        semanticHighlighting = true,
+      },
+    })
     lspconfig.pylsp.setup({})
     lspconfig.powershell_es.setup({})
     lsp.setup()
