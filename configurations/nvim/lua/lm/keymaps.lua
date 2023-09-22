@@ -9,14 +9,14 @@ vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 
 -- PROJECT
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
-vim.keymap.set('n', '<leader>pc', '<cmd>lua require("lm.api.project").spawn_terminal()<cr>', {
+vim.keymap.set('n', '<leader>pc', '<cmd>lua LM.api.project.spawn_terminal()<cr>', {
   desc = 'spawn terminal here' })
--- vim.keymap.set("n", "<leader>pl", '<cmd>lua require("lm.api.project").project_lua()<cr>', {
+-- vim.keymap.set("n", "<leader>pl", '<cmd>lua LM.api.project.project_lua()<cr>', {
 --   silent = true,
 --   nowait = true,
 --   desc = "project.lua"
 -- })
-vim.keymap.set("n", "<leader>pp", '<cmd>lua require("lm.api.project").project_ps1()<cr>', {
+vim.keymap.set("n", "<leader>pp", '<cmd>lua LM.api.project.project_ps1()<cr>', {
   silent = true,
   nowait = true,
   desc = "project.ps1"
@@ -30,7 +30,7 @@ vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
 vim.keymap.set("n", "<C-g>", "<Escape>", {})
 vim.keymap.set("n", "U", ":redo<cr>", {})
 vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
-vim.keymap.set("n", "<leader>c", ":lua require('lm.api').edit_conf_dir(true)<cr>", { desc = "Open configuration" })
+vim.keymap.set("n", "<leader>c", ":lua LM.api.utils.edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS
 vim.keymap.set('n', '<leader>wc', '<cmd>q<cr>', { desc = "Close" })
@@ -55,20 +55,13 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<cr>", { desc = "" })
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "" })
-vim.keymap.set("n", "<leader>bf", "<cmd>:lua require('lm.api.buffer').format()<cr>", { desc = "Format" })
-vim.keymap.set("n", "<leader>bd", "<cmd>:lua require('lm.api.buffer').delete()<cr>", { desc = "Delete" })
+vim.keymap.set("n", "<leader>bf", "<cmd>:lua LM.api.buffer.format()<cr>", { desc = "Format" })
+vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.api.buffer.delete()<cr>", { desc = "Delete" })
 
 -- SEARCHING
 vim.keymap.set('n', '<leader>fs', '/', { desc = 'Search' })
 vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
-
--- -- Configuration
--- keymap('n', '<leader>c', '', opts, buf, 'Configuration')
--- keymap('n', '<leader>cs', '<cmd>source %<cr>', {}, buf, 'Source this file')
--- keymap('n', '<leader>cp', ':lua LM.plugins.add_template()<cr>', {}, buf, 'Create plugin from template')
--- keymap('n', '<leader>cd', ':lua LM.edit_conf_dir(true)<cr>', {}, buf, 'Open configuration directory')
--- keymap('n', '<leader>cc', ':lua LM.edit_conf_file()<cr>', {}, buf, 'Open configuration file')
 
 
 -- ------------------------------------- INSERT ----------------------------------

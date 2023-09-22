@@ -21,7 +21,7 @@ local active_plugins = {
   'nvim_qt',
   -- 'nvim-autopairs',
   -- 'nvim-comment',
-  -- 'nvim-tree',
+  'nvim-tree',
   'nvim-surround',
   'zen-mode',
   'telescope',

@@ -77,9 +77,11 @@ return {
       'clangd',
       'powershell_es',
     })
-    local capabilities = require("lm.lsp.capability")
-    -- (Optional) Configure lua language server for neovim
+
     local lspconfig = require('lspconfig')
+    local capabilities = require("lm.lsp.capability")
+
+    -- (Optional) Configure lua language server for neovim
     lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
     lspconfig.clangd.setup({
       cmd = {
@@ -102,6 +104,7 @@ return {
       },
     })
     lspconfig.pylsp.setup({})
+    -- to install also mypy run ':PylspInstall pyls-flake8 pylsp-mypy pyls-isort'
     lspconfig.powershell_es.setup({})
     lsp.setup()
   end
