@@ -63,6 +63,9 @@ vim.keymap.set('n', '<leader>fs', '/', { desc = 'Search' })
 vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 
+-- APPEARENCE
+vim.keymap.set('n', '<leader>ac', '<cmd>lua LM.api.appearence.load_theme()<cr>', { desc = 'Colorcheme' })
+
 
 -- ------------------------------------- INSERT ----------------------------------
 

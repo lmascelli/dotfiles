@@ -32,6 +32,8 @@ LM = {
   }
 }
 
+require 'lm.runtime.lsp'
 require 'lm.runtime.api.utils'
 require 'lm.runtime.api.buffer'
 require 'lm.runtime.api.project'
+require 'lm.runtime.api.appearence'

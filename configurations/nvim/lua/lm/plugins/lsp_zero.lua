@@ -69,7 +69,7 @@ return {
       vim.keymap.set('n', '<leader>ldp', '<cmd>lua vim.diagnostic.goto_prev()<cr>', { desc = "Previous diagnostic" })
       vim.keymap.set('n', '<leader>ldn', '<cmd>lua vim.diagnostic.goto_next()<cr>', { desc = "Next diagnostic" })
 
-      require('lm.lsp').get_on_attach(vim.bo.filetype)(client, bufnr)
+      LM.lsp.get_on_attach(vim.bo.filetype)(client, bufnr)
     end)
 
     lsp.ensure_installed({
@@ -79,7 +79,7 @@ return {
     })
 
     local lspconfig = require('lspconfig')
-    local capabilities = require("lm.lsp.capability")
+    local capabilities = LM.lsp.capabilities
 
     -- (Optional) Configure lua language server for neovim
     lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
@@ -87,13 +87,16 @@ return {
       cmd = {
         "clangd",
         "--background-index",
-        -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
-        -- to add more checks, create .clang-tidy file in the root directory
-        -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+        "-j=12",
+        "--query-driver=" .. LM.lsp.c_query_driver,
         "--clang-tidy",
-        "--completion-style=bundled",
+        "--clang-tidy-checks=*",
+        "--all-scopes-completion",
         "--cross-file-rename",
+        "--completion-style=detailed",
+        "--header-insertion-decorators",
         "--header-insertion=iwyu",
+        "--pch-storage=memory",
       },
       capabilities = capabilities,
       init_options = {

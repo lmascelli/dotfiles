@@ -12,5 +12,9 @@ return {
     vim.keymap.set('n', '<leader>fg', function()
       builtin.grep_string({ search = vim.fn.input("Grep > ") })
     end, { desc = "grep" })
+
+    LM.api.appearence.load_theme = function()
+      builtin.colorscheme { enable_preview = true }
+    end
   end
 }

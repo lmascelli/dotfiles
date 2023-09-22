@@ -26,7 +26,7 @@ LM.api.utils = {
   edit_conf_dir = function(open_explorer)
     vim.fn.chdir(vim.fn.stdpath 'config')
     if open_explorer then
-      vim.cmd 'Lex'
+      LM.api.toggle_explorer()
     end
   end,
 }
