@@ -4,7 +4,7 @@ LM.api.project = {
     if (vim.fn.findfile('project.ps1') == 'project.ps1') then
       local action = vim.fn.input('arguments: ')
       local cmd = 'pwsh -Command ./project.ps1 ' .. action
-      require('lm.api').exec_cmd(cmd)
+      LM.api.utils.exec_cmd(cmd)
       vim.cmd ':startinsert'
     else
       print 'project.ps1 script not found'
