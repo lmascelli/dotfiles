@@ -1,7 +1,7 @@
 return {
   'VonHeikemen/lsp-zero.nvim',
   event = 'VeryLazy',
-  branch = 'v2.x',
+  branch = 'v3.x',
   dependencies = {
     -- LSP Support
     { 'neovim/nvim-lspconfig' }, -- Required
@@ -20,14 +20,11 @@ return {
     { 'hrsh7th/cmp-nvim-lsp-signature-help' }, -- Required
   },
   config = function()
-    local lsp = require('lsp-zero').preset({
-      manage_nvim_cmp = {
-      },
-    })
+    local lsp = require('lsp-zero')
 
     local cmp = require('cmp')
     --    local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
-    local cmp_action = require('lsp-zero').cmp_action()
+    local cmp_action = lsp.cmp_action()
     require('luasnip.loaders.from_vscode').lazy_load()
     cmp.setup({
       preselect = 'item',
@@ -72,14 +69,22 @@ return {
       LM.lsp.get_on_attach(vim.bo.filetype)(client, bufnr)
     end)
 
-    lsp.ensure_installed({
-      'lua_ls',
-      'clangd',
-      'powershell_es',
+    lsp.set_sign_icons({
+      error = '✘',
+      warn = '▲',
+      hint = '⚑',
+      info = '»'
     })
 
     local lspconfig = require('lspconfig')
-    local capabilities = LM.lsp.capabilities
+    LM.lsp.capabilities = lsp.get_capabilities()
+
+    require('mason').setup({})
+    require('mason-lspconfig').setup({
+      handlers = {
+        lsp.default_setup,
+      }
+    })
 
     -- (Optional) Configure lua language server for neovim
     lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
@@ -98,7 +103,7 @@ return {
         "--header-insertion=iwyu",
         "--pch-storage=memory",
       },
-      capabilities = capabilities,
+      capabilities = LM.lsp.capabilities,
       init_options = {
         clangdFileStatus = true, -- Provides information about activity on clangd’s per-file worker thread
         usePlaceholders = true,
@@ -109,6 +114,5 @@ return {
     lspconfig.pylsp.setup({})
     -- to install also mypy run ':PylspInstall pyls-flake8 pylsp-mypy pyls-isort'
     lspconfig.powershell_es.setup({})
-    lsp.setup()
   end
 }

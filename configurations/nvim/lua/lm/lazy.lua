@@ -16,7 +16,9 @@ vim.opt.rtp:prepend(lazypath)
 --------------------------------------------------------------------------------
 -- Make a plugins table
 local active_plugins = {
-  'lsp_zero',
+  -- 'lsp_zero',
+  'nvim-cmp',
+  'lsp',
   --  'lsp_saga',
   'nvim_qt',
   -- 'nvim-autopairs',
