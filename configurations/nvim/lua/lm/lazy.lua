@@ -32,6 +32,7 @@ local active_plugins = {
   'clangd',
   'orgmode',
   -- 'rust',
+  -- 'pets',
 }
 
 local plugins = {}

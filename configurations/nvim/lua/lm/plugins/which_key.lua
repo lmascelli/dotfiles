@@ -103,6 +103,7 @@ return {
       a = { name = 'Appearence' },
       p = { name = 'Project' },
       w = { name = 'Window' },
+      t = { name = 'Tab' },
       b = { name = 'Buffer' },
       f = { name = 'Find' },
       l = {

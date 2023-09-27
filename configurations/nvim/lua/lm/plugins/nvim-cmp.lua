@@ -43,7 +43,7 @@ return {
     })
     require('luasnip.loaders.from_vscode').lazy_load()
     LM.lsp.capabilities = require('cmp_nvim_lsp').default_capabilities()
-    LM.complete = function()
+    LM.api.complete = function()
       cmp.complete()
     end
   end

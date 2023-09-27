@@ -29,6 +29,9 @@ LM = {
     end
   },
   api = {
+    complete = function()
+      -- TODO make omnifunc the default completion method
+    end
   }
 }
 

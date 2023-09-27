@@ -43,7 +43,7 @@ return {
         { name = 'nvim_lsp_signature_help' },
       },
     })
-    LM.complete = function()
+    LM.api.complete = function()
       cmp.complete()
     end
 

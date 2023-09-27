@@ -13,15 +13,6 @@ LM.api.utils = {
     vim.cmd(':terminal ' .. cmd)
   end,
 
-  -- toggle the colorcolumn at line 80
-  toggle_colorcolumn = function()
-    if vim.opt.colorcolumn ~= '80' then
-      vim.opt.colorcolumn = tostring(80)
-    else
-      vim.opt.colorcolumn = tostring()
-    end
-  end,
-
   -- open configuration directory
   edit_conf_dir = function(open_explorer)
     vim.fn.chdir(vim.fn.stdpath 'config')

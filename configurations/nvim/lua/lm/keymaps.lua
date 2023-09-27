@@ -52,6 +52,11 @@ vim.keymap.set("n", "<C-Down>", ":resize -2<cr>", { desc = "" })
 vim.keymap.set("n", "<C-Left>", ":vertical resize -2<cr>", { desc = "" })
 vim.keymap.set("n", "<C-Right>", ":vertical resize +2<cr>", { desc = "" })
 
+-- TABS
+vim.keymap.set("n", "<leader>tn", "<cmd>:tabnew<cr>", { desc = "New" })
+vim.keymap.set("n", "<leader>td", "<cmd>:tabclose<cr>", { desc = "Close" })
+vim.keymap.set("n", "<leader><tab>", "<cmd>:tabnext<cr>", { desc = "Next tab" })
+
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "" })
@@ -76,8 +81,8 @@ vim.keymap.set("i", "<C-ì>", "<C-k>'?", {})
 vim.keymap.set("i", "<C-'>", "<C-k>'!", {})
 vim.keymap.set("i", "<s-cr>", "<c-o>O", {})
 vim.keymap.set("i", "<c-cr>", "<c-o>o", {})
-vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.complete()<cr>", {})
-vim.keymap.set("i", "<C-_>", "<cmd>lua LM.complete()<cr>", {})
+vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.api.complete()<cr>", {})
+vim.keymap.set("i", "<C-_>", "<cmd>lua LM.api.complete()<cr>", {})
 
 -- File saving
 vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})
