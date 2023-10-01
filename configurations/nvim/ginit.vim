@@ -3,7 +3,7 @@ pcall(vim.cmd, 'GuiLoad')
 vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 
 if vim.fn.exists(':GuiFont') then
-  local font_name = 'Monospace'
+  local font_name = 'Cascadia Code'
   local font_size = 10
 
   local update_font = function()
@@ -11,12 +11,12 @@ if vim.fn.exists(':GuiFont') then
   end
 
   local increase_font = function()
-    font_size = font_size * 1.1
+    font_size = font_size * 1.15
     update_font()
   end
 
   local decrease_font = function()
-    font_size = font_size / 1.1
+    font_size = font_size / 1.15
     update_font()
   end
 

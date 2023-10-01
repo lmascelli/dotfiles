@@ -29,6 +29,7 @@ local active_plugins = {
   'telescope',
   'treesitter',
   'which_key',
+  'colorschemes',
   'clangd',
   'orgmode',
   -- 'rust',
