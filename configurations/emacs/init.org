@@ -133,8 +133,7 @@ one. One solution is to use MSYS2's one. So go to the
 msys-iconv-2.dll
 msys-intl-8.dll
 find.exe
-to the emacs bin folder
-* User defined stuff
+to the emacs bin folder* COMMENT User defined stuff
 ** My global variables
 *** Machine dependent variables
 Adjust those variables depending on the machine where emacs runs.
@@ -346,19 +345,19 @@ backup and autosaves and lockfiles.
 #+begin_src emacs-lisp
   ;; (setq scroll-margin 5)
   (setq redisplay-dont-pause t)
-  (setq scroll-conservatively scroll-margin)
-  ;; (setq scroll-conservatively 10000)
+  ;; (setq scroll-conservatively scroll-margin)
+  (setq scroll-conservatively 10000)
   (setq scroll-preserve-screen-position t)
   (setq mouse-wheel-follow-mouse 't)
-  ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
   (setq scroll-step 1)
   (setq auto-window-vscroll nil)
   (setq scroll-error-top-bottom t)
   (setq mouse-wheel-progressive-speed nil)
   (setq mouse-wheel-inhibit-click-time nil)
-  ;; (setq fast-but-imprecise-scrolling t)
+  (setq fast-but-imprecise-scrolling t)
 #+end_src
-*** COMMENT pixel-scroll-precision-mode
+*** pixel-scroll-precision-mode
 #+begin_src emacs-lisp
   (unless (version< emacs-version "29")
     (progn
@@ -805,6 +804,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     :config
     (lsp-enable-which-key-integration t)
     (setq lsp-idle-delay 0.100)
+    (setq lsp-auto-execute-action nil)
     ;; ----------------------------- LSP KEYMAPS -------------------------------
     (defvar lm/leader-map-lsp (make-sparse-keymap)
       "sub-keymap for lsp operations")
@@ -837,9 +837,9 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
     :custom
     (lsp-ui-doc-position 'bottom))
 
-  (use-package lsp-pyright
-    :after lsp-mode
-    :ensure t)
+  ;; (use-package lsp-pyright
+  ;;   :after lsp-mode
+  ;;   :ensure t)
 #+end_src
 * org-mode
 #+begin_src emacs-lisp

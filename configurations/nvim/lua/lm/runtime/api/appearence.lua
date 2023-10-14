@@ -13,6 +13,7 @@ LM.api.appearence = {
       vim.opt.colorcolumn = tostring()
     end
   end,
+
   toggle_transparency = function()
     if LM.appearence.transparency then
       vim.cmd('colorscheme ' .. LM.appearence.colorscheme)

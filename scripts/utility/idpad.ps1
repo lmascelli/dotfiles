@@ -2,28 +2,36 @@
 # packages: acpi_call
 # commands: modprobe acpi_call
 
-switch ($args[0]){
-  "sav1" {
-    echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x03' > /proc/acpi/call
+switch ($args[0])
+{
+  "sav1"
+  {
+    Write-Output '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x03' > /proc/acpi/call
   }
-  "sav0" {
-    echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x05' > /proc/acpi/call
+  "sav0"
+  {
+    Write-Output '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x05' > /proc/acpi/call
   }
-  "savs" {
-    echo '\_SB.PCI0.LPC0.EC0.BTSM' > /proc/acpi/call 
-    cat /proc/acpi/call; printf '\n'
+  "savs"
+  {
+    Write-Output '\_SB.PCI0.LPC0.EC0.BTSM' > /proc/acpi/call 
+    Get-Content /proc/acpi/call; printf '\n'
   }
-  "qc1" {
-    sh | echo "echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x07' > /proc/acpi/call > /dev/null"
+  "qc1"
+  {
+    sh | Write-Output "echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x07' > /proc/acpi/call > /dev/null"
   }
-  "qc0" {
-    sh | echo "echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x08' > /proc/acpi/call > /dev/null"
+  "qc0"
+  {
+    sh | Write-Output "echo '\_SB.PCI0.LPC0.EC0.VPC0.SBMC 0x08' > /proc/acpi/call > /dev/null"
   }
-  "qcs" {
-    sh | echo "echo '\_SB.PCI0.LPC0.EC0.QCHO' > /proc/acpi/call > /dev/null "
-    cat /proc/acpi/call; printf '\n'
+  "qcs"
+  {
+    sh | Write-Output "echo '\_SB.PCI0.LPC0.EC0.QCHO' > /proc/acpi/call > /dev/null "
+    Get-Content /proc/acpi/call; printf '\n'
   }
-  default {
+  default
+  {
     Write-Output @"
 ###############################################################################
 #                                                                             *

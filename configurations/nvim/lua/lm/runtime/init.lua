@@ -1,6 +1,6 @@
 LM = {
   font = {
-    font_name = '',
+    font_name = 'Cascadia Code',
     font_size = 10,
   },
   lsp = {
@@ -12,7 +12,10 @@ LM = {
     }),
     gui = vim.api.nvim_create_augroup("Gui", {
       clear = true,
-    })
+    }),
+    lsp_menu = vim.api.nvim_create_augroup("LspMenu", {
+      clear = true,
+    }),
   },
   appearence = {
     colorscheme = 'default',
