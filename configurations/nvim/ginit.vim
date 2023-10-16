@@ -22,8 +22,8 @@ if vim.fn.exists(':GuiFont') ~= 0 then
 
   update_font()
 
-  vim.keymap.set('n', '<leader>a+', function() increase_font() end, {desc = 'Increase font'})
-  vim.keymap.set('n', '<leader>a-', function() decrease_font() end, {desc = 'Decrease font'})
+  vim.keymap.set('n', '<leader>+', function() increase_font() end, {desc = 'Increase font'})
+  vim.keymap.set('n', '<leader>-', function() decrease_font() end, {desc = 'Decrease font'})
 end
 
 if vim.fn.exists(':GuiWindowOpacity') ~= 0 then
