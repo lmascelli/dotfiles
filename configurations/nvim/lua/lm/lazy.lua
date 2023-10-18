@@ -31,7 +31,7 @@ local active_plugins = {
   'which_key',
   'colorschemes',
   'clangd',
-  'orgmode',
+  -- 'orgmode',
   -- 'rust',
   -- 'pets',
 }
