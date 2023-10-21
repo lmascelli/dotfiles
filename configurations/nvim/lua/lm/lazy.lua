@@ -32,7 +32,7 @@ local active_plugins = {
   'colorschemes',
   'clangd',
   -- 'orgmode',
-  -- 'rust',
+  'rust',
   -- 'pets',
 }
 

@@ -27,21 +27,23 @@ if ($IsLinux)
   scoop install git
   scoop install pwsh
 
-  scoop install msys2
-  scoop hold msys2
-  'pacman -Syyu --noconfirm' | msys2
-  'pacman -Syyu --noconfirm' | msys2
-  'pacman -S --noconfirm mingw-w64-x86_64-toolchain' | msys2
-  'pacman -S --noconfirm mingw-w64-x86_64-neovim-qt' | msys2
-  'pacman -S --noconfirm mingw-w64-x86_64-ripgrep' | msys2
-  'pacman -S --noconfirm mingw-w64-x86_64-fd' | msys2
-  'pacman -S --noconfirm mingw-w64-x86_64-cmake' | msys2
+  # scoop install msys2
+  # scoop hold msys2
+  # 'pacman -Syyu --noconfirm' | msys2
+  # 'pacman -Syyu --noconfirm' | msys2
+  # 'pacman -S --noconfirm mingw-w64-x86_64-toolchain' | msys2
+  # 'pacman -S --noconfirm mingw-w64-x86_64-neovim-qt' | msys2
+  # 'pacman -S --noconfirm mingw-w64-x86_64-ripgrep' | msys2
+  # 'pacman -S --noconfirm mingw-w64-x86_64-fd' | msys2
+  # 'pacman -S --noconfirm mingw-w64-x86_64-cmake' | msys2
 
   scoop bucket add extras
   scoop bucket add nerd-fonts
   scoop bucket add kiennq-scoop
   scoop install wezterm
+  scoop install neovim
   scoop install miniconda3
+  scoop install ripgrep fd
   scoop hold miniconda3
   conda config --add channels conda-forge
   conda config --set channel_priority strict

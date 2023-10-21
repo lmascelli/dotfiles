@@ -3,7 +3,7 @@ return {
   {
     "kylechui/nvim-surround",
     version = '*',
-    event = 'VeryLazy',
+    event = 'BufRead',
     config = function()
       require('nvim-surround').setup {}
     end
@@ -11,6 +11,7 @@ return {
   -- nvim-surround training
   {
     "roobert/surround-ui.nvim",
+    event = 'BufRead',
     dependencies = {
       "kylechui/nvim-surround",
       "folke/which-key.nvim",

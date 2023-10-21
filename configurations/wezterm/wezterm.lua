@@ -308,8 +308,8 @@ local conf = {
   initial_rows = 35,
   ------------------------------------
   -- FONT
-  font_size = 10,
-  cell_width = 1.0,
+  font_size = 11.0,
+  -- cell_width = 1.0,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
   warn_about_missing_glyphs = false,
   font = wezterm.font('Cascadia Code'),
