@@ -416,6 +416,7 @@ running powershell in term and ansi-term
   (setq display-line-numbers-type 'relative)
   (global-display-line-numbers-mode)
   (dolist (mode '(org-mode-hook
+		  markdown-mode-hook
 		  term-mode-hook
 		  vterm-mode-hook
 		  shell-mode-hook
@@ -432,7 +433,9 @@ running powershell in term and ansi-term
 		  vterm-mode-hook
 		  shell-mode-hook
 		  eshell-mode-hook
-		  latex-mode-hook))
+		  latex-mode-hook
+		  org-mode-hook
+		  markdown-mode-hook))
     (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
 
   (if (display-graphic-p)
@@ -544,7 +547,7 @@ application when starting the sequence
     (setq which-key-idle-delay 0.1)
     (which-key-setup-minibuffer))
 #+end_src
-* COMMENT evil-mode
+* evil-mode
 #+begin_src emacs-lisp
   (use-package evil
     :defer 1
@@ -631,7 +634,7 @@ application when starting the sequence
     :config
     (evil-collection-init))
 #+end_src
-* non evil keymaps
+* COMMENT non evil keymaps
 #+begin_src emacs-lisp
     (defvar lm/leader-map (make-sparse-keymap)
       "Keymap for \"leader key\" shortcuts")
