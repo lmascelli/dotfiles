@@ -20,4 +20,15 @@ LM.api.utils = {
       LM.api.toggle_explorer()
     end
   end,
+
+  -- join paths from lunarvim
+  join_paths = function(...)
+    local result = table.concat({ ... }, path_sep)
+    return result
+  end,
+
+  is_directory = function(path)
+    local stat = uv.fs_stat(path)
+    return stat and stat.type == "directory" or false
+  end,
 }

@@ -10,8 +10,8 @@ return {
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
   },
-  -- event = 'VeryLazy',
-  event = 'BufRead',
+  lazy = true,
+  event = {'BufRead', 'InsertEnter'},
   config = function()
     local cmp = require('cmp')
     cmp.setup({
