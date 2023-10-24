@@ -28,7 +28,7 @@ LM.api.utils = {
   end,
 
   is_directory = function(path)
-    local stat = uv.fs_stat(path)
+    local stat = vim.loop.fs_stat(path)
     return stat and stat.type == "directory" or false
   end,
 }
