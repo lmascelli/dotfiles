@@ -1,20 +1,17 @@
 return {
   'nvim-telescope/telescope.nvim',
-  event = "VeryLazy",
-  tag = '0.1.2',
-  -- or                              , branch = '0.1.x',
+  branch = '0.1.x',
+  lazy = true,
+  cmd = "Telescope",
   dependencies = { 'nvim-lua/plenary.nvim' },
-  config = function()
-    local builtin = require('telescope.builtin')
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'files' })
-    vim.keymap.set('n', '<leader>bl', builtin.buffers, { desc = 'list buffers' })
-    vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-    vim.keymap.set('n', '<leader>fg', function()
-      builtin.grep_string({ search = vim.fn.input("Grep > ") })
-    end, { desc = "grep" })
+  init = function()
+    vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { desc = 'files' })
+    vim.keymap.set('n', '<leader>bl', '<cmd>Telescope buffers<cr>', { desc = 'list buffers' })
+    vim.keymap.set('n', '<C-p>', '<cmd>Telescope git_files<cr>', {})
+    vim.keymap.set('n', '<leader>fg', '<cmd>Telescope grep_string<cr>', { desc = "grep" })
 
     LM.api.appearence.load_theme = function()
-      builtin.colorscheme { enable_preview = true }
+      vim.cmd 'Telescope colorscheme enable_preview=true<cr>'
     end
   end
 }

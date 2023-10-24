@@ -1,18 +1,29 @@
 return {
-  'williamboman/mason-lspconfig.nvim',
-  dependencies = {
+  {
     'neovim/nvim-lspconfig',
-    {
-      'williamboman/mason.nvim',
-      build = function()
-        pcall(vim.cmd, 'MasonUpdate')
-      end,
-    }
+    lazy = true,
+    dependencies = { "mason-lspconfig.nvim" },
   },
-  event = 'VeryLazy',
-  config = function()
-    require('mason').setup()
-    require('mason-lspconfig').setup()
+  {
+    'williamboman/mason.nvim',
+    event = "User FileOpened",
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+    lazy = true,
+    build = function()
+      pcall(vim.cmd, 'MasonUpdate')
+    end,
+  },
+  {
+    'williamboman/mason-lspconfig.nvim',
+    dependencies = {
+      'williamboman/mason.nvim',
+    },
+    cmd = { "LspInstall", "LspUninstall" },
+    event = "User FileOpened",
+    lazy = true,
+    config = function()
+      require('mason').setup()
+      require('mason-lspconfig').setup()
 
     local lspconfig = require('lspconfig')
 
@@ -68,4 +79,5 @@ return {
     -- to install also mypy run ':PylspInstall pyls-flake8 pylsp-mypy pyls-isort'
     setup_server('powershell_es')
   end
+}
 }
