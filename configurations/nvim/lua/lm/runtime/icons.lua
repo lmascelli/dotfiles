@@ -1,6 +1,6 @@
 -- copied from lunarvim
 
-return {
+LM.icons = {
   kind = {
     Array = "",
     Boolean = "",

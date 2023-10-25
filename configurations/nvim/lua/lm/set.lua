@@ -34,11 +34,10 @@ vim.opt.swapfile = false -- no swapfiles
 
 
 -- line number
-vim.opt.number = true         -- show line numbers
-vim.opt.relativenumber = true -- show relative line numbers
-vim.opt.numberwidth = 4       -- set number column width
--- no line number in terminal mode
-vim.cmd "autocmd TermOpen * setlocal nonumber norelativenumber"
+vim.opt.number = true                                           -- show line numbers
+vim.opt.relativenumber = true                                   -- show relative line numbers
+vim.opt.numberwidth = 4                                         -- set number column width
+vim.cmd "autocmd TermOpen * setlocal nonumber norelativenumber" -- no line number in terminal mode
 
 -- colorcolumn
 vim.opt.colorcolumn = '0' -- column to highlight (0 to disable)
@@ -100,3 +99,8 @@ vim.diagnostic.config {
     prefix = "",
   },
 }
+
+-- that is pure lunarvim knowledge
+for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
+  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+end
