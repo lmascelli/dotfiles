@@ -6,6 +6,7 @@ LM = {
   lsp = {
     on_attach = {}
   },
+  icons = require 'lm.runtime.icons',
   augroups = {
     colorscheme = vim.api.nvim_create_augroup("Colorscheme", {
       clear = true,
