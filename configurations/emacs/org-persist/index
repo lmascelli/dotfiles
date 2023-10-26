@@ -1,9 +1,0 @@
-((:container
-  ((elisp org-element--headline-cache)
-   (elisp org-element--cache))
-  :persist-file "25/7815b1-7944-40de-94f6-6074095c1147" :associated
-  (:hash "e97be59b3f585d0d8b77eb8d6edd0a90" :file "d:/dotfiles/configurations/emacs/README.org" :inode 24488322973898245)
-  :expiry 30 :last-access 1698334840.764388 :last-access-hr "2023-10-26T17:40:40+0200")
- (:container
-  ((index "3.1"))
-  :persist-file "81/12af7c-28d7-4343-93cb-06e76d6105f2" :associated nil :expiry never :last-access 1698334840.807827 :last-access-hr "2023-10-26T17:40:40+0200"))
