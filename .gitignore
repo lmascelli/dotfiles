@@ -10,6 +10,7 @@ configurations/emacs/elpa/
 configurations/emacs/org-persist/
 configurations/emacs/transient/
 configurations/emacs/recentf
+configurations/emacs/emacs-custom.el
 
 # CONFIGURATIONS
 configurations/various/clangd/index/
