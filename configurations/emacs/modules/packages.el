@@ -6,6 +6,7 @@
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
 			 ("elpa" . "https://elpa.gnu.org/packages/")
 			 ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(setq package-user-dir (concat lm/conf-dir "/elpa/"))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))

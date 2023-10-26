@@ -2,11 +2,12 @@
 ;;; evil mode
 ;;-----------------------------------------------------------------------------
 (use-package evil
-  :defer 1
+  :defer 0.1
   :init
   (setq lm/evil-mode t)
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
+  (setq evil-symbol-word-search t)
   (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
   (setq evil-undo-system 'undo-redo)
   (defvar lm/leader-map (make-sparse-keymap)

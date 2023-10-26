@@ -18,6 +18,8 @@
 	 "grep"
 	 "which-key"
 	 "evil"
+	 "lsp-mode"
+	 "completion"
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))
@@ -29,6 +31,8 @@
 
 (let ((languages
        '("elisp"
+	 "cmake"
+	 "powershell"
 	 )))
   (dolist (language languages)
     (let ((file (concat lm/conf-dir "/languages/" language ".el")))
