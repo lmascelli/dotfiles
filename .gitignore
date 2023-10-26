@@ -10,5 +10,4 @@ configurations/emacs/elpa/
 configurations/emacs/recentf
 
 # CONFIGURATIONS
-
 configurations/various/clangd/index/

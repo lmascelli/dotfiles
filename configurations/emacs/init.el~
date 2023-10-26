@@ -1,0 +1,59 @@
+;;-----------------------------------------------------------------------------
+;;; global variables
+;;-----------------------------------------------------------------------------
+;; configuration path
+(setq lm/conf-dir (file-truename user-emacs-directory))
+(setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-dir)))
+(setq lm/sound-dir (concat lm/dot-dir "sounds/"))
+
+;;-----------------------------------------------------------------------------
+;;; loading modules 
+;;-----------------------------------------------------------------------------
+
+(let ((modules
+			 '("settings"
+				 "packages"
+				 "tree-sitter"
+				 "which-key"
+				 "evil")))
+  (dolist (module modules) (let ((file (concat "modules/" module ".el")))
+															(if (file-exists-p file)
+																	(load-file file)))))
+
+;;-----------------------------------------------------------------------------
+;;; elisp
+;;-----------------------------------------------------------------------------
+;; imenu for elisp outline of sections
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (add-to-list 'imenu-generic-expression
+			 '("Sections" "\\s-*;;;\\(.*\\)$" 0))))
+
+;------------------------------------------------------------------------------
+;;; dired
+;------------------------------------------------------------------------------
+
+(use-package dired
+  :hook (dired-mode . dired-hide-details-mode)
+  :ensure nil
+  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :config
+  (put 'dired-find-alternate-file 'disabled nil)
+  (setq dired-dwim-target t))
+
+;;-----------------------------------------------------------------------------
+;;; grep using ripgrep
+;;-----------------------------------------------------------------------------
+(use-package grep
+  :defer t
+  :config
+  (grep-apply-setting
+   'grep-find-command
+   '("rg -n -H --no-heading -e  ." . 26)))
+
+
+
+;;-----------------------------------------------------------------------------
+;;; customizations file 
+;;-----------------------------------------------------------------------------
+(if (file-exists-p custom-file) (load-file custom-file))

@@ -16,24 +16,24 @@ vim.opt.rtp:prepend(lazypath)
 --------------------------------------------------------------------------------
 -- Make a plugins table
 local active_plugins = {
-  -- 'lsp_zero',
+  'nvim_qt',
+  'which_key',
+  'telescope',
+  'treesitter',
   'nvim-cmp',
   'luasnip',
   'lsp',
-  --  'lsp_saga',
-  'nvim_qt',
+  -- 'lsp_zero',
+  -- 'lsp_saga',
   -- 'nvim-autopairs',
   -- 'nvim-comment',
+  'colorschemes',
   'nvim-tree',
   'nvim-surround',
   'zen-mode',
-  'telescope',
-  'treesitter',
-  'which_key',
-  'colorschemes',
   'clangd',
-  -- 'orgmode',
   'rust',
+  -- 'orgmode',
   -- 'pets',
 }
 
