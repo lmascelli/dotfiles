@@ -23,7 +23,13 @@ end
 LM.lsp = {
   on_attach = {
     default = function(client, bufnr)
-      vim.keymap.set('n', '<leader>lK', '<cmd>lua vim.lsp.buf.hover()<cr>', { desc = "Documentation" })
+      -- with auto_focus hover
+      vim.keymap.set('n', '<leader>lK', function()
+        vim.lsp.buf.hover()
+        vim.lsp.buf.hover()
+      end, { desc = "Documentation" })
+      -- without auto_focus hover
+      -- vim.keymap.set('n', '<leader>lK', '<cmd>lua vim.lsp.buf.hover()<cr>', { desc = "Documentation" })
       vim.keymap.set('n', '<leader>lgd', '<cmd>lua vim.lsp.buf.definition()<cr>', { desc = "Definition" })
       vim.keymap.set('n', '<leader>lgD', '<cmd>lua vim.lsp.buf.declaration()<cr>', { desc = "Declaration" })
       vim.keymap.set('n', '<leader>lgi', '<cmd>lua vim.lsp.buf.implementation()<cr>', { desc = "Implementation" })

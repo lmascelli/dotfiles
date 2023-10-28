@@ -1,9 +1,9 @@
 lua << EOF
-pcall(vim.cmd, 'GuiLoad')
+pcall(vim.cmd, 'GuiLoad!')
 vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 
-local font_name = LM.font.font_name
-local font_size = LM.font.font_size
+local font_name = LM.font.font_name or ''
+local font_size = LM.font.font_size or 10
 
 if vim.fn.exists(':GuiFont') ~= 0 then
   local update_font = function()
