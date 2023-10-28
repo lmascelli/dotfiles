@@ -1,5 +1,5 @@
 -- colorscheme
-LM.appearence.colorscheme = 'default'
+LM.appearence.colorscheme = 'lunaperche'
 
 -- font
 LM.font.font_name = ''
