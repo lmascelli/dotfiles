@@ -6,7 +6,6 @@ LM.appearence.colorscheme = 'lunaperche'
 LM.font.font_name = 'Cascadia Code'
 LM.font.font_size = 11
 
-
 -- plugins related
 
 -- orgmode
