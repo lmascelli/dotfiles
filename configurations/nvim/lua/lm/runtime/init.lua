@@ -1,6 +1,6 @@
 LM = {
   font = {
-    font_name = 'Cascadia Code',
+    font_name = '',
     font_size = 10,
   },
   lsp = {

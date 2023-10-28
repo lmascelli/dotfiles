@@ -16,5 +16,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-LM.appearence.colorscheme = 'lunaperche'
-vim.cmd('colorscheme ' .. LM.appearence.colorscheme)
+if LM.appearence.colorscheme then
+  vim.cmd('colorscheme ' .. LM.appearence.colorscheme)
+end
