@@ -18,6 +18,8 @@ return {
             { buffer = bufnr, desc = "Documentation (RT)" })
           vim.keymap.set("n", "<leader>la", rt.code_action_group.code_action_group,
             { buffer = bufnr, desc = "Code action (RT)" })
+          vim.keymap.set('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format({async=true})<cr>',
+            { buffer = bufnr, desc = "Format" })
         end
       },
     }
