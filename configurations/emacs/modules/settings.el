@@ -74,15 +74,15 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (setq-default fill-column 80)
-(global-display-fill-column-indicator-mode)
-(dolist (mode '(term-mode-hook
-		vterm-mode-hook
-		shell-mode-hook
-		eshell-mode-hook
-		latex-mode-hook
-		org-mode-hook
-		markdown-mode-hook))
-  (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
+;; (global-display-fill-column-indicator-mode)
+;; (dolist (mode '(term-mode-hook
+;; 		vterm-mode-hook
+;; 		shell-mode-hook
+;; 		eshell-mode-hook
+;; 		latex-mode-hook
+;; 		org-mode-hook
+;; 		markdown-mode-hook))
+;;   (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
 
 (if (display-graphic-p)
     (global-hl-line-mode))

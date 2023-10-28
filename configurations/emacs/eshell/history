@@ -1,0 +1,32 @@
+git add .
+git commit -m "complation-ignore-case t"
+git push
+còear
+clear 
+clar 1
+clear 1
+exit
+exit
+ls
+cd scripts/
+ls
+set
+ls
+clear
+pwsh -c "gci Env:"
+pandoc -f html -t pdf ottobre-23.html -o ottobre-23.html
+ottobre-23.pdf 
+firefox ottobre-23.pdf 
+clearottobre-23.pdf 
+clear
+lm/vsenv
+cmd /C C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/Tools/vsdevcmd.bat
+lm/vsenv
+cmd /C C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\vsdevcmd.bat
+cmd /C "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\vsdevcmd.bat"
+set
+cmd /C set
+cmd /C "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\vsdevcmd.bat" && set
+cmd /C "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\vsdevcmd.bat && set"
+cmd /C "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\vsdevcmd.bat" | set
+clear

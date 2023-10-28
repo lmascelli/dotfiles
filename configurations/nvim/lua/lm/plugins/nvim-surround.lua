@@ -3,7 +3,7 @@ return {
   {
     "kylechui/nvim-surround",
     version = '*',
-    event = 'BufRead',
+    event = 'InsertEnter',
     config = function()
       require('nvim-surround').setup {}
     end

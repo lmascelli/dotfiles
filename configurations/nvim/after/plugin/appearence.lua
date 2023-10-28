@@ -16,5 +16,5 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-LM.appearence.colorscheme = 'catppuccin'
+LM.appearence.colorscheme = 'lunaperche'
 vim.cmd('colorscheme ' .. LM.appearence.colorscheme)

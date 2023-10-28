@@ -33,7 +33,7 @@ local active_plugins = {
   'zen-mode',
   'clangd',
   'rust',
-  -- 'orgmode',
+  'orgmode',
   -- 'pets',
 }
 

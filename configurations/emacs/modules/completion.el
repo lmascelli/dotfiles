@@ -11,6 +11,7 @@
   (setq company-keywords-ignore-case t)
   (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.0)
+  (setq company-global-modes '(not erc-mode message-mode eshell-mode))
   :config
   ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
   (global-company-mode t))
