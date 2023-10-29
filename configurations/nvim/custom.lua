@@ -1,5 +1,5 @@
 -- colorscheme
-LM.appearence.colorscheme = 'lunaperche'
+LM.appearence.colorscheme = 'habamax'
 
 -- font
 LM.font.font_name = ''
