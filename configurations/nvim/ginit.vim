@@ -1,4 +1,6 @@
 lua << EOF
+vim.api.nvim_create_user_command('GuiLoad', function()
+end, {nargs = 0, desc = 'Load neovim-qt plugin'})
 pcall(vim.cmd, 'GuiLoad!')
 vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 
