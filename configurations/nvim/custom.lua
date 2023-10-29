@@ -1,5 +1,5 @@
 -- colorscheme
-LM.appearence.colorscheme = 'habamax'
+LM.appearence.colorscheme = 'default'
 
 -- font
 LM.font.font_name = ''
