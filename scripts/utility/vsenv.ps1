@@ -14,7 +14,7 @@ if (-not (Get-Command "vswhere" -ErrorAction SilentlyContinue))
 
 $installationPath = vswhere.exe -prerelease -latest -property installationPath
 if ($installationPath -and (test-path "$installationPath\Common7\Tools\vsdevcmd.bat")) {
-  & "${env:COMSPEC}" /s /c "`"$installationPath\Common7\Tools\vsdevcmd.bat`" -no_logo && set" | foreach-object {
+  & "${env:COMSPEC}" /s /c "`"$installationPath\Common7\Tools\vsdevcmd.bat`" -arch=amd64 -no_logo && set" | foreach-object {
     $name, $value = $_ -split '=', 2
     set-content env:\"$name" $value
   }

@@ -3,6 +3,7 @@ vim.opt.cmdheight = 1             -- height of the commandline
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true   -- highlight the current line
+vim.opt.exrc = true         -- automatically load .nvim.lua in root folder
 vim.opt.foldmethod = "expr" -- use treesitter based folding, "manual" otherwise
 vim.opt.foldexpr = ""       -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.hidden = true       -- required to keep multiple buffers and open multiple buffers
@@ -31,7 +32,6 @@ vim.opt.tabstop = 2          -- insert 2 spaces for a tab
 -- junk files
 vim.opt.backup = false   -- no backup files
 vim.opt.swapfile = false -- no swapfiles
-
 
 -- line number
 vim.opt.number = true                                           -- show line numbers
