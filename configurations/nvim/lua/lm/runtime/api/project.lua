@@ -22,7 +22,35 @@ LM.api.project = {
 
   -- spawn an external terminal in current directory
   spawn_terminal = function()
-    vim.fn.jobstart("wezterm-gui start --cwd .")
+    local job = nil
+    -- check if wezterm path is set or it's in PATH
+    if (LM.wezterm_path and vim.fn.executable(LM.wezterm_path))
+        or vim.fn.executable('wezterm') ~= 0 then
+      job = "wezterm-gui start --cwd ."
+    else
+      -- use the set terminal or the default for the current OS
+      if (LM.spawn_cmd and vim.fn.executable(LM.spawn_cmd) ~= 0) then
+        job = LM.spawn_cmd
+      else
+        -- windows case
+        if vim.fn.has('win32') then
+          if vim.fn.executable('pwsh') ~= 0 then
+            job = 'pwsh -c Start-Process pwsh'
+          else
+            job = 'powershell -c Start-Process pwsh'
+          end
+        else
+          -- unix case
+          if vim.fn.executable('xterm') ~= 0 then
+            job = 'xterm'
+          end
+        end
+      end
+      if job then
+        print(job)
+        vim.fn.jobstart(job)
+      end
+    end
   end,
 
   eval_buffer = function()
