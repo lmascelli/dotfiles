@@ -1,3 +1,0 @@
--- Autocmd it
--- set the unix newline style
--- vim.opt.ff = 'unix'

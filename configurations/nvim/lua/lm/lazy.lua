@@ -16,7 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 --------------------------------------------------------------------------------
 -- Make a plugins table
 local active_plugins = {
-  'nvim_qt',
+  'nvim-qt',
   'which_key',
   'telescope',
   'treesitter',
@@ -37,12 +37,12 @@ local active_plugins = {
   -- 'pets',
 }
 
-local plugins = {}
+LM.plugins = {}
 
 for _, plugin in pairs(active_plugins) do
   local ok, p_table = pcall(require, 'lm.plugins.' .. plugin)
   if ok then
-    table.insert(plugins, p_table)
+    table.insert(LM.plugins, p_table)
   else
     print('Problem loading the plugin table lm.plugins.' .. plugin)
   end
@@ -50,7 +50,7 @@ end
 
 --------------------------------------------------------------------------------
 -- Load the plugins table
-require("lazy").setup(plugins, {
+require("lazy").setup(LM.plugins, {
   lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
   ui = {
     border = 'rounded',

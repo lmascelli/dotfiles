@@ -1,7 +1,5 @@
 lua << EOF
-vim.api.nvim_create_user_command('GuiLoad', function()
-end, {nargs = 0, desc = 'Load neovim-qt plugin'})
-pcall(vim.cmd, 'GuiLoad!')
+vim.cmd 'GuiLoad'
 vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 
 local font_name = LM.font.font_name or ''
@@ -55,11 +53,11 @@ if vim.g.neovide then
       LM.api.appearence.increase_scale = function()
         vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * 1.15
       end
-  
+
       LM.api.appearence.decrease_scale = function()
         vim.g.neovide_scale_factor = vim.g.neovide_scale_factor / 1.15
       end
-  
+
       vim.keymap.set('n', '<leader>a+', '<cmd>lua LM.api.appearence.increase_scale()<cr>', {desc = 'Increase font'})
       vim.keymap.set('n', '<leader>a-', '<cmd>lua LM.api.appearence.decrease_scale()<cr>', {desc = 'Decrease font'})
     end
