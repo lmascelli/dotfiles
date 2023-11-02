@@ -24,8 +24,13 @@ LM.api.project = {
   spawn_terminal = function()
     local job = nil
     -- check if wezterm path is set or it's in PATH
-    if (LM.wezterm_path and vim.fn.executable(LM.wezterm_path))
-        or vim.fn.executable('wezterm') ~= 0 then
+    if (LM.wezterm_path and vim.fn.executable(LM.wezterm_path)) then
+      job = LM.wezterm_path .. ' start --cwd .'
+      vim.loop.spawn(LM.wezterm_path, {
+        args = {'start', '--cwd', '.'}
+      })
+        return
+    elseif vim.fn.executable('wezterm') ~= 0 then
       job = "wezterm-gui start --cwd ."
     else
       -- use the set terminal or the default for the current OS
