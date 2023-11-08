@@ -1,0 +1,8 @@
+To update the GitHub token via command line you should:
+- get the new token in the GitHub website
+    https://github.com/settings/tokens
+
+- run the following command replacing [username], [repository] and [token]
+  with the actual values
+git remote set-url origin https://username:token@github.com/username/repository.git
+
