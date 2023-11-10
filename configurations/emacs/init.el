@@ -31,6 +31,7 @@
 
 (let ((languages
        '("elisp"
+	 "rust"
 	 "cmake"
 	 "powershell"
 	 )))

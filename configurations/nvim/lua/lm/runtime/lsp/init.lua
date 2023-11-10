@@ -41,6 +41,7 @@ LM.lsp = {
       vim.keymap.set('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format({async=true})<cr>', { buffer = bufnr, desc = "Format" })
       vim.keymap.set('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = bufnr, desc = "Code action" })
       vim.keymap.set('n', '<leader>ldl', '<cmd>lua vim.diagnostic.setloclist()<cr>', { buffer = bufnr, desc = "Show diagnostics" })
+      vim.keymap.set('n', '<leader>ldd', '<cmd>lua vim.diagnostic.open_float(nil, {focus=true})<cr>', { buffer = bufnr, desc = "Show hover" })
       vim.keymap.set('n', '<leader>ldp', '<cmd>lua vim.diagnostic.goto_prev()<cr>', { buffer = bufnr, desc = "Previous diagnostic" })
       vim.keymap.set('n', '<leader>ldn', '<cmd>lua vim.diagnostic.goto_next()<cr>', { buffer = bufnr, desc = "Next diagnostic" })
 

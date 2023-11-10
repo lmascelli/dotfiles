@@ -8,6 +8,7 @@ configurations/emacs/.cache/
 configurations/emacs/auto-save-list/
 configurations/emacs/eln-cache/
 configurations/emacs/elpa/
+configurations/emacs/eshell/
 configurations/emacs/org-persist/
 configurations/emacs/transient/
 configurations/emacs/recentf

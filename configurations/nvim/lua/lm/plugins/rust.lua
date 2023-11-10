@@ -20,6 +20,8 @@ return {
             { buffer = bufnr, desc = "Code action (RT)" })
           vim.keymap.set('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format({async=true})<cr>',
             { buffer = bufnr, desc = "Format" })
+          vim.keymap.set('n', '<leader>ldd', '<cmd>lua vim.diagnostic.open_float(nil, {focus=true})<cr>',
+            { buffer = bufnr, desc = "Show hover" })
         end
       },
     }
