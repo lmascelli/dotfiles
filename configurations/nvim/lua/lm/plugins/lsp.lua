@@ -6,7 +6,6 @@ return {
   },
   {
     'williamboman/mason.nvim',
-    event = "User FileOpened",
     cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
     lazy = true,
     build = function()
@@ -19,7 +18,7 @@ return {
       'williamboman/mason.nvim',
     },
     cmd = { "LspInstall", "LspUninstall" },
-    event = "User FileOpened",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     lazy = true,
     config = function()
       require('mason').setup()
