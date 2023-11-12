@@ -48,7 +48,7 @@ vim.cmd ":set fillchars+=eob:\\ "
 vim.opt.signcolumn = "auto"     -- show the sign column only if needed
 vim.opt.wrap = false            -- display lines as one long line
 vim.opt.scrolloff = 8           -- minimal number of screen lines to keep above and below the cursor.
-vim.opt.sidescrolloff = 8       -- minimal number of screen lines to keep left and right of the cursor.
+-- vim.opt.sidescrolloff = 8       -- minimal number of screen lines to keep left and right of the cursor.
 vim.opt.virtualedit = "onemore" -- let the cursor go one char after the end of the line
 vim.opt.laststatus = 3          -- only a statusline for all windows
 

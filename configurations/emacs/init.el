@@ -18,8 +18,10 @@
 	 "grep"
 	 "which-key"
 	 "evil"
-	 "lsp-mode"
-	 "completion"
+	 "eglot"
+	 "corfu"
+;;	 "lsp-mode"
+;;	 "completion"
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))
