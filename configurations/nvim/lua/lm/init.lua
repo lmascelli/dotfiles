@@ -6,6 +6,8 @@ if vim.fn.filereadable(custom_file) ~= 0 then
     vim.notify("ERROR loading custom.lua")
   end
 end
+
 require 'lm.keymaps'
 require 'lm.lazy'
 require 'lm.set'
+require 'lm.appearence'

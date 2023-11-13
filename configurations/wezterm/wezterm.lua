@@ -24,8 +24,8 @@ local color_schemes = {
   },
 }
 
--- local current_scheme = color_schemes.dark["gruvbox"]
-local current_scheme = color_schemes.dark["monokai"]
+local current_scheme = color_schemes.dark["gruvbox"]
+-- local current_scheme = color_schemes.dark["monokai"]
 -- local current_scheme = color_schemes.light["github"]
 
 local default_prog = function()

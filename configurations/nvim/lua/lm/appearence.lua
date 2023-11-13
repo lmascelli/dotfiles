@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.cmd "highlight WinSeparator guibg=None"
     -- tweaking default colorscheme
     if vim.g.colors_name == "default" then
-      vim.cmd 'hi! link Pmenu DiffAdd'
+      vim.cmd 'hi! link Pmenu Title'
       vim.cmd 'hi! link SignColumn Normal'
       vim.opt.termguicolors = false
     else
