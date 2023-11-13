@@ -5,6 +5,8 @@ vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
 local font_name = LM.font.font_name or ''
 local font_size = LM.font.font_size or 10
 
+vim.cmd 'colorscheme lunaperche'
+
 if vim.fn.exists(':GuiFont') ~= 0 then
   local update_font = function()
     vim.cmd(':GuiFont! ' .. font_name .. ':h' .. font_size)
