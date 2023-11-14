@@ -11,6 +11,9 @@ vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 vim.keymap.set('n', '<leader>pc', '<cmd>lua LM.api.project.spawn_terminal()<cr>', {
   desc = 'spawn terminal here' })
+vim.keymap.set("n", '<leader>pi', '<cmd>lua LM.api.project.init_local_nvim()<cr>', { desc = 'Init local conf' })
+vim.keymap.set("n", '<leader>pI', '<cmd>lua LM.api.project.install_local_git_plugin()<cr>',
+  { desc = 'Install local plugin' })
 -- vim.keymap.set("n", "<leader>pl", '<cmd>lua LM.api.project.project_lua()<cr>', {
 --   silent = true,
 --   nowait = true,
