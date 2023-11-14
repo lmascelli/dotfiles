@@ -66,4 +66,51 @@ LM.api.project = {
   eval_buffer = function()
     vim.cmd ':source %'
   end,
+
+  -- check if there is a local configuration
+  chech_local_nvim = function()
+    local cwd = vim.fn.getcwd()
+    local nvim_file = vim.fn.filereadable(cwd .. '/.nvim.lua')
+    local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/start')
+
+    return nvim_file ~= 0 and dotnvim ~= 0
+  end,
+
+  -- create a local nvim configuration based on exrc .nvim.lua file
+  init_local_nvim = function()
+    -- check if the file structure exists
+    local cwd = vim.fn.getcwd()
+    local nvim_file = vim.fn.filereadable(cwd .. '/.nvim.lua')
+    local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/start')
+    if dotnvim == 0 then
+      vim.fn.mkdir('.nvim/pack/plugins/start', 'p')
+    end
+    if nvim_file == 0 then
+      vim.fn.writefile({}, cwd .. '/.nvim.lua')
+    end
+    vim.cmd 'e .nvim.lua'
+  end,
+
+  -- install a plugin locally from git
+  install_local_git_plugin = function()
+    -- check if git is available
+    if vim.fn.executable('git') == 0 then
+      vim.notify('git is not available. install it first', vim.log.levels.ERROR)
+      return
+    end
+    local pattern = '^https://github.com/[A-Za-z0-9_.-]+/([A-Za-z0-9_.-]+)$'
+    local repo = vim.fn.input('repo url: ')
+    local repo_name = string.match(repo, pattern)
+    if repo_name ~= nil then
+      local command = 'git clone ' .. repo .. ' .nvim/pack/plugins/start/' .. repo_name
+      vim.fn.jobstart(command, {
+        on_exit = function()
+          vim.notify(repo_name .. ' installed', vim.log.levels.INFO)
+        end
+      })
+    else
+      vim.notify('enter a valid url', vim.log.levels.ERROR)
+      return
+    end
+  end
 }
