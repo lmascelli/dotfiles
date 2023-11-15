@@ -24,8 +24,7 @@ local color_schemes = {
   },
 }
 
-local current_scheme = color_schemes.dark["gruvbox"]
--- local current_scheme = color_schemes.dark["monokai"]
+local current_scheme = color_schemes.dark["blazer"]
 -- local current_scheme = color_schemes.light["github"]
 
 local default_prog = function()
@@ -305,8 +304,7 @@ local conf = {
   color_scheme = current_scheme,
   ------------------------------------
   -- GEOMETRY
-  initial_cols = 80,
-  -- initial_cols = 120,
+  initial_cols = 85,
   initial_rows = 40,
   ------------------------------------
   -- FONT
