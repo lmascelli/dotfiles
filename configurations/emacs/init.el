@@ -22,6 +22,7 @@
 	 "corfu"
 ;;	 "lsp-mode"
 ;;	 "completion"
+	 "leader" ;; leader related keymaps. should be the last of the list
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))
