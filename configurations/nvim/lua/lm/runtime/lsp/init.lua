@@ -24,7 +24,7 @@ LM.lsp = {
   on_attach = {
     default = function(client, bufnr)
       -- with auto_focus hover
-      vim.keymap.set('n', '<leader>lK', function()
+      vim.keymap.set('n', '<leader>lk', function()
         vim.lsp.buf.hover()
         vim.lsp.buf.hover()
       end, { buffer = bufnr, desc = "Documentation" })

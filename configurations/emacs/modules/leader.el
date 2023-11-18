@@ -1,6 +1,6 @@
 (unless (boundp 'lm/evil-mode)
-  (keymap-set global-map "C-ò" lm/leader-map))
-(keymap-set lm/leader-map "SPC" 'execute-extended-command)
+  (keymap-set global-map "M-RET" lm/leader-map))
+(keymap-set lm/leader-map "RET" 'execute-extended-command)
 ;; buffers
 (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
 (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
