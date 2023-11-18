@@ -76,8 +76,12 @@ LM.api.project = {
     return nvim_file ~= 0 and dotnvim ~= 0
   end,
 
+  -- load the local nvim configuration
   load_local_nvim = function()
     if LM.api.project.chech_local_nvim() then
+      vim.opt.packpath = vim.opt.packpath +
+      (vim.fn.getcwd() .. '/.nvim')                                 -- add the .nvim local folder to manual plugins paths
+      print(vim.inspect(vim.opt.packpath))
       vim.cmd "source .nvim.lua"
     else
       vim.notify("no local configuration found", vim.log.levels.INFO)
