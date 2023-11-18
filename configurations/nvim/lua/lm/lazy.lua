@@ -31,6 +31,7 @@ local active_plugins = {
   'nvim-tree',
   'nvim-surround',
   'zen-mode',
+  'tagbar',
   'clangd',
   'rust',
   'orgmode',

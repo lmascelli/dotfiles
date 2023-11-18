@@ -76,6 +76,14 @@ LM.api.project = {
     return nvim_file ~= 0 and dotnvim ~= 0
   end,
 
+  load_local_nvim = function()
+    if LM.api.project.chech_local_nvim() then
+      vim.cmd "source .nvim.lua"
+    else
+      vim.notify("no local configuration found", vim.log.levels.INFO)
+    end
+  end,
+
   -- create a local nvim configuration based on exrc .nvim.lua file
   init_local_nvim = function()
     -- check if the file structure exists
