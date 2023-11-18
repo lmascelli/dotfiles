@@ -53,8 +53,10 @@ vim.opt.scrolloff = 8           -- minimal number of screen lines to keep above 
 vim.opt.virtualedit = "onemore" -- let the cursor go one char after the end of the line
 vim.opt.laststatus = 3          -- only a statusline for all windows
 
+pcall(function()
 -- file encoding
 vim.opt.fileencoding = 'utf-8'
+end)
 
 -- used for find files in current path with :find
 vim.o.path = vim.o.path .. '**'
