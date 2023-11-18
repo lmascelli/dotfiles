@@ -71,7 +71,7 @@ LM.api.project = {
   chech_local_nvim = function()
     local cwd = vim.fn.getcwd()
     local nvim_file = vim.fn.filereadable(cwd .. '/.nvim.lua')
-    local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/start')
+    local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/opt')
 
     return nvim_file ~= 0 and dotnvim ~= 0
   end,
@@ -89,9 +89,9 @@ LM.api.project = {
     -- check if the file structure exists
     local cwd = vim.fn.getcwd()
     local nvim_file = vim.fn.filereadable(cwd .. '/.nvim.lua')
-    local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/start')
+    local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/opt')
     if dotnvim == 0 then
-      vim.fn.mkdir('.nvim/pack/plugins/start', 'p')
+      vim.fn.mkdir('.nvim/pack/plugins/opt', 'p')
     end
     if nvim_file == 0 then
       vim.fn.writefile({}, cwd .. '/.nvim.lua')
@@ -110,7 +110,7 @@ LM.api.project = {
     local repo = vim.fn.input('repo url: ')
     local repo_name = string.match(repo, pattern)
     if repo_name ~= nil then
-      local command = 'git clone ' .. repo .. ' .nvim/pack/plugins/start/' .. repo_name
+      local command = 'git clone ' .. repo .. ' .nvim/pack/plugins/opt/' .. repo_name
       vim.fn.jobstart(command, {
         on_exit = function()
           vim.notify(repo_name .. ' installed', vim.log.levels.INFO)
