@@ -79,8 +79,8 @@ LM.api.project = {
   -- load the local nvim configuration
   load_local_nvim = function()
     if LM.api.project.chech_local_nvim() then
-      vim.opt.packpath = vim.opt.packpath +
-      (vim.fn.getcwd() .. '/.nvim')                                 -- add the .nvim local folder to manual plugins paths
+      vim.opt.packpath = vim.opt.packpath + -- add the .nvim local folder to manual plugins paths
+          (vim.fn.getcwd() .. '/.nvim')
       print(vim.inspect(vim.opt.packpath))
       vim.cmd "source .nvim.lua"
     else
