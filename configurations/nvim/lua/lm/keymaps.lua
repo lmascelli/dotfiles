@@ -34,6 +34,7 @@ vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
 vim.keymap.set("n", "<C-g>", "<Escape>", {})
 vim.keymap.set("n", "U", ":redo<cr>", {})
 vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
+vim.keymap.set("n", "<leader>.", ":!", { desc = "Shell command" })
 vim.keymap.set("n", "<leader>c", ":lua LM.api.utils.edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS

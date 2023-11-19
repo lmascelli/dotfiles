@@ -1,7 +1,7 @@
 lua << EOF
 vim.cmd 'GuiLoad'
 vim.api.nvim_set_keymap('i', '<C-Space>', '<cmd>:lua LM.complete()<cr>', {})
-vim.cmd 'colorscheme lunaperche'
+vim.cmd 'colorscheme slate'
 
 local font_name = LM.font.font_name or ''
 local font_size = LM.font.font_size or 10
