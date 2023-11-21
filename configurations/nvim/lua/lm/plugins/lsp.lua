@@ -29,8 +29,11 @@ return {
       local lspconfig = require('lspconfig')
 
       local setup_server = function(server, opts)
-        opts = opts or {}
+        if opts == nil then
+          opts = {}
+        end
         opts.on_attach = opts.on_attach or LM.lsp.on_attach.on_attach
+        opts.capabilities = opts.capabilities or LM.lsp.capabilities
         lspconfig[server].setup(opts)
       end
 
