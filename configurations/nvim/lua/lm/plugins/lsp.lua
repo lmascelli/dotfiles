@@ -30,7 +30,7 @@ return {
 
       local setup_server = function(server, opts)
         opts = opts or {}
-        opts.on_attach = opts.on_attach or LM.lsp.on_attach.default
+        opts.on_attach = opts.on_attach or LM.lsp.on_attach.on_attach
         lspconfig[server].setup(opts)
       end
 
@@ -76,14 +76,14 @@ return {
           semanticHighlighting = true,
         },
       })
-      setup_server('pylsp', {
-        on_attach = function(client, bufnr)
-          LM.lsp.on_attach.default(client, bufnr)
-          vim.keymap.set('n', '<leader>li', '<cmd>PylspInstall pyls-flake8 pylsp-mypy pyls-isort<cr>',
-            { buffer = bufnr, desc = "Install mypy" })
-        end
-      })
+
+      setup_server('pylsp')
       -- to install also mypy run ':PylspInstall pyls-flake8 pylsp-mypy pyls-isort'
+      LM.lsp.on_attach.add_on_attach_function(function(client, bufnr)
+        vim.keymap.set('n', '<leader>li', '<cmd>PylspInstall pyls-flake8 pylsp-mypy pyls-isort<cr>',
+          { buffer = bufnr, desc = "Install mypy" })
+      end, 'python')
+
 
       setup_server('powershell_es')
     end
