@@ -24,7 +24,7 @@ local color_schemes = {
   },
 }
 
-local current_scheme = color_schemes.dark["blazer"]
+local current_scheme = color_schemes.dark["monokai"]
 -- local current_scheme = color_schemes.light["github"]
 
 local default_prog = function()

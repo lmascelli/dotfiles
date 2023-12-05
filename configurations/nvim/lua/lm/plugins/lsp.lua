@@ -20,15 +20,10 @@ return {
     cmd = { "LspInstall", "LspUninstall" },
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     lazy = true,
-    config = function()
-      require('mason').setup()
-      require('mason-lspconfig').setup({
-        automatic_installation = true,
-      })
 
-      local lspconfig = require('lspconfig')
-
+    init = function()
       local setup_server = function(server, opts)
+        local lspconfig = require('lspconfig')
         if opts == nil then
           opts = {}
         end
@@ -37,7 +32,18 @@ return {
         lspconfig[server].setup(opts)
       end
 
-      setup_server('lua_ls', {
+      LM.lsp.setup_server = setup_server
+    end,
+    config = function()
+      require('mason').setup()
+      require('mason-lspconfig').setup({
+        automatic_installation = true,
+      })
+
+      --      local lspconfig = require('lspconfig')
+
+
+      LM.lsp.setup_server('lua_ls', {
         settings = {
           Lua = {
             runtime = {
@@ -56,7 +62,8 @@ return {
           }
         },
       })
-      setup_server('clangd', {
+
+      LM.lsp.setup_server('clangd', {
         cmd = {
           "clangd",
           "--background-index",
@@ -80,15 +87,15 @@ return {
         },
       })
 
-      setup_server('pylsp')
+      LM.lsp.setup_server('pylsp')
       -- to install also mypy run ':PylspInstall pyls-flake8 pylsp-mypy pyls-isort'
       LM.lsp.on_attach.add_on_attach_function(function(client, bufnr)
-        vim.keymap.set('n', '<leader>li', '<cmd>PylspInstall pyls-flake8 pylsp-mypy pyls-isort<cr>',
+        vim.keymap.set('n', '<leader>li', '<cmd>PylspInstall pylsp-mypy pyls-isort<cr>',
           { buffer = bufnr, desc = "Install mypy" })
       end, 'python')
 
 
-      setup_server('powershell_es')
+      LM.lsp.setup_server('powershell_es')
     end
   }
 }
