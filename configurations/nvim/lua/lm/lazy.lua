@@ -18,7 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 local active_plugins = {
   'nvim-qt',
   'which_key',
-  'telescope',
+  -- 'telescope',
   'treesitter',
   -- 'nvim-cmp',
   -- 'luasnip',
@@ -33,8 +33,8 @@ local active_plugins = {
   'nvim-surround',
   'zen-mode',
   'tagbar',
-  'clangd',
-  'rust',
+  -- 'clangd',
+  -- 'rust',
   'orgmode',
   -- 'pets',
 }
