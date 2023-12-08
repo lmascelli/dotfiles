@@ -21,6 +21,13 @@ LM.api.utils = {
     end
   end,
 
+  -- open custom.lua configuration file
+  edit_custom_config = function()
+    local command = 'e ' .. vim.fn.stdpath('config') .. '/custom.lua'
+    vim.cmd(command)
+  end,
+
+
   -- join paths from lunarvim
   join_paths = function(...)
     local result = table.concat({ ... }, path_sep)
