@@ -5,6 +5,9 @@ if vim.fn.filereadable(custom_file) ~= 0 then
   if not res then
     vim.notify("ERROR loading custom.lua")
   end
+else
+  vim.fn.writefile(vim.fn.readfile(vim.fn.stdpath('config') .. '/custom_template.lua'),
+    vim.fn.stdpath('config') .. '/custom.lua')
 end
 
 require 'lm.keymaps'

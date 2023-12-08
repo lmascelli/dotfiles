@@ -1,10 +1,12 @@
 LM = {
-  font = {
-    font_name = '',
-    font_size = 10,
+  appearence = {
+    colorscheme = 'default',
+    transparency = false,
   },
-  lsp = {
-    on_attach = {}
+  api = {
+    complete = function()
+      -- TODO make omnifunc the default completion method
+    end
   },
   augroups = {
     colorscheme = vim.api.nvim_create_augroup("Colorscheme", {
@@ -17,15 +19,17 @@ LM = {
       clear = true,
     }),
   },
-  appearence = {
-    colorscheme = 'default',
-    transparency = false,
+  font = {
+    font_name = '',
+    font_size = 10,
   },
-  api = {
-    complete = function()
-      -- TODO make omnifunc the default completion method
-    end
-  }
+  plugins = {
+    files_list = {},
+    table = {},
+  },
+  lsp = {
+    on_attach = {}
+  },
 }
 
 require 'lm.runtime.icons'
