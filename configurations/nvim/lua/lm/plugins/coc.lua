@@ -20,6 +20,14 @@ return {
     vim.keymap.set('n', '<leader>ll', '<cmd>lua LM.coc_toggle()<cr>', { desc = "enable" })
   end,
   config = function()
+    LM.api.complete = function()
+      vim.fn.eval("coc#refresh()")
+    end
+
+    LM.api.toggle_explorer = function()
+      vim.cmd 'CocCommand explorer'
+    end
+
     vim.keymap.set('n', '<leader>ff', '<cmd>CocList files<cr>', { desc = "enable" })
     vim.keymap.set('n', '<leader>fg', '<cmd>CocList grep<cr>', { desc = "enable" })
     vim.keymap.set('n', '<leader>bl', '<cmd>CocList buffers<cr>', { desc = "enable" })
@@ -27,6 +35,7 @@ return {
     vim.keymap.set('n', '<leader>lk', '<cmd>lua _G.show_docs()<cr>', { desc = "documentation", silent = true })
     -- <space>gs --> Signature
     vim.keymap.set('n', '<leader>ls', '<cmd>eval CocActionAsync("showSignatureHelp")<cr>', { desc = "signature" })
+    vim.keymap.set('i', '<c-l>', '<cmd>eval CocActionAsync("showSignatureHelp")<cr>', { desc = "signature" })
     -- <space>gf --> Format document
     vim.keymap.set('n', '<leader>lf', '<cmd>eval CocActionAsync("format")<cr>', { desc = "format", silent = true })
     --    -- <space>gr --> Refactor
@@ -42,13 +51,10 @@ return {
     vim.keymap.set('n', '<leader>lgn', '<Plug>(coc-diagnostic-next)', { desc = "next error" })
     -- <space>g. --> Fix
     vim.keymap.set('n', '<leader>la', '<Plug>(coc-fix-current)', { desc = "code action", silent = true, nowait = true })
-    vim.keymap.set('n', "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"',
+    vim.keymap.set('n', "<C-j>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-j>"',
       { silent = true, nowait = true, expr = true })
-    vim.keymap.set('n', "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"',
+    vim.keymap.set('n', "<C-k>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-k>"',
       { silent = true, nowait = true, expr = true })
-    LM.api.complete = function()
-      vim.fn.eval("coc#refresh()")
-    end
     vim.keymap.set('i', '<cr>',
       [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], {
         silent = true,
