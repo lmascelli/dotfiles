@@ -108,6 +108,7 @@ return {
     wk.register({
       q = { name = 'Quit' },
       a = { name = 'Appearence' },
+      c = { name = 'Configuration' },
       p = { name = 'Project' },
       w = { name = 'Window' },
       t = { name = 'Tab' },
