@@ -14,3 +14,7 @@ require 'lm.keymaps'
 require 'lm.lazy'
 require 'lm.set'
 require 'lm.appearence'
+
+if vim.g.neovide then
+  require 'lm.plugins.neovide'
+end

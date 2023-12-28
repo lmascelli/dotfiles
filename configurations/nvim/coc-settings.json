@@ -2,10 +2,11 @@
   "suggest.pumFloatConfig": {
     "border": true,
     "rounded": true,
-    "highlight": "CocFloating"
+    "highlight": "CocFloating",
   },
   "inlayHint.enableParameter": true,
   "inlayHint.enable": true,
   "sumneko-lua.enableNvimLuaDev": true,
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "explorer.width": 30,
 }
