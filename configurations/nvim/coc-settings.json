@@ -9,4 +9,6 @@
   "sumneko-lua.enableNvimLuaDev": true,
   "snippets.ultisnips.pythonPrompt": false,
   "explorer.width": 30,
+  "powershell.integratedConsole.showOnStartup": false,
+  "powershell.powerShellExePath": "pwsh",
 }

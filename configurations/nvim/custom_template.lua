@@ -51,7 +51,7 @@ local plugins_list_coc = {
   'nvim-surround',
   'zen-mode',
   'tagbar',
-  'clangd',
+  -- 'clangd',
   -- 'rust',
   'orgmode',
   -- 'pets',
