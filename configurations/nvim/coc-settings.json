@@ -11,4 +11,5 @@
   "explorer.width": 30,
   "powershell.integratedConsole.showOnStartup": false,
   "powershell.powerShellExePath": "pwsh",
+  "rust-analyzer.enable": false,
 }

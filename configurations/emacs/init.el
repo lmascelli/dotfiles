@@ -27,7 +27,7 @@
 (let ((modules
        '("settings"
 	 "packages"
-	 "leader" ;; leader related keymaps. should be the last of the list
+	 "leader"
 	 "tree-sitter"
 	 "dired"
 	 "grep"

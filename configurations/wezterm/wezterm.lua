@@ -68,26 +68,26 @@ end)
 
 -- WEZTERM ZEN_MODE.NVIM
 wezterm.on('user-var-changed', function(window, pane, name, value)
-    local overrides = window:get_config_overrides() or {}
-    if name == "ZEN_MODE" then
-        local incremental = value:find("+")
-        local number_value = tonumber(value)
-        if incremental ~= nil then
-            while (number_value > 0) do
-                window:perform_action(wezterm.action.IncreaseFontSize, pane)
-                number_value = number_value - 1
-            end
-            overrides.enable_tab_bar = false
-        elseif number_value < 0 then
-            window:perform_action(wezterm.action.ResetFontSize, pane)
-            overrides.font_size = nil
-            overrides.enable_tab_bar = true
-        else
-            overrides.font_size = number_value
-            overrides.enable_tab_bar = false
-        end
+  local overrides = window:get_config_overrides() or {}
+  if name == "ZEN_MODE" then
+    local incremental = value:find("+")
+    local number_value = tonumber(value)
+    if incremental ~= nil then
+      while (number_value > 0) do
+        window:perform_action(wezterm.action.IncreaseFontSize, pane)
+        number_value = number_value - 1
+      end
+      overrides.enable_tab_bar = false
+    elseif number_value < 0 then
+      window:perform_action(wezterm.action.ResetFontSize, pane)
+      overrides.font_size = nil
+      overrides.enable_tab_bar = true
+    else
+      overrides.font_size = number_value
+      overrides.enable_tab_bar = false
     end
-    window:set_config_overrides(overrides)
+  end
+  window:set_config_overrides(overrides)
 end)
 --------------------------------------------------------------------------------
 --                                                                            --
@@ -176,19 +176,36 @@ local keys = {
   {
     key = 'v',
     mods = "LEADER",
-    action = wezterm.action.SplitPane { direction = "Right" },
+    action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" },
   },
   {
     key = 's',
     mods = "LEADER",
-    action = wezterm.action.SplitPane { direction = "Down" },
+    action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
   },
   {
     key = 'd',
     mods = "LEADER",
     action = wezterm.action.CloseCurrentPane { confirm = false }
   },
-
+  {
+    key = 'm',
+    mods = "LEADER",
+    action = wezterm.action.TogglePaneZoomState,
+  },
+ {
+    mods = "LEADER",
+    key = "Space",
+    action = wezterm.action.RotatePanes "Clockwise"
+  },
+  -- show the pane selection mode, but have it swap the active and selected panes
+  {
+    mods = 'LEADER',
+    key = '0',
+    action = wezterm.action.PaneSelect {
+      mode = 'SwapWithActive',
+    },
+  }
 }
 
 local key_tables = {
