@@ -24,7 +24,7 @@
 (keymap-set lm/leader-map-appearence "m" 'menu-bar-mode)
 ;; configuration
 (keymap-set lm/leader-map "c" `("+Configuration" . ,lm/leader-map-config))
-(keymap-set lm/leader-map-config "c" 'lm/open-literate-config)
+(keymap-set lm/leader-map-config "c" 'lm/open-configuration)
 (keymap-set lm/leader-map-config "r" 'lm/reload-config)
 ;; project
 (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))

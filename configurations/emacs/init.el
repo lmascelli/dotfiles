@@ -25,14 +25,15 @@
 ;;-----------------------------------------------------------------------------
 
 (let ((modules
-       '("settings"
+       '("custom-functions"
+	 "settings"
 	 "packages"
 	 "leader"
 	 "tree-sitter"
 	 "dired"
 	 "grep"
 	 "which-key"
-;;	 "evil"
+	 "evil"
 	 "eglot"
 	 "corfu"
 ;;	 "lsp-mode"
@@ -47,10 +48,11 @@
 ;;-----------------------------------------------------------------------------
 
 (let ((languages
-       '("elisp"
-	 "rust"
-	 "cmake"
-	 "powershell"
+       '(
+;;	 "elisp"
+;;	 "rust"
+;;	 "cmake"
+;;	 "powershell"
 	 )))
   (dolist (language languages)
     (let ((file (concat lm/conf-dir "/languages/" language ".el")))
