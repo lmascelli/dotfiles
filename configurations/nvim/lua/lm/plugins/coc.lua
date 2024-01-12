@@ -20,6 +20,9 @@ return {
     vim.keymap.set('n', '<leader>ll', '<cmd>lua LM.coc_toggle()<cr>', { desc = "enable" })
   end,
   config = function()
+    vim.cmd 'CocStart'
+    vim.cmd 'CocDisable'
+
     LM.api.complete = function()
       vim.fn.eval("coc#refresh()")
     end
@@ -31,7 +34,7 @@ return {
     vim.keymap.set('n', '<leader>ff', '<cmd>CocList files<cr>', { desc = "enable" })
     vim.keymap.set('n', '<leader>fg', '<cmd>CocList grep<cr>', { desc = "enable" })
     vim.keymap.set('n', '<leader>bl', '<cmd>CocList buffers<cr>', { desc = "enable" })
-    vim.keymap.set('i', '<c-x><c-o>', 'coc#refresh()', { silent = true, expr = true })
+    -- vim.keymap.set('i', '<c-x><c-o>', 'coc#refresh()', { silent = true, expr = true })
     vim.keymap.set('n', '<leader>lk', '<cmd>lua _G.show_docs()<cr>', { desc = "documentation", silent = true })
     -- <space>gs --> Signature
     vim.keymap.set('n', '<leader>ls', '<cmd>eval CocActionAsync("showSignatureHelp")<cr>', { desc = "signature" })

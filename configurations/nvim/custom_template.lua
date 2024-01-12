@@ -4,48 +4,24 @@ LM.font.font_name = 'Cascadia Code'
 LM.font.font_size = '10'
 vim.opt.linespace = 3
 
+vim.opt.makeprg = "pwsh -c "
+
 --------------------------------------------------------------------------------
 -- Make a plugins table
 
-local coc_list = false
+local with_coc = false
+local with_lsp = true
 
-local plugins_list_native = {
+local plugins_list = {
   'nvim-qt',
   'which_key',
   'telescope',
   'treesitter',
-  'nvim-cmp',
   'luasnip',
-  'lsp',
   -- 'lsp_zero',
   -- 'lsp_saga',
   -- 'nvim-autopairs',
   -- 'nvim-comment',
-  -- 'coc',
-  'colorschemes',
-  'nvim-tree',
-  'nvim-surround',
-  'zen-mode',
-  'tagbar',
-  'clangd',
-  -- 'rust',
-  'orgmode',
-  -- 'pets',
-}
-
-local plugins_list_coc = {
-  'nvim-qt',
-  'which_key',
-  -- 'telescope',
-  'treesitter',
-  -- 'nvim-cmp',
-  -- 'luasnip',
-  -- 'lsp',
-  -- 'lsp_zero',
-  -- 'lsp_saga',
-  -- 'nvim-autopairs',
-  -- 'nvim-comment',
-  'coc',
   'colorschemes',
   -- 'nvim-tree',
   'nvim-surround',
@@ -57,9 +33,11 @@ local plugins_list_coc = {
   -- 'pets',
 }
 
-local plugins_list = plugins_list_native
-if coc_list then
-  plugins_list = plugins_list_coc
+if with_lsp then
+  table.insert(plugins_list, 'lsp')
+  table.insert(plugins_list, 'nvim-cmp')
+elseif with_coc then
+  table.insert(plugins_list, 'coc')
 end
 
 for _, plugin in ipairs(plugins_list) do

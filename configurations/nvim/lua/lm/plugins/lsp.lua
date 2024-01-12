@@ -17,7 +17,7 @@ return {
     dependencies = {
       'williamboman/mason.nvim',
     },
-    cmd = { "LspInstall", "LspUninstall" },
+    cmd = { "LspInstall", "LspUninstall"},
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     lazy = true,
 

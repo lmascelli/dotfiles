@@ -34,7 +34,8 @@ vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
 vim.keymap.set("n", "<C-g>", "<Escape>", {})
 vim.keymap.set("n", "U", ":redo<cr>", {})
 vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
-vim.keymap.set("n", "<leader>.", ":!", { desc = "Shell command" })
+vim.keymap.set("n", "<leader>'", ":make ", { desc = "Shell command" })
+vim.keymap.set("n", "<C-'>", ":make ", { desc = "Shell command" })
 vim.keymap.set("n", "<leader>cc", ":lua LM.api.utils.edit_custom_config()<cr>", { desc = "Open custom.lua" })
 vim.keymap.set("n", "<leader>cd", ":lua LM.api.utils.edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
@@ -76,6 +77,7 @@ vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 
 -- APPEARENCE
 vim.keymap.set('n', '<leader>ac', '<cmd>lua LM.api.appearence.load_theme()<cr>', { desc = 'Colorcheme' })
+vim.keymap.set('n', '<leader>at', '<cmd>lua LM.api.appearence.toggle_background()<cr>', { desc = 'Colorcheme' })
 
 
 -- ------------------------------------- INSERT ----------------------------------

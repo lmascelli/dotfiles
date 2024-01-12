@@ -23,5 +23,13 @@ LM.api.appearence = {
       vim.cmd 'hi EndOfBuffer guibg=NONE ctermbg=NONE'
       LM.appearence.transparency = true
     end
-  end
+  end,
+
+  toggle_background = function()
+    if vim.opt.background._value == "dark" then
+      vim.opt.background = "light"
+    else
+      vim.opt.background = "dark"
+    end
+  end,
 }
