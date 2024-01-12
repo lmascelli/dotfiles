@@ -30,7 +30,7 @@ LM.api.utils = {
 
   -- join paths from lunarvim
   join_paths = function(...)
-    local result = table.concat({ ... }, path_sep)
+    local result = table.concat({ ... }, '/')
     return result
   end,
 

@@ -1,0 +1,2 @@
+* activate conda in powershell
+conda shell.powershell hook | Out-String | Invoke-Expression

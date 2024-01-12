@@ -31,6 +31,7 @@ local plugins_list = {
   -- 'rust',
   'orgmode',
   -- 'pets',
+  -- 'noice',
 }
 
 if with_lsp then
