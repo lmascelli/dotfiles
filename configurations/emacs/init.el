@@ -29,15 +29,15 @@
 	 "settings"
 	 "packages"
 	 "leader"
-	 "tree-sitter"
+;;	 "tree-sitter"
 	 "dired"
 	 "grep"
 	 "which-key"
 	 "evil"
-	 "eglot"
-	 "corfu"
-;;	 "lsp-mode"
-;;	 "completion"
+;;	 "eglot"
+;;	 "corfu"
+	 "lsp-mode"
+	 "completion"
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))
@@ -50,9 +50,9 @@
 (let ((languages
        '(
 ;;	 "elisp"
-;;	 "rust"
+	 "rust"
 ;;	 "cmake"
-;;	 "powershell"
+	 "powershell"
 	 )))
   (dolist (language languages)
     (let ((file (concat lm/conf-dir "/languages/" language ".el")))

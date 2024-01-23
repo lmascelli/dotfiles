@@ -109,6 +109,7 @@ return {
       q = { name = 'Quit' },
       a = { name = 'Appearence' },
       c = { name = 'Configuration' },
+      d = { name = 'Diagnostics' },
       p = { name = 'Project' },
       w = { name = 'Window' },
       t = { name = 'Tab' },

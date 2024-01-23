@@ -29,6 +29,12 @@ vim.keymap.set("n", "<leader>pp", '<cmd>lua LM.api.project.project_ps1()<cr>', {
 -- EXPLORER
 vim.keymap.set("n", "<leader>e", "<cmd>lua LM.api.toggle_explorer()<cr>", { desc = "NetRw" })
 
+-- DIAGNOSTICS
+vim.keymap.set("n", "<leader>dl", "<cmd>:clist<cr>", { desc = "list" })
+vim.keymap.set("n", "<leader>dn", "<cmd>:cnext<cr>", { desc = "next" })
+vim.keymap.set("n", "<leader>dp", "<cmd>:cprevious<cr>", { desc = "previous" })
+vim.keymap.set("n", "<leader>dd", "<cmd>:cc ", { desc = "number" })
+
 -- VARIOUS
 vim.keymap.set("n", "<C-s>", "<cmd>w<cr>", {})
 vim.keymap.set("n", "<C-g>", "<Escape>", {})

@@ -325,7 +325,7 @@ local conf = {
   initial_rows = 40,
   ------------------------------------
   -- FONT
-  font_size = 11.0,
+  font_size = 10.0,
   -- cell_width = 1.0,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
   warn_about_missing_glyphs = false,
