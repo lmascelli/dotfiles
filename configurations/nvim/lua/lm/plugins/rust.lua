@@ -56,8 +56,8 @@ local rustaceanvim = {
         settings = {
           -- rust-analyzer language server configuration
           ['rust-analyzer'] = {
-            checkOnSave = 'clippy',
           },
+          checkOnSave = 'clippy',
         },
       },
       -- DAP configuration
