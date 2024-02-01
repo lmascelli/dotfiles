@@ -1,6 +1,7 @@
 vim.opt.clipboard = "unnamedplus" -- system clipboard by default
 vim.opt.cmdheight = 1             -- height of the commandline
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.cmd 'set omnifunc=ccomplete#Complete'
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true                                           -- highlight the current line
 vim.opt.exrc = true                                                 -- automatically load .nvim.lua in root folder

@@ -5,7 +5,8 @@ LM = {
   },
   api = {
     complete = function()
-      -- TODO make omnifunc the default completion method
+      vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes('<C-x><C-o>', true, true, true), 'n', true)
     end
   },
   augroups = {

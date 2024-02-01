@@ -25,4 +25,10 @@ vim.keymap.set('n', '<leader>+', '<cmd>lua LM.api.appearence.increase_scale()<cr
 vim.keymap.set('n', '<leader>-', '<cmd>lua LM.api.appearence.decrease_scale()<cr>', { desc = 'Decrease font' })
 vim.keymap.set('n', '<f11>', function()
   vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
-end, { desc = 'Decrease font' })
+end, { desc = 'decrease font' })
+vim.keymap.set('n', '<f10>', function()
+  vim.cmd [[
+  set columns=135
+  set lines=40
+  ]]
+end, { desc = 'decrease font' })
