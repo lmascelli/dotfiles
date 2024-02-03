@@ -135,6 +135,9 @@ vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", {})
 vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv", {})
 vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", {})
 
+-- Indenting
+vim.keymap.set("x", "<tab>", "=", {})
+
 
 ------------------------------   COMMAND LINE ---------------------------------
 
