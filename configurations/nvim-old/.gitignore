@@ -1,8 +1,0 @@
-plugin/packer_compiled.lua
-install_check
-packer_installed
-plugin_downloaded
-.luarc.json
-git_buffer
-config.lua
-lazy-lock.json

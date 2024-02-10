@@ -1,7 +1,0 @@
-require 'lm.utils.buffer'
-require 'lm.utils.font'
-require 'lm.utils.files'
-require 'lm.utils.scripts'
-require 'lm.utils.export'
-require 'lm.utils.comments'
-require 'lm.utils.appearence'
