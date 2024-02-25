@@ -29,7 +29,7 @@
 	 "settings"
 	 "packages"
 	 "leader"
-;;	 "tree-sitter"
+	 "tree-sitter"
 	 "dired"
 	 "grep"
 	 "which-key"

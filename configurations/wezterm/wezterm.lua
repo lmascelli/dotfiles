@@ -321,15 +321,15 @@ local conf = {
   color_scheme = current_scheme,
   ------------------------------------
   -- GEOMETRY
-  initial_cols = 135,
-  initial_rows = 40,
+  initial_cols = 155,
+  initial_rows = 45,
   ------------------------------------
   -- FONT
   font_size = 10.0,
   -- cell_width = 1.0,
   font_dirs = { wezterm.executable_dir .. "/fonts" },
   warn_about_missing_glyphs = false,
-  font = wezterm.font('Cascadia Code'),
+  -- font = wezterm.font('Cascadia Code'),
   -- font = wezterm.font('Source Code Pro'),
   -- font = wezterm.font('JetBrains Mono NF'),
   -- font = wezterm.font('Consolas'),

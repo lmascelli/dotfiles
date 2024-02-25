@@ -1,0 +1,3 @@
+Host github.com
+  IdentityFile # path to ssh key
+  IdentitiesOnly yes

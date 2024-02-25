@@ -31,4 +31,16 @@ vim.keymap.set('n', '<f10>', function()
   set columns=135
   set lines=40
   ]]
-end, { desc = 'decrease font' })
+end, { desc = '135x40' })
+vim.keymap.set('n', '<leader>w<f2>', function()
+  vim.cmd [[
+  set columns=135
+  set lines=40
+  ]]
+end, { desc = '90x40' })
+vim.keymap.set('n', '<leader>w<f1>', function()
+  vim.cmd [[
+  set columns=90
+  set lines=40
+  ]]
+end, { desc = '90x40' })
