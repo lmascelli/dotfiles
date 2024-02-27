@@ -2,7 +2,7 @@
   :diminish
   :defer 1
   :init
-  (unless (and (display-graphic-p) (not lm/evil-mode))
+  (unless (and (display-graphic-p) (symbolp 'lm/evil-mode))
     (add-hook 'evil-mode-hook (lambda ()
 				(keymap-set evil-insert-state-map "C-@" 'company-complete))))
   (setq lm/company t)

@@ -33,7 +33,7 @@
 	 "dired"
 	 "grep"
 	 "which-key"
-	 "evil"
+;;	 "evil"
 ;;	 "eglot"
 ;;	 "corfu"
 	 "lsp-mode"

@@ -9,6 +9,7 @@
 local show_tabs = true
 local color_schemes = {
   dark = {
+    night = "3024 Night",
     monokai = "Monokai Remastered",
     gruvbox = "Gruvbox dark, hard (base16)",
     blazer = "Blazer",
@@ -24,7 +25,7 @@ local color_schemes = {
   },
 }
 
-local current_scheme = color_schemes.dark["gruvbox"]
+local current_scheme = color_schemes.dark["night"]
 -- local current_scheme = color_schemes.light["github"]
 
 local default_prog = function()
