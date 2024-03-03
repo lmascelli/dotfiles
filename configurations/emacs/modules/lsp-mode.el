@@ -4,6 +4,7 @@
 
 (setenv "LSP_USE_PLISTS" "true")
 (setq lsp-use-plists t)
+(setq lm/with-lsp t)
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :hook ((c++-mode . lsp-deferred)

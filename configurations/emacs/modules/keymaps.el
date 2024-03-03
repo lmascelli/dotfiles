@@ -1,5 +1,12 @@
+(keymap-set global-map "C-z" 'undo)
+(keymap-set global-map "C-Z" 'undo-redo)
+(keymap-set global-map "<escape>" 'keyboard-escape-quit)
+
 (unless (boundp 'lm/evil-mode)
-  (keymap-set global-map "M-RET" lm/leader-map))
+  (progn
+    (keymap-set global-map "M-RET" lm/leader-map)
+    (keymap-set global-map "C-c RET" lm/leader-map)
+    ))
 (keymap-set lm/leader-map "RET" 'execute-extended-command)
 (keymap-set lm/leader-map "M-RET" 'execute-extended-command)
 ;; buffers
@@ -28,7 +35,6 @@
 (keymap-set lm/leader-map-config "r" 'lm/reload-config)
 ;; project
 (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
-(keymap-set lm/leader-map-project "c" 'lm/run-wezterm)
 (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
 ;; insert
 (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))
