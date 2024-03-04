@@ -6,6 +6,10 @@
 (setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-dir)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 
+;; features
+(setq lm/with-lsp nil)
+(setq lm/evil     nil)
+
 ;;-----------------------------------------------------------------------------
 ;;; make leader keymaps
 ;;-----------------------------------------------------------------------------
@@ -28,16 +32,17 @@
        '("custom-functions"
 	 "settings"
 	 "packages"
-	 "leader"
+	 "keymaps"
 	 "tree-sitter"
 	 "dired"
 	 "grep"
 	 "which-key"
+	 "completion"
+	 "terminal-here"
 ;;	 "evil"
 ;;	 "eglot"
 ;;	 "corfu"
-	 "lsp-mode"
-	 "completion"
+;;	 "lsp-mode"
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))

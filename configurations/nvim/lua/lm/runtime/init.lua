@@ -2,6 +2,8 @@ LM = {
   appearence = {
     colorscheme = 'default',
     transparency = false,
+    lines = 40,
+    columns = 90,
   },
   api = {
     complete = function()

@@ -89,6 +89,12 @@ vim.keymap.set('n', '<leader>at', '<cmd>lua LM.api.appearence.toggle_background(
 
 -- ------------------------------------- INSERT ----------------------------------
 
+-- dumb autopair
+vim.keymap.set("i", "(", "()<esc>i", {})
+vim.keymap.set("i", "[", "[]<esc>i", {})
+vim.keymap.set("i", "{", "{}<esc>i", {})
+vim.keymap.set("i", '"', '""<esc>i', {})
+
 --  <C-g> as Escape
 vim.keymap.set("i", "<C-g>", "<Escape>", {})
 

@@ -1,10 +1,13 @@
-LM.appearence.colorscheme = 'gruvbox'
+LM.appearence.colorscheme = 'lunaperche'
 
 LM.font.font_name = 'Cascadia Code'
 LM.font.font_size = '10'
-vim.opt.linespace = 3
+vim.opt.linespace = 0
+LM.appearence.lines = 40
+LM.appearence.columns = 110
 
 vim.opt.makeprg = "pwsh -c "
+
 
 --------------------------------------------------------------------------------
 -- Make a plugins table

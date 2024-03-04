@@ -4,6 +4,11 @@ LM.api.appearence = {
     vim.api.nvim_feedkeys(key, 'n', false)
   end,
 
+  resize_window = function()
+    vim.cmd( 'set columns=' .. LM.appearence.columns )
+    vim.cmd( 'set lines='.. LM.appearence.lines )
+  end,
+
   -- toggle the colorcolumn at line 80
   toggle_colorcolumn = function()
     -- TODO correct the toggle off
