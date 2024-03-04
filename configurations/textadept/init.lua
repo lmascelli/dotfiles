@@ -1,3 +1,4 @@
+ui.tabs = false
 buffer.use_tabs = false
 buffer.tab_width = 2
 
@@ -7,6 +8,9 @@ events.connect(events.INITIALIZED, function ()
 	textadept.menu.menubar = nil
     end
 )
+view.h_scroll_bar = false
+
+textadept.editing.autocomplete_all_words = true
 
 local ok, ofm = pcall(require, 'open_file_mode')
 if ok then
