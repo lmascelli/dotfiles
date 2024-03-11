@@ -1,4 +1,10 @@
 * Emacs Installation
+** using scoop
+#+begin_src shell
+  scoop bucket add kiennq-scoop https://github.com/kiennq/scoop-misc
+  scoop install emacs-k
+#+end_src
+
 * Start emacs server on startup
 ** Windows
 (taken from [[https://www.emacswiki.org/emacs/EmacsMsWindowsIntegration]])
