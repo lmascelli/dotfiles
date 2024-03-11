@@ -89,23 +89,24 @@
 
 
 ;;------------------------------------------------------------------------------
-;;; Geometry
+;;; Windows and Geometry
 ;;-----------------------------------------------------------------------------
-(setq default-frame-alist '((width . 90)
-			    (height . 40)
+(setq default-frame-alist '((width . 110)
+			    (height . 35)
 			    (alpha . (100 . 100))))
 
 ;; disable scroll-bar even in new frames
 (add-to-list 'default-frame-alist
 	     '(vertical-scroll-bars . nil))
 
+;; window title as [filename mode-name]
+(setq-default frame-title-format '("%f [" mode-name "]"))
 
 ;;-----------------------------------------------------------------------------
 ;;; Scrolling
 ;;-----------------------------------------------------------------------------
 
 ;; ;; (setq scroll-margin 5)
-;; (setq redisplay-dont-pause t)
 ;; ;; (setq scroll-conservatively scroll-margin)
 ;; (setq scroll-conservatively 10000)
 ;; (setq scroll-preserve-screen-position t)
@@ -116,5 +117,6 @@
 ;; (setq scroll-error-top-bottom t)
 ;; (setq mouse-wheel-progressive-speed nil)
 ;; (setq mouse-wheel-inhibit-click-time nil)
-;; (setq fast-but-imprecise-scrolling t)
+(setq fast-but-imprecise-scrolling t)
+(setq redisplay-dont-pause t)
 (pixel-scroll-precision-mode)
