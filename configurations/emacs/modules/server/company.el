@@ -1,8 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package company
-  :defer 1
-
   :init
   (unless (and (display-graphic-p) (symbolp 'lm/evil-mode))
     (add-hook 'evil-mode-hook (lambda ()

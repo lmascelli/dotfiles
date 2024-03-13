@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (if (boundp 'start-process)
     ;; server process case
     (progn
@@ -8,8 +9,12 @@
 	      corfu-preview-current nil
 	      corfu-quit-no-match 'separator
 	      completion-styles '(basic ))
-	:config
-	(global-corfu-mode)))
+	(global-corfu-mode))
+      (use-package orderless
+	:init
+	(setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion))))))
   (progn
       (use-package corfu
 	:defer 1
@@ -21,4 +26,9 @@
 	      completion-styles '(basic ))
 	:config
 	(global-corfu-mode))
-    ))
+      (use-package orderless
+	:after corfu
+	:init
+	(setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))))

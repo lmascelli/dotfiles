@@ -5,5 +5,5 @@
     ;; server process case
     (progn
       (use-package org
-	:init
-	(require 'org)))) 
+	:config
+	(org-mode))))
