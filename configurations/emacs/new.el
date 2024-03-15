@@ -74,18 +74,6 @@
   :init
   (ivy-rich-mode 1))
 
-(use-package nerd-icons)
-
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 25)))
-
-(use-package doom-themes
-  :init (load-theme 'doom-gruvbox t))
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
 (use-package evil
   :init
   (setq evil-want-integration t)
@@ -110,6 +98,7 @@
   (keymap-set global-map "C-s" 'save-buffer)
   ;; ---------------------------------------------------------------------------
   (evil-mode))
+
 (use-package evil-collection
   :custom (evil-collection-want-unimpaired-p nil)
   :init

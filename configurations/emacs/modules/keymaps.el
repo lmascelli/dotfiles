@@ -22,7 +22,7 @@
     (keymap-set global-map "C-z U" 'undo-redo)
     ))
 (keymap-set lm/leader-map "RET" 'execute-extended-command)
-(keymap-set lm/leader-map "M-RET" 'execute-extended-command)
+(keymap-set lm/leader-map "<SPC>" 'execute-extended-command)
 ;; buffers
 (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
 (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)

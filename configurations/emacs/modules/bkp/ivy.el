@@ -1,7 +1,6 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package ivy
-  :defer 1 
   :diminish
   :bind (:map ivy-minibuffer-map
 	 ("TAB" . ivy-alt-done)
@@ -16,9 +15,7 @@
 	 ("C-k" . ivy-previous-line)
 	 ("C-d" . ivy-reverse-i-search-kill))
   :config
-  (ivy-mode)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t))
+  (ivy-mode))
 
 (use-package counsel
   :after ivy

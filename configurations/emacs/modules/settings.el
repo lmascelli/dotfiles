@@ -52,10 +52,6 @@
 ;; enable mouse menu
 (context-menu-mode)
 
-;; fido mode
-(setq completion-ignore-case t) ;; fido search is case insensitive
-(fido-vertical-mode t)
-
 ;;------------------------------------------------------------------------------
 ;;; Rows and columns
 ;;-----------------------------------------------------------------------------
@@ -67,6 +63,7 @@
 		markdown-mode-hook
 		term-mode-hook
 		vterm-mode-hook
+		eat-mode-hook
 		shell-mode-hook
 		eshell-mode-hook
 		latex-mode-hook

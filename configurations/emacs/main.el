@@ -1,8 +1,10 @@
 ;; -*- lexical-binding: t; -*-
 
 ;;-----------------------------------------------------------------------------
-;;; global variables
+;
+;; global variables
 ;;-----------------------------------------------------------------------------
+
 ;; configuration path
 (setq lm/conf-dir (file-truename user-emacs-directory))
 (setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-dir)))
@@ -29,37 +31,48 @@
 ;;; loading modules 
 ;;-----------------------------------------------------------------------------
 
+;; built-in
 (let ((modules
        '("dired"
 	 "grep"
 	 "eglot"
+;;	 "fido"
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))
 			     (if (file-exists-p file) (load-file file)))))
 
-;;-----------------------------------------------------------------------------
-;;; lazy loading
-;; there can be two way of loading features:
-;; 1. all at the start for a server process
-;; 2. lazy at request for a standalone cliend
-;;-----------------------------------------------------------------------------
-
+;; packages
 (let ((modules
        '("tree-sitter"
 	 "which-key"
 	 "evil"
 	 "company"
-;;	 "ivy"
+	 "ivy"
+	 "doom-modeline"
 ;;	 "helm"
 ;;	 "corfu"
 ;;	 "lsp-mode"
 ;;	 "terminal-here"
 	 )))
   (dolist (module modules)
-    (let ((file (concat lm/conf-dir "/modules/" (if (daemonp) "server/" "client/") module ".el")))
+    (let ((file (concat lm/conf-dir "/modules/"  module ".el")))
 			     (if (file-exists-p file) (load-file file)))))
 
+;;-----------------------------------------------------------------------------
+;;; configure languages 
+;;-----------------------------------------------------------------------------
+
+(let ((languages
+       '(
+;;	 "elisp"
+	 "rust"
+;;	 "cmake"
+	 "powershell"
+	 )))
+  (dolist (language languages)
+    (let ((file (concat lm/conf-dir "/languages/" language ".el")))
+			     (if (file-exists-p file) (load-file file)))))
 
 ;;-----------------------------------------------------------------------------
 ;;; custom file
