@@ -36,6 +36,7 @@
        '("dired"
 	 "grep"
 	 "eglot"
+	 "org"
 ;;	 "fido"
 	 )))
   (dolist (module modules)
