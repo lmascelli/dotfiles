@@ -34,6 +34,6 @@
   :after evil
   :custom (evil-collection-want-unimpaired-p nil)
   :init
-  (setq evil-collection-key-blacklist '("SPC"))
+  (setq evil-collection-key-blacklist '("<SPC>" "<tab>"))
   :config
   (evil-collection-init))
