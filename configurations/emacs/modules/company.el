@@ -20,7 +20,7 @@
   (global-set-key (kbd "C-i") 'company-complete)
   ;; (global-set-key (kbd "<tab>") #'company-indent-or-complete-common)
   (dolist (mode '(eshell-mode-hook))
-    (add-hook mode (lambda () (company-mode nil)))))
+    (add-hook mode (lambda () (company-mode -1)))))
 
 (use-package yasnippet
   :after company

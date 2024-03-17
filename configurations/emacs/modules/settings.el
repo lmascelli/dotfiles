@@ -105,16 +105,16 @@
 ;;; Scrolling
 ;;-----------------------------------------------------------------------------
 
-;; ;; (setq scroll-margin 5)
-;; ;; (setq scroll-conservatively scroll-margin)
+;; (setq scroll-margin 5)
+;; (setq scroll-conservatively scroll-margin)
 ;; (setq scroll-conservatively 10000)
 ;; (setq scroll-preserve-screen-position t)
-;; (setq mouse-wheel-follow-mouse 't)
-;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-;; (setq scroll-step 1)
+(setq mouse-wheel-follow-mouse 't)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+(setq scroll-step 1)
+(setq mouse-wheel-progressive-speed nil)
 ;; (setq auto-window-vscroll nil)
 ;; (setq scroll-error-top-bottom t)
-;; (setq mouse-wheel-progressive-speed nil)
 ;; (setq mouse-wheel-inhibit-click-time nil)
 (setq fast-but-imprecise-scrolling t)
 (setq redisplay-dont-pause t)
