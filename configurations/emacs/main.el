@@ -37,7 +37,7 @@
 	 "grep"
 	 "eglot"
 	 "org"
-;;	 "fido"
+	 "fido"                 ;; disable ivy if you want to enable this
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/" module ".el")))
@@ -49,8 +49,9 @@
 	 "which-key"
 	 "evil"
 	 "company"
-	 "ivy"
+;;	 "ivy"                 ;; disable fido if you want to enable this
 	 "doom-modeline"
+	 "eat"
 ;;	 "helm"
 ;;	 "corfu"
 ;;	 "lsp-mode"
