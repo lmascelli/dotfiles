@@ -10,9 +10,12 @@ configurations/emacs/eln-cache/
 configurations/emacs/elpa/
 configurations/emacs/eshell/
 configurations/emacs/org-persist/
+configurations/emacs/server/
 configurations/emacs/transient/
 configurations/emacs/recentf
 configurations/emacs/emacs-custom.el
+configurations/emacs/projects
+configurations/emacs/tramp
 
 # CONFIGURATIONS
 configurations/various/clangd/index/
