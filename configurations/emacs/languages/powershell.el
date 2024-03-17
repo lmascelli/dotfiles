@@ -1,25 +1,9 @@
-(if (boundp 'start-process)
-    ;; server process case
-    (progn
-      (use-package koopa-mode
-	:defer nil
-	:init
-	(require 'koopa-mode))
-      
-      ;; (use-package powershell    
-      ;;   :defer t
-      ;;   :init
-      ;;   (setq compile-command "pwsh -c ")
-      ;;   :commands powershell)
+(setq compile-command "pwsh -c ")
 
-    (use-package ob-powershell
-      :after org))
-  (progn
-    (use-package koopa-mode
-      :defer t
-      :mode ("*.ps1" . koopa-mode)
-      :config
-      (require 'koopa-mode))
-    
-    (use-package ob-powershell
-      :after org)))
+(use-package koopa-mode
+  :mode ("\\.ps1\\'" . koopa-mode)
+  :init
+  (require 'koopa-mode))
+
+(use-package ob-powershell
+  :after org)

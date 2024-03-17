@@ -1,2 +1,6 @@
 ;;; -*- lisp-data -*-
-(("d:/dotfiles/") ("e:/rust/spike-rs/") ("e:/rust/nn/"))
+(("~/dotfiles/")
+ ("~/Documents/unige/spike-rs/")
+ ("d:/dotfiles/")
+ ("e:/rust/spike-rs/")
+ ("e:/rust/nn/"))
