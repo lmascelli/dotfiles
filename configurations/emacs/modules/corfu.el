@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package corfu
-  :defer (if (daemonp) nil 1)
+  :defer 1
   :init
   (setq corfu-auto t
 	corfu-auto-delay 0.3

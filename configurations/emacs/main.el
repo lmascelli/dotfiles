@@ -11,6 +11,7 @@
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 
 ;; features
+(setq lm/completef 'completion-at-point)
 (setq lm/with-lsp nil)
 (setq lm/evil     t)
 
@@ -45,17 +46,17 @@
 
 ;; packages
 (let ((modules
-       '("tree-sitter"
+       '("evil"
+	 ;; "tree-sitter"
 	 "which-key"
-	 "evil"
-	 "company"
-;;	 "ivy"                 ;; disable fido if you want to enable this
-	 "doom-modeline"
-	 "eat"
-;;	 "helm"
-;;	 "corfu"
-;;	 "lsp-mode"
-;;	 "terminal-here"
+	 ;; "ivy"                 ;; disable fido if you want to enable this
+	 ;; "eat"
+	 ;; "helm"
+	 "corfu"
+	 ;; "lsp-mode"
+	 ;; "doom-modeline"
+	 ;; "doom-themes"
+	 ;; "raibow-delimiters"
 	 )))
   (dolist (module modules)
     (let ((file (concat lm/conf-dir "/modules/"  module ".el")))

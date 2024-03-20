@@ -17,11 +17,13 @@
   (keymap-set evil-normal-state-map "SPC" lm/leader-map)
   (keymap-set evil-motion-state-map "SPC" lm/leader-map)
   ;; ------------------------- NORMAL STATE KEYMAPS ----------------------------
+  (keymap-set evil-normal-state-map "TAB" 'indent-for-tab-command)
   (keymap-set evil-normal-state-map "H" 'previous-buffer)
   (keymap-set evil-normal-state-map "L" 'next-buffer)
   (keymap-set evil-normal-state-map "U" 'undo-redo)
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+  (keymap-set evil-insert-state-map "TAB" 'indent-for-tab-command)
   (defvar lm/insert-map (make-sparse-keymap)
     "Keymap for shortcuts in insert mode")
   (keymap-set evil-insert-state-map "C-c" lm/insert-map)
@@ -34,6 +36,8 @@
   :after evil
   :custom (evil-collection-want-unimpaired-p nil)
   :init
-  (setq evil-collection-key-blacklist '("<SPC>" "<tab>"))
+  (setq evil-collection-key-blacklist '("<SPC>"))
   :config
-  (evil-collection-init))
+  (remove evil-collection-mode-list '(company))
+  (evil-collection-init)
+  (keymap-set evil-insert-state-map "C-i" 'lm/complete))

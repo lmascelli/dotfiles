@@ -315,9 +315,9 @@ local conf = {
   enable_tab_bar = show_tabs,
   use_fancy_tab_bar = false,
   -- window_background_opacity = 0.95,
-  front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+  -- front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   -- front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  -- front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+  front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   max_fps = 60,
   color_scheme = current_scheme,
   ------------------------------------
