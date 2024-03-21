@@ -47,14 +47,14 @@
 ;; packages
 (let ((modules
        '("evil"
-	 ;; "tree-sitter"
 	 "which-key"
+	 "corfu"
+	 ;; "tree-sitter"
 	 ;; "ivy"                 ;; disable fido if you want to enable this
 	 ;; "eat"
 	 ;; "helm"
-	 "corfu"
 	 ;; "lsp-mode"
-	 ;; "doom-modeline"
+	 "doom-modeline"
 	 ;; "doom-themes"
 	 ;; "raibow-delimiters"
 	 )))

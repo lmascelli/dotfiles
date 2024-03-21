@@ -52,6 +52,10 @@
 ;; enable mouse menu
 (context-menu-mode)
 
+;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
+;; mode.
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
 ;;------------------------------------------------------------------------------
 ;;; Rows and columns
 ;;-----------------------------------------------------------------------------
