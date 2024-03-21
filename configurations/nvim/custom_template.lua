@@ -16,20 +16,21 @@ local with_coc = false
 local with_lsp = true
 
 local plugins_list = {
-  'nvim-qt',
-  'which_key',
+  -- 'nvim-qt',
+  -- 'which_key',
   'telescope',
   'treesitter',
   'luasnip',
+  'tagbar',
+  'colorschemes',
+  'nvim-surround',
+  'nvim-cmp',
   -- 'lsp_zero',
   -- 'lsp_saga',
   -- 'nvim-autopairs',
   -- 'nvim-comment',
-  'colorschemes',
   -- 'nvim-tree',
-  'nvim-surround',
-  'zen-mode',
-  'tagbar',
+  -- 'zen-mode',
   -- 'clangd',
   -- 'rust',
   'orgmode',
@@ -39,7 +40,6 @@ local plugins_list = {
 
 if with_lsp then
   table.insert(plugins_list, 'lsp')
-  table.insert(plugins_list, 'nvim-cmp')
 elseif with_coc then
   table.insert(plugins_list, 'coc')
 end

@@ -322,8 +322,8 @@ local conf = {
   color_scheme = current_scheme,
   ------------------------------------
   -- GEOMETRY
-  initial_cols = 155,
-  initial_rows = 45,
+  initial_cols = 115,
+  initial_rows = 35,
   ------------------------------------
   -- FONT
   font_size = 10.0,
