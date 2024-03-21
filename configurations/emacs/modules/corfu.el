@@ -18,7 +18,7 @@
 	    (lambda
 	      ()
 	      (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-	      (add-to-list 'completion-at-point-functions #'cape-file)))
+	      (add-to-list 'completion-at-point-functions #'cape-file))))
 
 ;; Use Dabbrev with Corfu!
 (use-package dabbrev
