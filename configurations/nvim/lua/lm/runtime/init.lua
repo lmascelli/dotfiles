@@ -27,6 +27,9 @@ LM = {
     font_size = 10,
   },
   plugins = {
+    with_which_key = false,
+    with_lsp = false,
+    with_coc = false,
     files_list = {},
     table = {},
   },

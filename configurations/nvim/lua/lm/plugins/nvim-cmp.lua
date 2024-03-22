@@ -1,15 +1,38 @@
-return {
-  'hrsh7th/nvim-cmp',
-  dependencies = {
-    'neovim/nvim-lspconfig',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
+local M = {}
+
+local cmp_dependencies = {
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
-  },
+}
+
+if LM.plugins.with_lsp then
+  table.insert(cmp_dependencies, 'neovim/nvim-lspconfig')
+  table.insert(cmp_dependencies, 'hrsh7th/cmp-nvim-lsp')
+  table.insert(cmp_dependencies, 'hrsh7th/cmp-nvim-lsp-signature-help')
+end
+
+local cmp_sources = {
+        { name = 'buffer' ,
+          option = {
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+            end
+          },
+        },
+        { name = 'luasnip' },
+}
+
+if LM.plugins.with_lsp then
+  table.insert(cmp_sources, { name = 'nvim_lsp_signature_help' })
+  table.insert(cmp_sources, { name = 'nvim_lsp' })
+end
+
+local cmp = {
+  'hrsh7th/nvim-cmp',
+  dependencies = cmp_dependencies,
   lazy = true,
   event = { 'BufRead', 'InsertEnter' },
   config = function()
@@ -50,23 +73,17 @@ return {
           end
         end
       }),
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'buffer' ,
-          option = {
-            get_bufnrs = function()
-              return vim.api.nvim_list_bufs()
-            end
-          },
-        },
-        { name = 'luasnip' },
-        { name = 'nvim_lsp_signature_help' },
-      })
+      sources = cmp.config.sources(cmp_sources)
     })
     require('luasnip.loaders.from_vscode').lazy_load()
-    LM.lsp.capabilities = require('cmp_nvim_lsp').default_capabilities()
+    if LM.plugins.with_lsp then
+      LM.lsp.capabilities = require('cmp_nvim_lsp').default_capabilities()
+    end
     LM.api.complete = function()
       cmp.complete()
     end
   end
 }
+
+table.insert(M, cmp)
+return M

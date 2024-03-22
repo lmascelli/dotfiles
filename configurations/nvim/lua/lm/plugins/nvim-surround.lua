@@ -1,6 +1,6 @@
 local M = {}
 
-M.insert({
+table.insert(M, {
   "kylechui/nvim-surround",
   version = '*',
   event = 'InsertEnter',
@@ -10,7 +10,7 @@ M.insert({
 })
 
 if LM.with_which_key then
-  M.insert({
+  table.insert(M, {
     "roobert/surround-ui.nvim",
     event = 'BufRead',
     dependencies = {

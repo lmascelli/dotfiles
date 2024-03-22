@@ -12,19 +12,19 @@ vim.opt.makeprg = "pwsh -c "
 --------------------------------------------------------------------------------
 -- Make a plugins table
 
-local with_coc = false
-local with_lsp = true
+LM.plugins.with_coc = false
+LM.plugins.with_lsp = true
 
 local plugins_list = {
   -- 'nvim-qt',
   -- 'which_key',
-  'telescope',
   'treesitter',
-  'luasnip',
   'tagbar',
+  'telescope',
+  'nvim-cmp',
+  'luasnip',
   'colorschemes',
   'nvim-surround',
-  'nvim-cmp',
   -- 'lsp_zero',
   -- 'lsp_saga',
   -- 'nvim-autopairs',
