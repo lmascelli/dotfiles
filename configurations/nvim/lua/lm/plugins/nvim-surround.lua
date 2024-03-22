@@ -1,15 +1,16 @@
-return {
-  -- nvim-surround
-  {
-    "kylechui/nvim-surround",
-    version = '*',
-    event = 'InsertEnter',
-    config = function()
-      require('nvim-surround').setup {}
-    end
-  },
-  -- nvim-surround training
-  {
+local M = {}
+
+M.insert({
+  "kylechui/nvim-surround",
+  version = '*',
+  event = 'InsertEnter',
+  config = function()
+    require('nvim-surround').setup {}
+  end
+})
+
+if LM.with_which_key then
+  M.insert({
     "roobert/surround-ui.nvim",
     event = 'BufRead',
     dependencies = {
@@ -21,5 +22,7 @@ return {
         root_key = "S"
       })
     end,
-  }
-}
+  })
+end
+
+return M

@@ -318,7 +318,7 @@ local conf = {
   -- front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   -- front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  max_fps = 60,
+  max_fps = 30,
   color_scheme = current_scheme,
   ------------------------------------
   -- GEOMETRY

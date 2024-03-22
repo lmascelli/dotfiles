@@ -1,3 +1,5 @@
+LM.with_which_key = true
+
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
