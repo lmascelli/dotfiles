@@ -56,10 +56,10 @@ LM.api.project = {
           end
         end
       end
-      if job then
-        print(job)
-        vim.fn.jobstart(job)
-      end
+    end
+    if job then
+      print(job)
+      vim.fn.jobstart(job)
     end
   end,
 

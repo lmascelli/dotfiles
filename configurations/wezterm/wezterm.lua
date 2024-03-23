@@ -348,6 +348,10 @@ local conf = {
   keys = keys,
   key_tables = key_tables,
   ------------------------------------
+
+  set_environment_variables = {
+    prompt = "$E]7;",
+  }
 }
 
 return conf
