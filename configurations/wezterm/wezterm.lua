@@ -28,11 +28,26 @@ local color_schemes = {
 local current_scheme = color_schemes.dark["night"]
 -- local current_scheme = color_schemes.light["github"]
 
+local function program_exists(program)
+  local handle = io.popen("command -v " .. program)
+  local result = handle:read("*a")
+  handle:close()
+  return result ~= ""
+end
+
 local default_prog = function()
   if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-    return { "pwsh.exe" }
+    if program_exists("pwsh.exe") then
+      return { "pwsh.exe" }
+    else
+      return { "powershell.exe" }
+    end
   else
-    return { "bash" }
+    if program_exists("pwsh") then
+      return { "pwsh" }
+    else
+      return { "bash" }
+    end
   end
 end
 
@@ -318,7 +333,7 @@ local conf = {
   front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   -- front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   -- front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  max_fps = 60,
+  max_fps = 30,
   color_scheme = current_scheme,
   ------------------------------------
   -- GEOMETRY
