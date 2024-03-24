@@ -141,6 +141,21 @@ local keys = {
     action = wezterm.action.EmitEvent 'terminal-spawn'
   },
   {
+    key = "Tab",
+    mods = "CTRL",
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = "h",
+    mods = "ALT",
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
+  {
+    key = "l",
+    mods = "ALT",
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
     key = " ",
     mods = "CTRL",
     action = wezterm.action.Multiple {
@@ -208,11 +223,6 @@ local keys = {
     key = 'm',
     mods = "LEADER",
     action = wezterm.action.TogglePaneZoomState,
-  },
- {
-    mods = "LEADER",
-    key = "Space",
-    action = wezterm.action.RotatePanes "Clockwise"
   },
   -- show the pane selection mode, but have it swap the active and selected panes
   {
