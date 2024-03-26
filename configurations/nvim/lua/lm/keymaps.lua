@@ -70,6 +70,7 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<cr>", { desc = "" })
 vim.keymap.set("n", "<leader>tn", "<cmd>:tabnew<cr>", { desc = "New" })
 vim.keymap.set("n", "<leader>td", "<cmd>:tabclose<cr>", { desc = "Close" })
 vim.keymap.set("n", "<leader><tab>", "<cmd>:tabnext<cr>", { desc = "Next tab" })
+vim.keymap.set("n", "<c-tab>", "<cmd>:tabnext<cr>", { desc = "Next tab" })
 
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
@@ -78,6 +79,7 @@ vim.keymap.set("n", "<leader>bf", "<cmd>:lua LM.api.buffer.format()<cr>", { desc
 vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.api.buffer.delete()<cr>", { desc = "Delete" })
 
 -- SEARCHING
+vim.keymap.set('n', '<leader>ff', ':find ', { desc = 'Find file' })
 vim.keymap.set('n', '<leader>fs', '/', { desc = 'Search' })
 vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })

@@ -17,25 +17,25 @@ LM.plugins.with_lsp = true
 
 local plugins_list = {
   -- 'nvim-qt',
-  -- 'which_key',
   'treesitter',
   'tagbar',
-  'telescope',
   'nvim-cmp',
   'luasnip',
   'colorschemes',
   'nvim-surround',
+  -- 'telescope',
+  -- 'which_key',
   -- 'lsp_zero',
   -- 'lsp_saga',
   -- 'nvim-autopairs',
   -- 'nvim-comment',
   -- 'nvim-tree',
   -- 'zen-mode',
+  -- 'pets',
+  -- 'noice',
   -- 'clangd',
   -- 'rust',
   'orgmode',
-  -- 'pets',
-  -- 'noice',
 }
 
 if with_lsp then

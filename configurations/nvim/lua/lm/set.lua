@@ -61,7 +61,8 @@ vim.opt.fileencoding = 'utf-8'
 end)
 
 -- used for find files in current path with :find
-vim.o.path = vim.o.path .. '**'
+vim.cmd 'set path=**'
+vim.cmd 'set wildignore+=*/.git/*'
 
 -- Windows performace option
 vim.o.fsync = false
