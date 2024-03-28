@@ -7,8 +7,10 @@ LM = {
   },
   api = {
     complete = function()
+      vim.opt.iskeyword:remove{'_'} 
       vim.api.nvim_feedkeys(
-      vim.api.nvim_replace_termcodes('<C-x><C-o>', true, true, true), 'n', true)
+        vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
+      vim.opt.iskeyword:append{'_'} 
     end
   },
   augroups = {
@@ -44,3 +46,4 @@ require 'lm.runtime.api.utils'
 require 'lm.runtime.api.buffer'
 require 'lm.runtime.api.project'
 require 'lm.runtime.api.appearence'
+require 'lm.runtime.api.completion'
