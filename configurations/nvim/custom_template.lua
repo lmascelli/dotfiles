@@ -6,6 +6,7 @@ vim.opt.linespace = 0
 LM.appearence.lines = 40
 LM.appearence.columns = 110
 LM.api.completion.complete = LM.api.completion.custom_complete
+LM.buffer.c_style_separator = false
 
 vim.opt.makeprg = "pwsh -c "
 

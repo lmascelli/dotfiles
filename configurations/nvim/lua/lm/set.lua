@@ -31,7 +31,11 @@ vim.opt.writebackup = false  -- if a file is being edited by another program (or
 vim.opt.expandtab = true     -- convert tabs to spaces
 vim.opt.shiftwidth = 2       -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 2          -- insert 2 spaces for a tab
-vim.opt.iskeyword:remove{'_'} -- `_` character count as a words separator
+
+-- `_` character count as a words separator
+if LM.buffer.c_style_separator then
+  vim.opt.iskeyword:remove{'_'} 
+end
 
 -- junk files
 vim.opt.backup = false   -- no backup files

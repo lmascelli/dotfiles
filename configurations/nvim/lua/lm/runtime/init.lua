@@ -24,6 +24,9 @@ LM = {
       clear = true,
     }),
   },
+  buffer = {
+    c_style_separator = false,
+  },
   font = {
     font_name = '',
     font_size = 10,
