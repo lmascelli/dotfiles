@@ -1,6 +1,2 @@
 ;;; -*- lisp-data -*-
-(("~/Documents/unige/spike-rs/")
- ("~/kit/timer_future/")
- ("~/kit/space-invade-rs/")
- ("~/dotfiles/")
- ("d:/dotfiles/"))
+(("/home/leonardo/dotfiles/"))

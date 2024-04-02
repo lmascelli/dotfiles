@@ -46,7 +46,7 @@
 
 ;; packages
 (let ((modules
-       '("evil"
+       '(;;"evil"
 	 "which-key"
 	 "corfu"
 	 ;; "tree-sitter"
