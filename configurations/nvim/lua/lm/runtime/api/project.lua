@@ -43,7 +43,7 @@ LM.api.project = {
         job = LM.spawn_cmd
       else
         -- windows case
-        if vim.fn.has('win32') then
+        if vim.fn.has('win32') ~= 0 then
           if vim.fn.executable('pwsh') ~= 0 then
             job = 'pwsh -c Start-Process pwsh'
           else
@@ -53,6 +53,8 @@ LM.api.project = {
           -- unix case
           if vim.fn.executable('xterm') ~= 0 then
             job = 'xterm'
+          elseif vim.fn.executable('konsole') ~= 0 then
+            job = 'konsole'
           end
         end
       end

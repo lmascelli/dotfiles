@@ -123,4 +123,4 @@
 (setq fast-but-imprecise-scrolling t)
 (setq redisplay-dont-pause t)
 (setq jit-lock-defer-time 0)
-(pixel-scroll-precision-mode)
+;; (pixel-scroll-precision-mode)
