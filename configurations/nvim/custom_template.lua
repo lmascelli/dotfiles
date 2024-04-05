@@ -19,14 +19,14 @@ LM.plugins.with_lsp = true
 
 local plugins_list = {
   -- 'nvim-qt',
-  'treesitter',
+  'colorschemes',
   'tagbar',
   'nvim-cmp',
   'luasnip',
-  'colorschemes',
   'nvim-surround',
-  -- 'telescope',
   -- 'which_key',
+  -- 'treesitter',
+  -- 'telescope',
   -- 'lsp_zero',
   -- 'lsp_saga',
   -- 'nvim-autopairs',
