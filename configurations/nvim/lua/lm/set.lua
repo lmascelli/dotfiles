@@ -112,6 +112,14 @@ vim.diagnostic.config {
   },
 }
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+  end
+})
+
 -- that is pure lunarvim knowledge
 for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
   vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
