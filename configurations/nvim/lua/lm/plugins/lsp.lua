@@ -2,25 +2,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     lazy = true,
-    dependencies = { "mason-lspconfig.nvim" },
-  },
-  {
-    'williamboman/mason.nvim',
-    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
-    lazy = true,
-    build = function()
-      pcall(vim.cmd, 'MasonUpdate')
-    end,
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    dependencies = {
-      'williamboman/mason.nvim',
-    },
-    cmd = { "LspInstall", "LspUninstall"},
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    lazy = true,
-
     init = function()
       local setup_server = function(server, opts)
         local lspconfig = require('lspconfig')
@@ -34,14 +16,16 @@ return {
 
       LM.lsp.setup_server = setup_server
     end,
-    config = function()
-      require('mason').setup()
-      require('mason-lspconfig').setup({
-        automatic_installation = true,
+
+    config = function ()
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          -- Enable completion triggered by <c-x><c-o>
+          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        end
       })
-
-      --      local lspconfig = require('lspconfig')
-
 
       LM.lsp.setup_server('lua_ls', {
         settings = {
@@ -96,6 +80,7 @@ return {
 
 
       LM.lsp.setup_server('powershell_es')
+
     end
-  }
+  },
 }

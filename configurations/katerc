@@ -39,6 +39,8 @@ Tab Middle Click Close Document=true
 Tabbar Tab Limit=0
 
 [KFileDialog Settings]
+Recent Files[$e]=file:$HOME/dotfiles/configurations/katerc
+Recent URLs[$e]=file:$HOME/dotfiles/configurations/katerc/,file:$HOME/,file:$HOME/dotfiles/configurations/
 detailViewIconSize=16
 
 [KTextEditor Document]
@@ -153,6 +155,9 @@ Word Completion=true
 Word Completion Minimal Word Length=3
 Word Completion Remove Tail=true
 
+[KTextEditor::Search]
+Search History=menu
+
 [Konsole]
 AutoSyncronize=true
 KonsoleEscKeyBehaviour=true
@@ -162,7 +167,8 @@ RunPrefix=
 SetEditor=false
 
 [MainWindow]
-1920x1080 screen: Window-Maximized=true
+1920x1080 screen: Height=470
+1920x1080 screen: Width=927
 
 [Printing][HeaderFooter]
 FooterBackground=211,211,211
@@ -194,6 +200,10 @@ Font=Hack,10,-1,7,400,0,0,0,0,0,0,0,0,0,0,1
 DontPrintFoldedCode=true
 Legend=false
 LineNumbers=false
+
+[Shortcuts]
+kate_mdi_focus_toolview_diagnostics=Ctrl+,, D
+kate_mdi_hide_toolviews=Ctrl+L, Z
 
 [UiSettings]
 ColorScheme=Breeze Dark

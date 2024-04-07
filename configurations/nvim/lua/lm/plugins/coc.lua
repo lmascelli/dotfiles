@@ -1,3 +1,5 @@
+LM.plugins.with_coc = false
+
 return {
   'neoclide/coc.nvim',
   branch = "release",

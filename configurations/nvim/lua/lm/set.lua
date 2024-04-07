@@ -11,6 +11,7 @@ vim.opt.foldexpr = ""                                               -- set to "n
 vim.opt.hidden = true                                               -- required to keep multiple buffers and open multiple buffers
 vim.opt.hlsearch = true                                             -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true                                           -- ignore case in search patterns
+vim.opt.matchpairs:append("<:>")
 vim.opt.mouse = 'a'                                                 -- allow the mouse to be used in neovim
 vim.opt.pumheight = 10
 vim.opt.showmatch = true

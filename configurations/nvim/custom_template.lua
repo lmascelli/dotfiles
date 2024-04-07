@@ -14,9 +14,6 @@ vim.opt.makeprg = "pwsh -c "
 --------------------------------------------------------------------------------
 -- Make a plugins table
 
-LM.plugins.with_coc = false
-LM.plugins.with_lsp = true
-
 local plugins_list = {
   -- 'nvim-qt',
   'colorschemes',
@@ -27,6 +24,9 @@ local plugins_list = {
   -- 'which_key',
   -- 'treesitter',
   -- 'telescope',
+  -- 'lsp',
+  -- 'mason', -- enable also lsp for this
+  -- 'coc',
   -- 'lsp_zero',
   -- 'lsp_saga',
   -- 'nvim-autopairs',
@@ -39,12 +39,6 @@ local plugins_list = {
   -- 'rust',
   'orgmode',
 }
-
-if with_lsp then
-  table.insert(plugins_list, 'lsp')
-elseif with_coc then
-  table.insert(plugins_list, 'coc')
-end
 
 for _, plugin in ipairs(plugins_list) do
   table.insert(LM.plugins.files_list, plugin)
