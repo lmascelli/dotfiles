@@ -7,10 +7,10 @@ LM = {
   },
   api = {
     complete = function()
-      vim.opt.iskeyword:remove{'_'} 
+      vim.opt.iskeyword:remove{'_'}
       vim.api.nvim_feedkeys(
         vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
-      vim.opt.iskeyword:append{'_'} 
+      vim.opt.iskeyword:append{'_'}
     end
   },
   augroups = {

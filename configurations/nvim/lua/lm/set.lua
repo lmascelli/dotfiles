@@ -7,7 +7,8 @@ vim.opt.cursorline = true                                           -- highlight
 vim.opt.exrc = true                                                 -- automatically load .nvim.lua in root folder
 vim.opt.packpath = vim.opt.packpath + (vim.fn.getcwd() .. '/.nvim') -- add the .nvim local folder to manual plugins paths
 vim.opt.foldmethod = "expr"                                         -- use treesitter based folding, "manual" otherwise
-vim.opt.foldexpr = ""                                               -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+vim.opt.foldexpr =
+""                                                                  -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.hidden = true                                               -- required to keep multiple buffers and open multiple buffers
 vim.opt.hlsearch = true                                             -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true                                           -- ignore case in search patterns
@@ -35,7 +36,7 @@ vim.opt.tabstop = 2          -- insert 2 spaces for a tab
 
 -- `_` character count as a words separator
 if LM.buffer.c_style_separator then
-  vim.opt.iskeyword:remove{'_'}
+  vim.opt.iskeyword:remove { '_' }
 end
 
 -- junk files
@@ -62,8 +63,8 @@ vim.opt.virtualedit = "onemore" -- let the cursor go one char after the end of t
 vim.opt.laststatus = 3          -- only a statusline for all windows
 
 pcall(function()
--- file encoding
-vim.opt.fileencoding = 'utf-8'
+  -- file encoding
+  vim.opt.fileencoding = 'utf-8'
 end)
 
 -- used for find files in current path with :find
@@ -89,9 +90,12 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
 )
 
 -- no border color for the floating windows
-vim.cmd([[
-  autocmd ColorScheme * lua vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-]])
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = LM.augroups.colorscheme,
+  callback = function()
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+  end
+})
 
 
 vim.diagnostic.config {
