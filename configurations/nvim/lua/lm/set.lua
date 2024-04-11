@@ -35,7 +35,7 @@ vim.opt.tabstop = 2          -- insert 2 spaces for a tab
 
 -- `_` character count as a words separator
 if LM.buffer.c_style_separator then
-  vim.opt.iskeyword:remove{'_'} 
+  vim.opt.iskeyword:remove{'_'}
 end
 
 -- junk files
@@ -87,6 +87,12 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
     border = _border
   }
 )
+
+-- no border color for the floating windows
+vim.cmd([[
+  autocmd ColorScheme * lua vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+]])
+
 
 vim.diagnostic.config {
   signs = {

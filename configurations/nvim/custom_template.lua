@@ -18,7 +18,6 @@ local plugins_list = {
   -- 'nvim-qt',
   'colorschemes',
   'tagbar',
-  'nvim-cmp',
   'luasnip',
   'nvim-surround',
   -- 'which_key',
@@ -26,6 +25,7 @@ local plugins_list = {
   -- 'telescope',
   -- 'lsp',
   -- 'mason', -- enable also lsp for this
+  'nvim-cmp', -- this must follow lsp module if enabled
   -- 'coc',
   -- 'lsp_zero',
   -- 'lsp_saga',

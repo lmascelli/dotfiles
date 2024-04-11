@@ -2,10 +2,11 @@ local font_name = LM.font.font_name or ''
 local font_size = LM.font.font_size or 10
 vim.g.neovide_remember_window_size = false
 vim.g.neovide_remember_window_position = false
-vim.g['neovide_remember_window_position'] = true
 vim.g.neovide_refresh_rate = 30
 vim.g.neovide_scroll_animation_length = 0.1
 vim.g.neovide_scroll_animation_far_lines = 1
+
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 
 local update_font = function()
   local ufont = font_name:gsub(' ', '\\ ')

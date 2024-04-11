@@ -1,3 +1,5 @@
+LM.plugins.with_lsp = true
+
 return {
   {
     'neovim/nvim-lspconfig',
