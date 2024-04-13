@@ -1,11 +1,11 @@
 local M = {}
 
 local cmp_dependencies = {
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-cmdline',
+  'L3MON4D3/LuaSnip',
+  'saadparwaiz1/cmp_luasnip',
 }
 
 if LM.plugins.with_lsp then
@@ -15,14 +15,16 @@ if LM.plugins.with_lsp then
 end
 
 local cmp_sources = {
-        { name = 'buffer' ,
-          option = {
-            get_bufnrs = function()
-              return vim.api.nvim_list_bufs()
-            end
-          },
-        },
-        { name = 'luasnip' },
+  {
+    name = 'buffer',
+    option = {
+      get_bufnrs = function()
+        return vim.api.nvim_list_bufs()
+      end
+    },
+  },
+  { name = 'path', },
+  { name = 'luasnip' },
 }
 
 if LM.plugins.with_lsp then
@@ -75,10 +77,11 @@ local cmp = {
       }),
       sources = cmp.config.sources(cmp_sources)
     })
-    require('luasnip.loaders.from_vscode').lazy_load()
+
     if LM.plugins.with_lsp then
       LM.lsp.capabilities = require('cmp_nvim_lsp').default_capabilities()
     end
+
     LM.api.complete = function()
       cmp.complete()
     end
