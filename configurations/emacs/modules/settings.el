@@ -39,7 +39,8 @@
                        (lambda (buf) 
 			 (let ((name (buffer-name buf)))
                            (not (or (string-prefix-p "*" name)
-                                    (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
+                                    (eq 'dired-mode (buffer-local-value 'major-mode buf))
+				    (eq 'eshell-mode (buffer-local-value 'major-mode buf)))))))
 
 ;; auto pairs parenthesis
 (add-hook 'prog-mode-hook 'electric-pair-mode)

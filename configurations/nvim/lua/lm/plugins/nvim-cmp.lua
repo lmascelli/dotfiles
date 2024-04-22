@@ -28,8 +28,8 @@ local cmp_sources = {
 }
 
 if LM.plugins.with_lsp then
-  table.insert(cmp_sources, { name = 'nvim_lsp_signature_help' })
-  table.insert(cmp_sources, { name = 'nvim_lsp' })
+  table.insert(cmp_sources, 1, { name = 'nvim_lsp_signature_help' })
+  table.insert(cmp_sources, 1, { name = 'nvim_lsp' })
 end
 
 local cmp = {

@@ -56,6 +56,15 @@ local rustaceanvim = {
         settings = {
           -- rust-analyzer language server configuration
           ['rust-analyzer'] = {
+            capabilities = {
+              textDocument = {
+                completion = {
+                  completionItem = {
+                    snippetSupport = false
+                  },
+                },
+              },
+            },
             checkOnSave = { command = 'clippy' },
           },
         },

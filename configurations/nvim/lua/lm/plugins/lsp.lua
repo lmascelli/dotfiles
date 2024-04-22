@@ -19,8 +19,7 @@ return {
       LM.lsp.setup_server = setup_server
     end,
 
-    config = function ()
-
+    config = function()
       LM.lsp.setup_server('lua_ls', {
         settings = {
           Lua = {
@@ -65,9 +64,34 @@ return {
         },
       })
 
-      LM.lsp.setup_server('pylsp')
+      LM.lsp.setup_server('pylsp',
+        {
+          plugins = {
+            ruff = {
+              enabled = true,                  -- Enable the plugin
+              formatEnabled = true,            -- Enable formatting using ruffs formatter
+              executable = "ruff",             -- Custom path to ruff
+              -- config = "<path_to_custom_ruff_toml>", -- Custom config for ruff to use
+              extendSelect = { "I" },          -- Rules that are additionally used by ruff
+              extendIgnore = { "C90" },        -- Rules that are additionally ignored by ruff
+              format = { "I" },                -- Rules that are marked as fixable by ruff that should be fixed when running textDocument/formatting
+              severities = { ["D212"] = "I" }, -- Optional table of rules where a custom severity is desired
+              unsafeFixes = false,             -- Whether or not to offer unsafe fixes as code actions. Ignored with the "Fix All" action
+
+              -- Rules that are ignored when a pyproject.toml or ruff.toml is present:
+              lineLength = 88,                                 -- Line length to pass to ruff checking and formatting
+              exclude = { "__about__.py" },                    -- Files to be excluded by ruff checking
+              select = { "F" },                                -- Rules to be enabled by ruff
+              ignore = { "D210" },                             -- Rules to be ignored by ruff
+              perFileIgnores = { ["__init__.py"] = "CPY001" }, -- Rules that should be ignored for specific files
+              preview = false,                                 -- Whether to enable the preview style linting and formatting.
+              targetVersion = "py310",                         -- The minimum python version to target (applies for both linting and formatting).
+            },
+          }
+        })
+
       -- to install also mypy run ':PylspInstall pyls-flake8 pylsp-mypy pyls-isort'
-      LM.lsp.on_attach.add_on_attach_function(function(client, bufnr)
+      LM.lsp.on_attach.add_on_attach_function(function(_, bufnr)
         vim.keymap.set('n', '<leader>li', '<cmd>PylspInstall pylsp-mypy pyls-isort<cr>',
           { buffer = bufnr, desc = "Install mypy" })
       end, 'python')
@@ -75,6 +99,19 @@ return {
 
       LM.lsp.setup_server('powershell_es')
 
+      LM.lsp.setup_server('rust_analyzer',
+        {
+          capabilities = {
+            textDocument = {
+              completion = {
+                completionItem = {
+                  snippetSupport = false
+                }
+              }
+            }
+          }
+        }
+      )
     end
   },
 }
