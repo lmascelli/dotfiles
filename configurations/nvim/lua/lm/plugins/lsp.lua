@@ -101,15 +101,15 @@ return {
 
       LM.lsp.setup_server('rust_analyzer',
         {
-          capabilities = {
-            textDocument = {
-              completion = {
-                completionItem = {
-                  snippetSupport = false
-                }
-              }
-            }
-          }
+          -- capabilities = {
+          --   textDocument = {
+          --     completion = {
+          --       completionItem = {
+          --         snippetSupport = false
+          --       }
+          --     }
+          --   }
+          -- }
         }
       )
     end

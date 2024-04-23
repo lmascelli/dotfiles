@@ -4,6 +4,9 @@ return {
   config = function()
     local mini_completion = require('mini.completion')
 
+    -- disable snippetSupport for lsp because expanding snippets is not supported
+    LM.lsp.capabilities.textDocument.completion.completionItem.snippetSupport = false
+
     mini_completion.setup(
       {
         -- Delay (debounce type, in ms) between certain Neovim event and action.
