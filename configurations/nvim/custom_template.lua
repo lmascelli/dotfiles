@@ -9,23 +9,25 @@ LM.api.completion.complete = LM.api.completion.custom_complete
 LM.buffer.c_style_separator = false
 
 vim.opt.makeprg = "pwsh -c "
+vim.opt.shell = "pwsh"
 
 
 --------------------------------------------------------------------------------
 -- Make a plugins table
 
 local plugins_list = {
-  -- 'nvim-qt',
   'colorschemes',
   'tagbar',
   'luasnip',
-  'nvim-surround',
+  'mini-nvim',
+  -- 'lsp',
+  -- 'nvim-qt',
+  -- 'nvim-surround',
   -- 'which_key',
   -- 'treesitter',
   -- 'telescope',
-  -- 'lsp',
   -- 'mason', -- enable also lsp for this
-  'nvim-cmp', -- this must follow lsp module if enabled
+  -- 'nvim-cmp', -- this must follow lsp module if enabled
   -- 'coc',
   -- 'lsp_zero',
   -- 'lsp_saga',
@@ -35,11 +37,18 @@ local plugins_list = {
   -- 'zen-mode',
   -- 'pets',
   -- 'noice',
+  ----------------------- languages related
+  'orgmode',
   -- 'clangd',
   -- 'rust',
-  'orgmode',
 }
 
 for _, plugin in ipairs(plugins_list) do
   table.insert(LM.plugins.files_list, plugin)
 end
+
+local function post_launch()
+  vim.g.neovide_remember_window_size = true
+end
+
+vim.schedule(post_launch)

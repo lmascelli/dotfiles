@@ -17,5 +17,16 @@ configurations/emacs/emacs-custom.el
 configurations/emacs/projects
 configurations/emacs/tramp
 
+# ZED
+configurations/zed/conversations/
+configurations/zed/copilot/
+configurations/zed/db/
+configurations/zed/extensions/
+configurations/zed/languages/
+configurations/zed/logs/
+configurations/zed/node/
+configurations/zed/prettier/
+configurations/zed/themes/
+
 # CONFIGURATIONS
 configurations/various/clangd/index/
