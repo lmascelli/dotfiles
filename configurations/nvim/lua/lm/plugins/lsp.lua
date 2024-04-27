@@ -96,22 +96,7 @@ return {
           { buffer = bufnr, desc = "Install mypy" })
       end, 'python')
 
-
-      LM.lsp.setup_server('powershell_es')
-
-      LM.lsp.setup_server('rust_analyzer',
-        {
-          -- capabilities = {
-          --   textDocument = {
-          --     completion = {
-          --       completionItem = {
-          --         snippetSupport = false
-          --       }
-          --     }
-          --   }
-          -- }
-        }
-      )
+      LM.lsp.setup_server('rust_analyzer')
     end
   },
 }

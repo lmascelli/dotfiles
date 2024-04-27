@@ -1,11 +1,13 @@
 -- LEADER
 vim.g.mapleader = " "
 
-
 ------------------------------------- NORMAL ----------------------------------
 
 -- QUIT
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
+
+--  <C-g> as Escape
+vim.keymap.set("n", "<C-g>", "<Escape>", {})
 
 -- PROJECT
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
@@ -120,7 +122,7 @@ vim.keymap.set("i", '<PageDown>', "")
 -- ------------------------------------- VISUAL ----------------------------------
 
 --  <C-g> as Escape
-vim.keymap.set("t", "<C-g>", "<Escape>", {})
+vim.keymap.set("x", "<C-g>", "<Escape>", {})
 
 -- Moving text
 vim.keymap.set("x", "<A-j>", ":m .+1<CR>==", {})
@@ -151,6 +153,7 @@ vim.keymap.set("x", "<tab>", "=", {})
 
 --  <C-g> as Escape
 vim.keymap.set("c", "<C-g>", "<Escape>", {})
+
 vim.keymap.set("c", "<C-ì>", "<C-k>'?", {})
 vim.keymap.set("c", "<C-'>", "<C-k>'!", {})
 
@@ -158,6 +161,7 @@ vim.keymap.set("c", "<C-'>", "<C-k>'!", {})
 ------------------------------------- TERMINAL --------------------------------
 
 vim.keymap.set("t", "<Escape>", "<C-\\><C-n>", {})
+
 vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", {})
 vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", {})
 vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", {})
