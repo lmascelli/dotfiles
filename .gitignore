@@ -18,6 +18,7 @@ configurations/emacs/projects
 configurations/emacs/tramp
 
 # ZED
+configurations/zed/.tmp*
 configurations/zed/conversations/
 configurations/zed/copilot/
 configurations/zed/db/
