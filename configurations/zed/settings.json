@@ -1,0 +1,9 @@
+{
+  "telemetry": {
+    "metrics": true
+  },
+  "theme": "One Light",
+  "ui_font_size": 14,
+  "buffer_font_size": 12,
+  "scroll_sensitivity": 1.5
+}

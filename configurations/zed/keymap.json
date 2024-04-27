@@ -1,0 +1,12 @@
+[
+  {
+    "bindings": {
+      "alt-b": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "bindings": {
+      "alt-m": "workspace::ToggleBottomDock"
+    }
+  }
+]
