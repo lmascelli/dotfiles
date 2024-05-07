@@ -111,6 +111,17 @@ end)
 --                                                                            --
 --------------------------------------------------------------------------------
 local keys = {
+  { key = '1', mods = 'ALT', action = wezterm.action.ActivateTab(0) },
+  { key = '2', mods = 'ALT', action = wezterm.action.ActivateTab(1) },
+  { key = '3', mods = 'ALT', action = wezterm.action.ActivateTab(2) },
+  { key = '4', mods = 'ALT', action = wezterm.action.ActivateTab(3) },
+  { key = '5', mods = 'ALT', action = wezterm.action.ActivateTab(4) },
+  { key = '6', mods = 'ALT', action = wezterm.action.ActivateTab(5) },
+  { key = '7', mods = 'ALT', action = wezterm.action.ActivateTab(6) },
+  { key = '8', mods = 'ALT', action = wezterm.action.ActivateTab(7) },
+  { key = '9', mods = 'ALT', action = wezterm.action.ActivateTab(8) },
+  { key = '0', mods = 'ALT', action = wezterm.action.ActivateTab(9) },
+
   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
   { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
   {
@@ -340,26 +351,30 @@ local conf = {
   enable_tab_bar = show_tabs,
   use_fancy_tab_bar = false,
   -- window_background_opacity = 0.95,
-  front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  -- front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+  -- front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+  front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   -- front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   max_fps = 30,
   color_scheme = current_scheme,
   ------------------------------------
+  
   -- GEOMETRY
   initial_cols = 115,
   initial_rows = 35,
   ------------------------------------
+  
   -- FONT
   font_size = 10.0,
   -- cell_width = 1.0,
-  font_dirs = { wezterm.executable_dir .. "/fonts" },
+  font_dirs = { wezterm.config_dir .. "/fonts" },
   warn_about_missing_glyphs = false,
   -- font = wezterm.font('Cascadia Code'),
   -- font = wezterm.font('Source Code Pro'),
   -- font = wezterm.font('JetBrains Mono NF'),
   -- font = wezterm.font('Consolas'),
+  font = wezterm.font('Perfect DOS VGA 437'),
   ------------------------------------
+  
   -- BEHAVIOUR
   default_prog = default_prog(),
   window_close_confirmation = "NeverPrompt",
@@ -368,6 +383,7 @@ local conf = {
   audible_bell = "Disabled",
   -- debug_key_events = true,
   ------------------------------------
+  
   -- KEYBINDINGS
   leader = { key = '\\', mods = 'ALT' },
   keys = keys,

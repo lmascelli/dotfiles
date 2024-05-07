@@ -38,9 +38,6 @@ Tab Double Click New Document=true
 Tab Middle Click Close Document=true
 Tabbar Tab Limit=0
 
-[KFileDialog Settings]
-detailViewIconSize=16
-
 [KTextEditor Document]
 Allow End of Line Detection=true
 Auto Detect Indent=true
@@ -165,7 +162,7 @@ RunPrefix=
 SetEditor=false
 
 [MainWindow]
-1920x1080 screen: Height=1052
+1920x1080 screen: Height=1050
 1920x1080 screen: Width=959
 
 [Printing][HeaderFooter]
