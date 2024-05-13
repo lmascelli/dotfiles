@@ -1,5 +1,5 @@
-local font_name = LM.font.font_name or ''
-local font_size = LM.font.font_size or 10
+local font_name = LM.appearence.font.font_name or ''
+local font_size = LM.appearence.font.font_size or 10
 vim.g.neovide_remember_window_size = false
 vim.g.neovide_remember_window_position = false
 vim.g.neovide_refresh_rate = 30

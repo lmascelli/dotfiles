@@ -5,5 +5,6 @@
   "theme": "Rosé Pine",
   "ui_font_size": 14,
   "buffer_font_size": 12,
-  "scroll_sensitivity": 1.5
+  "scroll_sensitivity": 1.5,
+  "format_on_save": "off"
 }

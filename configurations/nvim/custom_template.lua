@@ -1,7 +1,7 @@
 LM.appearence.colorscheme = 'lunaperche'
 
-LM.font.font_name = 'Cascadia Code'
-LM.font.font_size = '10'
+LM.appearence.font.font_name = 'Cascadia Code'
+LM.appearence.font.font_size = '10'
 vim.opt.linespace = 0
 LM.appearence.lines = 40
 LM.appearence.columns = 110
@@ -43,12 +43,5 @@ local plugins_list = {
   -- 'rust',
 }
 
-for _, plugin in ipairs(plugins_list) do
-  table.insert(LM.plugins.files_list, plugin)
-end
-
-local function post_launch()
-  vim.g.neovide_remember_window_size = true
-end
-
-vim.schedule(post_launch)
+-- example of post launch function
+table.insert(LM.callbacks.post_launch, function() end)

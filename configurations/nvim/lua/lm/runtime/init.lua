@@ -4,6 +4,10 @@ LM = {
     transparency = false,
     lines = 40,
     columns = 90,
+    font = {
+      font_name = '',
+      font_size = 10,
+    },
   },
   api = {
     complete = function()
@@ -27,10 +31,6 @@ LM = {
   buffer = {
     c_style_separator = false,
   },
-  font = {
-    font_name = '',
-    font_size = 10,
-  },
   plugins = {
     with_which_key = false,
     with_lsp = false,
@@ -41,6 +41,11 @@ LM = {
   lsp = {
     on_attach = {}
   },
+  callbacks = {
+    pre_plugins_load = {},
+    post_plugins_load = {},
+    post_launch = {},
+  }
 }
 
 require 'lm.runtime.icons'

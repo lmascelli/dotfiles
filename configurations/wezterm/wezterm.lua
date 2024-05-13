@@ -121,6 +121,10 @@ local keys = {
   { key = '8', mods = 'ALT', action = wezterm.action.ActivateTab(7) },
   { key = '9', mods = 'ALT', action = wezterm.action.ActivateTab(8) },
   { key = '0', mods = 'ALT', action = wezterm.action.ActivateTab(9) },
+  { key = 'h', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Left'},
+  { key = 'l', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Right'},
+  { key = 'j', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Down'},
+  { key = 'k', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Up'},
 
   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
   { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
@@ -156,16 +160,16 @@ local keys = {
     mods = "CTRL",
     action = wezterm.action.DisableDefaultAssignment,
   },
-  {
-    key = "h",
-    mods = "ALT",
-    action = wezterm.action.ActivateTabRelative(-1),
-  },
-  {
-    key = "l",
-    mods = "ALT",
-    action = wezterm.action.ActivateTabRelative(1),
-  },
+  -- {
+  --   key = "h",
+  --   mods = "ALT",
+  --   action = wezterm.action.ActivateTabRelative(-1),
+  -- },
+  -- {
+  --   key = "l",
+  --   mods = "ALT",
+  --   action = wezterm.action.ActivateTabRelative(1),
+  -- },
   {
     key = " ",
     mods = "CTRL",
@@ -351,8 +355,8 @@ local conf = {
   enable_tab_bar = show_tabs,
   use_fancy_tab_bar = false,
   -- window_background_opacity = 0.95,
-  -- front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+  front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+  -- front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   -- front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
   max_fps = 30,
   color_scheme = current_scheme,
@@ -364,15 +368,15 @@ local conf = {
   ------------------------------------
   
   -- FONT
-  font_size = 10.0,
   -- cell_width = 1.0,
   font_dirs = { wezterm.config_dir .. "/fonts" },
   warn_about_missing_glyphs = false,
+  font = nil, font_size = 10.0,
+  -- font = wezterm.font('Perfect DOS VGA 437'), font_size = 11.0,
   -- font = wezterm.font('Cascadia Code'),
   -- font = wezterm.font('Source Code Pro'),
   -- font = wezterm.font('JetBrains Mono NF'),
   -- font = wezterm.font('Consolas'),
-  font = wezterm.font('Perfect DOS VGA 437'),
   ------------------------------------
   
   -- BEHAVIOUR

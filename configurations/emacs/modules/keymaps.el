@@ -17,9 +17,8 @@
 (unless (boundp 'lm/evil-mode)
   (progn
     (keymap-set global-map "M-RET" lm/leader-map)
-    (keymap-set global-map "C-z" lm/leader-map)
-    (keymap-set global-map "C-z u" 'undo)
-    (keymap-set global-map "C-z U" 'undo-redo)
+    (keymap-set global-map "C-z" 'undo)
+    (keymap-set global-map "C-Z" 'undo-redo)
     ))
 (keymap-set lm/leader-map "RET" 'execute-extended-command)
 (keymap-set lm/leader-map "<SPC>" 'execute-extended-command)
