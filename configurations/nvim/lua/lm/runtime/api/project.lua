@@ -18,10 +18,12 @@ LM.api.project = {
 
   -- exec PROJECT.LUA script
   project_lua = function()
-    if (vim.fn.findfile('project.lua') == 'project.lua') then
-      vim.cmd ':source project.lua'
-    else
-      print 'project.lua script not found'
+    if vim.fn.filereadable(vim.fn.getcwd() .. '/.project.lua') ~= 0 then
+      print '.project.lua found'
+      local res, _ = pcall(dofile, vim.fn.getcwd() .. '/.project.lua')
+      if not res then
+        vim.notify("ERROR loading .project.lua")
+      end
     end
   end,
 

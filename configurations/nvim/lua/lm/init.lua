@@ -1,8 +1,5 @@
 -- this provide some functionalities that may be needed by other
 -- packages and must not depend on anything but nvim api
--- TODO refactor and polish the runtime
--- TODO design a system of calls arrays for operation that can be made before
--- or after some events (start, plugins loaded, etc)
 require 'lm.runtime'
 
 -- check if there is a global custom config file that can hold
@@ -19,9 +16,14 @@ else
     vim.fn.stdpath('config') .. '/custom.lua')
 end
 
--- TODO check if there is a project level configuration file
+-- check if there is a project level configuration file
 -- for example you may want to enable lsp on some projects
 -- but keep it disabled by default
+LM.api.project.project_lua()
+vim.api.nvim_create_autocmd("DirChanged", {
+  group = LM.augroups.chdir,
+  callback = LM.api.project.project_lua,
+})
 
 -- load base keybindings
 require 'lm.keymaps'
