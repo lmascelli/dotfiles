@@ -1,3 +1,4 @@
+vim.g.gruvbox_contrast_dark = 'hard'
 LM.appearence.colorscheme = 'lunaperche'
 
 LM.appearence.font.font_name = 'Cascadia Code'

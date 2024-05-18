@@ -25,7 +25,7 @@ local color_schemes = {
   },
 }
 
-local current_scheme = color_schemes.dark["night"]
+local current_scheme = color_schemes.dark["gruvbox"]
 -- local current_scheme = color_schemes.light["github"]
 
 local function program_exists(program)
@@ -342,61 +342,64 @@ local key_tables = {
 --                                                                            --
 --------------------------------------------------------------------------------
 
-local conf = {
-  -- WINDOW BEHAVIOUR
-  window_decorations = 'TITLE|RESIZE',
-  window_padding = {
-    left = 0,
-    right = 0,
-    top = 0,
-    bottom = 0,
-  },
-  hide_tab_bar_if_only_one_tab = true,
-  enable_tab_bar = show_tabs,
-  use_fancy_tab_bar = false,
-  -- window_background_opacity = 0.95,
-  front_end = 'OpenGL', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  -- front_end = 'WebGpu', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  -- front_end = 'Software', -- alternatives: 'OpenGL', 'Software', 'WebGpu'
-  max_fps = 30,
-  color_scheme = current_scheme,
-  ------------------------------------
-  
-  -- GEOMETRY
-  initial_cols = 115,
-  initial_rows = 35,
-  ------------------------------------
-  
-  -- FONT
-  -- cell_width = 1.0,
-  font_dirs = { wezterm.config_dir .. "/fonts" },
-  warn_about_missing_glyphs = false,
-  font = nil, font_size = 10.0,
-  -- font = wezterm.font('Perfect DOS VGA 437'), font_size = 11.0,
-  -- font = wezterm.font('Cascadia Code'),
-  -- font = wezterm.font('Source Code Pro'),
-  -- font = wezterm.font('JetBrains Mono NF'),
-  -- font = wezterm.font('Consolas'),
-  ------------------------------------
-  
-  -- BEHAVIOUR
-  default_prog = default_prog(),
-  window_close_confirmation = "NeverPrompt",
-  exit_behavior = "Close",
-  enable_csi_u_key_encoding = true,
-  audible_bell = "Disabled",
-  -- debug_key_events = true,
-  ------------------------------------
-  
-  -- KEYBINDINGS
-  leader = { key = '\\', mods = 'ALT' },
-  keys = keys,
-  key_tables = key_tables,
-  ------------------------------------
+local config = wezterm.config_builder()
+config:set_strict_mode(true) -- config warnings are considered as errors
 
-  set_environment_variables = {
-    prompt = "$E]7;",
-  }
+-- WINDOW BEHAVIOUR
+config.window_decorations = 'TITLE|RESIZE'
+config.window_padding = {
+  left = 0,
+  right = 0,
+  top = 0,
+  bottom = 0,
+}
+config.hide_tab_bar_if_only_one_tab = true
+config.enable_tab_bar = show_tabs
+config.use_fancy_tab_bar = false
+-- config.window_background_opacity = 0.95
+config.front_end = 'OpenGL' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+-- config.front_end = 'WebGpu' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+-- config.front_end = 'Software' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
+config.max_fps = 30
+config.color_scheme = current_scheme
+------------------------------------
+
+-- GEOMETRY
+config.initial_cols = 115
+config.initial_rows = 35
+------------------------------------
+
+-- FONT
+-- config.cell_width = 1.0
+config.font_dirs = { wezterm.config_dir .. "/fonts" }
+config.warn_about_missing_glyphs = false
+config.font = nil
+config.font_size = 10.0
+-- config.font = wezterm.font('Perfect DOS VGA 437'), 
+-- config.font_size = 11.0
+-- config.font = wezterm.font('Cascadia Code')
+-- config.font = wezterm.font('Source Code Pro')
+-- config.font = wezterm.font('JetBrains Mono NF')
+-- config.font = wezterm.font('Consolas')
+------------------------------------
+
+-- BEHAVIOUR
+config.default_prog = default_prog()
+config.window_close_confirmation = "NeverPrompt"
+config.exit_behavior = "Close"
+config.enable_csi_u_key_encoding = true
+config.audible_bell = "Disabled"
+-- config.debug_key_events = true
+------------------------------------
+
+-- KEYBINDINGS
+config.leader = { key = '\\', mods = 'ALT' }
+config.keys = keys
+config.key_tables = key_tables
+------------------------------------
+
+config.set_environment_variables = {
+  prompt = "$E]7;"
 }
 
-return conf
+return config
