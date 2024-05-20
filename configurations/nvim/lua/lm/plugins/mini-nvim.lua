@@ -173,7 +173,7 @@ return {
           content_from_bottom = false,
 
           -- Whether to cache matches (more speed and memory on repeated prompts)
-          use_cache = false,
+          use_cache = true,
         },
 
         -- Source definition. See `:h MiniPick-source`.
@@ -248,6 +248,16 @@ return {
         miniclue.gen_clues.registers(),
         miniclue.gen_clues.windows(),
         miniclue.gen_clues.z(),
+        { mode = 'n', keys = '<Leader>a', desc = '+Appearence' },
+        { mode = 'n', keys = '<Leader>b', desc = '+Buffers' },
+        { mode = 'n', keys = '<Leader>c', desc = '+Configuration' },
+        { mode = 'n', keys = '<Leader>d', desc = '+Diagnostics' },
+        { mode = 'n', keys = '<Leader>f', desc = '+Find' },
+        { mode = 'n', keys = '<Leader>o', desc = '+Org' },
+        { mode = 'n', keys = '<Leader>p', desc = '+Project' },
+        { mode = 'n', keys = '<Leader>q', desc = '+Quit' },
+        { mode = 'n', keys = '<Leader>t', desc = '+Terminal' },
+        { mode = 'n', keys = '<Leader>w', desc = '+Windows' },
       },
     })
 
