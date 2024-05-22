@@ -1,3 +1,9 @@
+# vim motion in powershell
+if (-not (Get-Module -ListAvailable -Name PSReadLine)) {
+    Install-Module -Name PSReadLine -AllowClobber -Force
+}
+Set-PSReadLineOption -EditMode Vi
+
 if ($IsLinux)
 {
   $env:PATH = ":~/.local/bin:~/.lm/bin" + $env:PATH
@@ -7,6 +13,7 @@ if ($IsLinux)
 }
 $PSStyle.FileInfo.Directory = "`e[33;1m"
 
+# fix the escape code 7 to correctly provide current path to new shells
 function prompt {
     $p = $executionContext.SessionState.Path.CurrentLocation
     $osc7 = ""
@@ -18,6 +25,7 @@ function prompt {
     "${osc7}PS $p$('>' * ($nestedPromptLevel + 1)) ";
 }
 
+# ya function for running yazi file explorer
 # yazi configuration https://yazi-rs.github.io/
 function ya {
     $tmp = [System.IO.Path]::GetTempFileName()

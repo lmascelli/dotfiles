@@ -204,7 +204,7 @@ return {
       }
     })
 
-    vim.keymap.set('n', '<leader>ff', '<cmd>Pick files tool="fallback"<cr>', { desc = 'Find file' })
+    vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', { desc = 'Find file' })
 
     local miniclue = require('mini.clue')
     miniclue.setup({
