@@ -2,7 +2,7 @@
 if (-not (Get-Module -ListAvailable -Name PSReadLine)) {
     Install-Module -Name PSReadLine -AllowClobber -Force
 }
-Set-PSReadLineOption -EditMode Vi
+Set-PSReadLineOption -EditMode Vi -ViModeIndicator Cursor
 
 if ($IsLinux)
 {
