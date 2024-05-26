@@ -5,7 +5,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
     vim.cmd "highlight Comment cterm=italic gui=italic"
     vim.cmd "highlight WinSeparator guibg=None"
-    vim.cmd 'highlight! link CursorLine Underlined'
+    vim.cmd 'highlight CursorLine gui=underline'
+    -- vim.cmd 'highlight! link CursorLine Underlined'
     -- tweaking default colorscheme
     if vim.g.colors_name == "default" then
       if vim.fn.has("nvim-0.9") == 1 then

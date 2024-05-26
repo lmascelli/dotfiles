@@ -49,8 +49,8 @@ return {
         -- Module mappings. Use `''` (empty string) to disable one. Some of them
         -- might conflict with system mappings.
         mappings = {
-          force_twostep = '<C-Space>',  -- Force two-step completion
-          force_fallback = '<A-Space>', -- Force fallback completion
+          force_twostep = nil, --'<C-Space>',  -- Force two-step completion
+          force_fallback = nil, --'<A-Space>', -- Force fallback completion
         },
 
         -- Whether to set Vim's settings for better experience (modifies
