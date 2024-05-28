@@ -16,17 +16,6 @@ LM.api.project = {
     end
   end,
 
-  -- exec PROJECT.LUA script
-  project_lua = function()
-    if vim.fn.filereadable(vim.fn.getcwd() .. '/.project.lua') ~= 0 then
-      print '.project.lua found'
-      local res, _ = pcall(dofile, vim.fn.getcwd() .. '/.project.lua')
-      if not res then
-        vim.notify("ERROR loading .project.lua")
-      end
-    end
-  end,
-
   -- spawn an external terminal in current directory
   spawn_terminal = function()
     local job = nil
@@ -84,7 +73,7 @@ LM.api.project = {
   load_local_nvim = function()
     if LM.api.project.chech_local_nvim() then
       vim.opt.packpath = vim.opt.packpath + -- add the .nvim local folder to manual plugins paths
-          (vim.fn.getcwd() .. '/.nvim')
+          (vim.fn.getcwd() .. '/.project.lua')
       vim.cmd "source .nvim.lua"
     else
       vim.notify("no local configuration found", vim.log.levels.INFO)
@@ -95,15 +84,15 @@ LM.api.project = {
   init_local_nvim = function()
     -- check if the file structure exists
     local cwd = vim.fn.getcwd()
-    local nvim_file = vim.fn.filereadable(cwd .. '/.nvim.lua')
+    local nvim_file = vim.fn.filereadable(cwd .. '/.project.lua')
     local dotnvim = vim.fn.isdirectory(cwd .. '/.nvim/pack/plugins/opt')
     if dotnvim == 0 then
       vim.fn.mkdir('.nvim/pack/plugins/opt', 'p')
     end
     if nvim_file == 0 then
-      vim.fn.writefile({}, cwd .. '/.nvim.lua')
+      vim.fn.writefile({}, cwd .. '/.project.lua')
     end
-    vim.cmd 'e .nvim.lua'
+    vim.cmd 'e .project.lua'
   end,
 
   -- install a plugin locally from git
