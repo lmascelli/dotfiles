@@ -19,10 +19,10 @@ end
 -- check if there is a project level configuration file
 -- for example you may want to enable lsp on some projects
 -- but keep it disabled by default
-LM.api.project.project_lua()
+LM.api.project.load_local_nvim()
 vim.api.nvim_create_autocmd("DirChanged", {
   group = LM.augroups.chdir,
-  callback = LM.api.project.project_lua,
+  callback = LM.api.project.load_local_nvim,
 })
 
 -- load base keybindings
