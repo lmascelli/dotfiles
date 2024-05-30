@@ -74,7 +74,7 @@ LM.api.project = {
     if LM.api.project.chech_local_nvim() then
       vim.opt.packpath = vim.opt.packpath + -- add the .nvim local folder to manual plugins paths
           (vim.fn.getcwd() .. '/.project.lua')
-      vim.cmd "source .project.lua"
+      dofile(".project.lua")
     else
       vim.notify("no local configuration found", vim.log.levels.INFO)
     end

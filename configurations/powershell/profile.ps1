@@ -1,17 +1,23 @@
-# vim motion in powershell
-if (-not (Get-Module -ListAvailable -Name PSReadLine)) {
-    Install-Module -Name PSReadLine -AllowClobber -Force
-}
-Set-PSReadLineOption -EditMode Vi -ViModeIndicator Cursor
+################################################################################
+#                          global variables
+################################################################################
 
-if ($IsLinux)
-{
-  $env:PATH = ":~/.local/bin:~/.lm/bin" + $env:PATH
-} elseif ($IsWindows) {
-  $env:PATH += ";$(Convert-Path -ErrorAction Ignore ~/.local/bin)"
-  $env:PATH += ";$(Convert-Path -ErrorAction Ignore ~/.lm/bin)"
+$LMPath = "~/.lm"
+$LM_with_powerline = $true
+$LM_with_vimmotions = $true
+
+################################################################################
+#                          utility functions
+################################################################################
+
+function Script:CheckLMFolder {
+  if (-not (Test-Path -Path $LMPath)) { 
+    New-Item -Type Directory -Path $LMPath
+  }
+  if (-not (Test-Path -Path $LMPath/bin)) { 
+    New-Item -Type Directory -Path $LMPath/bin
+  }
 }
-$PSStyle.FileInfo.Directory = "`e[33;1m"
 
 # fix the escape code 7 to correctly provide current path to new shells
 function prompt {
@@ -35,4 +41,42 @@ function ya {
         Set-Location -Path $cwd
     }
     Remove-Item -Path $tmp
+}
+
+################################################################################
+#                          configure profile routing
+################################################################################
+# check if the .lm folder exists. if not create it and install some utilities
+CheckLMFolder
+
+# add .lm folders to path
+if ($IsLinux)
+{
+  $env:PATH = "~/.local/bin:~/.lm/bin:" + $env:PATH
+} elseif ($IsWindows) {
+  $env:PATH += ";$(Convert-Path -ErrorAction Ignore ~/.local/bin)"
+  $env:PATH += ";$(Convert-Path -ErrorAction Ignore ~/.lm/bin)"
+}
+
+# vim motion in powershell
+if ($LM_with_vimmotions) {
+  if (-not (Get-Module -ListAvailable -Name PSReadLine)) {
+    Install-Module -Name PSReadLine -AllowClobber -Force
+  }
+  Set-PSReadLineOption -EditMode Vi -ViModeIndicator Cursor
+}
+
+# change the color of directories in the output of Get-ChildItems
+$PSStyle.FileInfo.Directory = "`e[33;1m"
+
+# activate powerline theme
+if ($LM_with_powerline) {
+  if (-not (Get-Command oh-my-posh -ErrorAction Ignore)) {
+    if ($IsLinux) {
+      curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.lm/bin
+    } elseif ($IsWindows) {
+      scoop install https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
+    }
+  }
+  oh-my-posh init pwsh | Invoke-Expression
 }
