@@ -44,5 +44,9 @@ local plugins_list = {
   -- 'rust',
 }
 
+for _, plugin in ipairs(plugins_list) do
+  table.insert(LM.plugins.files_list, plugin)
+end
+
 -- example of post launch function
 table.insert(LM.callbacks.post_launch, function() end)
