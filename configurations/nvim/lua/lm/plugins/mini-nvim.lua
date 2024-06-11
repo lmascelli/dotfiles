@@ -49,7 +49,7 @@ return {
         -- Module mappings. Use `''` (empty string) to disable one. Some of them
         -- might conflict with system mappings.
         mappings = {
-          force_twostep = nil, --'<C-Space>',  -- Force two-step completion
+          force_twostep = nil,  --'<C-Space>',  -- Force two-step completion
           force_fallback = nil, --'<A-Space>', -- Force fallback completion
         },
 
@@ -58,6 +58,10 @@ return {
         set_vim_settings = true,
       }
     )
+
+    LM.api.complete = function()
+      MiniCompletion.complete_twostage()
+    end
 
     local mini_files = require('mini.files')
     mini_files.setup({
@@ -112,6 +116,7 @@ return {
         },
       }
     })
+
     LM.api.toggle_explorer = function()
       MiniFiles.open()
     end
