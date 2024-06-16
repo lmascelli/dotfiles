@@ -8,5 +8,18 @@
     "bindings": {
       "alt-m": "workspace::ToggleBottomDock"
     }
+  },
+  {
+    "bindings": {
+      "ctrl-w": "zed::NoAction",
+      "ctrl-w c": "pane::CloseActiveItem",
+      "shift-enter": "editor::NewlineAbove"
+    }
+  },
+  {
+    "context": "vim_mode == normal",
+    "bindings": {
+      "tab": "editor::Format"
+    }
   }
 ]

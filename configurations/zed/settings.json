@@ -1,11 +1,15 @@
 {
-  "vim_mode": false,
+  "vim_mode": true,
+  "relative_line_numbers": true,
   "telemetry": {
     "metrics": true
   },
   "theme": "Andromeda",
   "ui_font_size": 14,
-  "buffer_font_size": 12,
+  "buffer_font_size": 15,
   "scroll_sensitivity": 1.5,
-  "format_on_save": "off"
+  "format_on_save": "off",
+  "scrollbar": {
+    "show": "never"
+  }
 }
