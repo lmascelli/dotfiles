@@ -7,6 +7,7 @@ return {
   end,
   config = function()
     vim.cmd [[
+      let g:tagbar_sort = 0
       let g:tagbar_type_ps1 = {
           \ 'ctagstype': 'powershell',
           \ 'kinds': [

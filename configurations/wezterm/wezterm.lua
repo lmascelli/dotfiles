@@ -25,7 +25,7 @@ local color_schemes = {
   },
 }
 
-local current_scheme = color_schemes.dark["gruvbox"]
+-- local current_scheme = color_schemes.dark["gruvbox"]
 -- local current_scheme = color_schemes.light["github"]
 -- local current_scheme = "Borland"
 
