@@ -46,6 +46,7 @@ vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
 vim.keymap.set("n", "<leader>'", ":make ", { desc = "Shell command" })
 vim.keymap.set("n", "<C-'>", ":make ", { desc = "Shell command" })
 vim.keymap.set("n", "<leader>cc", ":lua LM.api.utils.edit_custom_config()<cr>", { desc = "Open custom.lua" })
+vim.keymap.set("n", "<leader>ci", ":lua LM.api.utils.edit_init_file()<cr>", { desc = "Open init.lua" })
 vim.keymap.set("n", "<leader>cd", ":lua LM.api.utils.edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS

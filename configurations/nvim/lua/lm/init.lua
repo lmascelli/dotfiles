@@ -1,3 +1,7 @@
+if vim.fn.has('nvim-0.9') == 1 then
+  vim.loader.enable()
+end
+
 -- this provide some functionalities that may be needed by other
 -- packages and must not depend on anything but nvim api
 require 'lm.runtime'
