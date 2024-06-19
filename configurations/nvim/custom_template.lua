@@ -44,9 +44,21 @@ local plugins_list = {
   -- 'rust',
 }
 
-for _, plugin in ipairs(plugins_list) do
-  table.insert(LM.plugins.files_list, plugin)
-end
+-- example of pre plugins load function
+table.insert(LM.callbacks.pre_plugins_load, function()
+  for _, plugin in ipairs(plugins_list) do
+    table.insert(LM.plugins.files_list, plugin)
+  end
+end)
+
+-- example of post plugins load function
+table.insert(LM.callbacks.post_plugins_load, function()
+  require('mini.animate').setup()
+  require('mini.statusline').setup()
+  require('mini.notify').setup()
+end)
 
 -- example of post launch function
-table.insert(LM.callbacks.post_launch, function() end)
+table.insert(LM.callbacks.post_launch, function()
+  vim.g.neovide_remember_window_size = true
+end)

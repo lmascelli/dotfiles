@@ -210,6 +210,7 @@ return {
     })
 
     vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', { desc = 'Find file' })
+    vim.keymap.set('n', '<leader>bl', '<cmd>Pick buffers<cr>', { desc = 'List buffers' })
 
     local miniclue = require('mini.clue')
     miniclue.setup({
