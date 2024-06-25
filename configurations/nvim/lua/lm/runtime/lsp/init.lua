@@ -20,8 +20,21 @@ local function make_menu(bufnr)
   })
 end
 
+-- Check if LSP is enabled in the current buffer
+local function is_enabled()
+  local clients = vim.lsp.get_clients({
+    bufnr = vim.api.nvim_get_current_buf()
+  })
+  if next(clients) ~= nil then
+    return true
+  else
+    return false
+  end
+end
+
 LM.lsp = {
   capabilities = require 'lm.runtime.lsp.capability',
   on_attach = require 'lm.runtime.lsp.on_attach',
   c_query_driver = 'g++',
+  is_enabled = is_enabled,
 }

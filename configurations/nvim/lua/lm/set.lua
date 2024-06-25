@@ -62,8 +62,8 @@ vim.opt.scrolloff = 8           -- minimal number of screen lines to keep above 
 vim.opt.virtualedit = "onemore" -- let the cursor go one char after the end of the line
 vim.opt.laststatus = 3          -- only a statusline for all windows
 
+-- file encoding
 pcall(function()
-  -- file encoding
   vim.opt.fileencoding = 'utf-8'
 end)
 
@@ -98,6 +98,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 })
 
 
+-- diagnostics
 vim.diagnostic.config {
   signs = {
     active = true,
@@ -129,6 +130,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
   end
 })
+
+-- q closes quickfix window
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    if ev.file == "qf" then
+      vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<cmd>quit<cr>', { noremap = true, silent = true })
+  end
+  end
+})
+
 
 -- that is pure lunarvim knowledge
 -- for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
