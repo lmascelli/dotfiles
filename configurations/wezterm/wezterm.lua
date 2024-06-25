@@ -25,7 +25,7 @@ local color_schemes = {
   },
 }
 
--- local current_scheme = color_schemes.dark["gruvbox"]
+local current_scheme = color_schemes.dark["gruvbox"]
 -- local current_scheme = color_schemes.light["github"]
 -- local current_scheme = "Borland"
 
@@ -106,26 +106,28 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
   end
   window:set_config_overrides(overrides)
 end)
+
 --------------------------------------------------------------------------------
 --                                                                            --
 --                        KEYBINDS AND KEY TABLES                             --
 --                                                                            --
 --------------------------------------------------------------------------------
+
 local keys = {
-  { key = '1', mods = 'ALT', action = wezterm.action.ActivateTab(0) },
-  { key = '2', mods = 'ALT', action = wezterm.action.ActivateTab(1) },
-  { key = '3', mods = 'ALT', action = wezterm.action.ActivateTab(2) },
-  { key = '4', mods = 'ALT', action = wezterm.action.ActivateTab(3) },
-  { key = '5', mods = 'ALT', action = wezterm.action.ActivateTab(4) },
-  { key = '6', mods = 'ALT', action = wezterm.action.ActivateTab(5) },
-  { key = '7', mods = 'ALT', action = wezterm.action.ActivateTab(6) },
-  { key = '8', mods = 'ALT', action = wezterm.action.ActivateTab(7) },
-  { key = '9', mods = 'ALT', action = wezterm.action.ActivateTab(8) },
-  { key = '0', mods = 'ALT', action = wezterm.action.ActivateTab(9) },
-  { key = 'h', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Left'},
-  { key = 'l', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Right'},
-  { key = 'j', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Down'},
-  { key = 'k', mods = 'ALT', action = wezterm.action.ActivatePaneDirection 'Up'},
+  { key = '1', mods = 'ALT',    action = wezterm.action.ActivateTab(0) },
+  { key = '2', mods = 'ALT',    action = wezterm.action.ActivateTab(1) },
+  { key = '3', mods = 'ALT',    action = wezterm.action.ActivateTab(2) },
+  { key = '4', mods = 'ALT',    action = wezterm.action.ActivateTab(3) },
+  { key = '5', mods = 'ALT',    action = wezterm.action.ActivateTab(4) },
+  { key = '6', mods = 'ALT',    action = wezterm.action.ActivateTab(5) },
+  { key = '7', mods = 'ALT',    action = wezterm.action.ActivateTab(6) },
+  { key = '8', mods = 'ALT',    action = wezterm.action.ActivateTab(7) },
+  { key = '9', mods = 'ALT',    action = wezterm.action.ActivateTab(8) },
+  { key = '0', mods = 'ALT',    action = wezterm.action.ActivateTab(9) },
+  { key = 'h', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Left' },
+  { key = 'l', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Right' },
+  { key = 'j', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Down' },
+  { key = 'k', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Up' },
 
   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
   { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
@@ -357,7 +359,7 @@ config.window_padding = {
 config.hide_tab_bar_if_only_one_tab = true
 config.enable_tab_bar = show_tabs
 config.use_fancy_tab_bar = false
--- config.window_background_opacity = 0.95
+config.window_background_opacity = 0.95
 config.front_end = 'OpenGL' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
 -- config.front_end = 'WebGpu' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
 -- config.front_end = 'Software' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
@@ -376,7 +378,7 @@ config.font_dirs = { wezterm.config_dir .. "/fonts" }
 config.warn_about_missing_glyphs = false
 config.font = nil
 config.font_size = 10.0
--- config.font = wezterm.font('Perfect DOS VGA 437') 
+-- config.font = wezterm.font('Perfect DOS VGA 437')
 -- config.font_size = 11.0
 -- config.font = wezterm.font('Cascadia Code')
 -- config.font = wezterm.font('Source Code Pro')

@@ -25,6 +25,16 @@ LM.api.appearence.decrease_scale = function()
   vim.api.nvim__redraw({ win = vim.api.nvim_get_current_win(), valid = false })
 end
 
+LM.api.appearence.toggle_transparency = function()
+  if LM.appearence.transparency then
+    vim.g.neovide_transparency = 1.0
+    LM.appearence.transparency = false
+  else
+    vim.g.neovide_transparency = 0.95
+    LM.appearence.transparency = true
+  end
+end
+
 update_font()
 
 vim.keymap.set('n', '<leader>+', '<cmd>lua LM.api.appearence.increase_scale()<cr>', { desc = 'Increase font' })

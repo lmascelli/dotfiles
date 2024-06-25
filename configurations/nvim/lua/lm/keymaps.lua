@@ -90,6 +90,7 @@ vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 -- APPEARENCE
 vim.keymap.set('n', '<leader>ac', '<cmd>lua LM.api.appearence.load_theme()<cr>', { desc = 'Colorcheme' })
 vim.keymap.set('n', '<leader>at', '<cmd>lua LM.api.appearence.toggle_background()<cr>', { desc = 'Colorcheme' })
+vim.keymap.set('n', '<leader>ap', '<cmd>lua LM.api.appearence.toggle_transparency()<cr>', { desc = 'Transparency' })
 
 
 -- ------------------------------------- INSERT ----------------------------------
