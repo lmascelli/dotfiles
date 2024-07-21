@@ -108,13 +108,15 @@ LM.api.project = {
     end
     local repo_name = string.match(repo, pattern)
     if repo_name ~= nil then
-      local command = 'git clone ' .. repo .. ' .nvim/pack/plugins/opt/' .. repo_name
-      if vim.fn.isdirectory(' .nvim/pack/plugins/opt/' .. repo_name) == 0 then
+      if vim.fn.isdirectory('.nvim/pack/plugins/opt/' .. repo_name) == 0 then
+        local command = 'git clone ' .. repo .. ' .nvim/pack/plugins/opt/' .. repofolder
         vim.fn.jobstart(command, {
           on_exit = function()
             vim.notify(repo_name .. ' installed', vim.log.levels.INFO)
           end
         })
+      else
+        print (repo_name .. ' already installed. Skip installation')
       end
       return true
     else

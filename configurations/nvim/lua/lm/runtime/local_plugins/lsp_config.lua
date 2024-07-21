@@ -10,10 +10,11 @@ LM.local_plugins.lsp_config = {
   end,
 
   config = function ()
+    LM.plugins.with_lsp = true
     vim.cmd 'packadd nvim-lspconfig'
+    local lspconfig = require('lspconfig')
 
     local setup_server = function(server, opts)
-      local lspconfig = require('lspconfig')
       if opts == nil then
         opts = {}
       end
