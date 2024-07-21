@@ -35,7 +35,7 @@ LM.api.appearence.toggle_transparency = function()
   end
 end
 
-update_font()
+pcall(update_font)
 
 vim.keymap.set('n', '<leader>+', '<cmd>lua LM.api.appearence.increase_scale()<cr>', { desc = 'Increase font' })
 vim.keymap.set('n', '<c-+>', '<cmd>lua LM.api.appearence.increase_scale()<cr>', { desc = 'Increase font' })

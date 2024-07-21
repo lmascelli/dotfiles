@@ -37,4 +37,5 @@ LM.lsp = {
   on_attach = require 'lm.runtime.lsp.on_attach',
   c_query_driver = 'g++',
   is_enabled = is_enabled,
+  servers = {},
 }

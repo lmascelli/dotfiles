@@ -38,6 +38,7 @@ local plugins_list = {
   -- 'zen-mode',
   -- 'pets',
   -- 'noice',
+  -- 'astronvim',
   ----------------------- languages related
   'orgmode',
   -- 'clangd',

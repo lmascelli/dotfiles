@@ -35,12 +35,14 @@ require 'lm.keymaps'
 for i, f in ipairs(LM.callbacks.pre_plugins_load) do
   f()
 end
+
 -- load package manager TODO abstract the concept of package manager
 require 'lm.lazy'
 -- call each function in the post_plugins_load list
 for i, f in ipairs(LM.callbacks.post_plugins_load) do
   f()
 end
+
 -- load custom settings
 require 'lm.set'
 -- set apparence customizations

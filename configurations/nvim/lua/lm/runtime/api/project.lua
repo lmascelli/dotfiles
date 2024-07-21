@@ -73,7 +73,7 @@ LM.api.project = {
   load_local_nvim = function()
     if LM.api.project.chech_local_nvim() then
       vim.opt.packpath = vim.opt.packpath + -- add the .nvim local folder to manual plugins paths
-          (vim.fn.getcwd() .. '/.project.lua')
+          (vim.fn.getcwd() .. '/.nvim')
       dofile(".project.lua")
     else
       vim.notify("no local configuration found", vim.log.levels.INFO)
@@ -96,25 +96,30 @@ LM.api.project = {
   end,
 
   -- install a plugin locally from git
-  install_local_git_plugin = function()
+  install_local_git_plugin = function(repo)
     -- check if git is available
     if vim.fn.executable('git') == 0 then
       vim.notify('git is not available. install it first', vim.log.levels.ERROR)
       return
     end
     local pattern = '^https://github.com/[A-Za-z0-9_.-]+/([A-Za-z0-9_.-]+)$'
-    local repo = vim.fn.input('repo url: ')
+    if repo == nil then
+      repo = vim.fn.input('repo url: ')
+    end
     local repo_name = string.match(repo, pattern)
     if repo_name ~= nil then
       local command = 'git clone ' .. repo .. ' .nvim/pack/plugins/opt/' .. repo_name
-      vim.fn.jobstart(command, {
-        on_exit = function()
-          vim.notify(repo_name .. ' installed', vim.log.levels.INFO)
-        end
-      })
+      if vim.fn.isdirectory(' .nvim/pack/plugins/opt/' .. repo_name) == 0 then
+        vim.fn.jobstart(command, {
+          on_exit = function()
+            vim.notify(repo_name .. ' installed', vim.log.levels.INFO)
+          end
+        })
+      end
+      return true
     else
       vim.notify('enter a valid url', vim.log.levels.ERROR)
-      return
+      return false
     end
   end
 }

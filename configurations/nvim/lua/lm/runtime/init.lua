@@ -48,11 +48,14 @@ LM = {
     pre_plugins_load = {},
     post_plugins_load = {},
     post_launch = {},
+  },
+  local_plugins = {
   }
 }
 
 require 'lm.runtime.icons'
 require 'lm.runtime.lsp'
+require 'lm.runtime.local_plugins'
 require 'lm.runtime.api.utils'
 require 'lm.runtime.api.buffer'
 require 'lm.runtime.api.project'
