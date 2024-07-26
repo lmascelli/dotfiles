@@ -1,5 +1,5 @@
 {
-  "vim_mode": true,
+  "vim_mode": false,
   "relative_line_numbers": true,
   "telemetry": {
     "metrics": true
@@ -11,5 +11,8 @@
   "format_on_save": "off",
   "scrollbar": {
     "show": "never"
-  }
+  },
+  
+  "restore_on_startup": "none",
+  "remove_trailing_whitespace_on_save": false
 }
