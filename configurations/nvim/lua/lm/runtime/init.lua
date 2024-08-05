@@ -49,8 +49,6 @@ LM = {
     post_plugins_load = {},
     post_launch = {},
   },
-  local_plugins = {
-  }
 }
 
 require 'lm.runtime.icons'

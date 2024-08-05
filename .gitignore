@@ -2,6 +2,7 @@
 configurations/nvim/doc/tags
 configurations/nvim/doc/semantic-commit.txt
 configurations/nvim/custom.lua
+configurations/nvim/lua/tests/
 
 # EMACS
 configurations/emacs/.cache/

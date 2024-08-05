@@ -1,5 +1,5 @@
 {
-  "vim_mode": false,
+  "vim_mode": true,
   "relative_line_numbers": true,
   "telemetry": {
     "metrics": true

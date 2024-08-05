@@ -1,3 +1,4 @@
+if LM ~= nil then
 if LM.plugins.with_lsp and LM.lsp.servers.c == nil then
   LM.lsp.setup_server('clangd', {
     cmd = {
@@ -25,4 +26,5 @@ if LM.plugins.with_lsp and LM.lsp.servers.c == nil then
 
   vim.cmd 'LspStart'
   LM.lsp.servers.c = true
+end
 end

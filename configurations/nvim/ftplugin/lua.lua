@@ -1,3 +1,4 @@
+if LM ~= nil then
 if LM.plugins.with_lsp and LM.lsp.servers.lua == nil then
   LM.lsp.setup_server('lua_ls', {
     settings = {
@@ -22,4 +23,5 @@ if LM.plugins.with_lsp and LM.lsp.servers.lua == nil then
   vim.cmd 'LspStart'
 
   LM.lsp.servers.lua = true
+end
 end

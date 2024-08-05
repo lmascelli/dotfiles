@@ -1,3 +1,4 @@
+if LM ~= nil then
 if LM.plugins.with_lsp and LM.lsp.servers.python == nil then
   LM.lsp.setup_server('pylsp',
   {
@@ -36,9 +37,16 @@ if LM.plugins.with_lsp and LM.lsp.servers.python == nil then
     { buffer = bufnr, desc = "Install mypy" })
   end, 'python')
 
-  LM.lsp.setup_server('ruff', {})
+  LM.lsp.setup_server('ruff', {
+    init_options = {
+      settings = {
+
+      }
+    }
+  })
 
   vim.cmd 'LspStart'
 
   LM.lsp.servers.python = true
+end
 end
