@@ -7,10 +7,10 @@ return {
   },
   config = function()
     local paths = {}
-    paths[#paths + 1] = LM.api.utils.join_paths(vim.fn.stdpath('data'), "lazy",
+    paths[#paths + 1] = LM.utils.join_paths(vim.fn.stdpath('data'), "lazy",
       "friendly-snippets")
-    local user_snippets = LM.api.utils.join_paths(vim.fn.stdpath('config'), "snippets")
-    if LM.api.utils.is_directory(user_snippets) then
+    local user_snippets = LM.utils.join_paths(vim.fn.stdpath('config'), "snippets")
+    if LM.utils.is_directory(user_snippets) then
       paths[#paths + 1] = user_snippets
     end
     local ls = require("luasnip")

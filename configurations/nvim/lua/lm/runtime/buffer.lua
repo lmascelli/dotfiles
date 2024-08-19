@@ -1,10 +1,13 @@
-LM.api.buffer = {
+LM.buffer = {
+  c_style_separator = false,
+
   format = function()
     local curpos = vim.fn.getcurpos()
     vim.api.nvim_feedkeys('gg=G', 'n', false)
     for k, v in ipairs(curpos) do print(k, v) end
     vim.fn.cursor(curpos[2], curpos[3])
   end,
+
   delete = function()
     local count = 0
     for _, v in pairs(vim.api.nvim_list_bufs()) do

@@ -11,30 +11,30 @@ vim.keymap.set("n", "<C-g>", "<Escape>", {})
 
 -- PROJECT
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
-vim.keymap.set('n', '<leader>pc', '<cmd>lua LM.api.project.spawn_terminal()<cr>', {
+vim.keymap.set('n', '<leader>pc', '<cmd>lua LM.project.spawn_terminal()<cr>', {
   desc = 'spawn terminal here' })
-vim.keymap.set("n", '<leader>pi', '<cmd>lua LM.api.project.init_local_nvim()<cr>', { desc = 'Init local conf' })
-vim.keymap.set("n", '<leader>pl', '<cmd>lua LM.api.project.load_local_nvim()<cr>', { desc = 'Load local conf' })
-vim.keymap.set("n", '<leader>pI', '<cmd>lua LM.api.project.install_local_git_plugin()<cr>',
+vim.keymap.set("n", '<leader>pi', '<cmd>lua LM.project.init_local_nvim()<cr>', { desc = 'Init local conf' })
+vim.keymap.set("n", '<leader>pl', '<cmd>lua LM.project.load_local_nvim()<cr>', { desc = 'Load local conf' })
+vim.keymap.set("n", '<leader>pI', '<cmd>lua LM.project.install_local_git_plugin()<cr>',
   { desc = 'Install local plugin' })
--- vim.keymap.set("n", "<leader>pl", '<cmd>lua LM.api.project.project_lua()<cr>', {
+-- vim.keymap.set("n", "<leader>pl", '<cmd>lua LM.project.project_lua()<cr>', {
 --   silent = true,
 --   nowait = true,
 --   desc = "project.lua"
 -- })
-vim.keymap.set("n", "<leader>pp", '<cmd>lua LM.api.project.project_ps1()<cr>', {
+vim.keymap.set("n", "<leader>pp", '<cmd>lua LM.project.project_ps1()<cr>', {
   silent = true,
   nowait = true,
   desc = "project.ps1"
 })
 
 -- EXPLORER
-vim.keymap.set("n", "<leader>e", "<cmd>lua LM.api.toggle_explorer()<cr>", { desc = "NetRw" })
+vim.keymap.set("n", "<leader>e", "<cmd>lua LM.toggle_explorer()<cr>", { desc = "NetRw" })
 
 -- DIAGNOSTICS
-vim.keymap.set("n", "<leader>dl", LM.api.diagnostics.list_errors, { desc = "list" })
-vim.keymap.set("n", "<leader>dn", LM.api.diagnostics.next_error, { desc = "next" })
-vim.keymap.set("n", "<leader>dp", LM.api.diagnostics.previous_error, { desc = "previous" })
+vim.keymap.set("n", "<leader>dl", LM.diagnostics.list_errors, { desc = "list" })
+vim.keymap.set("n", "<leader>dn", LM.diagnostics.next_error, { desc = "next" })
+vim.keymap.set("n", "<leader>dp", LM.diagnostics.previous_error, { desc = "previous" })
 vim.keymap.set("n", "<leader>dd", "<cmd>:cc ", { desc = "number" })
 
 -- VARIOUS
@@ -45,9 +45,9 @@ vim.keymap.set("n", "<tab>", "==", {})
 vim.keymap.set("n", "<leader><leader>", ":", { desc = "Command mode" })
 vim.keymap.set("n", "<leader>'", ":make ", { desc = "Shell command" })
 vim.keymap.set("n", "<C-'>", ":make ", { desc = "Shell command" })
-vim.keymap.set("n", "<leader>cc", ":lua LM.api.utils.edit_custom_config()<cr>", { desc = "Open custom.lua" })
-vim.keymap.set("n", "<leader>ci", ":lua LM.api.utils.edit_init_file()<cr>", { desc = "Open init.lua" })
-vim.keymap.set("n", "<leader>cd", ":lua LM.api.utils.edit_conf_dir(true)<cr>", { desc = "Open configuration" })
+vim.keymap.set("n", "<leader>cc", ":lua LM.utils.edit_custom_config()<cr>", { desc = "Open custom.lua" })
+vim.keymap.set("n", "<leader>ci", ":lua LM.utils.edit_init_file()<cr>", { desc = "Open init.lua" })
+vim.keymap.set("n", "<leader>cd", ":lua LM.utils.edit_conf_dir(true)<cr>", { desc = "Open configuration" })
 
 --  WINDOWS
 vim.keymap.set('n', '<leader>wc', '<cmd>q<cr>', { desc = "Close" })
@@ -78,8 +78,8 @@ vim.keymap.set("n", "<c-tab>", "<cmd>:tabnext<cr>", { desc = "Next tab" })
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "" })
-vim.keymap.set("n", "<leader>bf", "<cmd>:lua LM.api.buffer.format()<cr>", { desc = "Format" })
-vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.api.buffer.delete()<cr>", { desc = "Delete" })
+vim.keymap.set("n", "<leader>bf", "<cmd>:lua LM.buffer.format()<cr>", { desc = "Format" })
+vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.buffer.delete()<cr>", { desc = "Delete" })
 
 -- SEARCHING
 vim.keymap.set('n', '<leader>ff', ':find ', { desc = 'Find file' })
@@ -88,9 +88,9 @@ vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 
 -- APPEARENCE
-vim.keymap.set('n', '<leader>ac', '<cmd>lua LM.api.appearence.load_theme()<cr>', { desc = 'Colorcheme' })
-vim.keymap.set('n', '<leader>at', '<cmd>lua LM.api.appearence.toggle_background()<cr>', { desc = 'Colorcheme' })
-vim.keymap.set('n', '<leader>ap', '<cmd>lua LM.api.appearence.toggle_transparency()<cr>', { desc = 'Transparency' })
+vim.keymap.set('n', '<leader>ac', '<cmd>lua LM.appearence.load_theme()<cr>', { desc = 'Colorcheme' })
+vim.keymap.set('n', '<leader>at', '<cmd>lua LM.appearence.toggle_background()<cr>', { desc = 'Colorcheme' })
+vim.keymap.set('n', '<leader>ap', '<cmd>lua LM.appearence.toggle_transparency()<cr>', { desc = 'Transparency' })
 
 
 -- ------------------------------------- INSERT ----------------------------------
@@ -108,8 +108,8 @@ vim.keymap.set("i", "<C-ì>", "<C-k>'?", {})
 vim.keymap.set("i", "<C-'>", "<C-k>'!", {})
 vim.keymap.set("i", "<s-cr>", "<c-o>O", {})
 vim.keymap.set("i", "<c-cr>", "<c-o>o", {})
-vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.api.completion.complete()<cr>", {})
-vim.keymap.set("i", "<C-_>", "<cmd>lua LM.api.completion.complete()<cr>", {})
+vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.completion.complete()<cr>", {})
+vim.keymap.set("i", "<C-_>", "<cmd>lua LM.completion.complete()<cr>", {})
 
 -- File saving
 vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})

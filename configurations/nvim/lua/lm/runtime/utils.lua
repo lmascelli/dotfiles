@@ -1,4 +1,4 @@
-LM.api.utils = {
+LM.utils = {
   -- execute a command attaching it to a new buffer
   exec_cmd = function(cmd)
     local buf = vim.api.nvim_create_buf(false, false)
@@ -17,7 +17,7 @@ LM.api.utils = {
   edit_conf_dir = function(open_explorer)
     vim.fn.chdir(vim.fn.stdpath 'config')
     if open_explorer then
-      LM.api.toggle_explorer()
+      LM.toggle_explorer()
     end
   end,
 

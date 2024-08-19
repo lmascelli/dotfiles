@@ -1,12 +1,21 @@
-LM.api.appearence = {
+LM.appearence = {
+  colorscheme = 'default',
+  transparency = false,
+  lines = 40,
+  columns = 90,
+  font = {
+    font_name = '',
+    font_size = 10,
+  },
+
   load_theme = function()
     local key = vim.api.nvim_replace_termcodes("<escape>:colorscheme ", true, false, true)
     vim.api.nvim_feedkeys(key, 'n', false)
   end,
 
   resize_window = function()
-    vim.cmd( 'set columns=' .. LM.appearence.columns )
-    vim.cmd( 'set lines='.. LM.appearence.lines )
+    vim.cmd('set columns=' .. LM.appearence.columns)
+    vim.cmd('set lines=' .. LM.appearence.lines)
   end,
 
   -- toggle the colorcolumn at line 80

@@ -1,4 +1,4 @@
-LM.api.project = {
+LM.project = {
   -- exec PROJECT.PS1 script
   project_ps1 = function(in_buf)
     if (vim.fn.findfile('project.ps1') == 'project.ps1') then
@@ -8,7 +8,7 @@ LM.api.project = {
         vim.fn.jobstart(cmd)
       else
         local cmd = 'pwsh -Command ./project.ps1 ' .. action
-        LM.api.utils.exec_cmd(cmd)
+        LM.utils.exec_cmd(cmd)
         vim.cmd ':startinsert'
       end
     else
@@ -71,7 +71,7 @@ LM.api.project = {
 
   -- load the local nvim configuration
   load_local_nvim = function()
-    if LM.api.project.chech_local_nvim() then
+    if LM.project.chech_local_nvim() then
       vim.opt.packpath = vim.opt.packpath + -- add the .nvim local folder to manual plugins paths
           (vim.fn.getcwd() .. '/.nvim')
       dofile(".project.lua")

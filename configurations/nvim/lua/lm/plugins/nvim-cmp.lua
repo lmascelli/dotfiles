@@ -82,7 +82,7 @@ local cmp = {
       LM.lsp.capabilities = require('cmp_nvim_lsp').default_capabilities()
     end
 
-    LM.api.complete = function()
+    LM.complete = function()
       cmp.complete()
     end
   end

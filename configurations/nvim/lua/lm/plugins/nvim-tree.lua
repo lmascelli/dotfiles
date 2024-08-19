@@ -11,7 +11,7 @@ return {
     }
   end,
   init = function()
-    LM.api.toggle_explorer = function()
+    LM.toggle_explorer = function()
       vim.cmd ':NvimTreeToggle'
     end
   end

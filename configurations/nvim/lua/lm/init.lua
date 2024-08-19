@@ -11,6 +11,7 @@ require 'lm.runtime'
 -- a default one
 local custom_file = vim.fn.stdpath('config') .. '/custom.lua'
 if vim.fn.filereadable(custom_file) ~= 0 then
+  dofile(custom_file)
   local res, _ = pcall(dofile, custom_file)
   if not res then
     vim.notify("ERROR loading custom.lua")
@@ -23,10 +24,10 @@ end
 -- check if there is a project level configuration file
 -- for example you may want to enable lsp on some projects
 -- but keep it disabled by default
-LM.api.project.load_local_nvim()
+LM.project.load_local_nvim()
 vim.api.nvim_create_autocmd("DirChanged", {
   group = LM.augroups.chdir,
-  callback = LM.api.project.load_local_nvim,
+  callback = LM.project.load_local_nvim,
 })
 
 -- load base keybindings

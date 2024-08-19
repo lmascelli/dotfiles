@@ -10,7 +10,7 @@ return {
     vim.keymap.set('n', '<C-p>', '<cmd>Telescope git_files<cr>', {})
     vim.keymap.set('n', '<leader>fg', '<cmd>Telescope grep_string<cr>', { desc = "grep" })
 
-    LM.api.appearence.load_theme = function()
+    LM.appearence.load_theme = function()
       vim.cmd 'Telescope colorscheme enable_preview=true<cr>'
     end
   end

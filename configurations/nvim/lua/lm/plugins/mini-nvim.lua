@@ -59,7 +59,7 @@ return {
       }
     )
 
-    LM.api.complete = function()
+    LM.complete = function()
       MiniCompletion.complete_twostage()
     end
 
@@ -117,7 +117,7 @@ return {
       }
     })
 
-    LM.api.toggle_explorer = function()
+    LM.toggle_explorer = function()
       MiniFiles.open()
     end
 

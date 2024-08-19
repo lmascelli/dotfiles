@@ -25,11 +25,11 @@ return {
     vim.cmd 'CocStart'
     vim.cmd 'CocDisable'
 
-    LM.api.complete = function()
+    LM.complete = function()
       vim.fn.eval("coc#refresh()")
     end
 
-    LM.api.toggle_explorer = function()
+    LM.toggle_explorer = function()
       vim.cmd 'CocCommand explorer'
     end
 

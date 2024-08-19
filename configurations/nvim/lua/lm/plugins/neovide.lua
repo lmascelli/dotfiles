@@ -15,17 +15,17 @@ local update_font = function()
   vim.cmd(':set guifont=' .. ufont .. ':h' .. font_size)
 end
 
-LM.api.appearence.increase_scale = function()
+LM.appearence.increase_scale = function()
   vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * 1.15
   vim.api.nvim__redraw({ win = vim.api.nvim_get_current_win(), valid = false })
 end
 
-LM.api.appearence.decrease_scale = function()
+LM.appearence.decrease_scale = function()
   vim.g.neovide_scale_factor = vim.g.neovide_scale_factor / 1.15
   vim.api.nvim__redraw({ win = vim.api.nvim_get_current_win(), valid = false })
 end
 
-LM.api.appearence.toggle_transparency = function()
+LM.appearence.toggle_transparency = function()
   if LM.appearence.transparency then
     vim.g.neovide_transparency = 1.0
     LM.appearence.transparency = false
@@ -37,14 +37,14 @@ end
 
 pcall(update_font)
 
-vim.keymap.set('n', '<leader>+', '<cmd>lua LM.api.appearence.increase_scale()<cr>', { desc = 'Increase font' })
-vim.keymap.set('n', '<c-+>', '<cmd>lua LM.api.appearence.increase_scale()<cr>', { desc = 'Increase font' })
-vim.keymap.set('n', '<leader>-', '<cmd>lua LM.api.appearence.decrease_scale()<cr>', { desc = 'Decrease font' })
-vim.keymap.set('n', '<c-->', '<cmd>lua LM.api.appearence.decrease_scale()<cr>', { desc = 'Decrease font' })
+vim.keymap.set('n', '<leader>+', '<cmd>lua LM.appearence.increase_scale()<cr>', { desc = 'Increase font' })
+vim.keymap.set('n', '<c-+>', '<cmd>lua LM.appearence.increase_scale()<cr>', { desc = 'Increase font' })
+vim.keymap.set('n', '<leader>-', '<cmd>lua LM.appearence.decrease_scale()<cr>', { desc = 'Decrease font' })
+vim.keymap.set('n', '<c-->', '<cmd>lua LM.appearence.decrease_scale()<cr>', { desc = 'Decrease font' })
 vim.keymap.set('n', '<f11>', function()
   vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
 end, { desc = 'decrease font' })
-vim.keymap.set('n', '<f10>', LM.api.appearence.resize_window, { desc = '135x40' })
+vim.keymap.set('n', '<f10>', LM.appearence.resize_window, { desc = '135x40' })
 vim.keymap.set('n', '<leader>w<f2>', function()
   vim.cmd [[
   set columns=135

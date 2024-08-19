@@ -1,4 +1,4 @@
-LM.api.diagnostics = {
+LM.diagnostics = {
   list_errors = function()
     if LM.lsp.is_enabled() then
       vim.diagnostic.setloclist()

@@ -1,8 +1,8 @@
 LM.local_plugins.lsp_config = {
   install = function ()
-    if LM.api.project.chech_local_nvim() then
+    if LM.project.chech_local_nvim() then
       print "Installing lsp_config locally"
-      return LM.api.project.install_local_git_plugin('https://github.com/neovim/nvim-lspconfig')
+      return LM.project.install_local_git_plugin('https://github.com/neovim/nvim-lspconfig')
     else
       print "No local configuration"
       return false

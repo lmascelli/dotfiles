@@ -4,8 +4,8 @@ vim.g.netrw_winsize = -25
 
 
 if LM then
-  if LM.api.toggle_explorer == nil then
-    LM.api.toggle_explorer = function()
+  if LM.toggle_explorer == nil then
+    LM.toggle_explorer = function()
       vim.cmd('Lexplore')
     end
   end

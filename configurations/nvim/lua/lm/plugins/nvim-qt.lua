@@ -39,7 +39,7 @@ return {
     end
 
     if vim.fn.exists(':GuiWindowOpacity') ~= 0 then
-      LM.api.appearence.toggle_transparency = function()
+      LM.appearence.toggle_transparency = function()
         if LM.appearence.transparency then
           vim.cmd 'GuiWindowOpacity 1'
           LM.appearence.transparency = false

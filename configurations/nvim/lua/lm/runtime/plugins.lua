@@ -1,5 +1,11 @@
-LM.api.plugins = {
-  add_plugin = function (file_name)
+LM.plugins = {
+  with_which_key = false,
+  with_lsp = false,
+  with_coc = false,
+  files_list = {},
+  table = {},
+
+  add_plugin = function(file_name)
     local is_present = false
     for _, p in ipairs(LM.plugins.files_list) do
       if p == file_name then
