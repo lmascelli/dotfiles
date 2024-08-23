@@ -32,9 +32,33 @@ local function is_enabled()
   end
 end
 
+local function configure()
+  for _, config in pairs(LM.lsp.servers) do
+    if vim.fn.executable(config.cmd[1]) ~= 0 then
+      vim.api.nvim_create_autocmd("FileType", {
+        group = LM.augroups.lsp,
+        pattern = config.filetypes,
+        callback = function(ev)
+          vim.lsp.start(config, {
+            bufnr = ev.buf
+          })
+        end
+      })
+    end
+  end
+
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("LMLspAttach", { clear = false }),
+    callback = function(ev)
+      vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, { autotrigger = true })
+    end
+  })
+end
+
 LM.lsp = {
   capabilities = require 'lm.runtime.lsp.capability',
   on_attach = require 'lm.runtime.lsp.on_attach',
+  configure = configure,
   c_query_driver = 'g++',
   is_enabled = is_enabled,
   servers = {},

@@ -12,3 +12,5 @@ require 'lm.runtime.plugins'
 require 'lm.runtime.diagnostics'
 require 'lm.runtime.appearence'
 require 'lm.runtime.completion'
+
+require 'lm.runtime.languages'

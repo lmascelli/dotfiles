@@ -11,4 +11,7 @@ LM.augroups = {
   lsp_menu = vim.api.nvim_create_augroup("LspMenu", {
     clear = true,
   }),
+  lsp = vim.api.nvim_create_augroup("LMLspStart", {
+    clear = true
+  }),
 }
