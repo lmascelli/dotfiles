@@ -4,15 +4,17 @@
   "telemetry": {
     "metrics": true
   },
+  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_size": 13,
+  "buffer_font_features": {
+  },
   "theme": "Gruvbox Dark Hard",
   "ui_font_size": 14,
-  "buffer_font_size": 15,
   "scroll_sensitivity": 1.5,
   "format_on_save": "off",
   "scrollbar": {
     "show": "never"
   },
-  
   "restore_on_startup": "none",
   "remove_trailing_whitespace_on_save": false
 }

@@ -32,8 +32,10 @@ local function is_enabled()
   end
 end
 
-local function configure()
-  for _, config in pairs(LM.lsp.servers) do
+local function configure(language)
+  local config = LM.languages[language]
+  if config ~= nil then
+    config = config.lsp_config
     if vim.fn.executable(config.cmd[1]) ~= 0 then
       vim.api.nvim_create_autocmd("FileType", {
         group = LM.augroups.lsp,
@@ -44,6 +46,8 @@ local function configure()
           })
         end
       })
+    else
+      vim.print("LM.lsp.configure: " .. language .. " not present in configurations")
     end
   end
 
@@ -51,6 +55,7 @@ local function configure()
     group = vim.api.nvim_create_augroup("LMLspAttach", { clear = false }),
     callback = function(ev)
       vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, { autotrigger = true })
+      vim.bo[ev.buf].formatexpr = 'v:lua.vim.lsp.formatexpr()'
     end
   })
 end

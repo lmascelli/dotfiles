@@ -3,7 +3,7 @@ return {
   cmd = 'TagbarToggle',
   lazy = true,
   init = function()
-    vim.keymap.set('n', '<leader><f8>', '<cmd>TagbarToggle<cr>', { desc = 'Toggle Tagbar' })
+    vim.keymap.set('n', '<f8>', '<cmd>TagbarToggle<cr>', { desc = 'Toggle Tagbar' })
   end,
   config = function()
     vim.cmd [[

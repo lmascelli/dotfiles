@@ -1,4 +1,7 @@
 ;;; -*- lisp-data -*-
-(("/home/leonardo/Documents/unige/spike-rs/") ("/home/leonardo/kit/wgpu-tut/")
- ("/home/leonardo/dotfiles/") ("/home/leonardo/Documents/unige/hdf5-rs/")
+(("~/Documents/unige/spike-rs/")
+ ("/home/leonardo/Documents/unige/spike-rs/")
+ ("/home/leonardo/kit/wgpu-tut/")
+ ("/home/leonardo/dotfiles/")
+ ("/home/leonardo/Documents/unige/hdf5-rs/")
  ("/home/leonardo/Documents/unige/mc_explorer/"))
