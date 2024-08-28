@@ -3,6 +3,8 @@
 " Last Change: 2014-07-05
 "
 " Modified version by
+"  Leonardo Mascelli
+" Modified version by
 "  Adam Stankiewicz (sheerun@sher.pl)
 " Modified version of wombat for 256-color terminals by
 "  David Liang (bmdavll@gmail.com)
@@ -31,7 +33,8 @@ hi Title ctermfg=230 cterm=bold guifg=#ffffd7 gui=bold
 hi StatusLine ctermfg=230 ctermbg=238 cterm=none guifg=#ffffd7 guibg=#444444 gui=none
 hi VertSplit ctermfg=238 ctermbg=238 cterm=none guifg=#444444 guibg=#444444 gui=none
 hi StatusLineNC ctermfg=241 ctermbg=238 cterm=none guifg=#857b6f guibg=#444444 gui=none
-hi LineNr ctermfg=241 ctermbg=232 cterm=none guifg=#857b6f guibg=#080808 gui=none
+hi link LineNr Normal
+"hi LineNr ctermfg=241 ctermbg=232 cterm=none guifg=#857b6f guibg=#080808 gui=none
 hi SpecialKey ctermfg=241 ctermbg=235 cterm=none guifg=#626262 guibg=#2b2b2b gui=none
 hi WarningMsg ctermfg=203 guifg=#ff5f55
 hi ErrorMsg ctermfg=196 ctermbg=234 cterm=bold guifg=#e3e0d7 guibg=#3a3a3a gui=bold
@@ -69,8 +72,9 @@ hi Todo ctermfg=101 cterm=none guifg=#857b6f gui=none
 " Links
 hi! link FoldColumn Folded
 hi! link CursorColumn CursorLine
-hi! link NonText LineNr
+" hi! link NonText LineNr
 
 " Awesome 80 characters delemiter
 execute "set colorcolumn=" . join(range(81,335), ',')
-hi ColorColumn guibg=#262626 ctermbg=235
+hi ColorColumn ctermfg=252 ctermbg=234 cterm=none guifg=#e3e0d7 guibg=#242424 gui=none
+" hi ColorColumn guibg=#262626 ctermbg=235
