@@ -23,7 +23,7 @@ return {
   end,
   config = function()
     vim.cmd 'CocStart'
-    vim.cmd 'CocDisable'
+    -- vim.cmd 'CocDisable'
 
     LM.complete = function()
       vim.fn.eval("coc#refresh()")
