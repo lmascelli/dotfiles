@@ -91,7 +91,11 @@ LM.project = {
       vim.fn.mkdir('.nvim/pack/plugins/opt', 'p')
     end
     if nvim_file == 0 then
-      vim.fn.writefile({}, cwd .. '/.project.lua')
+      vim.fn.writefile({
+        "table.insert(LM.callback.post_launch( function ()",
+        "  ",
+        "end))",
+      }, cwd .. '/.project.lua')
     end
     vim.cmd 'e .project.lua'
   end,
