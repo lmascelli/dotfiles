@@ -20,7 +20,7 @@ if version > 580
  endif
 endif
 
-let colors_name = "wombat"
+let g:colors_name = "wombat"
 
 " General colors
 hi Normal ctermfg=252 ctermbg=234 cterm=none guifg=#e3e0d7 guibg=#242424 gui=none
@@ -43,7 +43,7 @@ hi SpellCap ctermfg=196 ctermbg=234 cterm=bold guifg=#e3e0d7 guibg=#3a3a3a gui=b
 
 " Vim >= 7.0 specific colors
 if version >= 700
-hi CursorLine ctermfg=252 ctermbg=234 cterm=none guifg=#e3e0d7 guibg=#242424 gui=none
+hi CursorLine ctermfg=252 ctermbg=none cterm=none guifg=#e3e0d7 guibg=none gui=none
 hi MatchParen ctermfg=228 ctermbg=101 cterm=bold guifg=#eae788 guibg=#857b6f gui=bold
 hi Pmenu ctermfg=230 ctermbg=238 guifg=#ffffd7 guibg=#444444
 hi PmenuSel ctermfg=232 ctermbg=192 guifg=#080808 guibg=#cae982
@@ -75,6 +75,7 @@ hi! link CursorColumn CursorLine
 " hi! link NonText LineNr
 
 " Awesome 80 characters delemiter
-execute "set colorcolumn=" . join(range(81,335), ',')
+" execute "set colorcolumn=" . join(range(81,335), ',')
 hi ColorColumn ctermfg=252 ctermbg=234 cterm=none guifg=#e3e0d7 guibg=#242424 gui=none
 " hi ColorColumn guibg=#262626 ctermbg=235
+doautocmd ColorScheme

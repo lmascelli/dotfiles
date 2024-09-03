@@ -89,15 +89,6 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
   }
 )
 
--- no border color for the floating windows
-vim.api.nvim_create_autocmd('ColorScheme', {
-  group = LM.augroups.colorscheme,
-  callback = function()
-    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
-  end
-})
-
-
 -- diagnostics
 vim.diagnostic.config {
   signs = {
@@ -117,7 +108,7 @@ vim.diagnostic.config {
     focusable = true,
     style = "minimal",
     border = _border,
-    source = "always",
+    source = true,
     header = "",
     prefix = "",
   },

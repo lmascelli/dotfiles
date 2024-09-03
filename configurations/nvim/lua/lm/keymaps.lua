@@ -112,7 +112,7 @@ vim.keymap.set("i", "<C-Space>", "<cmd>lua LM.completion.complete()<cr>", {})
 vim.keymap.set("i", "<C-_>", "<cmd>lua LM.completion.complete()<cr>", {})
 
 -- File saving
-vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})
+-- vim.keymap.set("i", "<C-s>", "<cmd>:w!<cr>", {})
 
 vim.keymap.set("i", '<Left>', "")
 vim.keymap.set("i", '<Right>', "")
