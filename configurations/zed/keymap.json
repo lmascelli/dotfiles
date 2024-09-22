@@ -4,7 +4,8 @@
       "ctrl-w": "zed::NoAction",
       "ctrl-w ctrl-w": "pane::CloseActiveItem",
       "alt-b": "workspace::ToggleLeftDock",
-      "alt-m": "terminal_panel::ToggleFocus"
+      "alt-m": "workspace::ToggleBottomDock",
+      "alt-l": "workspace::ToggleZoom"
     }
   },
   {
@@ -13,6 +14,7 @@
       "ctrl-w": "zed::NoAction",
       "ctrl-w c": "pane::CloseActiveItem",
       "shift-enter": "editor::NewlineAbove",
+      "g q": "editor::Format"
     }
   },
   {

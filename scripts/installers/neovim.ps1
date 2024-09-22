@@ -1,6 +1,6 @@
 switch ($args[0]) {
   "-s" {
-    git clone https://github.com/neovim.git --depth=1
+    git clone https://github.com/neovim/neovim.git --depth=1
     cd neovim
     cmake -S cmake.deps -B .deps -G Ninja -D CMAKE_BUILD_TYPE=Release -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS=ON
     cmake --build .deps

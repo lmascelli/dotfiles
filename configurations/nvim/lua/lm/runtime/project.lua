@@ -92,9 +92,9 @@ LM.project = {
     end
     if nvim_file == 0 then
       vim.fn.writefile({
-        "table.insert(LM.callback.post_launch( function ()",
+        "table.insert(LM.callback.post_launch, function ()",
         "  ",
-        "end))",
+        "end)",
       }, cwd .. '/.project.lua')
     end
     vim.cmd 'e .project.lua'

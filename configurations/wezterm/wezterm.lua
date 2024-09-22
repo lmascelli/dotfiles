@@ -25,15 +25,20 @@ local color_schemes = {
   },
 }
 
+-- local current_scheme = nil
 local current_scheme = color_schemes.dark["gruvbox"]
 -- local current_scheme = color_schemes.light["github"]
 -- local current_scheme = "Borland"
 
 local function program_exists(program)
   local handle = io.popen("command -v " .. program)
-  local result = handle:read("*a")
-  handle:close()
-  return result ~= ""
+  if handle ~= nil then
+    local result = handle:read("*a")
+    handle:close()
+    return result ~= ""
+  else
+    return nil
+  end
 end
 
 local default_prog = function()
@@ -67,11 +72,6 @@ end)
 --                           EVENT FUNCTIONS                                  --
 --                                                                            --
 --------------------------------------------------------------------------------
-
--- OPEN WEZTERM CONFIG WITH NVIM-QT
-wezterm.on('open-config', function()
-  wezterm.run_child_process { 'nvim-qt', wezterm.config_file }
-end)
 
 -- DISPLAY THE CURRENT TABLE VALUE IN TAB PANEL
 wezterm.on('update-right-status', function(window, pane)
@@ -373,14 +373,12 @@ config.initial_rows = 35
 ------------------------------------
 
 -- FONT
--- config.cell_width = 1.0
+config.cell_width = 1.1
+config.font_size = 11.0
 config.font_dirs = { wezterm.config_dir .. "/fonts" }
 config.warn_about_missing_glyphs = false
--- config.font = nil
 -- config.font = wezterm.font('Perfect DOS VGA 437')
--- config.font_size = 10.0
-config.font_size = 9.5
--- config.font = wezterm.font('Cascadia Code NF')
+config.font = wezterm.font('Cascadia Code NF')
 -- config.font = wezterm.font('CaskaydiaCove Nerd Font')
 -- config.font = wezterm.font('Source Code Pro')
 -- config.font = wezterm.font('JetBrains Mono NF')
