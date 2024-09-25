@@ -338,6 +338,8 @@
 ;; ;; Avoid automatic frame resizing when adjusting settings.
 ;; (setq global-text-scale-adjust-resizes-frames nil)
 
+(load-file custom-file)
+
 ;; ;;; Load post-init.el
 ;; (minimal-emacs-load-user-init "post-init.el")
 
