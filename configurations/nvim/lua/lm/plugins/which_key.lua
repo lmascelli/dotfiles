@@ -8,6 +8,15 @@ return {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   },
+  keys = {
+    {
+      "<leader>?",
+      function()
+        require("which-key").show({ global = false })
+      end,
+      desc = "Buffer Local Keymaps (which-key)",
+    },
+  },
   config = function()
     local wk = require("which-key")
 
@@ -33,65 +42,42 @@ return {
       },
       -- add operators that will trigger motion and text object completion
       -- to enable all native operators, set the preset / operators plugin above
-      operators = { gc = "Comments" },
-      key_labels = {
-        -- override the label used to display some keys. It doesn't effect WK in any other way.
-        -- For example:
-        -- ["<space>"] = "SPC",
-        -- ["<cr>"] = "RET",
-        -- ["<tab>"] = "TAB",
-      },
-      motions = {
-        count = true,
-      },
       icons = {
         breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
         separator = "➜", -- symbol used between a key and it's label
         group = "+", -- symbol prepended to a group
       },
-      popup_mappings = {
+      keys = {
         scroll_down = "<c-d>", -- binding to scroll down inside the popup
-        scroll_up = "<c-u>",   -- binding to scroll up inside the popup
+        scroll_up = "<c-u>", -- binding to scroll up inside the popup
       },
-      window = {
-        border = "single",          -- none, single, double, shadow
-        position = "bottom",      -- bottom, top
-        margin = { 1, 0, 1, 0 },  -- extra window margin [top, right, bottom, left]. When between 0 and 1, will be treated as a percentage of the screen size.
-        padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
-        winblend = 0,             -- value between 0-100 0 for fully opaque and 100 for fully transparent
-        zindex = 1000,            -- positive value to position WhichKey above other floating windows.
+      win = {
+        -- don't allow the popup to overlap with the cursor
+        no_overlap = true,
+        -- width = 1,
+        -- height = { min = 4, max = 25 },
+        -- col = 0,
+        -- row = math.huge,
+        -- border = "none",
+        padding = { 1, 2 }, -- extra window padding [top/bottom, right/left]
+        title = true,
+        title_pos = "center",
+        zindex = 1000,
+        -- Additional vim.wo and vim.bo options
+        bo = {},
+        wo = {
+          -- winblend = 10, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+        },
       },
       layout = {
-        height = { min = 4, max = 25 },                                                 -- min and max height of the columns
-        width = { min = 20, max = 50 },                                                 -- min and max width of the columns
-        spacing = 3,                                                                    -- spacing between columns
-        align = "left",                                                                 -- align columns left, center or right
+        height = { min = 4, max = 25 }, -- min and max height of the columns
+        width = { min = 20, max = 50 }, -- min and max width of the columns
+        spacing = 3,                    -- spacing between columns
+        align = "left",                 -- align columns left, center or right
       },
-      ignore_missing = false,                                                           -- enable this to hide mappings for which you didn't specify a label
-      hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "^:", "^ ", "^call ", "^lua " }, -- hide mapping boilerplate
-      show_help = true,                                                                 -- show a help message in the command line for using WhichKey
-      show_keys = true,                                                                 -- show the currently pressed key and its label as a message in the command line
-      triggers = "auto",                                                                -- automatically setup triggers
-      -- triggers = {"<leader>"} -- or specifiy a list manually
+      show_help = true,                 -- show a help message in the command line for using WhichKey
+      show_keys = true,                 -- show the currently pressed key and its label as a message in the command line
       -- list of triggers, where WhichKey should not wait for timeoutlen and show immediately
-      triggers_nowait = {
-        -- marks
-        "`",
-        "'",
-        "g`",
-        "g'",
-        -- registers
-        '"',
-        "<c-r>",
-        -- spelling
-        "z=",
-      },
-      triggers_blacklist = {
-        -- list of mode / prefixes that should never be hooked by WhichKey
-        -- this is mostly relevant for keymaps that start with a native binding
-        i = { "j", "k" },
-        v = { "j", "k" },
-      },
       -- disable the WhichKey popup for certain buf types and file types.
       -- Disabled by default for Telescope
       disable = {
@@ -107,21 +93,35 @@ return {
     vim.cmd 'hi! link WhichKeyBorder Normal'
     vim.cmd 'hi! link WhichKeyFloat Normal'
 
-    wk.register({
-      q = { name = 'Quit' },
-      a = { name = 'Appearence' },
-      c = { name = 'Configuration' },
-      d = { name = 'Diagnostics' },
-      p = { name = 'Project' },
-      w = { name = 'Window' },
-      t = { name = 'Tab' },
-      b = { name = 'Buffer' },
-      f = { name = 'Find' },
-      l = {
-        name = 'Lsp',
-        g = { name = 'Go To' },
-        d = { name = 'Diagnostics' },
-      },
-    }, { prefix = "<leader>" })
+    -- wk.register({
+    --   q = { name = 'Quit' },
+    --   a = { name = 'Appearence' },
+    --   c = { name = 'Configuration' },
+    --   d = { name = 'Diagnostics' },
+    --   p = { name = 'Project' },
+    --   w = { name = 'Window' },
+    --   t = { name = 'Tab' },
+    --   b = { name = 'Buffer' },
+    --   f = { name = 'Find' },
+    --   l = {
+    --     name = 'Lsp',
+    --     g = { name = 'Go To' },
+    --     d = { name = 'Diagnostics' },
+    --   },
+    -- }, { prefix = "<leader>" })
+    wk.add({
+      { "<leader>a",  group = "Appearence" },
+      { "<leader>b",  group = "Buffer" },
+      { "<leader>c",  group = "Configuration" },
+      { "<leader>d",  group = "Diagnostics" },
+      { "<leader>f",  group = "Find" },
+      { "<leader>l",  group = "Lsp" },
+      { "<leader>ld", group = "Diagnostics" },
+      { "<leader>lg", group = "Go To" },
+      { "<leader>p",  group = "Project" },
+      { "<leader>q",  group = "Quit" },
+      { "<leader>t",  group = "Tab" },
+      { "<leader>w",  group = "Window" },
+    })
   end
 }
