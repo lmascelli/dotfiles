@@ -1,26 +1,72 @@
-;;; early-init.el --- Early Init -*- no-byte-compile: t; lexical-binding: t; -*-
-
-;;; Some of the configurations here are taken by the "minimal-emacs.d"
-;;; configuration of jamescherti
-;;;     https://github.com/jamescherti/minimal-emacs.d
-
-;;; UI FEATURES
 (defvar lm-emacs-ui-features '(context-menu)
   "List of user interface features to disable in minimal Emacs setup.
 
-  This variable holds a list Emacs UI features that can be enabled:
-  - `context-menu`: Enables the context menu in graphical environments.
-  - `tool-bar`: Enables the tool bar in graphical environments.
-  - `menu-bar`: Enables the menu bar in graphical environments.
-  - `dialogs`: Enables both file dialogs and dialog boxes.
-  - `tooltips`: Enables tooltips.
+    This variable holds a list Emacs UI features that can be enabled:
+    - `context-menu`: Enables the context menu in graphical environments.
+    - `tool-bar`: Enables the tool bar in graphical environments.
+    - `menu-bar`: Enables the menu bar in graphical environments.
+    - `dialogs`: Enables both file dialogs and dialog boxes.
+    - `tooltips`: Enables tooltips.
 
-  Each feature in the list corresponds to a specific UI component that can be
-  turned on."
-)
+    Each feature in the list corresponds to a specific UI component that can be
+    turned on."
+  )
 
 (defvar lm-emacs-frame-title-format "%b – Emacs"
-    "Template for displaying the title bar of visible and iconified frame.")
+  "Template for displaying the title bar of visible and iconified frame.")
+(setq frame-title-format lm-emacs-frame-title-format
+      icon-title-format lm-emacs-frame-title-format)
+
+;; Disable startup screens and messages
+(setq inhibit-splash-screen t)
+
+;; I intentionally avoid calling `menu-bar-mode', `tool-bar-mode', and
+;; `scroll-bar-mode' because manipulating frame parameters can trigger or queue
+;; a superfluous and potentially expensive frame redraw at startup, depending
+;; on the window system. The variables must also be set to `nil' so users don't
+;; have to call the functions twice to re-enable them.
+(unless (memq 'menu-bar lm-emacs-ui-features)
+  (push '(menu-bar-lines . 0) default-frame-alist)
+  (unless (memq window-system '(mac ns))
+    (setq menu-bar-mode nil)))
+
+(unless (daemonp)
+  (unless noninteractive
+    ;; Temporarily override the tool-bar-setup function to prevent it from
+    ;; running during the initial stages of startup
+    (advice-add #'tool-bar-setup :override #'ignore)
+    (define-advice startup--load-user-init-file
+        (:before (&rest _) lm-emacs-setup-toolbar)
+      (advice-remove #'tool-bar-setup #'ignore)
+      (tool-bar-setup))))
+(unless (memq 'tool-bar lm-emacs-ui-features)
+  (push '(tool-bar-lines . 0) default-frame-alist)
+  (setq tool-bar-mode nil))
+
+(push '(vertical-scroll-bars) default-frame-alist)
+(push '(horizontal-scroll-bars) default-frame-alist)
+(setq scroll-bar-mode nil)
+(when (fboundp 'horizontal-scroll-bar-mode)
+  (horizontal-scroll-bar-mode -1))
+
+(unless (memq 'tooltips lm-emacs-ui-features)
+  (when (bound-and-true-p tooltip-mode)
+    (tooltip-mode -1)))
+
+;; Disable GUIs because they are inconsistent across systems, desktop
+;; environments, and themes, and they don't match the look of Emacs.
+(unless (memq 'dialogs lm-emacs-ui-features)
+  (setq use-file-dialog nil)
+  (setq use-dialog-box nil))
+
+;; Allow for shorter responses: "y" for yes and "n" for no.
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (advice-add #'yes-or-no-p :override #'y-or-n-p))
+(defalias #'view-hello-file #'ignore)  ; Never show the hello file
+
+;; Ensure that some built-in (e.g., org-mode) are always up to date
+(setq package-install-upgrade-built-in t)
 
 ;;; PACKAGES MANAGEMENT
 (defvar lm-emacs-package-initialize-and-refresh t
@@ -41,10 +87,6 @@
                                                       ("stable" . 70)
                                                       ("melpa"  . 0)))
 
-(defvar lm-emacs-gc-cons-threshold (* 16 1024 1024)
-  "The value of `gc-cons-threshold' after Emacs startup.")
-
-;;; USER FILES
 (defvar lm-emacs-user-directory user-emacs-directory
   "The default value of the `user-emacs-directory' variable.")
 
@@ -62,31 +104,17 @@
       (expand-file-name "themes/" lm-emacs-user-directory))
 (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
 
-;; LANGUAGE ENVIRONMENT
-(set-language-environment "UTF-8")
-
-;; Set-language-environment sets default-input-method, which is unwanted.
-(setq default-input-method nil)
-
-;; Some features that are not represented as packages can be found in
-;; `features', but this can be inconsistent. The following enforce consistency:
-(if (fboundp #'json-parse-string)
-    (push 'jansson features))
-(if (string-match-p "HARFBUZZ" system-configuration-features) ; no alternative
-    (push 'harfbuzz features))
-(if (bound-and-true-p module-file-suffix)
-    (push 'dynamic-modules features))
-
-
-;;; GARBAGE COLLECTOR AND PROCESS MEMORY
 ;;; increase garbage collector when load
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
+(defvar lm-emacs-gc-cons-threshold (* 16 1024 1024)
+  "The value of `gc-cons-threshold' after Emacs startup.")
+
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq gc-cons-threshold lm-emacs-gc-cons-threshold
-		  gc-cons-percentage 0.1 )))
+          (lambda ()
+            (setq gc-cons-threshold lm-emacs-gc-cons-threshold
+                  gc-cons-percentage 0.1 )))
 
 ;; Increase how much is read from processes in a single chunk (default is 4kb).
 (setq read-process-output-max (* 512 1024))  ; 512kb
@@ -95,7 +123,7 @@
 (setq load-prefer-newer t)
 
 (defvar lm-emacs-debug nil
-   "Non-nil to enable debug.")
+  "Non-nil to enable debug.")
 
 ;; Reduce rendering/line scan work by not rendering cursors or regions in
 ;; non-focused windows.
@@ -118,30 +146,30 @@
 (setq inhibit-compacting-font-caches t)
 
 (unless (daemonp)
-  (let ((old-value (default-toplevel-value 'file-name-handler-alist)))
-    (set-default-toplevel-value
-     'file-name-handler-alist
-     ;; Determine the state of bundled libraries using calc-loaddefs.el.
-     ;; If compressed, retain the gzip handler in `file-name-handler-alist`.
-     ;; If compiled or neither, omit the gzip handler during startup for
-     ;; improved startup and package load time.
-     (if (eval-when-compile
-           (locate-file-internal "calc-loaddefs.el" load-path))
-         nil
-       (list (rassq 'jka-compr-handler old-value))))
-    ;; Ensure the new value persists through any current let-binding.
-    (set-default-toplevel-value 'file-name-handler-alist
-                                file-name-handler-alist)
-    ;; Remember the old value to reset it as needed.
-    (add-hook 'emacs-startup-hook
-              (lambda ()
-                (set-default-toplevel-value
-                 'file-name-handler-alist
-                 ;; Merge instead of overwrite to preserve any changes made
-                 ;; since startup.
-                 (delete-dups (append file-name-handler-alist old-value))))
-              101))
-  
+  ;; (let ((old-value (default-toplevel-value 'file-name-handler-alist)))
+  ;;   (set-default-toplevel-value
+  ;;    'file-name-handler-alist
+  ;;    ;; Determine the state of bundled libraries using calc-loaddefs.el.
+  ;;    ;; If compressed, retain the gzip handler in `file-name-handler-alist`.
+  ;;    ;; If compiled or neither, omit the gzip handler during startup for
+  ;;    ;; improved startup and package load time.
+  ;;    (if (eval-when-compile
+  ;;          (locate-file-internal "calc-loaddefs.el" load-path))
+  ;;        nil
+  ;;      (list (rassq 'jka-compr-handler old-value))))
+  ;;   ;; Ensure the new value persists through any current let-binding.
+  ;;   (set-default-toplevel-value 'file-name-handler-alist
+  ;;                               file-name-handler-alist)
+  ;;   ;; Remember the old value to reset it as needed.
+  ;;   (add-hook 'emacs-startup-hook
+  ;;             (lambda ()
+  ;;               (set-default-toplevel-value
+  ;;                'file-name-handler-alist
+  ;;                ;; Merge instead of overwrite to preserve any changes made
+  ;;                ;; since startup.
+  ;;                (delete-dups (append file-name-handler-alist old-value))))
+  ;;             101))
+
   (unless noninteractive
     (progn
       ;; Disable mode-line-format during init
@@ -215,7 +243,24 @@
       (unless (memq initial-window-system '(x pgtk))
         (setq command-line-x-option-alist nil)))))
 
-;;; Native compilation and Byte compilation
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs loaded in %s with %d garbage collections."
+                     (emacs-init-time) gcs-done)))
+
+(set-language-environment "UTF-8")
+
+;; Set-language-environment sets default-input-method, which is unwanted.
+(setq default-input-method nil)
+
+;; Some features that are not represented as packages can be found in
+;; `features', but this can be inconsistent. The following enforce consistency:
+(if (fboundp #'json-parse-string)
+    (push 'jansson features))
+(if (string-match-p "HARFBUZZ" system-configuration-features) ; no alternative
+    (push 'harfbuzz features))
+(if (bound-and-true-p module-file-suffix)
+    (push 'dynamic-modules features))
 
 (if (and (featurep 'native-compile)
          (fboundp 'native-comp-available-p)
@@ -234,74 +279,9 @@
 
 (setq debug-on-error lm-emacs-debug
       jka-compr-verbose lm-emacs-debug)
+(setq comp-async-report-warnings-errors nil)
 
 (setq byte-compile-warnings lm-emacs-debug)
 (setq byte-compile-verbose lm-emacs-debug)
 
-;;; UI elements
-
-(setq frame-title-format lm-emacs-frame-title-format
-      icon-title-format lm-emacs-frame-title-format)
-
-;; Disable startup screens and messages
-(setq inhibit-splash-screen t)
-
-;; I intentionally avoid calling `menu-bar-mode', `tool-bar-mode', and
-;; `scroll-bar-mode' because manipulating frame parameters can trigger or queue
-;; a superfluous and potentially expensive frame redraw at startup, depending
-;; on the window system. The variables must also be set to `nil' so users don't
-;; have to call the functions twice to re-enable them.
-(unless (memq 'menu-bar lm-emacs-ui-features)
-  (push '(menu-bar-lines . 0) default-frame-alist)
-  (unless (memq window-system '(mac ns))
-    (setq menu-bar-mode nil)))
-
-(unless (daemonp)
-  (unless noninteractive
-    ;; Temporarily override the tool-bar-setup function to prevent it from
-    ;; running during the initial stages of startup
-    (advice-add #'tool-bar-setup :override #'ignore)
-    (define-advice startup--load-user-init-file
-        (:before (&rest _) lm-emacs-setup-toolbar)
-      (advice-remove #'tool-bar-setup #'ignore)
-      (tool-bar-setup))))
-(unless (memq 'tool-bar lm-emacs-ui-features)
-  (push '(tool-bar-lines . 0) default-frame-alist)
-  (setq tool-bar-mode nil))
-
-(push '(vertical-scroll-bars) default-frame-alist)
-(push '(horizontal-scroll-bars) default-frame-alist)
-(setq scroll-bar-mode nil)
-(when (fboundp 'horizontal-scroll-bar-mode)
-  (horizontal-scroll-bar-mode -1))
-
-(unless (memq 'tooltips lm-emacs-ui-features)
-  (when (bound-and-true-p tooltip-mode)
-    (tooltip-mode -1)))
-
-;; Disable GUIs because they are inconsistent across systems, desktop
-;; environments, and themes, and they don't match the look of Emacs.
-(unless (memq 'dialogs lm-emacs-ui-features)
-  (setq use-file-dialog nil)
-  (setq use-dialog-box nil))
-
-;; Allow for shorter responses: "y" for yes and "n" for no.
-(if (boundp 'use-short-answers)
-    (setq use-short-answers t)
-  (advice-add #'yes-or-no-p :override #'y-or-n-p))
-(defalias #'view-hello-file #'ignore)  ; Never show the hello file
-
-;; Ensure that some built-in (e.g., org-mode) are always up to date
-(setq package-install-upgrade-built-in t)
-
-;;; Load post-early-init.el
 (lm-emacs-load-user-init "post-early-init.el")
-
-(provide 'early-init)
-
-;;; early-init.el ends here
-
-(add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (message "Emacs loaded in %s with %d garbage collections."
-		     (emacs-init-time) gcs-done)))

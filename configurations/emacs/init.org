@@ -1,0 +1,2 @@
+#+title: My Emacs Configuration
+#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes

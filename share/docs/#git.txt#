@@ -1,0 +1,25 @@
+# SAVE THE CREDENTIAL DATA
+
+To save the credential data for the current repository
+
+git credential.helper store
+
+To save it globally instead add the --global flag
+
+git --global credential.helper store
+
+--------------------------------------------------------------------------------
+
+# UPDATE THE OAUTH TOKEN
+
+To update the GitHub token via command line you should:
+- get the new token in the GitHub website
+    https://github.com/settings/tokens
+
+- run the following command replacing [username], [repository] and [token]
+  with the actual values
+git remote set-url origin https://username:token@github.com/username/repository.git
+
+
+
+git remote set-url origin https://lmascelli:token@github.com/lmascelli/dotfiles.git
