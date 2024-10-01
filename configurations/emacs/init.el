@@ -6,6 +6,68 @@
 (lm-emacs-load-user-init "pre-init.el")
 )
 
+(setq lm/pylsp-path "~/.local/.lsp/bin/pylsp")
+(setq lm/pses-path "/home/leonardo/Downloads/pses")
+(setq lm/pses-log-path "/home/leonardo/tmp")
+
+(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
+(setq lm/literate-config-name "init.org")
+(setq lm/conf-org-dir lm/this-buffer-path)
+(setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-org-dir)))
+(setq lm/sound-dir (concat lm/dot-dir "sounds/"))
+)
+
+
+
+(defun lm/run-wezterm ()
+  (interactive)
+  (start-process "wezterm" nil "wezterm" "start" "--cwd"
+                 default-directory))
+
+(defun lm/insert-tilde ()                                      
+  (interactive)                                 
+  (insert-char (char-from-name "TILDE")))
+(defun lm/insert-grave-accent ()                                      
+  (interactive)                                 
+  (insert-char (char-from-name "GRAVE ACCENT")))
+
+(defun lm/get-conf-org-dir ()
+  (interactive)
+  (file-name-directory buffer-file-name))
+
+(defun lm/switch-to-tab-1 ()
+  (interactive)
+  (tab-bar-select-tab 1))
+(defun lm/switch-to-tab-2 ()
+  (interactive)
+  (tab-bar-select-tab 2))
+(defun lm/switch-to-tab-3 ()
+  (interactive)
+  (tab-bar-select-tab 3))
+
+(defun lm/open-literate-config ()
+  (interactive)
+  (find-file (concat lm/conf-org-dir lm/literate-config-name)))
+
+(defun lm/reload-config ()
+  (interactive)
+  (load (concat user-emacs-directory "init.el")))
+
+(defun lm/pomodoro ()
+  (interactive)
+  (require 'org-element)
+  (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
+  (unless (boundp 'lm/pomodoro-state)
+    (setq lm/pomodoro-state 0))
+  (let ((time-work "00:25:00")
+        (time-pause "00:05:00"))
+    (org-timer-set-timer
+     (cond
+      ((= (mod lm/pomodoro-state 2) 0) time-work)
+      ((= (mod lm/pomodoro-state 3) 0) time-work)
+      (t time-pause)))
+    (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
+
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; ;;; package.el
 (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
@@ -14,13 +76,13 @@
   (unless package-archive-contents
     (package-refresh-contents))
 
-;; Install use-package if necessary
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+  ;; Install use-package if necessary
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
 
-;; Ensure use-package is available at compile time
-(eval-when-compile
-  (require 'use-package)))
+  ;; Ensure use-package is available at compile time
+  (eval-when-compile
+    (require 'use-package)))
 
 ;; Ensure the 'use-package' package is installed and loaded
 
@@ -334,7 +396,7 @@
 ;; Display the current line and column numbers in the mode line
 (setq line-number-mode t)
 (setq column-number-mode t)
-(setq display-line-numbers 'absolute)
+(setq display-line-numbers 'relative)
 (global-display-line-numbers-mode)
 
 )
@@ -356,3 +418,10 @@
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 (lm-emacs-load-user-init "post-init.el")
 )
+
+(use-package which-key
+  :diminish
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.1)
+  (which-key-setup-minibuffer))

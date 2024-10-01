@@ -102,6 +102,8 @@
 
 (setq custom-theme-directory
       (expand-file-name "themes/" lm-emacs-user-directory))
+;; Add the lisp folder of org configuration directory to the load-path
+(add-to-list 'load-path (concat lm-emacs-user-directory "lisp/"))
 (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
 
 ;;; increase garbage collector when load
