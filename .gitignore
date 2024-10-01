@@ -8,6 +8,7 @@ configurations/nvim/coc/
 # EMACS
 configurations/emacs/.cache/
 configurations/emacs/auto-save-list/
+configurations/emacs/autosave/
 configurations/emacs/eln-cache/
 configurations/emacs/elpa/
 configurations/emacs/eshell/
