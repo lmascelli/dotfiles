@@ -1,23 +1,14 @@
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
-
-)
-
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
-(lm-emacs-load-user-init "pre-init.el")
-)
-
 (setq lm/pylsp-path "~/.local/.lsp/bin/pylsp")
 (setq lm/pses-path "/home/leonardo/Downloads/pses")
 (setq lm/pses-log-path "/home/leonardo/tmp")
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 (setq lm/literate-config-name "init.org")
-(setq lm/conf-org-dir lm/this-buffer-path)
-(setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-org-dir)))
+(setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
-)
 
-
+(defun lm/complete ()
+  (interactive)
+  nil)
 
 (defun lm/run-wezterm ()
   (interactive)
@@ -47,7 +38,7 @@
 
 (defun lm/open-literate-config ()
   (interactive)
-  (find-file (concat lm/conf-org-dir lm/literate-config-name)))
+  (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 
 (defun lm/reload-config ()
   (interactive)
@@ -68,7 +59,6 @@
       (t time-pause)))
     (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; ;;; package.el
 (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
   ;; Initialize and refresh package contents again if needed
@@ -84,7 +74,8 @@
   (eval-when-compile
     (require 'use-package)))
 
-;; Ensure the 'use-package' package is installed and loaded
+(setq use-package-always-ensure t)
+(setq use-package-compute-statistics t)
 
 ;;; Minibuffer
 ;; Allow nested minibuffers
@@ -95,9 +86,9 @@
       '(read-only t intangible t cursor-intangible t face
                   minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
+(use-package diminish)
+
 ;; Allow nested minibuffers
 (setq enable-recursive-minibuffers t)
 
@@ -106,7 +97,6 @@
       '(read-only t intangible t cursor-intangible t face
                   minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-)
 
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; switch-to-buffer runs pop-to-buffer-same-window instead
@@ -223,7 +213,10 @@
 
 ;; Revert other buffers (e.g, Dired)
 (setq global-auto-revert-non-file-buffers t)
+(global-auto-revert-mode t)
 )
+
+(add-hook 'prog-mode-hook 'electric-pair-mode)
 
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; `recentf' is an Emacs package that maintailinens a list of recently
@@ -353,10 +346,12 @@
 ;; Prefer spaces over tabs. Spaces offer a more consistent default compared to
 ;; 8-space tabs. This setting can be adjusted on a per-mode basis as needed.
 (setq-default indent-tabs-mode nil
-              tab-width 4)
+              tab-width 2)
 
-;; Enable indentation and completion using the TAB key
-(setq-default tab-always-indent nil)
+;; Customize the behaviour of the TAB key. Bind it to:
+;; - `t' Always indent the current line
+;; - `'complete' Enable indentation and completion using the TAB key
+(setq-default tab-always-indent 't)
 
 ;; Enable multi-line commenting which ensures that `comment-indent-new-line'
 ;; properly continues comments onto new lines, which is useful for writing
@@ -388,6 +383,22 @@
 (setq lazy-highlight-initial-delay 0)
 )
 
+(setq read-file-name-completion-ignore-case t)
+(setq completion-auto-help t)
+
+(use-package grep
+  :defer t
+  :config
+  (grep-apply-setting
+   'grep-find-command
+   '("rg -n -H --no-heading -e  ." . 26)))
+
+(set-frame-parameter (selected-frame) 'buffer-predicate
+                     (lambda (buf) 
+                       (let ((name (buffer-name buf)))
+                         (not (or (string-prefix-p "*" name)
+                                  (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
+
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
 ;; average information from the mode line.
@@ -396,9 +407,22 @@
 ;; Display the current line and column numbers in the mode line
 (setq line-number-mode t)
 (setq column-number-mode t)
-(setq display-line-numbers 'relative)
 (global-display-line-numbers-mode)
-
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
+(dolist (mode '(org-mode-hook
+                markdown-mode-hook
+                term-mode-hook
+                vterm-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                latex-mode-hook
+                treemacs-mode-hook
+                eww-mode-hook
+                ))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(if (display-graphic-p)
+    (global-hl-line-mode))
 )
 
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
@@ -415,6 +439,14 @@
 (load-file custom-file)
 )
 
+(use-package dired
+  :hook (dired-mode . dired-hide-details-mode)
+  :ensure nil
+  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :config
+  (put 'dired-find-alternate-file 'disabled nil)
+  (setq dired-dwim-target t))
+
 (let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 (lm-emacs-load-user-init "post-init.el")
 )
@@ -425,3 +457,66 @@
   (which-key-mode)
   (setq which-key-idle-delay 0.1)
   (which-key-setup-minibuffer))
+
+(use-package yasnippet
+  :after company
+  :config
+  (yas-minor-mode)
+  (global-set-key (kbd "C-c y") 'company-yasnippet))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
+
+(use-package company
+  :diminish
+  :defer 1
+  :init
+  (setq lm/company t)
+  (defun lm/complete ()
+    (interactive)
+    (company-complete))
+  (setq company-dabbrev-ignore-case t)
+  (setq company-dabbrev-code-ignore-case t)    
+  (setq company-keywords-ignore-case t)
+  (setq company-minimum-prefix-length 1)
+  (setq company-idle-delay 0)
+  :config
+  ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+  (defun lm/company-format-margin (candidate selected)
+    "Format the margin with the backend name."
+    (let ((backend (company-call-backend 'annotation candidate)))
+      (if backend
+          (format " [%s]" backend)
+        "")))
+  (setq company-format-margin-function 'lm/company-format-margin)
+
+  (global-company-mode t))
+
+(setq modus-themes-headings
+      '((1 . (variable-pitch light 1.4))))
+
+(use-package terminal-here
+  :config
+  (if (executable-find "wezterm")
+      (progn
+        (add-to-list 'terminal-here-terminal-command-table
+                     '(wezterm . (lambda (dir) '("wezterm"))))
+        (setq terminal-here-terminal-command 'wezterm))))
+
+(use-package cmake-mode
+  :mode ("\\CMakeLists.txt" . cmake-mode))
+
+(add-to-list 'auto-mode-alist '("\\.ino" .
+                                (lambda ()
+                                  (c-or-c++-mode)
+                                  (setq lsp-clients-clangd-args
+                                        `(
+                                          "-j=2"
+                                          "--background-index"
+                                          "--clang-tidy"
+                                          "--completion-style=detailed"
+                                          (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
+
+(use-package python-black
+  :after python-mode)
+(setq python-indent-offset 2)

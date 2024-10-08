@@ -1,1 +1,1 @@
-require 'lm'
+require 'coc'

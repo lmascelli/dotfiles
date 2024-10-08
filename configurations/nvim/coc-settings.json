@@ -9,5 +9,4 @@
   "sumneko-lua.enableNvimLuaDev": true,
   "explorer.width": 30,
   "rust-analyzer.enable": true,
-  "snippets.ultisnips.pythonPrompt": false
 }

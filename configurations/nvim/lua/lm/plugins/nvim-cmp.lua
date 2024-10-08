@@ -6,6 +6,7 @@ local cmp_dependencies = {
   'hrsh7th/cmp-cmdline',
   'L3MON4D3/LuaSnip',
   'saadparwaiz1/cmp_luasnip',
+  'quangnguyen30192/cmp-nvim-tags',
 }
 
 if LM.plugins.with_lsp then
@@ -25,6 +26,23 @@ local cmp_sources = {
   },
   { name = 'path', },
   { name = 'luasnip' },
+  { name = 'tags',
+    option = {
+      -- this is the default options, change them if you want.
+      -- Delayed time after user input, in milliseconds.
+      complete_defer = 100,
+      -- Max items when searching `taglist`.
+      max_items = 10,
+      -- The number of characters that need to be typed to trigger
+      -- auto-completion.
+      keyword_length = 3,
+      -- Use exact word match when searching `taglist`, for better searching
+      -- performance.
+      exact_match = false,
+      -- Prioritize searching result for current buffer.
+      current_buffer_only = false,
+    },
+  }
 }
 
 if LM.plugins.with_lsp then

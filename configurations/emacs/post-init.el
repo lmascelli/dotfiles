@@ -63,6 +63,7 @@
   (keymap-set evil-normal-state-map "U" 'undo-redo)
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+  (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
   (defvar lm/insert-map (make-sparse-keymap)
     "Keymap for shortcuts in insert mode")
   (keymap-set evil-insert-state-map "C-c" lm/insert-map)
@@ -76,6 +77,8 @@
   (keymap-set global-map "M-1" 'lm/switch-to-tab-1)
   (keymap-set global-map "M-2" 'lm/switch-to-tab-2)
   (keymap-set global-map "M-3" 'lm/switch-to-tab-3)
+  (unless (display-graphic-p)
+    (keymap-set evil-insert-state-map "C-_" 'lm/complete))
   ;; ---------------------------------------------------------------------------
   (evil-mode))
 (use-package evil-collection

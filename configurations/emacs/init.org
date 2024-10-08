@@ -1,9 +1,6 @@
 #+title: My Emacs Configuration
 #+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
 
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
-#+end_src
-
 * Intro
 This is my emacs configuration. It's a mess.
 Some of the configurations here are taken by the "minimal-emacs.d" configuration
@@ -218,21 +215,25 @@ to the emacs bin folder* COMMENT User defined stuff
 
 ** Package management
 #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
-  ;;; PACKAGES MANAGEMENT
+          ;;; PACKAGES MANAGEMENT
   (defvar lm-emacs-package-initialize-and-refresh t
     "Whether to automatically initialize and refresh packages.
-    When set to non-nil, Emacs will automatically call `package-initialize' and
-    `package-refresh-contents' to set up and update the package system.")
+            When set to non-nil, Emacs will automatically call `package-initialize' and
+            `package-refresh-contents' to set up and update the package system.")
 
-  ;;; package.el
+          ;;; package.el
   (setq package-enable-at-startup nil)
   (setq package-quickstart nil)
   (setq use-package-always-ensure t)
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("melpa-stable" . "https://stable.melpa.org/packages/")
                            ("gnu" . "https://elpa.gnu.org/packages/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")
+                           ("elpa-devel" . "https://elpa.gnu.org/devel/")
                            ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-  (customize-set-variable 'package-archive-priorities '(("gnu"    . 99)
+  (customize-set-variable 'package-archive-priorities '(("elpa" . 100)
+                                                        ("elpa-devel" . 101)
+                                                        ("gnu"    . 99)
                                                         ("nongnu" . 80)
                                                         ("stable" . 70)
                                                         ("melpa"  . 0)))
@@ -411,6 +412,11 @@ to the emacs bin folder* COMMENT User defined stuff
 ** Language environment
 #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
   (set-language-environment "UTF-8")
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
   ;; Set-language-environment sets default-input-method, which is unwanted.
   (setq default-input-method nil)
@@ -451,13 +457,13 @@ to the emacs bin folder* COMMENT User defined stuff
   (setq byte-compile-verbose lm-emacs-debug)
 #+end_src
 
-** Post early init
+** COMMENT Post early init
 #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
   (lm-emacs-load-user-init "post-early-init.el")
 #+end_src
 
 (lm-emacs-load-user-init "post-early-init.el")  
-* Pre-init.el
+* COMMENT Pre-init.el
 #+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
   (lm-emacs-load-user-init "pre-init.el")
 #+end_src
@@ -473,17 +479,19 @@ Maybe this section will be changed to load an external file
   (setq lm/pses-log-path "/home/leonardo/tmp")
 #+end_src
 **** Configuration files
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   (setq lm/literate-config-name "init.org")
-  (setq lm/conf-org-dir lm/this-buffer-path)
-  (setq lm/dot-dir (file-name-directory (directory-file-name lm/conf-org-dir)))
+  (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
   (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 #+end_src
 
-**** Active packages
-#+begin_src emacs-lisp
-#+end_src
 *** My functions
+**** Actions
+#+begin_src emacs-lisp
+  (defun lm/complete ()
+    (interactive)
+    nil)
+#+end_src
 **** Wezterm
 Often i use wezterm as terminal choise
 https://wezfurlong.org/wezterm/installation.html
@@ -531,7 +539,7 @@ from the actual emacs config dir
 #+begin_src emacs-lisp
   (defun lm/open-literate-config ()
     (interactive)
-    (find-file (concat lm/conf-org-dir lm/literate-config-name)))
+    (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 #+end_src
 **** Reload configuration
 #+begin_src emacs-lisp
@@ -557,7 +565,16 @@ from the actual emacs config dir
       (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
 #+end_src						
 * Packages
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+** use-package
+/use-package/ is a nice and useful package manager
+
+- the /use-package-always-ensure/ variable means that package not
+  already present will be downloaded
+- the /use-package-compute-statistics/ enable to profile the startup time of
+  installed packages via the *use-package-profile* command.
+- diminish is used to hide some mode from mode bar
+  
+#+begin_src emacs-lisp
   ;; ;;; package.el
   (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
     ;; Initialize and refresh package contents again if needed
@@ -573,7 +590,8 @@ from the actual emacs config dir
     (eval-when-compile
       (require 'use-package)))
 
-  ;; Ensure the 'use-package' package is installed and loaded
+  (setq use-package-always-ensure t)
+  (setq use-package-compute-statistics t)
 
   ;;; Minibuffer
   ;; Allow nested minibuffers
@@ -585,9 +603,16 @@ from the actual emacs config dir
                     minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
+*** diminish
+*diminish* enable to hide minor-mode names from minibuffer.  To hide a
+minor-mode put `:diminish` in the use-package configuration of the
+mode package
+#+begin_src emacs-lisp
+  (use-package diminish)
+#+end_src
 
 * Minibuffer
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Allow nested minibuffers
   (setq enable-recursive-minibuffers t)
 
@@ -718,6 +743,14 @@ from the actual emacs config dir
 
   ;; Revert other buffers (e.g, Dired)
   (setq global-auto-revert-non-file-buffers t)
+  (global-auto-revert-mode t)
+#+end_src
+
+** Automatic pairs mode
+automatically insert the pair of some symbols like braces, parenthesis, etc...
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook 'electric-pair-mode)
 #+end_src
 
 ** Recent files
@@ -857,10 +890,12 @@ from the actual emacs config dir
   ;; Prefer spaces over tabs. Spaces offer a more consistent default compared to
   ;; 8-space tabs. This setting can be adjusted on a per-mode basis as needed.
   (setq-default indent-tabs-mode nil
-                tab-width 4)
+                tab-width 2)
 
-  ;; Enable indentation and completion using the TAB key
-  (setq-default tab-always-indent nil)
+  ;; Customize the behaviour of the TAB key. Bind it to:
+  ;; - `t' Always indent the current line
+  ;; - `'complete' Enable indentation and completion using the TAB key
+  (setq-default tab-always-indent 't)
 
   ;; Enable multi-line commenting which ensures that `comment-indent-new-line'
   ;; properly continues comments onto new lines, which is useful for writing
@@ -892,6 +927,29 @@ from the actual emacs config dir
   (setq lazy-highlight-initial-delay 0)
 #+end_src
 
+** Completion
+#+begin_src emacs-lisp
+  (setq read-file-name-completion-ignore-case t)
+  (setq completion-auto-help t)
+#+end_src
+** Grep
+use ripgrep as grep-find command
+#+begin_src emacs-lisp
+  (use-package grep
+    :defer t
+    :config
+    (grep-apply-setting
+     'grep-find-command
+     '("rg -n -H --no-heading -e  ." . 26)))
+#+end_src
+** Remove dired buffers or those surrounded by * from cycling
+#+begin_src emacs-lisp
+  (set-frame-parameter (selected-frame) 'buffer-predicate
+                       (lambda (buf) 
+                         (let ((name (buffer-name buf)))
+                           (not (or (string-prefix-p "*" name)
+                                    (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
+#+end_src
 * Modeline
 #+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
   ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
@@ -902,7 +960,21 @@ from the actual emacs config dir
   (setq line-number-mode t)
   (setq column-number-mode t)
   (global-display-line-numbers-mode)
-  (setq display-line-numbers 'relative)
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode)
+  (dolist (mode '(org-mode-hook
+                  markdown-mode-hook
+                  term-mode-hook
+                  vterm-mode-hook
+                  shell-mode-hook
+                  eshell-mode-hook
+                  latex-mode-hook
+                  treemacs-mode-hook
+                  eww-mode-hook
+                  ))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (if (display-graphic-p)
+      (global-hl-line-mode))
 #+end_src
 
 * Filetype
@@ -920,6 +992,16 @@ from the actual emacs config dir
 * Custom file
 #+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
   (load-file custom-file)
+#+end_src
+* Dired
+#+begin_src emacs-lisp
+  (use-package dired
+    :hook (dired-mode . dired-hide-details-mode)
+    :ensure nil
+    :custom ((dired-listing-switches "-agho --group-directories-first"))
+    :config
+    (put 'dired-find-alternate-file 'disabled nil)
+    (setq dired-dwim-target t))
 #+end_src
 * Post-init.el
 #+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
@@ -994,6 +1076,7 @@ from the actual emacs config dir
     (keymap-set evil-normal-state-map "U" 'undo-redo)
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+    (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
     (defvar lm/insert-map (make-sparse-keymap)
       "Keymap for shortcuts in insert mode")
     (keymap-set evil-insert-state-map "C-c" lm/insert-map)
@@ -1007,6 +1090,8 @@ from the actual emacs config dir
     (keymap-set global-map "M-1" 'lm/switch-to-tab-1)
     (keymap-set global-map "M-2" 'lm/switch-to-tab-2)
     (keymap-set global-map "M-3" 'lm/switch-to-tab-3)
+    (unless (display-graphic-p)
+      (keymap-set evil-insert-state-map "C-_" 'lm/complete))
     ;; ---------------------------------------------------------------------------
     (evil-mode))
   (use-package evil-collection
@@ -1016,367 +1101,6 @@ from the actual emacs config dir
     (setq evil-collection-key-blacklist '("SPC"))
     :config
     (evil-collection-init))
-#+end_src
-** which-key
-Which-key permits to display chords in a window at the bottom of the
-application when starting the sequence
-#+begin_src emacs-lisp
-  (use-package which-key
-    :diminish
-    :config
-    (which-key-mode)
-    (setq which-key-idle-delay 0.1)
-    (which-key-setup-minibuffer))
-#+end_src
-** COMMENT yasnippet
-#+begin_src emacs-lisp
-  (use-package yasnippet
-    :after company
-    :config
-    (yas-minor-mode)
-    (global-set-key (kbd "C-c y") 'company-yasnippet))
-
-  (use-package yasnippet-snippets
-    :after yasnippet)
-#+end_src
-
-** Autocomplete
-*** COMMENT company
-#+begin_src emacs-lisp
-  (use-package company
-    :diminish
-    :defer 1
-    :init
-    (unless (and (display-graphic-p) (not lm/evil-mode))
-      (add-hook 'evil-mode-hook (lambda ()
-                                  (keymap-set evil-insert-state-map "C-@" 'company-complete))))
-    (setq lm/company t)
-    (setq company-dabbrev-ignore-case t)
-    (setq company-dabbrev-code-ignore-case t)    
-    (setq company-keywords-ignore-case t)
-    (setq company-minimum-prefix-length 1)
-    (setq company-idle-delay 0.0)
-    :config
-    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-    (global-company-mode t))
-
-#+end_src
-*** COMMENT corfu
-#+begin_src emacs-lisp
-  (use-package corfu
-    :defer 1
-    :init
-    (setq corfu-auto t
-          corfu-auto-delay 0.3
-          corfu-preview-current nil
-          corfu-quit-no-match 'separator
-          completion-styles '(basic ))
-    :config
-    (global-corfu-mode))
-
-  (unless (display-graphic-p)
-    (use-package corfu-terminal
-      :init
-      (custom-set-faces
-       '(corfu-default ((t (:background "black")))))
-      :config
-      (corfu-terminal-mode)))
-#+end_src
-*** COMMENT only built-in
-#+begin_src emacs-lisp
-  ;; (setq completions-format 'one-column)
-  (setq completions-header-format nil)
-  (setq completions-max-height 20)
-  (setq completion-auto-select nil)
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-
-  (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-    (interactive "P")
-    (with-minibuffer-completions-window
-      (let ((completion-use-base-affixes nil))
-        (choose-completion nil no-exit no-quit))))
-
-  (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
-
-  ;; (use-package cape
-  ;;   :defer nil
-  ;;   :bind (("C-<SPC>" . 'completion-at-point))
-  ;;   :init
-  ;;   (setq completion-ignore-case t)
-  ;;   (add-to-list 'completion-at-point-functions 'cape-dabbrev)
-  ;;   (add-to-list 'completion-at-point-functions 'cape-file)) 
-#+end_src
-* COMMENT Old
-** COMMENT Editor behaviour
-*** geometry and font
-Those are settings relative to:
-- transparency: /alpha/
-- window size at start: /width/ and /height/
-- font: /font/
-- avoid the vertical scroll bar on new frames: /vertical-scroll-bar/
-
-#+begin_src emacs-lisp
-  ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 100)
-  (setq default-frame-alist '((width . 90)
-                              (height . 40)
-                              (alpha . (100 . 100))))
-
-  ;; (defvar lm/font
-  ;;   (cond
-  ;;    ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-10")
-  ;;    ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
-  ;; (setf (alist-get 'font default-frame-alist) lm/font)
-
-  ;; disable scroll-bar even in new frames
-  (add-to-list 'default-frame-alist
-               '(vertical-scroll-bars . nil))
-#+end_src
-
-*** tab width
-Set the default width of tab to 2
-
-#+begin_src emacs-lisp
-  (setq tab-width 2)
-#+end_src
-
-*** tab-always-indent
-Set the behaviour of tab so that it first try to indent the line, if the line is
-already indented then it does the selected action
-#+begin_src emacs-lisp
-  (setq tab-always-intent 'complete)
-#+end_src
-*** encoding system
-#+begin_src emacs-lisp
-  (set-language-environment "UTF-8")
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  ;; backwards compatibility as default-buffer-file-coding-system
-  ;; is deprecated in 23.2.
-  (if (boundp 'buffer-file-coding-system)
-      (setq-default buffer-file-coding-system 'utf-8)
-    (setq default-buffer-file-coding-system 'utf-8))
-
-  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-#+end_src
-*** process buffer
-increase the amount of data that emacs can read from processes; default is 4 kb
-
-#+begin_src emacs-lisp
-  (setq read-process-output-max (* 10 1024 1024)) ;; 10 Mb
-#+end_src
-
-*** autosaving
-disable backup of files by default
-change the defaults directory where to store ~ , # and .# files, respectively
-backup and autosaves and lockfiles.
-
-#+begin_src emacs-lisp
-  (setq backup-inhibited t)
-  (setq auto-save-default nil)
-  (setq create-lockfiles nil)
-  ;; autosaves files in one common directory
-  ;; (setq backup-directory-alist  `(("." . ,(if lm/autosave_dir lm/autosave_dir (concat user-emacs-directory "backups")))))
-  ;; (setq auto-save-file-name-transforms
-  ;;       `((".*" ,lm/autosave_dir t)))
-#+end_src
-
-*** buffer scrolling
-#+begin_src emacs-lisp
-  ;; (setq scroll-margin 5)
-  (setq redisplay-dont-pause t)
-  ;; (setq scroll-conservatively scroll-margin)
-  (setq scroll-conservatively 10000)
-  (setq scroll-preserve-screen-position t)
-  (setq mouse-wheel-follow-mouse 't)
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-  (setq scroll-step 1)
-  (setq auto-window-vscroll nil)
-  (setq scroll-error-top-bottom t)
-  (setq mouse-wheel-progressive-speed nil)
-  (setq mouse-wheel-inhibit-click-time nil)
-  (setq fast-but-imprecise-scrolling t)
-#+end_src
-**** pixel-scroll-precision-mode
-#+begin_src emacs-lisp
-  (unless (version< emacs-version "29")
-    (progn
-      ;; (setq pixel-scroll-precision-use-momentum t)
-      (setq pixel-scroll-precision-interpolate-mice t)
-      (setq pixel-scroll-precision-interpolate-page t)
-      (setq pixel-scroll-precision-large-scroll-height 20.0)
-      (pixel-scroll-precision-mode)))
-#+end_src
-
-*** auto revert mode
-automatically refresh the buffer when the correspondig file has been changed
-externally
-
-#+begin_src emacs-lisp
-  (global-auto-revert-mode t)
-#+end_src
-
-*** automatic pairs mode
-automatically insert the pair of some symbols like braces, parenthesis, etc...
-
-#+begin_src emacs-lisp
-  (add-hook 'prog-mode-hook 'electric-pair-mode)
-#+end_src
-
-*** noises messages
-disable:
-- the startup screen,
-- the prompt for killing buffer
-and ask just for (y/n) instead of complete yes and no
-
-#+begin_src emacs-lisp
-  (setq inhibit-startup-message t)                              ;; no startup screen
-  (setq message-kill-buffer-query nil)                          ;; no prompt kill buffer
-  (setq use-short-answers t)
-#+end_src
-
-*** prefer newer editor files
-this is expecially useful for loading the changes to term.el in Windows for
-running powershell in term and ansi-term
-#+begin_src emacs-lisp
-  (setq load-prefer-newer t)
-#+end_src
-
-*** native compilation
-#+begin_src emacs-lisp
-  (setq native-compile-always-compile t
-        ;; package-native-compile t
-        )
-#+end_src
-
-*** row numbers, highlight current line and column 80
-#+begin_src emacs-lisp
-  (column-number-mode)
-
-  (setq display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode)
-  (dolist (mode '(org-mode-hook
-                  markdown-mode-hook
-                  term-mode-hook
-                  vterm-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook
-                  latex-mode-hook
-                  treemacs-mode-hook
-                  eww-mode-hook
-                  ))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
-
-  (setq-default fill-column 80)
-  (global-display-fill-column-indicator-mode)
-  (dolist (mode '(term-mode-hook
-                  vterm-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook
-                  latex-mode-hook
-                  org-mode-hook
-                  markdown-mode-hook))
-    (add-hook mode (lambda () (display-fill-column-indicator-mode 0))))
-
-  (if (display-graphic-p)
-      (global-hl-line-mode))
-#+end_src
-
-#+RESULTS:
-: t
-
-*** mouse right click
-Enable the context menu with the right click of the mouse
-#+begin_src emacs-lisp
-  (context-menu-mode)
-#+end_src
-
-*** remove dired buffers or those surrounded by * from cycling
-#+begin_src emacs-lisp
-  (set-frame-parameter (selected-frame) 'buffer-predicate
-                       (lambda (buf) 
-                         (let ((name (buffer-name buf)))
-                           (not (or (string-prefix-p "*" name)
-                                    (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
-#+end_src
-*** fido
-#+begin_src emacs-lisp
-  (fido-vertical-mode t)
-#+end_src
-** COMMENT Repositories
-Setup the melpa repository and refresh the contents of package-archives to be
-prepared for plugins installation.
-#+begin_src emacs-lisp
-  (require 'package)
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents))
-#+end_src
-** COMMENT use-package
-/use-package/ is a nice and useful package manager
-
-- the /use-package-always-ensure/ variable means that package not
-  already present will be downloaded
-- the /use-package-compute-statistics/ enable to profile the startup time of
-  installed packages via the *use-package-profile* command.
-- diminish is used to hide some mode from mode bar
-  
-#+begin_src emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-
-  (require 'use-package)
-  (setq use-package-always-ensure t)
-  (setq use-package-compute-statistics t)
-#+end_src
-
-*** diminish
-*diminish* enable to hide minor-mode names from minibuffer.  To hide a
-minor-mode put `:diminish` in the use-package configuration of the
-mode package
-#+begin_src emacs-lisp
-  (use-package diminish)
-#+end_src
-** COMMENT tree-sitter
-#+begin_src emacs-lisp
-  (use-package tree-sitter
-    :defer t
-    :init
-    (dolist (hook '(c-mode-common-hook))
-      (add-hook hook #'tree-sitter-mode)))
-  (use-package tree-sitter-langs
-    :after tree-sitter)
-#+end_src
-** COMMENT Modus theme
-#+begin_src emacs-lisp
-                                          ; (load-theme 'modus-vivendi)
-  (setq modus-themes-headings
-        '((1 . (variable-pitch light 1.4))))
-#+end_src
-** COMMENT Dired
-#+begin_src emacs-lisp
-  (use-package dired
-    :hook (dired-mode . dired-hide-details-mode)
-    :ensure nil
-    :custom ((dired-listing-switches "-agho --group-directories-first"))
-    :config
-    (put 'dired-find-alternate-file 'disabled nil)
-    (setq dired-dwim-target t))
-#+end_src
-** COMMENT Grep
-use ripgrep as grep-find command
-#+begin_src emacs-lisp
-  (use-package grep
-    :defer t
-    :config
-    (grep-apply-setting
-     'grep-find-command
-     '("rg -n -H --no-heading -e  ." . 26)))
 #+end_src
 ** COMMENT non evil keymaps
 #+begin_src emacs-lisp
@@ -1430,50 +1154,154 @@ use ripgrep as grep-find command
   (keymap-set lm/leader-map "t" `("+Tools" . ,lm/leader-map-tools))
   (keymap-set lm/leader-map-tools "p" 'lm/pomodoro)
 #+end_src
-** COMMENT LSP
-*** lsp server commands
+** which-key
+Which-key permits to display chords in a window at the bottom of the
+application when starting the sequence
 #+begin_src emacs-lisp
-  (setq lm/pylsp-cmd lm/pylsp-path)
-  (setq lm/pses-cmd `("pwsh" "-NoLogo" "-NoProfile" "-Command" ,(concat lm/pses-path "/PowerShellEditorServices/Start-EditorServices.ps1") "-BundledModulesPath" ,(concat lm/pses-path "/PowerShellEditorServices/module") "-Stdio" "-LogPath" ,(concat lm/pses-log-path "/pses.log") "-SessionDetailsPath" ,(concat lm/pses-log-path "/session.json") "-HostName" "Emacs" "-HostProfileId" "Emacs" "-HostVersion" "1.0.0" "-LogLevel" "Diagnostic"))
+  (use-package which-key
+    :diminish
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 0.1)
+    (which-key-setup-minibuffer))
 #+end_src
-*** COMMENT eglot
+** Snippets
+*** yasnippet
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :after company
+    :config
+    (yas-minor-mode)
+    (global-set-key (kbd "C-c y") 'company-yasnippet))
+
+  (use-package yasnippet-snippets
+    :after yasnippet)
+#+end_src
+
+** Autocomplete
+*** company
+#+begin_src emacs-lisp
+  (use-package company
+    :diminish
+    :defer 1
+    :init
+    (setq lm/company t)
+    (defun lm/complete ()
+      (interactive)
+      (company-complete))
+    (setq company-dabbrev-ignore-case t)
+    (setq company-dabbrev-code-ignore-case t)    
+    (setq company-keywords-ignore-case t)
+    (setq company-minimum-prefix-length 1)
+    (setq company-idle-delay 0.3)
+    :config
+    ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+    (defun lm/company-format-margin (candidate selected)
+      "Format the margin with the backend name."
+      (let ((backend (company-call-backend 'annotation candidate)))
+        (if backend
+            (format " [%s]" backend)
+          "")))
+    (setq company-format-margin-function 'lm/company-format-margin)
+
+    (global-company-mode t))
+
+#+end_src
+*** COMMENT corfu
+#+begin_src emacs-lisp
+  (use-package corfu
+    :defer 1
+    :init
+    (setq corfu-auto t
+          corfu-auto-delay 0.3
+          corfu-preview-current nil
+          corfu-quit-no-match 'separator
+          completion-styles '(basic ))
+    :config
+    (global-corfu-mode))
+
+  (unless (display-graphic-p)
+    (use-package corfu-terminal
+      :init
+      (custom-set-faces
+       '(corfu-default ((t (:background "black")))))
+      :config
+      (corfu-terminal-mode)))
+#+end_src
+*** COMMENT only built-in
+#+begin_src emacs-lisp
+  ;; (setq completions-format 'one-column)
+  (setq completions-header-format nil)
+  (setq completions-max-height 20)
+  (setq completion-auto-select nil)
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+
+  (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+    (interactive "P")
+    (with-minibuffer-completions-window
+      (let ((completion-use-base-affixes nil))
+        (choose-completion nil no-exit no-quit))))
+
+  :bind (("C-<SPC>" . 'completion-at-point))
+  (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
+#+end_src
+
+*** COMMENT cape
+#+begin_src emacs-lisp
+  (use-package cape
+    :defer nil
+    :bind (("C-<SPC>" . 'completion-at-point))
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions 'cape-file)) 
+#+end_src
+** Modus theme
+#+begin_src emacs-lisp
+  (setq modus-themes-headings
+        '((1 . (variable-pitch light 1.4))))
+#+end_src
+** Terminal here
+#+begin_src emacs-lisp
+  (use-package terminal-here
+    :config
+    (if (executable-find "wezterm")
+        (progn
+          (add-to-list 'terminal-here-terminal-command-table
+                       '(wezterm . (lambda (dir) '("wezterm"))))
+          (setq terminal-here-terminal-command 'wezterm))))
+#+end_src
+
+** COMMENT eglot
 #+begin_src emacs-lisp
   (use-package eglot
     :defer t
+    :pin elpa-devel
     :init
+    (setq eglot-events-buffer-config 0)
     (setq eglot-connect-timeout 90)
-
-
-    (lm/leader-keys
-     :keymaps 'override
-     :states 'normal
-     "l" '(:ignore t :which-key "lsp")
-     "ll" '(:ignore t :which-key "start lsp-mode")
-     "lle" '(eglot :which-key "eglot"))
-    :config
-    (lm/leader-keys
-     :keymaps 'override
-     :states 'normal
-     "lf" '(eglot-format-buffer :which-key "format buffer")
-     "ls" '(eglot-shutdown-all :which-key "shutdown workspace")
-     "lg" '(:ignore t :which-key "go to")
-     "lgd" '(xref-find-definitions :which-key "definition")
-     "lgr" '(xref-find-references :which-key "references")
-     "ld" '(:ignore t :which-key "diagnostics")
-     "ldl" '(flymake-show-project-diagnostics :which-key "project")
-     "ldn" '(flymake-goto-next-error :which-key "next")
-     "ldp" '(flymake-goto-prev-error :which-key "previous")
-     "lc" '(:ignore t :which-key "code actions")
-     "lcr" '(eglot-rename :which-key "rename")
-     "lco" '(eglot-code-action-organize-imports :which-key "organize imports")
-     "lco" '(eglot-code-actions :which-key "actions")
-     "lh" '(eldoc :which-key "documentation")
-     )
-
-    (add-to-list 'eglot-server-programs	`(python-mode . (,lm/pylsp-cmd)))
-    (add-to-list 'eglot-server-programs	`(powershell-mode . ,lm/pses-cmd)))
+    ;; :config
+    ;; (lm/leader-keys
+    ;;  :keymaps 'override
+    ;;  :states 'normal
+    ;;  "lf" '(eglot-format-buffer :which-key "format buffer")
+    ;;  "ls" '(eglot-shutdown-all :which-key "shutdown workspace")
+    ;;  "lg" '(:ignore t :which-key "go to")
+    ;;  "lgd" '(xref-find-definitions :which-key "definition")
+    ;;  "lgr" '(xref-find-references :which-key "references")
+    ;;  "ld" '(:ignore t :which-key "diagnostics")
+    ;;  "ldl" '(flymake-show-project-diagnostics :which-key "project")
+    ;;  "ldn" '(flymake-goto-next-error :which-key "next")
+    ;;  "ldp" '(flymake-goto-prev-error :which-key "previous")
+    ;;  "lc" '(:ignore t :which-key "code actions")
+    ;;  "lcr" '(eglot-rename :which-key "rename")
+    ;;  "lco" '(eglot-code-action-organize-imports :which-key "organize imports")
+    ;;  "lco" '(eglot-code-actions :which-key "actions")
+    ;;  "lh" '(eldoc :which-key "documentation"))
+    )
 #+end_src
-*** lsp-mode
+** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+begin_src emacs-lisp
   (defun lm/lsp-mode-setup ()
@@ -1483,7 +1311,6 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
   (setenv "LSP_USE_PLISTS" "true")
   (setq lsp-use-plists t)
   (use-package lsp-mode
-    :commands (lsp lsp-deferred)
     :init
     (add-hook 'prog-mode-hook 'lsp-deferred)
     :config
@@ -1513,8 +1340,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
      (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
                       :major-modes '(c-mode c++-mode)
                       :remote? t
-                      :server-id 'clangd-remote))
-    )
+                      :server-id 'clangd-remote)))
 
   (use-package lsp-ui
     :after lsp-mode
@@ -1526,13 +1352,22 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
   ;;   :after lsp-mode
   ;;   :ensure t)
 #+end_src
-** COMMENT org-mode
+** COMMENT olivetti
+This is a nice package for zen mode editing
 #+begin_src emacs-lisp
-  (use-package org
-    :defer t
-    :config)
+  (use-package olivetti
+    :defer 1
+    :init
+    (lm/leader-keys
+     :keymaps 'override
+     :states 'normal
+     "ao" '(olivetti-mode :which-key "olivetti mode"))
+    :config
+    (add-hook 'olivetti-mode-hook (lambda ()
+                                    (display-line-numbers-mode 0)
+                                    (display-fill-column-indicator-mode 0))))
 #+end_src
-** COMMENT Programming languages
+* Programming languages
 *** C/C++
 **** Windows clangd with MSys2/Mingw-w64
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
@@ -1573,7 +1408,7 @@ The content of the file must be
   (setq python-indent-offset 2)
 #+end_src
 
-*** Powershell
+*** COMMENT Powershell
 #+begin_src emacs-lisp
   (use-package powershell    
     :defer t
@@ -1585,132 +1420,65 @@ The content of the file must be
     :after org)
 #+end_src
 
-*** MATLAB
+*** COMMENT MATLAB
 #+begin_src emacs-lisp
   (use-package matlab-mode
     :defer t
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src
 
-** COMMENT olivetti
-This is a nice package for zen mode editing
+* COMMENT Old
+** COMMENT Editor behaviour
+*** geometry and font
+Those are settings relative to:
+- transparency: /alpha/
+- window size at start: /width/ and /height/
+- font: /font/
+- avoid the vertical scroll bar on new frames: /vertical-scroll-bar/
+
 #+begin_src emacs-lisp
-  (use-package olivetti
-    :defer 1
-    :init
-    (lm/leader-keys
-     :keymaps 'override
-     :states 'normal
-     "ao" '(olivetti-mode :which-key "olivetti mode"))
-    :config
-    (add-hook 'olivetti-mode-hook (lambda ()
-                                    (display-line-numbers-mode 0)
-                                    (display-fill-column-indicator-mode 0))))
-#+end_src
-** COMMENT Removable
-*** general
-general is a package that allow to use a <leader> keys for the chords.
-#+begin_src emacs-lisp
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (use-package general
-    :defer t
-    :config
-    (general-override-mode)
+  ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 100)
+  (setq default-frame-alist '((width . 90)
+                              (height . 40)
+                              (alpha . (100 . 100))))
 
-    (general-define-key
-     "C-z" 'undo
-     "M-z" 'undo-redo
-     )
+  ;; (defvar lm/font
+  ;;   (cond
+  ;;    ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-10")
+  ;;    ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
+  ;; (setf (alist-get 'font default-frame-alist) lm/font)
 
-    (general-create-definer lm/leader-keys
-                            :prefix "<SPC>")
-
-    (lm/leader-keys
-     :keymaps '(override)
-     :states '(normal motion)
-     "<SPC>" '(execute-extended-command :which-key "m-x")
-     "q"     '(:ignore t :which-key "+Quit")
-     "qq"    '(save-buffers-kill-terminal :which-key "save all and quit")
-     "b"     '(:ignore t :which-key "+Buffers")
-     "bd"    '(kill-this-buffer :which-key "kill buffer")
-     "bs"    '(save-buffer :which-key "save buffer")
-     "bl"    '(switch-to-buffer :which-key "switch to buffer")
-     "bL"    '(list-buffers :which-key "list buffers")
-     "f"     '(:ignore t :which-key "+Find")
-     "ff"     '(project-find-file :which-key "find file")
-     "fs"    '(evil-search-forward :which-key "search forward")
-     "fb"    '(evil-search-backward :which-key "search backward")
-     "fr"    '(query-replace :which-key "query replace")
-     "a"     '(:ignore t :which-key "+Appearence")
-     "ac"    '(customize-themes :which-key "customize themes")
-     "at"    '(toggle-theme :which-key "toggle theme")
-     "am"    '(menu-bar-mode :which-key "toggle menu bar")
-     "p"     '(:ignore t :which-key "+Project")
-     "pc"    '(lm/run-wezterm :which-key "wezterm here")
-     "pp"    '(project-async-shell-command :which-key "wezterm here")
-     "i"     '(:ignore t :which-key "+Insert")
-     "it"    '(lm/insert-tilde :which-key "~")
-     "ig"    '(lm/insert-grave-accent :which-key "`")
-     "t"     '(:ignore t :which-key "+Tools")
-     "tp"    '(lm/pomodoro :which-key "pomodoro")
-     "c"     '(:ignore t :which-key "+Configuration")
-     "cc"    '(lm/open-literate-config :which-key "open literate configuration")
-     "cv"    '(evil-mode :which-key "toggle vim mode")
-     "cr"    '(lm/reload-config :which-key "reload init.el")
-     ))
-#+end_src
-*** evil
-#+begin_src emacs-lisp
-  (use-package evil
-    :after general
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
-    (setq evil-undo-system 'undo-redo)
-    :config
-    (evil-mode)
-    (general-define-key
-     :states '(normal insert)
-     "C-g" 'evil-normal-state
-     "C-s" 'save-buffer)
-
-    (general-define-key
-     :states '(insert)
-     "C-g" 'evil-normal-state
-     )
-    (general-define-key
-     :states '(normal)
-     :keymaps 'override
-     "H" 'previous-buffer
-     "L" 'next-buffer)
-
-    (general-define-key
-     :states '(visual)
-     "gc" 'comment-dwim))
-  (use-package evil-collection
-    :after evil
-    :custom (evil-collection-want-unimpaired-p nil)
-    :config
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (define-key evil-normal-state-map (kbd "U") 'undo-redo)
-    (define-key evil-ex-completion-map (kbd "C-c") nil)
-    (define-key evil-ex-completion-map (kbd "C-c t") 'lm/insert-tilde)
-    (define-key evil-ex-completion-map (kbd "C-c g") 'lm/insert-grave-accent)
-    (evil-collection-init))
+  ;; disable scroll-bar even in new frames
+  (add-to-list 'default-frame-alist
+               '(vertical-scroll-bars . nil))
 #+end_src
 
-*** COMMENT pdf-tools
-pdf-tools enable to visualize pdf inside emacs and provides useful features like
-midnight mode
-on windows it require msys2
+*** buffer scrolling
 #+begin_src emacs-lisp
-  (use-package pdf-tools
-    :defer (if (deamonp) nil t)
-    :mode ("\\.pdf\\'" . pdf-view-mode)
-    :config (add-hook 'pdf-view-mode-hook 'pdf-tools-enable-minor-modes))
+  ;; (setq scroll-margin 5)
+  (setq redisplay-dont-pause t)
+  ;; (setq scroll-conservatively scroll-margin)
+  (setq scroll-conservatively 10000)
+  (setq scroll-preserve-screen-position t)
+  (setq mouse-wheel-follow-mouse 't)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
+  (setq scroll-step 1)
+  (setq auto-window-vscroll nil)
+  (setq scroll-error-top-bottom t)
+  (setq mouse-wheel-progressive-speed nil)
+  (setq mouse-wheel-inhibit-click-time nil)
+  (setq fast-but-imprecise-scrolling t)
 #+end_src
-
+**** pixel-scroll-precision-mode
+#+begin_src emacs-lisp
+  (unless (version< emacs-version "29")
+    (progn
+      ;; (setq pixel-scroll-precision-use-momentum t)
+      (setq pixel-scroll-precision-interpolate-mice t)
+      (setq pixel-scroll-precision-interpolate-page t)
+      (setq pixel-scroll-precision-large-scroll-height 20.0)
+      (pixel-scroll-precision-mode)))
+#+end_src
 
 * src_tags 
 ;; #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "xdg_config_home") (getenv "xdg_config_home") "~") "/.emacs.d")) :mkdirp yes

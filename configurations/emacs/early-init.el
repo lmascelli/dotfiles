@@ -71,18 +71,22 @@
 ;;; PACKAGES MANAGEMENT
 (defvar lm-emacs-package-initialize-and-refresh t
   "Whether to automatically initialize and refresh packages.
-  When set to non-nil, Emacs will automatically call `package-initialize' and
-  `package-refresh-contents' to set up and update the package system.")
+          When set to non-nil, Emacs will automatically call `package-initialize' and
+          `package-refresh-contents' to set up and update the package system.")
 
-;;; package.el
+        ;;; package.el
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
 (setq use-package-always-ensure t)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("elpa-devel" . "https://elpa.gnu.org/devel/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-(customize-set-variable 'package-archive-priorities '(("gnu"    . 99)
+(customize-set-variable 'package-archive-priorities '(("elpa" . 100)
+                                                      ("elpa-devel" . 101)
+                                                      ("gnu"    . 99)
                                                       ("nongnu" . 80)
                                                       ("stable" . 70)
                                                       ("melpa"  . 0)))
@@ -251,6 +255,11 @@
                      (emacs-init-time) gcs-done)))
 
 (set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; Set-language-environment sets default-input-method, which is unwanted.
 (setq default-input-method nil)
@@ -285,5 +294,3 @@
 
 (setq byte-compile-warnings lm-emacs-debug)
 (setq byte-compile-verbose lm-emacs-debug)
-
-(lm-emacs-load-user-init "post-early-init.el")
