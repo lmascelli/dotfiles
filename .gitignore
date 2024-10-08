@@ -4,7 +4,7 @@ configurations/nvim/doc/semantic-commit.txt
 configurations/nvim/custom.lua
 configurations/nvim/lua/tests/
 configurations/nvim/coc/
-
+configurations/nvim/lazy-lock.json
 # EMACS
 configurations/emacs/.cache/
 configurations/emacs/auto-save-list/
@@ -19,6 +19,8 @@ configurations/emacs/recentf
 configurations/emacs/emacs-custom.el
 configurations/emacs/projects
 configurations/emacs/tramp
+configurations/emacs/.lsp-session-v1
+configurations/emacs/url/cookies
 
 # ZED
 configurations/zed/.tmp*
