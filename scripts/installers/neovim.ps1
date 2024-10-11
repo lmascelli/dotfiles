@@ -2,10 +2,11 @@ switch ($args[0]) {
   "-s" {
     git clone https://github.com/neovim/neovim.git --depth=1
     cd neovim
-    cmake -S cmake.deps -B .deps -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_BUNDLED=ON -DUSE_BUNDLED_TS=ON
+    cmake -S cmake.deps -B .deps -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUSE_BUNDLED=ON -DUSE_BUNDLED_TS=ON
     cmake --build .deps
-    cmake -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=$PWD/install
-    cmake --build build --config Release
+    $path = Join-Path -Path $PWD -ChildPath "install"
+    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX="$path"
+    cmake --build build --config RelWithDebInfo
     make install
   }
 

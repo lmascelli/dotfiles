@@ -145,14 +145,13 @@ vim.keymap.set('n', '<leader>fs', '/', { desc = 'Search' })
 vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 
+-- CONFIG
+vim.keymap.set('n', '<leader>cf', '<cmd>CocConfig<cr>', { desc = 'CocConfig'})
+vim.keymap.set('n', '<leader>cc', function()
+  vim.cmd(':e' .. vim.fn.stdpath("config") .. '/lua/coc/init.lua')
+end, {desc = 'open config'})
 
 -- ------------------------------------- INSERT ----------------------------------
-
--- dumb autopair
-vim.keymap.set("i", "(", "()<esc>i", {})
-vim.keymap.set("i", "[", "[]<esc>i", {})
-vim.keymap.set("i", "{", "{}<esc>i", {})
-vim.keymap.set("i", '"', '""<esc>i', {})
 
 --  <C-g> as Escape
 vim.keymap.set("i", "<C-g>", "<Escape>", {})
@@ -254,7 +253,7 @@ require("lazy").setup({
       build = "npm ci",
       init = function()
         -- Auto install coc plugins
-	      vim.g.coc_global_extensions = {"coc-lists", "coc-json", "coc-explorer", }
+	      vim.g.coc_global_extensions = {"coc-lists", "coc-tag", "coc-pairs", "coc-json", "coc-explorer", }
       end,
 
       config = function()
@@ -300,6 +299,9 @@ require("lazy").setup({
         -- Explorer
         keyset("n", "<leader>e", "<cmd>CocCommand explorer<cr>", { desc = "Explorer" })
         keyset('n', '<leader>ff', '<cmd>CocList files<cr>', { desc = 'Find file' })
+
+        -- Appearence
+        keyset("n", "<leader>ac", "<cmd>CocList colors<cr>", { desc = "Explorer" })
 
 
         -- Use K to show documentation in preview window
@@ -350,13 +352,6 @@ require("lazy").setup({
           command = "call CocActionAsync('showSignatureHelp')",
           desc = 'Update signature help on jump placeholder'
         })
-
-        -- Remap keys for apply code actions at the cursor position.
-        keyset('n', '<leader>ac', '<Plug>(coc-codeaction-cursor)', opts)
-        -- Remap keys for apply source code actions for current file.
-        keyset('n', '<leader>as', '<Plug>(coc-codeaction-source)', opts)
-        -- Apply the most preferred quickfix action on the current line.
-        keyset('n', '<leader>qf', '<Plug>(coc-fix-current)', opts)
 
         -- Remap keys for apply refactor code actions.
         keyset('n', '<leader>re', '<Plug>(coc-codeaction-refactor)', { silent = true })

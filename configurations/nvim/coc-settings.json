@@ -6,7 +6,5 @@
   },
   "inlayHint.enableParameter": true,
   "inlayHint.enable": true,
-  "sumneko-lua.enableNvimLuaDev": true,
-  "explorer.width": 30,
-  "rust-analyzer.enable": true,
+  "explorer.width": 30
 }

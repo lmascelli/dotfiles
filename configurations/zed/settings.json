@@ -16,5 +16,5 @@
   },
   "restore_on_startup": "none",
   "remove_trailing_whitespace_on_save": false,
-  "use_system_path_prompts": true 
+  "use_system_path_prompts": false, 
 }
