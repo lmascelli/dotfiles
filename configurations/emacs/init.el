@@ -479,7 +479,7 @@
   (setq company-dabbrev-code-ignore-case t)    
   (setq company-keywords-ignore-case t)
   (setq company-minimum-prefix-length 1)
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0.3)
   :config
   ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
   (defun lm/company-format-margin (candidate selected)
@@ -502,6 +502,13 @@
         (add-to-list 'terminal-here-terminal-command-table
                      '(wezterm . (lambda (dir) '("wezterm"))))
         (setq terminal-here-terminal-command 'wezterm))))
+
+(use-package doom-themes)
+
+(use-package nerd-icons)
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 25)))
 
 (use-package cmake-mode
   :mode ("\\CMakeLists.txt" . cmake-mode))

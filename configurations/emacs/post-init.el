@@ -61,6 +61,10 @@
   (keymap-set evil-normal-state-map "H" 'previous-buffer)
   (keymap-set evil-normal-state-map "L" 'next-buffer)
   (keymap-set evil-normal-state-map "U" 'undo-redo)
+  (keymap-set evil-normal-state-map "C-w C-h" 'evil-window-left)
+  (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
+  (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
+  (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
   (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
