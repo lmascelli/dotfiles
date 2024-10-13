@@ -492,8 +492,7 @@
 
   (global-company-mode t))
 
-(setq modus-themes-headings
-      '((1 . (variable-pitch light 1.4))))
+(use-package eat)
 
 (use-package terminal-here
   :config
@@ -503,12 +502,23 @@
                      '(wezterm . (lambda (dir) '("wezterm"))))
         (setq terminal-here-terminal-command 'wezterm))))
 
+(setq modus-themes-headings
+      '((1 . (variable-pitch light 1.4))))
+
 (use-package doom-themes)
 
 (use-package nerd-icons)
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 25)))
+
+(use-package centaur-tabs
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
 
 (use-package cmake-mode
   :mode ("\\CMakeLists.txt" . cmake-mode))
