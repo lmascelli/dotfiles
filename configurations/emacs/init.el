@@ -492,7 +492,11 @@
 
   (global-company-mode t))
 
-(use-package eat)
+(use-package eat
+  :config
+  (defun eat-default-shell () "pwsh")
+  (setq eat-default-shell-function '(lambda () "pwsh"))
+  )
 
 (use-package terminal-here
   :config
@@ -511,14 +515,6 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 25)))
-
-(use-package centaur-tabs
-  :demand
-  :config
-  (centaur-tabs-mode t)
-  :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward))
 
 (use-package cmake-mode
   :mode ("\\CMakeLists.txt" . cmake-mode))

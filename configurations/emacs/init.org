@@ -1265,6 +1265,8 @@ application when starting the sequence
 *** Eat
 To make eat works on Windows change those functions in eat.el
 - eat--build-command before eat-exec function
+
+  
 #+begin_src 
 ;; (defun eat--build-command(command switches width height)
 ;;   "Build command to be executed with args.
@@ -1333,7 +1335,11 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package eat)
+  (use-package eat
+    :config
+    (defun eat-default-shell () "pwsh")
+    (setq eat-default-shell-function '(lambda () "pwsh"))
+    )
 #+end_src
 *** Terminal here
 #+begin_src emacs-lisp
@@ -1362,7 +1368,7 @@ To make eat works on Windows change those functions in eat.el
     :init (doom-modeline-mode 1)
     :custom ((doom-modeline-height 25)))
 #+end_src
-** centaur-tabs
+** COMMENT centaur-tabs
 #+begin_src emacs-lisp
   (use-package centaur-tabs
     :demand
@@ -1507,7 +1513,6 @@ The content of the file must be
     :after python-mode)
   (setq python-indent-offset 2)
 #+end_src
-
 *** COMMENT Powershell
 #+begin_src emacs-lisp
   (use-package powershell    

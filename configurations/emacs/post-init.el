@@ -92,3 +92,5 @@
   (setq evil-collection-key-blacklist '("SPC"))
   :config
   (evil-collection-init))
+
+(add-to-list 'auto-mode-alist '("\\.rs\\'". rust-ts-mode))

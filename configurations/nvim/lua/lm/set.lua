@@ -67,6 +67,11 @@ pcall(function()
   vim.opt.fileencoding = 'utf-8'
 end)
 
+-- fuzzy completion
+if vim.fn.has('nvim-0.11') == 1 then
+  vim.opt.completeopt:append('fuzzy') -- Use fuzzy matching for built-in completion
+end
+
 -- used for find files in current path with :find
 vim.cmd 'set path=**'
 vim.cmd 'set wildignore+=*/.git/*'
@@ -131,7 +136,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end
   end
 })
-
 
 -- that is pure lunarvim knowledge
 -- for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do

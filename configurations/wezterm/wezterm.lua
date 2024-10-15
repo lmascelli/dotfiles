@@ -6,7 +6,6 @@
 --                                                                            --
 --------------------------------------------------------------------------------
 
-local show_tabs = true
 local color_schemes = {
   dark = {
     night = "3024 Night",
@@ -14,6 +13,7 @@ local color_schemes = {
     gruvbox = "Gruvbox dark, hard (base16)",
     blazer = "Blazer",
     slate = "Slate",
+    zenburn = "Zenburn (base16)"
   },
   light = {
     material = "Material",
@@ -26,7 +26,7 @@ local color_schemes = {
 }
 
 -- local current_scheme = nil
-local current_scheme = color_schemes.dark["gruvbox"]
+local current_scheme = color_schemes.dark["zenburn"]
 -- local current_scheme = color_schemes.light["github"]
 -- local current_scheme = "Borland"
 
@@ -357,9 +357,10 @@ config.window_padding = {
   bottom = 0,
 }
 config.hide_tab_bar_if_only_one_tab = true
-config.enable_tab_bar = show_tabs
+config.enable_tab_bar = true
 config.use_fancy_tab_bar = false
-config.window_background_opacity = 0.95
+config.tab_bar_at_bottom = true
+-- config.window_background_opacity = 0.95
 config.front_end = 'OpenGL' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
 -- config.front_end = 'WebGpu' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
 -- config.front_end = 'Software' -- alternatives: 'OpenGL', 'Software', 'WebGpu'
