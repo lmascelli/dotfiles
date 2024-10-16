@@ -158,6 +158,9 @@
   :init (doom-modeline-mode 1)
   :custom ((doom-modeline-height 25)))
 
+(use-package cmake-mode
+  :mode ("\\CMakeLists.txt" . cmake-mode))
+
 (add-to-list 'auto-mode-alist '("\\.ino" .
                                 (lambda ()
                                   (c-or-c++-mode)

@@ -1,3 +1,5 @@
+(lm-emacs-load-user-init "pre-init.el")
+
 ;; ;;; package.el
 (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
   ;; Initialize and refresh package contents again if needed
@@ -351,6 +353,3 @@
   (setq dired-dwim-target t))
 
 (lm-emacs-load-user-init "post-init.el")
-
-(use-package cmake-mode
-  :mode ("\\CMakeLists.txt" . cmake-mode))

@@ -463,11 +463,6 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 (lm-emacs-load-user-init "post-early-init.el")  
-* Pre-init.el
-#+begin_src emacs-lisp :tangle "init.el"
-  (lm-emacs-load-user-init "pre-init.el")
-#+end_src
-
 * Globals
 *** My global variables
 **** Machine dependent variables
@@ -564,6 +559,11 @@ from the actual emacs config dir
         (t time-pause)))
       (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
 #+end_src						
+* Pre-init.el
+#+begin_src emacs-lisp :tangle "init.el"
+  (lm-emacs-load-user-init "pre-init.el")
+#+end_src
+
 * Packages
 ** use-package
 /use-package/ is a nice and useful package manager
@@ -1486,7 +1486,7 @@ The content of the file must be
   Add: [-target, x86_64-pc-windows-gnu]
 #+end_src
 **** cmake
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package cmake-mode
     :mode ("\\CMakeLists.txt" . cmake-mode))
 #+end_src
