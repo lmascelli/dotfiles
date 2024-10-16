@@ -1,64 +1,3 @@
-(setq lm/pylsp-path "~/.local/.lsp/bin/pylsp")
-(setq lm/pses-path "/home/leonardo/Downloads/pses")
-(setq lm/pses-log-path "/home/leonardo/tmp")
-
-(setq lm/literate-config-name "init.org")
-(setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
-(setq lm/sound-dir (concat lm/dot-dir "sounds/"))
-
-(defun lm/complete ()
-  (interactive)
-  nil)
-
-(defun lm/run-wezterm ()
-  (interactive)
-  (start-process "wezterm" nil "wezterm" "start" "--cwd"
-                 default-directory))
-
-(defun lm/insert-tilde ()                                      
-  (interactive)                                 
-  (insert-char (char-from-name "TILDE")))
-(defun lm/insert-grave-accent ()                                      
-  (interactive)                                 
-  (insert-char (char-from-name "GRAVE ACCENT")))
-
-(defun lm/get-conf-org-dir ()
-  (interactive)
-  (file-name-directory buffer-file-name))
-
-(defun lm/switch-to-tab-1 ()
-  (interactive)
-  (tab-bar-select-tab 1))
-(defun lm/switch-to-tab-2 ()
-  (interactive)
-  (tab-bar-select-tab 2))
-(defun lm/switch-to-tab-3 ()
-  (interactive)
-  (tab-bar-select-tab 3))
-
-(defun lm/open-literate-config ()
-  (interactive)
-  (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
-
-(defun lm/reload-config ()
-  (interactive)
-  (load (concat user-emacs-directory "init.el")))
-
-(defun lm/pomodoro ()
-  (interactive)
-  (require 'org-element)
-  (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
-  (unless (boundp 'lm/pomodoro-state)
-    (setq lm/pomodoro-state 0))
-  (let ((time-work "00:25:00")
-        (time-pause "00:05:00"))
-    (org-timer-set-timer
-     (cond
-      ((= (mod lm/pomodoro-state 2) 0) time-work)
-      ((= (mod lm/pomodoro-state 3) 0) time-work)
-      (t time-pause)))
-    (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
-
 ;; ;;; package.el
 (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
   ;; Initialize and refresh package contents again if needed
@@ -98,7 +37,6 @@
                   minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; switch-to-buffer runs pop-to-buffer-same-window instead
 (setq switch-to-buffer-obey-display-actions t)
 
@@ -133,9 +71,7 @@
 
 ;; Delete by moving to trash in interactive mode
 (setq delete-by-moving-to-trash (not noninteractive))
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Disable the warning "X and Y are the same file". Ignoring this warning is
 ;; acceptable since it will redirect you to the existing buffer regardless.
 (setq find-file-suppress-same-file-warnings t)
@@ -163,9 +99,7 @@
       window-divider-default-right-width 1)
 
 (add-hook 'after-init-hook #'window-divider-mode)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Avoid generating backups or lockfiles to prevent creating world-readable
 ;; copies of files.
 (setq create-lockfiles nil)
@@ -181,9 +115,7 @@
 (setq kept-new-versions 5)
 (setq kept-old-versions 5)
 (setq vc-make-backup-files nil)  ; Do not backup version controlled files
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Enable auto-save to safeguard against crashes or data loss. The
 ;; `recover-file' or `recover-session' functions can be used to restore
 ;; auto-saved data.
@@ -201,9 +133,7 @@
 
 ;; Auto save options
 (setq kill-buffer-delete-auto-save-files t)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Auto-revert in Emacs is a feature that automatically updates the
 ;; contents of a buffer to reflect changes made to the underlying file
 ;; on disk.
@@ -214,36 +144,28 @@
 ;; Revert other buffers (e.g, Dired)
 (setq global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode t)
-)
 
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; `recentf' is an Emacs package that maintailinens a list of recently
 ;; accessed files, making it easier to reopen files you have worked on
 ;; recently.
 (setq recentf-max-saved-items 300) ; default is 20
 (setq recentf-auto-cleanup 'mode)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; `save-place-mode` enables Emacs to remember the last location within a file
 ;; upon reopening. This feature is particularly beneficial for resuming work at
 ;; the precise point where you previously left off.
 (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
 (setq save-place-limit 600)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; `savehist` is an Emacs feature that preserves the minibuffer history between
 ;; sessions. It saves the history of inputs in the minibuffer, such as commands,
 ;; search strings, and other prompts, to a file. This allows users to retain
 ;; their minibuffer history across Emacs restarts.
 (setq history-length 300)
 (setq savehist-save-minibuffer-history t)  ;; Default
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Resizing the Emacs frame can be costly when changing the font. Disable this
 ;; to improve startup times with fonts larger than the system default.
 (setq frame-resize-pixelwise t)
@@ -253,9 +175,7 @@
 (setq window-resize-pixelwise nil)
 
 (setq resize-mini-windows 'grow-only)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Enables faster scrolling through unfontified regions. This may result in
 ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
 ;; which should quickly self-correct.
@@ -267,9 +187,7 @@
 ;; Keeps screen position if the scroll command moved it vertically out of the
 ;; window.
 (setq scroll-preserve-screen-position t)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Emacs 29
 (when (memq 'context-menu lm-emacs-ui-features)
   (when (and (display-graphic-p) (fboundp 'context-menu-mode))
@@ -296,9 +214,7 @@
       ;; Mouse
       mouse-wheel-scroll-amount '(1 ((shift) . hscroll))
       mouse-wheel-scroll-amount-horizontal 1)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; The blinking cursor is distracting and interferes with cursor settings in
 ;; some minor modes that try to change it buffer-locally (e.g., Treemacs).
 ;; Additionally, it can cause freezing, especially on macOS, for users with
@@ -311,9 +227,7 @@
 ;; Don't stretch the cursor to fit wide characters, it is disorienting,
 ;; especially for tabs.
 (setq x-stretch-cursor nil)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; No beeping or blinking
 (setq visible-bell nil)
 (setq ring-bell-function #'ignore)
@@ -322,9 +236,7 @@
 ;; `delete-pair'. A longer delay can be annoying as it causes a noticeable pause
 ;; after each deletion, disrupting the flow of editing.
 (setq delete-pair-blink-delay 0.03)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 (setq-default left-fringe-width  8)
 (setq-default right-fringe-width 8)
 
@@ -381,7 +293,6 @@
 
 ;; Eliminate delay before highlighting search matches
 (setq lazy-highlight-initial-delay 0)
-)
 
 (setq read-file-name-completion-ignore-case t)
 (setq completion-auto-help t)
@@ -399,7 +310,6 @@
                          (not (or (string-prefix-p "*" name)
                                   (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
 ;; average information from the mode line.
 (setq display-time-default-load-average nil)
@@ -423,21 +333,14 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 (if (display-graphic-p)
     (global-hl-line-mode))
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Do not notify the user each time Python tries to guess the indentation offset
 (setq python-indent-guess-indent-offset-verbose nil)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 ;; Avoid automatic frame resizing when adjusting settings.
 (setq global-text-scale-adjust-resizes-frames nil)
-)
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 (load-file custom-file)
-)
 
 (use-package dired
   :hook (dired-mode . dired-hide-details-mode)
@@ -447,89 +350,7 @@
   (put 'dired-find-alternate-file 'disabled nil)
   (setq dired-dwim-target t))
 
-(let ((lm/this-buffer-path '"/home/leonardo/dotfiles/configurations/emacs/"))
 (lm-emacs-load-user-init "post-init.el")
-)
-
-(use-package which-key
-  :diminish
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 0.1)
-  (which-key-setup-minibuffer))
-
-(use-package yasnippet
-  :after company
-  :config
-  (yas-minor-mode)
-  (global-set-key (kbd "C-c y") 'company-yasnippet))
-
-(use-package yasnippet-snippets
-  :after yasnippet)
-
-(use-package company
-  :diminish
-  :defer 1
-  :init
-  (setq lm/company t)
-  (defun lm/complete ()
-    (interactive)
-    (company-complete))
-  (setq company-dabbrev-ignore-case t)
-  (setq company-dabbrev-code-ignore-case t)    
-  (setq company-keywords-ignore-case t)
-  (setq company-minimum-prefix-length 1)
-  (setq company-idle-delay 0.3)
-  :config
-  ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-  (defun lm/company-format-margin (candidate selected)
-    "Format the margin with the backend name."
-    (let ((backend (company-call-backend 'annotation candidate)))
-      (if backend
-          (format " [%s]" backend)
-        "")))
-  (setq company-format-margin-function 'lm/company-format-margin)
-
-  (global-company-mode t))
-
-(use-package eat
-  :config
-  (defun eat-default-shell () "pwsh")
-  (setq eat-default-shell-function '(lambda () "pwsh"))
-  )
-
-(use-package terminal-here
-  :config
-  (if (executable-find "wezterm")
-      (progn
-        (add-to-list 'terminal-here-terminal-command-table
-                     '(wezterm . (lambda (dir) '("wezterm"))))
-        (setq terminal-here-terminal-command 'wezterm))))
-
-(setq modus-themes-headings
-      '((1 . (variable-pitch light 1.4))))
-
-(use-package doom-themes)
-
-(use-package nerd-icons)
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 25)))
 
 (use-package cmake-mode
   :mode ("\\CMakeLists.txt" . cmake-mode))
-
-(add-to-list 'auto-mode-alist '("\\.ino" .
-                                (lambda ()
-                                  (c-or-c++-mode)
-                                  (setq lsp-clients-clangd-args
-                                        `(
-                                          "-j=2"
-                                          "--background-index"
-                                          "--clang-tidy"
-                                          "--completion-style=detailed"
-                                          (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
-
-(use-package python-black
-  :after python-mode)
-(setq python-indent-offset 2)

@@ -1,5 +1,5 @@
 #+title: My Emacs Configuration
-#+property: header-args:emacs-lisp :tangle (expand-file-name "init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+property: header-args:emacs-lisp :tangle "init.el" :mkdirp yes
 
 * Intro
 This is my emacs configuration. It's a mess.
@@ -141,7 +141,7 @@ find.exe
 to the emacs bin folder* COMMENT User defined stuff
 * Early init
 ** Ui features
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el"
   (defvar lm-emacs-ui-features '(context-menu)
     "List of user interface features to disable in minimal Emacs setup.
 
@@ -214,7 +214,7 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 ** Package management
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el" 
           ;;; PACKAGES MANAGEMENT
   (defvar lm-emacs-package-initialize-and-refresh t
     "Whether to automatically initialize and refresh packages.
@@ -241,7 +241,7 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 ** User files
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el"
   (defvar lm-emacs-user-directory user-emacs-directory
     "The default value of the `user-emacs-directory' variable.")
 
@@ -263,7 +263,7 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 ** Garbage collector and process memory
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el" 
     ;;; increase garbage collector when load
   (setq gc-cons-threshold most-positive-fixnum
         gc-cons-percentage 0.6)
@@ -410,7 +410,7 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 ** Language environment
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el"
   (set-language-environment "UTF-8")
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
@@ -433,7 +433,7 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 ** Native compilation and Byte compilation
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el"
   (if (and (featurep 'native-compile)
            (fboundp 'native-comp-available-p)
            (native-comp-available-p))
@@ -458,13 +458,13 @@ to the emacs bin folder* COMMENT User defined stuff
 #+end_src
 
 ** COMMENT Post early init
-#+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "XDG_CONFIG_HOME") (getenv "XDG_CONFIG_HOME") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "early-init.el"
   (lm-emacs-load-user-init "post-early-init.el")
 #+end_src
 
 (lm-emacs-load-user-init "post-early-init.el")  
-* COMMENT Pre-init.el
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+* Pre-init.el
+#+begin_src emacs-lisp :tangle "init.el"
   (lm-emacs-load-user-init "pre-init.el")
 #+end_src
 
@@ -473,13 +473,13 @@ to the emacs bin folder* COMMENT User defined stuff
 **** Machine dependent variables
 Adjust those variables depending on the machine where emacs runs.
 Maybe this section will be changed to load an external file
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (setq lm/pylsp-path "~/.local/.lsp/bin/pylsp")
   (setq lm/pses-path "/home/leonardo/Downloads/pses")
   (setq lm/pses-log-path "/home/leonardo/tmp")
 #+end_src
 **** Configuration files
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (setq lm/literate-config-name "init.org")
   (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
   (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
@@ -487,7 +487,7 @@ Maybe this section will be changed to load an external file
 
 *** My functions
 **** Actions
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/complete ()
     (interactive)
     nil)
@@ -498,7 +498,7 @@ https://wezfurlong.org/wezterm/installation.html
 because emacs, expecially on windows does not provide a good terminal mode. So
 i need a way to easily call wezterm and open it in the current directory.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/run-wezterm ()
     (interactive)
     (start-process "wezterm" nil "wezterm" "start" "--cwd"
@@ -508,7 +508,7 @@ i need a way to easily call wezterm and open it in the current directory.
 Tilde and grave accent are not present in italian keyboard but often used in
 programming so this function are a quick way to insert them in text
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/insert-tilde ()                                      
     (interactive)                                 
     (insert-char (char-from-name "TILDE")))
@@ -518,13 +518,13 @@ programming so this function are a quick way to insert them in text
 #+end_src
 This function returns the directory containing this org file in case it differs
 from the actual emacs config dir
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/get-conf-org-dir ()
     (interactive)
     (file-name-directory buffer-file-name))
 #+end_src
 **** Switching tabs
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/switch-to-tab-1 ()
     (interactive)
     (tab-bar-select-tab 1))
@@ -536,19 +536,19 @@ from the actual emacs config dir
     (tab-bar-select-tab 3))
 #+end_src
 **** Open literate config
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/open-literate-config ()
     (interactive)
     (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 #+end_src
 **** Reload configuration
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/reload-config ()
     (interactive)
     (load (concat user-emacs-directory "init.el")))
 #+end_src
 **** pomodoro
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "pre-init.el"
   (defun lm/pomodoro ()
     (interactive)
     (require 'org-element)
@@ -624,7 +624,7 @@ mode package
 #+end_src
 * Editor behaviour
 ** Misc
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; switch-to-buffer runs pop-to-buffer-same-window instead
   (setq switch-to-buffer-obey-display-actions t)
 
@@ -662,7 +662,7 @@ mode package
 #+end_src
 
 ** Files
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Disable the warning "X and Y are the same file". Ignoring this warning is
   ;; acceptable since it will redirect you to the existing buffer regardless.
   (setq find-file-suppress-same-file-warnings t)
@@ -693,7 +693,7 @@ mode package
 #+end_src
 
 ** Backup files
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Avoid generating backups or lockfiles to prevent creating world-readable
   ;; copies of files.
   (setq create-lockfiles nil)
@@ -712,7 +712,7 @@ mode package
 #+end_src
 
 ** Auto save
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Enable auto-save to safeguard against crashes or data loss. The
   ;; `recover-file' or `recover-session' functions can be used to restore
   ;; auto-saved data.
@@ -733,7 +733,7 @@ mode package
 #+end_src
 
 ** Auto revert
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Auto-revert in Emacs is a feature that automatically updates the
   ;; contents of a buffer to reflect changes made to the underlying file
   ;; on disk.
@@ -754,7 +754,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Recent files
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; `recentf' is an Emacs package that maintailinens a list of recently
   ;; accessed files, making it easier to reopen files you have worked on
   ;; recently.
@@ -763,7 +763,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Save place
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; `save-place-mode` enables Emacs to remember the last location within a file
   ;; upon reopening. This feature is particularly beneficial for resuming work at
   ;; the precise point where you previously left off.
@@ -772,7 +772,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Save hist
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)  
+#+begin_src emacs-lisp
   ;; `savehist` is an Emacs feature that preserves the minibuffer history between
   ;; sessions. It saves the history of inputs in the minibuffer, such as commands,
   ;; search strings, and other prompts, to a file. This allows users to retain
@@ -782,7 +782,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Frames and windows
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Resizing the Emacs frame can be costly when changing the font. Disable this
   ;; to improve startup times with fonts larger than the system default.
   (setq frame-resize-pixelwise t)
@@ -795,7 +795,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Scrolling
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Enables faster scrolling through unfontified regions. This may result in
   ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
   ;; which should quickly self-correct.
@@ -810,7 +810,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Mouse
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Emacs 29
   (when (memq 'context-menu lm-emacs-ui-features)
     (when (and (display-graphic-p) (fboundp 'context-menu-mode))
@@ -840,7 +840,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Cursor
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; The blinking cursor is distracting and interferes with cursor settings in
   ;; some minor modes that try to change it buffer-locally (e.g., Treemacs).
   ;; Additionally, it can cause freezing, especially on macOS, for users with
@@ -856,7 +856,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Annoyances
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; No beeping or blinking
   (setq visible-bell nil)
   (setq ring-bell-function #'ignore)
@@ -868,7 +868,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 #+end_src
 
 ** Indent and formatting
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   (setq-default left-fringe-width  8)
   (setq-default right-fringe-width 8)
 
@@ -951,7 +951,7 @@ use ripgrep as grep-find command
                                     (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
 #+end_src
 * Modeline
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
   ;; average information from the mode line.
   (setq display-time-default-load-average nil)
@@ -978,19 +978,19 @@ use ripgrep as grep-find command
 #+end_src
 
 * Filetype
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Do not notify the user each time Python tries to guess the indentation offset
   (setq python-indent-guess-indent-offset-verbose nil)
 #+end_src
 
 * Font / Text scale
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   ;; Avoid automatic frame resizing when adjusting settings.
   (setq global-text-scale-adjust-resizes-frames nil)
 #+end_src
 
 * Custom file
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp 
   (load-file custom-file)
 #+end_src
 * Dired
@@ -1004,13 +1004,13 @@ use ripgrep as grep-find command
     (setq dired-dwim-target t))
 #+end_src
 * Post-init.el
-#+begin_src emacs-lisp :var lm/this-buffer-path=(file-name-directory buffer-file-name)
+#+begin_src emacs-lisp
   (lm-emacs-load-user-init "post-init.el")
 #+end_src
 
 * Plugins
 ** evil-mode
-#+begin_src emacs-lisp :tangle (expand-file-name "post-init.el" (concat (if (getenv "xdg_config_home") (getenv "xdg_config_home") "~") "/.emacs.d")) :mkdirp yes
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package evil
     :defer 1
     :init
@@ -1107,7 +1107,7 @@ use ripgrep as grep-find command
     (evil-collection-init))
 #+end_src
 ** COMMENT non evil keymaps
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp 
   (defvar lm/leader-map (make-sparse-keymap)
     "Keymap for \"leader key\" shortcuts")
   :config
@@ -1161,7 +1161,7 @@ use ripgrep as grep-find command
 ** which-key
 Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package which-key
     :diminish
     :config
@@ -1171,7 +1171,7 @@ application when starting the sequence
 #+end_src
 ** Snippets
 *** yasnippet
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package yasnippet
     :after company
     :config
@@ -1184,7 +1184,7 @@ application when starting the sequence
 
 ** Autocomplete
 *** company
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package company
     :diminish
     :defer 1
@@ -1212,7 +1212,7 @@ application when starting the sequence
 
 #+end_src
 *** COMMENT corfu
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package corfu
     :defer 1
     :init
@@ -1233,7 +1233,7 @@ application when starting the sequence
       (corfu-terminal-mode)))
 #+end_src
 *** COMMENT only built-in
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   ;; (setq completions-format 'one-column)
   (setq completions-header-format nil)
   (setq completions-max-height 20)
@@ -1252,7 +1252,7 @@ application when starting the sequence
 #+end_src
 
 *** COMMENT cape
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package cape
     :defer nil
     :bind (("C-<SPC>" . 'completion-at-point))
@@ -1334,7 +1334,7 @@ To make eat works on Windows change those functions in eat.el
 ;; +        (apply #'eat-exec buffer (buffer-name) args))
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package eat
     :config
     (defun eat-default-shell () "pwsh")
@@ -1342,8 +1342,8 @@ To make eat works on Windows change those functions in eat.el
     )
 #+end_src
 *** Terminal here
-#+begin_src emacs-lisp
-  (use-package terminal-here
+#+begin_src emacs-lisp :tangle "post-init.el"
+  (use-package terminal-here 
     :config
     (if (executable-find "wezterm")
         (progn
@@ -1354,13 +1354,13 @@ To make eat works on Windows change those functions in eat.el
 
 ** Appearence
 *** Modus theme
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (setq modus-themes-headings
         '((1 . (variable-pitch light 1.4))))
 #+end_src
 
 *** Doom-themes
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package doom-themes)
 
   (use-package nerd-icons)
@@ -1369,7 +1369,7 @@ To make eat works on Windows change those functions in eat.el
     :custom ((doom-modeline-height 25)))
 #+end_src
 ** COMMENT centaur-tabs
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package centaur-tabs
     :demand
     :config
@@ -1380,7 +1380,7 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 ** lsp
 *** COMMENT eglot
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package eglot
     :defer t
     :pin elpa-devel
@@ -1409,7 +1409,7 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 *** COMMENT lsp-mode
 i'm trying to use eglot instead of lsp-mode but i keep this configuration code
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (defun lm/lsp-mode-setup ()
     (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
     (lsp-headerline-breadcrumb-mode))
@@ -1460,7 +1460,7 @@ i'm trying to use eglot instead of lsp-mode but i keep this configuration code
 #+end_src
 ** COMMENT olivetti
 This is a nice package for zen mode editing
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package olivetti
     :defer 1
     :init
@@ -1492,7 +1492,7 @@ The content of the file must be
 #+end_src
 
 *** Arduino
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (add-to-list 'auto-mode-alist '("\\.ino" .
                                   (lambda ()
                                     (c-or-c++-mode)
@@ -1504,17 +1504,14 @@ The content of the file must be
                                             "--completion-style=detailed"
                                             (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
 #+end_src
-
-
-# * Keybindings
 *** Python
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package python-black
     :after python-mode)
   (setq python-indent-offset 2)
 #+end_src
 *** COMMENT Powershell
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package powershell    
     :defer t
     :init
@@ -1526,7 +1523,7 @@ The content of the file must be
 #+end_src
 
 *** COMMENT MATLAB
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle "post-init.el"
   (use-package matlab-mode
     :defer t
     :mode ("\\.m\\'" . matlab-mode))
@@ -1585,9 +1582,3 @@ Those are settings relative to:
       (pixel-scroll-precision-mode)))
 #+end_src
 
-* src_tags 
-;; #+begin_src emacs-lisp :tangle (expand-file-name "early-init.el" (concat (if (getenv "xdg_config_home") (getenv "xdg_config_home") "~") "/.emacs.d")) :mkdirp yes
-;; #+end_src
-;; #+begin_src emacs-lisp :tangle (expand-file-name "post-init.el" (concat (if (getenv "xdg_config_home") (getenv "xdg_config_home") "~") "/.emacs.d")) :mkdirp yes
-;; #+end_src
-    

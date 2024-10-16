@@ -93,4 +93,82 @@
   :config
   (evil-collection-init))
 
-(add-to-list 'auto-mode-alist '("\\.rs\\'". rust-ts-mode))
+(use-package which-key
+  :diminish
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.1)
+  (which-key-setup-minibuffer))
+
+(use-package yasnippet
+  :after company
+  :config
+  (yas-minor-mode)
+  (global-set-key (kbd "C-c y") 'company-yasnippet))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
+
+(use-package company
+  :diminish
+  :defer 1
+  :init
+  (setq lm/company t)
+  (defun lm/complete ()
+    (interactive)
+    (company-complete))
+  (setq company-dabbrev-ignore-case t)
+  (setq company-dabbrev-code-ignore-case t)    
+  (setq company-keywords-ignore-case t)
+  (setq company-minimum-prefix-length 1)
+  (setq company-idle-delay 0.3)
+  :config
+  ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+  (defun lm/company-format-margin (candidate selected)
+    "Format the margin with the backend name."
+    (let ((backend (company-call-backend 'annotation candidate)))
+      (if backend
+          (format " [%s]" backend)
+        "")))
+  (setq company-format-margin-function 'lm/company-format-margin)
+
+  (global-company-mode t))
+
+(use-package eat
+  :config
+  (defun eat-default-shell () "pwsh")
+  (setq eat-default-shell-function '(lambda () "pwsh"))
+  )
+
+(use-package terminal-here 
+  :config
+  (if (executable-find "wezterm")
+      (progn
+        (add-to-list 'terminal-here-terminal-command-table
+                     '(wezterm . (lambda (dir) '("wezterm"))))
+        (setq terminal-here-terminal-command 'wezterm))))
+
+(setq modus-themes-headings
+      '((1 . (variable-pitch light 1.4))))
+
+(use-package doom-themes)
+
+(use-package nerd-icons)
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 25)))
+
+(add-to-list 'auto-mode-alist '("\\.ino" .
+                                (lambda ()
+                                  (c-or-c++-mode)
+                                  (setq lsp-clients-clangd-args
+                                        `(
+                                          "-j=2"
+                                          "--background-index"
+                                          "--clang-tidy"
+                                          "--completion-style=detailed"
+                                          (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
+
+(use-package python-black
+  :after python-mode)
+(setq python-indent-offset 2)
