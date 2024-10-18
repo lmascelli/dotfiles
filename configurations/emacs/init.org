@@ -929,6 +929,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
 
 ** Completion
 #+begin_src emacs-lisp
+  (setq completion-ignore-case t)
   (setq read-file-name-completion-ignore-case t)
   (setq completion-auto-help t)
 #+end_src
@@ -1078,6 +1079,9 @@ use ripgrep as grep-find command
     (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
     (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
     (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
+    (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
+    ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
+    (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
     (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
@@ -1493,7 +1497,7 @@ The content of the file must be
 
 *** Arduino
 #+begin_src emacs-lisp :tangle "post-init.el"
-  (add-to-list 'auto-mode-alist '("\\.ino" .
+  (add-to-list 'auto-mode-alist '("\\.ino\\'" .
                                   (lambda ()
                                     (c-or-c++-mode)
                                     (setq lsp-clients-clangd-args
@@ -1509,6 +1513,12 @@ The content of the file must be
   (use-package python-black
     :after python-mode)
   (setq python-indent-offset 2)
+#+end_src
+*** Rust
+This will activate the rust treesitter mode for rust files. However it could be necessary to install the treesitter library for rust.
+With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* that will download and compile the needed library.
+#+begin_src emacs-lisp :tangle "post-init.el"
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 #+end_src
 *** COMMENT Powershell
 #+begin_src emacs-lisp :tangle "post-init.el"

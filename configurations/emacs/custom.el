@@ -9,7 +9,7 @@
  '(display-line-numbers 'relative)
  '(electric-pair-mode t)
  '(package-selected-packages
-   '(centaur-tabs doom-modeline nerd-icons doom-themes eat company-box eglot terminal-here python-black cmake-mode lsp-ui lsp-mode cape yasnippet-snippets yasnippet company which-key evil-collection evil rust-mode))
+   '(powershell centaur-tabs doom-modeline nerd-icons doom-themes eat company-box eglot terminal-here python-black cmake-mode lsp-ui lsp-mode cape yasnippet-snippets yasnippet company which-key evil-collection evil rust-mode))
  '(terminal-here-terminal-command-table
    '((urxvt "urxvt")
      (gnome-terminal "gnome-terminal")

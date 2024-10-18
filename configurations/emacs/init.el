@@ -296,6 +296,7 @@
 ;; Eliminate delay before highlighting search matches
 (setq lazy-highlight-initial-delay 0)
 
+(setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 (setq completion-auto-help t)
 

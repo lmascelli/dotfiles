@@ -65,6 +65,9 @@
   (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
   (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
   (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
+  ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
+  (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
   (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
@@ -161,7 +164,7 @@
 (use-package cmake-mode
   :mode ("\\CMakeLists.txt" . cmake-mode))
 
-(add-to-list 'auto-mode-alist '("\\.ino" .
+(add-to-list 'auto-mode-alist '("\\.ino\\'" .
                                 (lambda ()
                                   (c-or-c++-mode)
                                   (setq lsp-clients-clangd-args
@@ -175,3 +178,5 @@
 (use-package python-black
   :after python-mode)
 (setq python-indent-offset 2)
+
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
