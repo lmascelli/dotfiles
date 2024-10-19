@@ -1004,6 +1004,10 @@ use ripgrep as grep-find command
     (put 'dired-find-alternate-file 'disabled nil)
     (setq dired-dwim-target t))
 #+end_src
+* Eshell
+#+begin_src emacs-lisp
+  (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
+#+end_src
 * Post-init.el
 #+begin_src emacs-lisp
   (lm-emacs-load-user-init "post-init.el")

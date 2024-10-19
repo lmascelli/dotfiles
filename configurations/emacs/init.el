@@ -353,4 +353,6 @@
   (put 'dired-find-alternate-file 'disabled nil)
   (setq dired-dwim-target t))
 
+(add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
+
 (lm-emacs-load-user-init "post-init.el")
