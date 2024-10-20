@@ -9,6 +9,7 @@ configurations/nvim/lazy-lock.json
 configurations/emacs/.cache/
 configurations/emacs/auto-save-list/
 configurations/emacs/autosave/
+configurations/emacs/desktop-saves/*
 configurations/emacs/eln-cache/
 configurations/emacs/elpa/
 configurations/emacs/eshell/
