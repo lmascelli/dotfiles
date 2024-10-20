@@ -746,6 +746,10 @@ mode package
   (global-auto-revert-mode t)
 #+end_src
 
+** Worspaces save
+#+begin_src emacs-lisp
+  (setq desktop-path '((expand-file-name "desktop-saves") user-emacs-directory))
+#+end_src
 ** Automatic pairs mode
 automatically insert the pair of some symbols like braces, parenthesis, etc...
 
@@ -950,6 +954,12 @@ use ripgrep as grep-find command
                          (let ((name (buffer-name buf)))
                            (not (or (string-prefix-p "*" name)
                                     (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
+#+end_src
+** Emacs started in terminal mode
+#+begin_src emacs-lisp
+  (if (not (display-graphic-p))
+      (progn
+        ))
 #+end_src
 * Modeline
 #+begin_src emacs-lisp

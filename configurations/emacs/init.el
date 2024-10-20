@@ -147,6 +147,8 @@
 (setq global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode t)
 
+(setq desktop-path '((expand-file-name "desktop-saves") user-emacs-directory))
+
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
 ;; `recentf' is an Emacs package that maintailinens a list of recently

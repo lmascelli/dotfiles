@@ -1,4 +1,3 @@
 ;;; -*- lisp-data -*-
-(("c:/Users/Leonardo/Documents/unige/spike-rs/")
- ("c:/Users/Leonardo/AppData/Roaming/dotfiles/")
- ("c:/Users/Leonardo/AppData/Roaming/Documents/unige/spike-rs/"))
+(("~/dotfiles/")
+ ("~/Documents/unige/spike-rs/"))
