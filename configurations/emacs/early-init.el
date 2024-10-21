@@ -294,3 +294,5 @@
 
 (setq byte-compile-warnings lm-emacs-debug)
 (setq byte-compile-verbose lm-emacs-debug)
+
+(provide 'early-init)

@@ -5,11 +5,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(doom-zenburn))
  '(custom-safe-themes
-   '("81f53ee9ddd3f8559f94c127c9327d578e264c574cda7c6d9daddaec226f87bb" "b5fd9c7429d52190235f2383e47d340d7ff769f141cd8f9e7a4629a81abc6b19" "014cb63097fc7dbda3edf53eb09802237961cbb4c9e9abd705f23b86511b0a69" default))
+   '("26bd74f80bb7a869de3bf5521a227329cf34cfe2cd2446e421a7f5832e899b1e" "81f53ee9ddd3f8559f94c127c9327d578e264c574cda7c6d9daddaec226f87bb" "b5fd9c7429d52190235f2383e47d340d7ff769f141cd8f9e7a4629a81abc6b19" "014cb63097fc7dbda3edf53eb09802237961cbb4c9e9abd705f23b86511b0a69" default))
  '(display-line-numbers 'relative)
  '(electric-pair-mode t)
  '(package-selected-packages
-   '(powershell centaur-tabs doom-modeline nerd-icons doom-themes eat company-box eglot terminal-here python-black cmake-mode lsp-ui lsp-mode cape yasnippet-snippets yasnippet company which-key evil-collection evil rust-mode))
+   '(imenu-list borland-blue-theme powershell centaur-tabs doom-modeline nerd-icons doom-themes eat company-box eglot terminal-here python-black cmake-mode lsp-ui lsp-mode cape yasnippet-snippets yasnippet company which-key evil-collection evil rust-mode))
  '(terminal-here-terminal-command-table
    '((urxvt "urxvt")
      (gnome-terminal "gnome-terminal")
@@ -37,4 +37,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(dired-directory ((t (:foreground "#DCDCDC" :weight bold))))
+ '(dired-file-name ((t (:foreground "#DCDCDC"))))
+ '(dired-suffix ((t (:foreground "#DCDCDC"))))
+ '(dired-symlink ((t (:foreground "#93E0E3")))))

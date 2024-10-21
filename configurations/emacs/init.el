@@ -315,6 +315,11 @@
                          (not (or (string-prefix-p "*" name)
                                   (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
 
+(unless (display-graphic-p)
+      (xterm-mouse-mode))
+
+(set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
+
 ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
 ;; average information from the mode line.
 (setq display-time-default-load-average nil)
@@ -354,16 +359,16 @@
   :config
   (put 'dired-find-alternate-file 'disabled nil)
   (let ((bg (face-attribute 'default :background))
-      (fg (face-attribute 'default :foreground))
-      (dir (face-attribute 'dired-directory :foreground))
-      (file (face-attribute 'default :foreground))
-      (symlink (face-attribute 'dired-symlink :foreground))
-      (suffix (face-attribute 'default :foreground)))
-  (custom-set-faces
-   `(dired-directory ((t (:foreground ,dir :weight bold))))
-   `(dired-file-name ((t (:foreground ,file))))
-   `(dired-symlink ((t (:foreground ,symlink))))
-   `(dired-suffix ((t (:foreground ,suffix))))))
+        (fg (face-attribute 'default :foreground))
+        (dir (face-attribute 'dired-directory :foreground))
+        (file (face-attribute 'default :foreground))
+        (symlink (face-attribute 'dired-symlink :foreground))
+        (suffix (face-attribute 'default :foreground)))
+    (custom-set-faces
+     `(dired-directory ((t (:foreground ,dir :weight bold))))
+     `(dired-file-name ((t (:foreground ,file))))
+     `(dired-symlink ((t (:foreground ,symlink))))
+     `(dired-suffix ((t (:foreground ,suffix))))))
   (setq dired-dwim-target t))
 
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))

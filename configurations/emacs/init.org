@@ -462,7 +462,10 @@ to the emacs bin folder* COMMENT User defined stuff
   (lm-emacs-load-user-init "post-early-init.el")
 #+end_src
 
-(lm-emacs-load-user-init "post-early-init.el")  
+** Provide early-init
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (provide 'early-init)
+#+end_src
 * Globals
 *** My global variables
 **** Machine dependent variables
@@ -479,7 +482,38 @@ Maybe this section will be changed to load an external file
   (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
   (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 #+end_src
+**** Custom options
+#+begin_src emacs-lisp :tangle "pre-init.el"
+  (defcustom lm-input-mode 'evil
+    "The keymap mode to use."
+    :type '(choice
+            (const :tag "evil" evil)
+            (const :tag "emacs" emacs))
+    :group 'lm)
 
+  (defcustom lm-lsp-client nil
+    "The LSP implementation to use."
+    :type '(choice
+            (const :tag "eglot" eglot)
+            (const :tag "lsp-mode" lsp-mode)
+            (const :tag "none" nil))
+    :group 'lm)
+
+  (defcustom lm-in-buffer-completion 'company
+    "The in-buffer completion to use."
+    :type '(choice
+            (const :tag "corfu" corfu)
+            (const :tag "company" company)
+            (const :tag "none" nil))
+    :group 'lm)
+
+  (defcustom lm-ligatures 'off
+    "Enables fonts ligatures."
+    :type '(choice
+            (const :tag "on" 1)
+            (const :tag "off" nil))
+    :group 'lm)
+#+end_src
 *** My functions
 **** Actions
 #+begin_src emacs-lisp :tangle "pre-init.el"
@@ -957,9 +991,10 @@ use ripgrep as grep-find command
 #+end_src
 ** Emacs started in terminal mode
 #+begin_src emacs-lisp
-  (if (not (display-graphic-p))
-      (progn
-        ))
+  (unless (display-graphic-p)
+        (xterm-mouse-mode))
+
+  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 #+end_src
 * Modeline
 #+begin_src emacs-lisp
@@ -1013,16 +1048,16 @@ use ripgrep as grep-find command
     :config
     (put 'dired-find-alternate-file 'disabled nil)
     (let ((bg (face-attribute 'default :background))
-        (fg (face-attribute 'default :foreground))
-        (dir (face-attribute 'dired-directory :foreground))
-        (file (face-attribute 'default :foreground))
-        (symlink (face-attribute 'dired-symlink :foreground))
-        (suffix (face-attribute 'default :foreground)))
-    (custom-set-faces
-     `(dired-directory ((t (:foreground ,dir :weight bold))))
-     `(dired-file-name ((t (:foreground ,file))))
-     `(dired-symlink ((t (:foreground ,symlink))))
-     `(dired-suffix ((t (:foreground ,suffix))))))
+          (fg (face-attribute 'default :foreground))
+          (dir (face-attribute 'dired-directory :foreground))
+          (file (face-attribute 'default :foreground))
+          (symlink (face-attribute 'dired-symlink :foreground))
+          (suffix (face-attribute 'default :foreground)))
+      (custom-set-faces
+       `(dired-directory ((t (:foreground ,dir :weight bold))))
+       `(dired-file-name ((t (:foreground ,file))))
+       `(dired-symlink ((t (:foreground ,symlink))))
+       `(dired-suffix ((t (:foreground ,suffix))))))
     (setq dired-dwim-target t))
 #+end_src
 * Eshell
@@ -1104,9 +1139,9 @@ use ripgrep as grep-find command
     (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
     (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
     (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
-    (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
+    ;; (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
     ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
-    (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
+    ; (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
     (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
@@ -1126,6 +1161,12 @@ use ripgrep as grep-find command
     (unless (display-graphic-p)
       (keymap-set evil-insert-state-map "C-_" 'lm/complete))
     ;; ---------------------------------------------------------------------------
+
+    ;; change cursor form in terminal
+    (unless (display-graphic-p)
+      (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
+      (add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q"))))
+
     (evil-mode))
   (use-package evil-collection
     :after evil

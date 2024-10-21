@@ -6,6 +6,36 @@
 (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 
+(defcustom lm-input-mode 'evil
+  "The keymap mode to use."
+  :type '(choice
+          (const :tag "evil" evil)
+          (const :tag "emacs" emacs))
+  :group 'lm)
+
+(defcustom lm-lsp-client nil
+  "The LSP implementation to use."
+  :type '(choice
+          (const :tag "eglot" eglot)
+          (const :tag "lsp-mode" lsp-mode)
+          (const :tag "none" nil))
+  :group 'lm)
+
+(defcustom lm-in-buffer-completion 'company
+  "The in-buffer completion to use."
+  :type '(choice
+          (const :tag "corfu" corfu)
+          (const :tag "company" company)
+          (const :tag "none" nil))
+  :group 'lm)
+
+(defcustom lm-ligatures 'off
+  "Enables fonts ligatures."
+  :type '(choice
+          (const :tag "on" 1)
+          (const :tag "off" nil))
+  :group 'lm)
+
 (defun lm/complete ()
   (interactive)
   nil)

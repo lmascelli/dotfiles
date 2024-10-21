@@ -65,9 +65,9 @@
   (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
   (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
   (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
-  (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
+  ;; (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
   ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
-  (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
+  ; (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
   (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point)
@@ -87,6 +87,12 @@
   (unless (display-graphic-p)
     (keymap-set evil-insert-state-map "C-_" 'lm/complete))
   ;; ---------------------------------------------------------------------------
+
+  ;; change cursor form in terminal
+  (unless (display-graphic-p)
+    (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
+    (add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q"))))
+
   (evil-mode))
 (use-package evil-collection
   :after evil
