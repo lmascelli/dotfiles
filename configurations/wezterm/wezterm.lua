@@ -188,6 +188,15 @@ local keys = {
     }
   },
   {
+    key = " ",
+    mods = "SHIFT",
+    action = wezterm.action.Multiple {
+      wezterm.action.SendKey { key = " "},
+      -- wezterm.action.SendKey { key = "x", mods = "CTRL" },
+      -- wezterm.action.SendKey { key = "o", mods = "CTRL" },
+    }
+  },
+  {
     key = 'LeftArrow',
     mods = "LEADER",
     action = wezterm.action.ActivatePaneDirection 'Left'
