@@ -1,3 +1,15 @@
+(defun lm-add-to-list (list element)
+  "Add to symbol of LIST the given ELEMENT.
+Simplified version of `add-to-list'."
+  (set list (cons element (symbol-value list))))
+
+(mapc
+ (lambda (var)
+   (lm-add-to-list var '(width . (text-pixels . 800)))
+   (lm-add-to-list var '(height . (text-pixels . 900)))
+   (lm-add-to-list var '(scroll-bar-width  . 10)))
+ '(default-frame-alist initial-frame-alist))
+
 (defvar lm-emacs-ui-features '(context-menu)
   "List of user interface features to disable in minimal Emacs setup.
 

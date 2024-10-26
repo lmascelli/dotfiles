@@ -1,6 +1,7 @@
 (if (eq lm-input-mode 'evil)
     (progn 
       (use-package evil
+        :ensure t
         :defer 1
         :init
         (setq lm/evil-mode t)
@@ -98,6 +99,7 @@
         (evil-mode))
 
       (use-package evil-collection
+        :ensure t
         :after evil
         :custom (evil-collection-want-unimpaired-p nil)
         :init
@@ -106,6 +108,7 @@
         (evil-collection-init))))
 
 (use-package which-key
+  :ensure t
   :diminish
   :config
   (which-key-mode)
@@ -114,6 +117,7 @@
 
 (if (eq lm-in-buffer-completion 'company)
     (use-package company
+      :ensure t
       :diminish
       :defer 1
       :init
@@ -138,6 +142,7 @@
       (global-company-mode t)))
 
 (use-package eat
+  :ensure t
   :config
   (defun eat-default-shell () "pwsh")
   (setq eat-default-shell-function '(lambda () "pwsh"))
@@ -151,10 +156,11 @@
                      '(wezterm . (lambda (dir) '("wezterm"))))
         (setq terminal-here-terminal-command 'wezterm))))
 
-(setq modus-themes-headings
-      '((1 . (variable-pitch light 1.4))))
-
-(use-package doom-themes)
+(use-package doom-themes
+  :config
+  (setq modus-themes-headings
+        '((1 . (variable-pitch light 1.4))))
+  )
 
 (use-package nerd-icons)
 (use-package doom-modeline
@@ -163,6 +169,7 @@
 
 (if (eq lm-lsp-client 'eglot)
     (use-package eglot
+      :ensure t
       :defer t
       :pin elpa-devel
       :init
@@ -197,9 +204,7 @@
       (setenv "LSP_USE_PLISTS" "true")
       (setq lsp-use-plists t)
       (use-package lsp-mode
-        :init
-        ;; (add-hook 'prog-mode-hook 'lsp-deferred)
-
+        :ensure t
         :config
         (lsp-enable-which-key-integration t)
         (setq lsp-idle-delay 0.100)
@@ -233,12 +238,14 @@
         )
 
       (use-package lsp-ui
+        :ensure t
         :after lsp-mode
         :hook (lsp-mode . lsp-ui-mode)
         :custom
         (lsp-ui-doc-position 'bottom))))
 
 (use-package cmake-mode
+  :ensure t
   :mode ("\\CMakeLists.txt" . cmake-mode))
 
 (add-to-list 'auto-mode-alist '("\\.ino\\'" .
@@ -251,9 +258,5 @@
                                           "--clang-tidy"
                                           "--completion-style=detailed"
                                           (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
-
-(use-package python-black
-  :after python-mode)
-(setq python-indent-offset 2)
 
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))

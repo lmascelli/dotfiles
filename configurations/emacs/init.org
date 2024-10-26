@@ -3,10 +3,20 @@
 
 * Intro
 This is my emacs configuration. It's a mess.
-Some of the configurations here are taken by the "minimal-emacs.d" configuration
-of jamescherti https://github.com/jamescherti/minimal-emacs.d
+Here are the configuration i took from to build mine:
+- /minimal-emacs.d/ configuration of jamescherti https://github.com/jamescherti/minimal-emacs.d
+- the excellent [[https://protesilaos.com/emacs/dotemacs][config]] of Protesilaos Stavrou
 
 * Setup
+** Install emacs
+Emacs can both be installed from a package manager or built from sources.
+This is a quick snippet to configure the emacs sources for linux:
+
+#+begin_src shell
+  ./configure --prefix=/usr/local --with-x-toolkit=gtk3 --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+#+end_src
+
+** Tangle this org literate config
 Evaluate this line before tangling the whole file to avoid being
 asked if confirm every code block
 #+begin_src emacs-lisp :tangle nil
@@ -140,6 +150,24 @@ msys-intl-8.dll
 find.exe
 to the emacs bin folder* COMMENT User defined stuff
 * Early init
+** Windows rame
+The initial-frame-alist is about the first frame that is produced when starting
+Emacs. The default-frame-alist is for all frames after that.
+
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (defun lm-add-to-list (list element)
+    "Add to symbol of LIST the given ELEMENT.
+  Simplified version of `add-to-list'."
+    (set list (cons element (symbol-value list))))
+
+  (mapc
+   (lambda (var)
+     (lm-add-to-list var '(width . (text-pixels . 800)))
+     (lm-add-to-list var '(height . (text-pixels . 900)))
+     (lm-add-to-list var '(scroll-bar-width  . 10)))
+   '(default-frame-alist initial-frame-alist))
+#+end_src
+
 ** Ui features
 #+begin_src emacs-lisp :tangle "early-init.el"
   (defvar lm-emacs-ui-features '(context-menu)
@@ -361,8 +389,6 @@ to the emacs bin folder* COMMENT User defined stuff
         (advice-add 'startup--load-user-init-file :around
                     #'lm-emacs--startup-load-user-init-file))
 
-      ;; Without this, Emacs will try to resize itself to a specific column size
-      (setq frame-inhibit-implied-resize t)
 
       ;; A second, case-insensitive pass over `auto-mode-alist' is time wasted.
       ;; No second pass of case-insensitive search over auto-mode-alist.
@@ -624,7 +650,7 @@ from the actual emacs config dir
     (eval-when-compile
       (require 'use-package)))
 
-  (setq use-package-always-ensure t)
+  (setq use-package-always-ensure nil)
   (setq use-package-compute-statistics t)
 
   ;;; Minibuffer
@@ -824,6 +850,9 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   ;; Resizing the Emacs frame can be costly when changing the font. Disable this
   ;; to improve startup times with fonts larger than the system default.
   (setq frame-resize-pixelwise t)
+
+  ;; Without this, Emacs will try to resize itself to a specific column size
+  (setq frame-inhibit-implied-resize t)
 
   ;; However, do not resize windows pixelwise, as this can cause crashes in some
   ;; cases when resizing too many windows at once or rapidly.
@@ -1075,6 +1104,7 @@ use ripgrep as grep-find command
   (if (eq lm-input-mode 'evil)
       (progn 
         (use-package evil
+          :ensure t
           :defer 1
           :init
           (setq lm/evil-mode t)
@@ -1172,6 +1202,7 @@ use ripgrep as grep-find command
           (evil-mode))
 
         (use-package evil-collection
+          :ensure t
           :after evil
           :custom (evil-collection-want-unimpaired-p nil)
           :init
@@ -1179,63 +1210,12 @@ use ripgrep as grep-find command
           :config
           (evil-collection-init))))
 #+end_src
-** COMMENT non evil keymaps
-#+begin_src emacs-lisp 
-  (defvar lm/leader-map (make-sparse-keymap)
-    "Keymap for \"leader key\" shortcuts")
-  :config
-  ;; ----------------------------- LEADER KEYMAPS ------------------------------
-  (keymap-set global-map "C-c SPC" lm/leader-map)
-  (keymap-set lm/leader-map "SPC" 'execute-extended-command)
-  (defvar lm/leader-map-buffer (make-sparse-keymap)
-    "sub-keymap for buffer operations")
-  (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
-  (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
-  (keymap-set lm/leader-map-buffer "s" 'save-buffer)
-  (keymap-set lm/leader-map-buffer "l" 'switch-to-buffer)
-  (keymap-set lm/leader-map-buffer "L" 'list-buffers)
-  (defvar lm/leader-map-quit (make-sparse-keymap)
-    "sub-keymap for quit operations")
-  (keymap-set lm/leader-map "q" `("+Quit" . ,lm/leader-map-quit))
-  (keymap-set lm/leader-map-quit "q" 'save-buffers-kill-terminal)
-  (defvar lm/leader-map-find (make-sparse-keymap)
-    "sub-keymap for finding operations")
-  (keymap-set lm/leader-map "f" `("+Find" . ,lm/leader-map-find))
-  (keymap-set lm/leader-map-find "f" 'project-find-file)
-  (keymap-set lm/leader-map-find "s" 'search-forward)
-  (keymap-set lm/leader-map-find "b" 'search-backward)
-  (keymap-set lm/leader-map-find "r" 'query-replace)
-  (defvar lm/leader-map-appearence (make-sparse-keymap)
-    "sub-keymap for customizing appearence operations")
-  (keymap-set lm/leader-map "a" `("+Appearence" . ,lm/leader-map-appearence))
-  (keymap-set lm/leader-map-appearence "c" 'customize-themes)
-  (keymap-set lm/leader-map-appearence "t" 'toggle-theme)
-  (keymap-set lm/leader-map-appearence "m" 'menu-bar-mode)
-  (defvar lm/leader-map-config (make-sparse-keymap)
-    "sub-keymap for customizing configuration operations")
-  (keymap-set lm/leader-map "c" `("+Configuration" . ,lm/leader-map-config))
-  (keymap-set lm/leader-map-config "c" 'lm/open-literate-config)
-  (keymap-set lm/leader-map-config "r" 'lm/reload-config)
-  (defvar lm/leader-map-project (make-sparse-keymap)
-    "sub-keymap for customizing project operations")
-  (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
-  (keymap-set lm/leader-map-project "c" 'lm/run-wezterm)
-  (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
-  (defvar lm/leader-map-special-chars (make-sparse-keymap)
-    "sub-keymap for inserting special characters")
-  (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))
-  (keymap-set lm/leader-map-special-chars "t" 'lm/insert-tilde)
-  (keymap-set lm/leader-map-special-chars "g" 'lm/insert-grave-accent)
-  (defvar lm/leader-map-tools (make-sparse-keymap)
-    "sub-keymap for tools")
-  (keymap-set lm/leader-map "t" `("+Tools" . ,lm/leader-map-tools))
-  (keymap-set lm/leader-map-tools "p" 'lm/pomodoro)
-#+end_src
 ** which-key
 Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package which-key
+    :ensure t
     :diminish
     :config
     (which-key-mode)
@@ -1247,6 +1227,7 @@ application when starting the sequence
 #+begin_src emacs-lisp :tangle "post-init.el"
   (if (eq lm-in-buffer-completion 'company)
       (use-package company
+        :ensure t
         :diminish
         :defer 1
         :init
@@ -1274,6 +1255,7 @@ application when starting the sequence
 *** COMMENT corfu
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package corfu
+    :ensure t
     :defer 1
     :init
     (setq corfu-auto t
@@ -1314,6 +1296,7 @@ application when starting the sequence
 *** COMMENT cape
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package cape
+    :ensure t
     :defer nil
     :bind (("C-<SPC>" . 'completion-at-point))
     :init
@@ -1325,6 +1308,7 @@ application when starting the sequence
 *** yasnippet
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package yasnippet
+    :ensure t
     :defer 2
     :config
     (yas-minor-mode)
@@ -1414,6 +1398,7 @@ To make eat works on Windows change those functions in eat.el
 
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package eat
+    :ensure t
     :config
     (defun eat-default-shell () "pwsh")
     (setq eat-default-shell-function '(lambda () "pwsh"))
@@ -1430,37 +1415,30 @@ To make eat works on Windows change those functions in eat.el
           (setq terminal-here-terminal-command 'wezterm))))
 #+end_src
 
-** Appearence
-*** Modus theme
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (setq modus-themes-headings
-        '((1 . (variable-pitch light 1.4))))
+** Themes
+To avoid to always trust the custom themes
+#+begin_src emacs-lisp "post-init.el"
+  (setq custom-safe-themes t)
 #+end_src
-
 *** Doom-themes
 #+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package doom-themes)
+  (use-package doom-themes
+    :config
+    (setq modus-themes-headings
+          '((1 . (variable-pitch light 1.4))))
+    )
 
   (use-package nerd-icons)
   (use-package doom-modeline
     :init (doom-modeline-mode 1)
     :custom ((doom-modeline-height 25)))
 #+end_src
-** COMMENT centaur-tabs
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package centaur-tabs
-    :demand
-    :config
-    (centaur-tabs-mode t)
-    :bind
-    ("C-<prior>" . centaur-tabs-backward)
-    ("C-<next>" . centaur-tabs-forward))
-#+end_src
 ** lsp
 *** eglot
 #+begin_src emacs-lisp :tangle "post-init.el"
   (if (eq lm-lsp-client 'eglot)
       (use-package eglot
+        :ensure t
         :defer t
         :pin elpa-devel
         :init
@@ -1497,9 +1475,7 @@ To make eat works on Windows change those functions in eat.el
         (setenv "LSP_USE_PLISTS" "true")
         (setq lsp-use-plists t)
         (use-package lsp-mode
-          :init
-          ;; (add-hook 'prog-mode-hook 'lsp-deferred)
-
+          :ensure t
           :config
           (lsp-enable-which-key-integration t)
           (setq lsp-idle-delay 0.100)
@@ -1533,6 +1509,7 @@ To make eat works on Windows change those functions in eat.el
           )
 
         (use-package lsp-ui
+          :ensure t
           :after lsp-mode
           :hook (lsp-mode . lsp-ui-mode)
           :custom
@@ -1542,6 +1519,7 @@ To make eat works on Windows change those functions in eat.el
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package olivetti
+    :ensure t
     :defer 1
     :init
     (lm/leader-keys
@@ -1568,6 +1546,7 @@ The content of the file must be
 **** cmake
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package cmake-mode
+    :ensure t
     :mode ("\\CMakeLists.txt" . cmake-mode))
 #+end_src
 
@@ -1584,12 +1563,6 @@ The content of the file must be
                                             "--completion-style=detailed"
                                             (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
 #+end_src
-*** Python
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package python-black
-    :after python-mode)
-  (setq python-indent-offset 2)
-#+end_src
 *** Rust
 This will activate the rust treesitter mode for rust files. However it could be necessary to install the treesitter library for rust.
 With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* that will download and compile the needed library.
@@ -1599,18 +1572,21 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
 *** COMMENT Powershell
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package powershell    
+    :ensure t
     :defer t
     :init
     (setq compile-command "pwsh -c ./project.ps1 ")
     :commands powershell)
 
   (use-package ob-powershell
+    :ensure t
     :after org)
 #+end_src
 
 *** COMMENT MATLAB
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package matlab-mode
+    :ensure t
     :defer t
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src

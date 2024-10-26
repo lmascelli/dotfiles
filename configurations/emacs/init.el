@@ -15,7 +15,7 @@
   (eval-when-compile
     (require 'use-package)))
 
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure nil)
 (setq use-package-compute-statistics t)
 
 ;;; Minibuffer
@@ -374,3 +374,5 @@
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
 
 (lm-emacs-load-user-init "post-init.el")
+
+(setq custom-safe-themes t)

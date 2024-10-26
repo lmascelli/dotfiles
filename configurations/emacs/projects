@@ -1,3 +1,2 @@
 ;;; -*- lisp-data -*-
-(("~/Documents/unige/spike-rs/")
- ("~/dotfiles/"))
+(("/home/leonardo/dotfiles/") ("/home/leonardo/Documents/unige/spike-rs/"))
