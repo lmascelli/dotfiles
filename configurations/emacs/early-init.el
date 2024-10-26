@@ -71,31 +71,26 @@ Simplified version of `add-to-list'."
   (setq use-file-dialog nil)
   (setq use-dialog-box nil))
 
-;; Allow for shorter responses: "y" for yes and "n" for no.
-(if (boundp 'use-short-answers)
-    (setq use-short-answers t)
-  (advice-add #'yes-or-no-p :override #'y-or-n-p))
 (defalias #'view-hello-file #'ignore)  ; Never show the hello file
 
 ;; Ensure that some built-in (e.g., org-mode) are always up to date
 (setq package-install-upgrade-built-in t)
 
-;;; PACKAGES MANAGEMENT
 (defvar lm-emacs-package-initialize-and-refresh t
   "Whether to automatically initialize and refresh packages.
           When set to non-nil, Emacs will automatically call `package-initialize' and
           `package-refresh-contents' to set up and update the package system.")
 
-        ;;; package.el
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure nil)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
                          ("elpa" . "https://elpa.gnu.org/packages/")
                          ("elpa-devel" . "https://elpa.gnu.org/devel/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
 (customize-set-variable 'package-archive-priorities '(("elpa" . 100)
                                                       ("elpa-devel" . 101)
                                                       ("gnu"    . 99)
@@ -106,20 +101,14 @@ Simplified version of `add-to-list'."
 (defvar lm-emacs-user-directory user-emacs-directory
   "The default value of the `user-emacs-directory' variable.")
 
-(defun lm-emacs-load-user-init (filename)
-  "Execute a file of Lisp code named FILENAME."
-  (let ((user-init-file
-         (expand-file-name filename
-                           lm-emacs-user-directory)))
-    (when (file-exists-p user-init-file)
-      (load user-init-file nil t))))
-
-(lm-emacs-load-user-init "pre-early-init.el")
-
 (setq custom-theme-directory
       (expand-file-name "themes/" lm-emacs-user-directory))
-;; Add the lisp folder of org configuration directory to the load-path
-(add-to-list 'load-path (concat lm-emacs-user-directory "lisp/"))
+
+;; Add the folder of my cust lisp files and modules to the load-path
+(mapc (lambda (string)
+        (add-to-list 'load-path (concat lm-emacs-user-directory string)))
+      '("lm-lisp" "lm-modules"))
+
 (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
 
 ;;; increase garbage collector when load
@@ -188,6 +177,12 @@ Simplified version of `add-to-list'."
   ;;                (delete-dups (append file-name-handler-alist old-value))))
   ;;             101))
 
+  ;;  (let ((old-file-name-handler-alist file-name-handler-alist))
+  ;;    (setq vc-handled-backends nil)
+  ;;    (add-hook 'emacs-startup-hook
+  ;;              (lambda ()
+  ;;                (setq vc-handled-backends old-vc-handled-backends))))
+
   (unless noninteractive
     (progn
       ;; Disable mode-line-format during init
@@ -219,8 +214,6 @@ Simplified version of `add-to-list'."
       (advice-add 'startup--load-user-init-file :around
                   #'lm-emacs--startup-load-user-init-file))
 
-    ;; Without this, Emacs will try to resize itself to a specific column size
-    (setq frame-inhibit-implied-resize t)
 
     ;; A second, case-insensitive pass over `auto-mode-alist' is time wasted.
     ;; No second pass of case-insensitive search over auto-mode-alist.

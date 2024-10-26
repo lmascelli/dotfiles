@@ -1,4 +1,81 @@
-(lm-emacs-load-user-init "pre-init.el")
+(defun lm-emacs-load-user-init (filename)
+  "Execute a file of Lisp code named FILENAME."
+  (let ((user-init-file
+         (expand-file-name filename
+                           lm-emacs-user-directory)))
+    (when (file-exists-p user-init-file)
+      (load user-init-file nil t))))
+
+(setq lm/literate-config-name "init.org")
+(setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
+(setq lm/sound-dir (concat lm/dot-dir "sounds/"))
+
+(defcustom lm-input-mode 'evil
+  "The keymap mode to use."
+  :type '(choice
+          (const :tag "evil" evil)
+          (const :tag "emacs" emacs))
+  :group 'lm)
+
+(defcustom lm-lsp-client nil
+  "The LSP implementation to use."
+  :type '(choice
+          (const :tag "eglot" eglot)
+          (const :tag "lsp-mode" lsp-mode)
+          (const :tag "none" nil))
+  :group 'lm)
+
+(defcustom lm-in-buffer-completion 'company
+  "The in-buffer completion to use."
+  :type '(choice
+          (const :tag "corfu" corfu)
+          (const :tag "company" company)
+          (const :tag "none" nil))
+  :group 'lm)
+
+(defcustom lm-ligatures 'off
+  "Enables fonts ligatures."
+  :type '(choice
+          (const :tag "on" 1)
+          (const :tag "off" nil))
+  :group 'lm)
+
+(defun lm/complete ()
+  (interactive)
+  nil)
+
+(defun lm/switch-to-tab-1 ()
+  (interactive)
+  (tab-bar-select-tab 1))
+(defun lm/switch-to-tab-2 ()
+  (interactive)
+  (tab-bar-select-tab 2))
+(defun lm/switch-to-tab-3 ()
+  (interactive)
+  (tab-bar-select-tab 3))
+
+(defun lm/open-literate-config ()
+  (interactive)
+  (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
+
+(defun lm/reload-config ()
+  (interactive)
+  (load (concat user-emacs-directory "init.el")))
+
+(defun lm/pomodoro ()
+  (interactive)
+  (require 'org-element)
+  (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
+  (unless (boundp 'lm/pomodoro-state)
+    (setq lm/pomodoro-state 0))
+  (let ((time-work "00:25:00")
+        (time-pause "00:05:00"))
+    (org-timer-set-timer
+     (cond
+      ((= (mod lm/pomodoro-state 2) 0) time-work)
+      ((= (mod lm/pomodoro-state 3) 0) time-work)
+      (t time-pause)))
+    (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
 
 ;; ;;; package.el
 (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
@@ -29,15 +106,6 @@
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 (use-package diminish)
-
-;; Allow nested minibuffers
-(setq enable-recursive-minibuffers t)
-
-;; Keep the cursor out of the read-only portions of the.minibuffer
-(setq minibuffer-prompt-properties
-      '(read-only t intangible t cursor-intangible t face
-                  minibuffer-prompt))
-(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 ;; switch-to-buffer runs pop-to-buffer-same-window instead
 (setq switch-to-buffer-obey-display-actions t)
@@ -151,6 +219,11 @@
 
 (add-hook 'prog-mode-hook 'electric-pair-mode)
 
+;; Allow for shorter responses: "y" for yes and "n" for no.
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (advice-add #'yes-or-no-p :override #'y-or-n-p))
+
 ;; `recentf' is an Emacs package that maintailinens a list of recently
 ;; accessed files, making it easier to reopen files you have worked on
 ;; recently.
@@ -173,6 +246,9 @@
 ;; Resizing the Emacs frame can be costly when changing the font. Disable this
 ;; to improve startup times with fonts larger than the system default.
 (setq frame-resize-pixelwise t)
+
+;; Without this, Emacs will try to resize itself to a specific column size
+(setq frame-inhibit-implied-resize t)
 
 ;; However, do not resize windows pixelwise, as this can cause crashes in some
 ;; cases when resizing too many windows at once or rapidly.
@@ -319,6 +395,15 @@
       (xterm-mouse-mode))
 
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
+
+;; Allow nested minibuffers
+(setq enable-recursive-minibuffers t)
+
+;; Keep the cursor out of the read-only portions of the.minibuffer
+(setq minibuffer-prompt-properties
+      '(read-only t intangible t cursor-intangible t face
+                  minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
 ;; average information from the mode line.
