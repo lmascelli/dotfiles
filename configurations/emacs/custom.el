@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(column-number-mode t)
- '(custom-enabled-themes '(doom-1337))
+ '(custom-enabled-themes '(modus-vivendi-tritanopia))
  '(display-line-numbers 'relative)
  '(display-line-numbers-type 'relative)
  '(electric-pair-mode t)
