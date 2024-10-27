@@ -1097,6 +1097,7 @@ activated by the same custom variable.
   (require 'lm-eshell)
   (cond
    ((eq lm-input-mode 'evil) (require 'lm-evil)))
+  (require 'lm-which-key)
 #+end_src
 
 * Modules
@@ -1129,12 +1130,6 @@ activated by the same custom variable.
   (provide 'lm-eshell)
 #+end_src
 
-* Post-init.el
-#+begin_src emacs-lisp
-  (lm-emacs-load-user-init "post-init.el")
-#+end_src
-
-* Plugins
 ** evil-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-evil.el"
   (use-package evil
@@ -1249,7 +1244,7 @@ activated by the same custom variable.
 ** which-key
 Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-which-key.el"
   (use-package which-key
     :ensure t
     :diminish
@@ -1257,7 +1252,15 @@ application when starting the sequence
     (which-key-mode)
     (setq which-key-idle-delay 0.1)
     (which-key-setup-minibuffer))
+
+  (provide 'lm-which-key)
 #+end_src
+* Post-init.el
+#+begin_src emacs-lisp
+  (lm-emacs-load-user-init "post-init.el")
+#+end_src
+
+* Plugins
 ** Autocomplete
 *** company
 #+begin_src emacs-lisp :tangle "post-init.el"

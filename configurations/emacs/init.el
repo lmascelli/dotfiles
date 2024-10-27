@@ -441,6 +441,7 @@
 (require 'lm-eshell)
 (cond
  ((eq lm-input-mode 'evil) (require 'lm-evil)))
+(require 'lm-which-key)
 
 (lm-emacs-load-user-init "post-init.el")
 
