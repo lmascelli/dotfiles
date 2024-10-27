@@ -1653,32 +1653,7 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
 #+end_src
 
 * COMMENT Old
-** COMMENT Editor behaviour
-*** geometry and font
-Those are settings relative to:
-- transparency: /alpha/
-- window size at start: /width/ and /height/
-- font: /font/
-- avoid the vertical scroll bar on new frames: /vertical-scroll-bar/
-
-#+begin_src emacs-lisp
-  ;; (set-frame-parameter (selected-frame) 'alpha '(95 . 100)
-  (setq default-frame-alist '((width . 90)
-                              (height . 40)
-                              (alpha . (100 . 100))))
-
-  ;; (defvar lm/font
-  ;;   (cond
-  ;;    ((string-equal system-type "gnu/linux") "JetBrains Mono Nerd Font-10")
-  ;;    ((string-equal system-type "windows-nt") "JetBrains Mono-10")))
-  ;; (setf (alist-get 'font default-frame-alist) lm/font)
-
-  ;; disable scroll-bar even in new frames
-  (add-to-list 'default-frame-alist
-               '(vertical-scroll-bars . nil))
-#+end_src
-
-*** buffer scrolling
+** buffer scrolling
 #+begin_src emacs-lisp
   ;; (setq scroll-margin 5)
   (setq redisplay-dont-pause t)
