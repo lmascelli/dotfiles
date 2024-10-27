@@ -580,7 +580,7 @@ eed to override some default behaviour can ovverride this action and
 he whole ecosystem can be still coearent.
 
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm/complete ()
+ (defun lm-action-complete ()
    (interactive)
    nil)
 #+end_src
@@ -589,10 +589,10 @@ Tilde and grave accent are not present in italian keyboard but often used in
 rogramming so this function are a quick way to insert them in text
 
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm/insert-tilde ()                                      
+ (defun lm-action-insert-tilde ()                                      
    (interactive)                                 
    (insert-char (char-from-name "TILDE")))
- (defun lm/insert-grave-accent ()                                      
+ (defun lm-action-insert-grave-accent ()                                      
    (interactive)                                 
    (insert-char (char-from-name "GRAVE ACCENT")))
 #+end_src
@@ -605,31 +605,37 @@ from the actual emacs config dir
 #+end_src
 *** Switching tabs
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm/switch-to-tab-1 ()
+ (defun lm-action-switch-to-tab-1 ()
    (interactive)
    (tab-bar-select-tab 1))
- (defun lm/switch-to-tab-2 ()
+ (defun lm-action-switch-to-tab-2 ()
    (interactive)
    (tab-bar-select-tab 2))
- (defun lm/switch-to-tab-3 ()
+ (defun lm-action-switch-to-tab-3 ()
    (interactive)
    (tab-bar-select-tab 3))
 #+end_src
 *** Open literate config
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm/open-literate-config ()
+ (defun lm-open-literate-config ()
    (interactive)
    (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 #+end_src
+*** Open post-init.el
+#+begin_src emacs-lisp :tangle "init.el"
+ (defun lm-open-post-init ()
+   (interactive)
+   (find-file (concat lm-emacs-user-directory "post-init.el")))
+#+end_src
 *** Reload configuration
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm/reload-config ()
+ (defun lm-reload-config ()
    (interactive)
    (load (concat user-emacs-directory "init.el")))
 #+end_src
 *** Pomodoro
 #+begin_src emacs-lisp :tangle "init.el"
-  (defun lm/pomodoro ()
+  (defun lm-pomodoro ()
     (interactive)
     (require 'org-element)
     (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
@@ -1116,6 +1122,9 @@ activated by the same custom variable.
    ((eq lm-input-mode 'evil) (require 'lm-evil)))
   (require 'lm-which-key)
 
+  ;; completion
+  (require 'lm-completion)
+
   ;; terminal
   (cond
    ((eq lm-terminal-emulator 'eat) (require 'lm-eat)))
@@ -1160,7 +1169,6 @@ activated by the same custom variable.
     :ensure t
     :defer 1
     :init
-    (setq lm/evil-mode t)
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
@@ -1199,19 +1207,17 @@ activated by the same custom variable.
     (defvar lm/leader-map-config (make-sparse-keymap)
       "sub-keymap for customizing configuration operations")
     (keymap-set lm/leader-map "c" `("+Configuration" . ,lm/leader-map-config))
-    (keymap-set lm/leader-map-config "c" 'lm/open-literate-config)
-    (keymap-set lm/leader-map-config "r" 'lm/reload-config)
-    (keymap-set lm/leader-map-config "v" 'evil-mode)
+    (keymap-set lm/leader-map-config "c" 'lm-open-literate-config)
+    (keymap-set lm/leader-map-config "r" 'lm-reload-config)
     (defvar lm/leader-map-project (make-sparse-keymap)
       "sub-keymap for customizing project operations")
     (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
-    (keymap-set lm/leader-map-project "c" 'lm/run-wezterm)
     (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
     (defvar lm/leader-map-special-chars (make-sparse-keymap)
       "sub-keymap for inserting special characters")
     (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))
-    (keymap-set lm/leader-map-special-chars "t" 'lm/insert-tilde)
-    (keymap-set lm/leader-map-special-chars "g" 'lm/insert-grave-accent)
+    (keymap-set lm/leader-map-special-chars "t" 'lm-action-insert-tilde)
+    (keymap-set lm/leader-map-special-chars "g" 'lm-action-insert-grave-accent)
     (defvar lm/leader-map-tools (make-sparse-keymap)
       "sub-keymap for tools")
     (keymap-set lm/leader-map "t" `("+Tools" . ,lm/leader-map-tools))
@@ -1229,20 +1235,20 @@ activated by the same custom variable.
                                           ; (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
-    (keymap-set evil-insert-state-map "C-SPC" 'lm/complete)
+    (keymap-set evil-insert-state-map "C-SPC" 'lm-action-complete)
     (defvar lm/insert-map (make-sparse-keymap)
       "Keymap for shortcuts in insert mode")
     (keymap-set evil-insert-state-map "C-c" lm/insert-map)
     (defvar lm/insert-map-special-chars (make-sparse-keymap)
       "sub-keymap for inserting special characters")
     (keymap-set lm/insert-map "s" `("+Special" . ,lm/insert-map-special-chars))
-    (keymap-set lm/insert-map-special-chars "t" 'lm/insert-tilde)
-    (keymap-set lm/insert-map-special-chars "g" 'lm/insert-grave-accent)
+    (keymap-set lm/insert-map-special-chars "t" 'lm-action-insert-tilde)
+    (keymap-set lm/insert-map-special-chars "g" 'lm-action-insert-grave-accent)
     ;; ----------------------------- GLOBAL KEYMAPS ------------------------------
     (keymap-set global-map "C-s" 'save-buffer)
-    (keymap-set global-map "M-1" 'lm/switch-to-tab-1)
-    (keymap-set global-map "M-2" 'lm/switch-to-tab-2)
-    (keymap-set global-map "M-3" 'lm/switch-to-tab-3)
+    (keymap-set global-map "M-1" 'lm-action-switch-to-tab-1)
+    (keymap-set global-map "M-2" 'lm-action-switch-to-tab-2)
+    (keymap-set global-map "M-3" 'lm-action-switch-to-tab-3)
     (unless (display-graphic-p)
       (keymap-set evil-insert-state-map "C-_" 'lm/complete))
     ;; ---------------------------------------------------------------------------
@@ -1379,6 +1385,7 @@ To make eat works on Windows change those functions in eat.el
 #+begin_src emacs-lisp :tangle "lm-modules/lm-lsp.el"
   (cond
    ((eq lm-lsp-client 'lsp-mode) (require 'lm-lsp-mode))
+   ((eq lm-lsp-client 'eglot) (require 'lm-eglot))
    (t nil))
 
   (provide 'lm-lsp)
@@ -1439,22 +1446,35 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-lsp-mode)
 #+end_src
-* Post-init.el
-#+begin_src emacs-lisp
-  (lm-emacs-load-user-init "post-init.el")
+*** eglot
+#+begin_src emacs-lisp :tangle "lm-modules/lm-eglot.el"
+  (use-package eglot
+    :ensure t
+    :defer t
+    :pin elpa-devel
+    :init
+    (setq eglot-events-buffer-config 0)
+    (setq eglot-connect-timeout 90))
+
+  (provide 'lm-eglot)
+#+end_src
+** completion
+*** company
+#+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
+  (cond
+   ((eq lm-in-buffer-completion 'company) (require 'lm-company)))
+
+  (provide 'lm-completion)
 #+end_src
 
-* Plugins
-** Autocomplete
-*** company
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-company.el"
   (if (eq lm-in-buffer-completion 'company)
       (use-package company
         :ensure t
         :diminish
         :defer 1
         :init
-        (defun lm/complete ()
+        (defun lm-action-complete ()
           (interactive)
           (company-complete))
         (setq company-dabbrev-ignore-case t)
@@ -1474,6 +1494,7 @@ To make eat works on Windows change those functions in eat.el
 
         (global-company-mode t)))
 
+  (provide 'lm-company)
 #+end_src
 *** COMMENT corfu
 #+begin_src emacs-lisp :tangle "post-init.el"
@@ -1527,6 +1548,12 @@ To make eat works on Windows change those functions in eat.el
     (add-to-list 'completion-at-point-functions 'cape-dabbrev)
     (add-to-list 'completion-at-point-functions 'cape-file)) 
 #+end_src
+* Post-init.el
+#+begin_src emacs-lisp
+  (lm-emacs-load-user-init "post-init.el")
+#+end_src
+
+* Plugins
 ** COMMENT Snippets
 *** yasnippet
 #+begin_src emacs-lisp :tangle "post-init.el"
@@ -1546,49 +1573,6 @@ To make eat works on Windows change those functions in eat.el
     :after yasnippet)
 #+end_src
 
-** Terminal
-*** Terminal here
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package terminal-here 
-    :config
-    (if (executable-find "wezterm")
-        (progn
-          (add-to-list 'terminal-here-terminal-command-table
-                       '(wezterm . (lambda (dir) '("wezterm"))))
-          (setq terminal-here-terminal-command 'wezterm))))
-#+end_src
-
-** lsp
-*** eglot
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (if (eq lm-lsp-client 'eglot)
-      (use-package eglot
-        :ensure t
-        :defer t
-        :pin elpa-devel
-        :init
-        (setq eglot-events-buffer-config 0)
-        (setq eglot-connect-timeout 90)
-        ;; :config
-        ;; (lm/leader-keys
-        ;;  :keymaps 'override
-        ;;  :states 'normal
-        ;;  "lf" '(eglot-format-buffer :which-key "format buffer")
-        ;;  "ls" '(eglot-shutdown-all :which-key "shutdown workspace")
-        ;;  "lg" '(:ignore t :which-key "go to")
-        ;;  "lgd" '(xref-find-definitions :which-key "definition")
-        ;;  "lgr" '(xref-find-references :which-key "references")
-        ;;  "ld" '(:ignore t :which-key "diagnostics")
-        ;;  "ldl" '(flymake-show-project-diagnostics :which-key "project")
-        ;;  "ldn" '(flymake-goto-next-error :which-key "next")
-        ;;  "ldp" '(flymake-goto-prev-error :which-key "previous")
-        ;;  "lc" '(:ignore t :which-key "code actions")
-        ;;  "lcr" '(eglot-rename :which-key "rename")
-        ;;  "lco" '(eglot-code-action-organize-imports :which-key "organize imports")
-        ;;  "lco" '(eglot-code-actions :which-key "actions")
-        ;;  "lh" '(eldoc :which-key "documentation"))
-        ))
-#+end_src
 ** COMMENT olivetti
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp :tangle "post-init.el"

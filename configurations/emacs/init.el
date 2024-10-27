@@ -46,14 +46,14 @@
           (const :tag "off" nil))
   :group 'lm)
 
-(defun lm/complete ()
+(defun lm-action-complete ()
   (interactive)
   nil)
 
-(defun lm/insert-tilde ()                                      
+(defun lm-action-insert-tilde ()                                      
   (interactive)                                 
   (insert-char (char-from-name "TILDE")))
-(defun lm/insert-grave-accent ()                                      
+(defun lm-action-insert-grave-accent ()                                      
   (interactive)                                 
   (insert-char (char-from-name "GRAVE ACCENT")))
 
@@ -61,25 +61,29 @@
   (interactive)
   (file-name-directory buffer-file-name))
 
-(defun lm/switch-to-tab-1 ()
+(defun lm-action-switch-to-tab-1 ()
   (interactive)
   (tab-bar-select-tab 1))
-(defun lm/switch-to-tab-2 ()
+(defun lm-action-switch-to-tab-2 ()
   (interactive)
   (tab-bar-select-tab 2))
-(defun lm/switch-to-tab-3 ()
+(defun lm-action-switch-to-tab-3 ()
   (interactive)
   (tab-bar-select-tab 3))
 
-(defun lm/open-literate-config ()
+(defun lm-open-literate-config ()
   (interactive)
   (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 
-(defun lm/reload-config ()
+(defun lm-open-post-init ()
+  (interactive)
+  (find-file (concat lm-emacs-user-directory "post-init.el")))
+
+(defun lm-reload-config ()
   (interactive)
   (load (concat user-emacs-directory "init.el")))
 
-(defun lm/pomodoro ()
+(defun lm-pomodoro ()
   (interactive)
   (require 'org-element)
   (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
@@ -464,6 +468,9 @@
 (cond
  ((eq lm-input-mode 'evil) (require 'lm-evil)))
 (require 'lm-which-key)
+
+;; completion
+(require 'lm-completion)
 
 ;; terminal
 (cond
