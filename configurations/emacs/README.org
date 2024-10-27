@@ -1131,6 +1131,9 @@ activated by the same custom variable.
 
   ;; lsp
   (require 'lm-lsp)
+
+  ;; org-mode
+  (require 'lm-org)
 #+end_src
 
 * Modules
@@ -1162,7 +1165,11 @@ activated by the same custom variable.
   (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
   (provide 'lm-eshell)
 #+end_src
+** Org-mode
+#+begin_src emacs-lisp :tangle "lm-modules/lm-org.el"
 
+  (provide 'lm-org)
+#+end_src
 ** evil-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-evil.el"
   (use-package evil
