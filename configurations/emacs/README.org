@@ -1549,6 +1549,10 @@ To make eat works on Windows change those functions in eat.el
     (add-to-list 'completion-at-point-functions 'cape-file)) 
 #+end_src
 * Post-init.el
+The /post-init.el/ is file is where should be located the machine
+dependent customization done after the main initialization has been
+done. This file is not updated in the git repository.
+
 #+begin_src emacs-lisp
   (lm-emacs-load-user-init "post-init.el")
 #+end_src
