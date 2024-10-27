@@ -6,14 +6,6 @@
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(custom-enabled-themes '(modus-vivendi-tritanopia))
- '(custom-safe-themes
-   '("48042425e84cd92184837e01d0b4fe9f912d875c43021c3bcb7eeb51f1be5710"
-     "8c7e832be864674c220f9a9361c851917a93f921fedb7717b1b5ece47690c098"
-     "da75eceab6bea9298e04ce5b4b07349f8c02da305734f7c0c8c6af7b5eaa9738"
-     "26bd74f80bb7a869de3bf5521a227329cf34cfe2cd2446e421a7f5832e899b1e"
-     "81f53ee9ddd3f8559f94c127c9327d578e264c574cda7c6d9daddaec226f87bb"
-     "b5fd9c7429d52190235f2383e47d340d7ff769f141cd8f9e7a4629a81abc6b19"
-     "014cb63097fc7dbda3edf53eb09802237961cbb4c9e9abd705f23b86511b0a69" default))
  '(display-line-numbers 'relative)
  '(display-line-numbers-type 'relative)
  '(electric-pair-mode t)

@@ -303,7 +303,7 @@ and add the /lm-lisp/ and /lm-modules/ directories to the load-path.
   ;; Add the folder of my cust lisp files and modules to the load-path
   (mapc (lambda (string)
           (add-to-list 'load-path (concat lm-emacs-user-directory string)))
-        '("lm-lisp" "lm-modules"))
+        '("lm-lisp" "lm-modules" "lm-languages"))
 
   (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
 #+end_src
@@ -525,7 +525,7 @@ Provides /early-init.el/ as a module.
 * Init
 ** Configuration files
 #+begin_src emacs-lisp :tangle "init.el"
-  (setq lm/literate-config-name "init.org")
+  (setq lm/literate-config-name "README.org")
   (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
   (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 #+end_src
@@ -557,6 +557,12 @@ customizated that control which module should be loaded.
             (const :tag "none" nil))
     :group 'lm)
 
+  (defcustom lm-terminal-emulator 'off
+    "The terminal emulator inside emacs"
+    :type '(choice
+            (const :tag "eat" 'eat)
+            (const :tag "off" nil)))
+
   (defcustom lm-ligatures 'off
     "Enables fonts ligatures."
     :type '(choice
@@ -580,7 +586,7 @@ he whole ecosystem can be still coearent.
 Tilde and grave accent are not present in italian keyboard but often used in
 rogramming so this function are a quick way to insert them in text
 
-#+begin_src emacs-lisp :tangle "pre-init.el"
+#+begin_src emacs-lisp :tangle "init.el"
  (defun lm/insert-tilde ()                                      
    (interactive)                                 
    (insert-char (char-from-name "TILDE")))
@@ -590,7 +596,7 @@ rogramming so this function are a quick way to insert them in text
 #+end_src
 This function returns the directory containing this org file in case it differs
 from the actual emacs config dir
-#+begin_src emacs-lisp :tangle "pre-init.el"
+#+begin_src emacs-lisp :tangle "init.el"
  (defun lm/get-conf-org-dir ()
    (interactive)
    (file-name-directory buffer-file-name))
@@ -1024,6 +1030,12 @@ use ripgrep as grep-find command
                            (not (or (string-prefix-p "*" name)
                                     (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
 #+end_src
+*** Trust custom themes
+To avoid to always trust the custom themes
+#+begin_src emacs-lisp
+  (setq custom-safe-themes t)
+#+end_src
+
 *** Emacs started in terminal mode
 #+begin_src emacs-lisp
   (unless (display-graphic-p)
@@ -1098,6 +1110,8 @@ activated by the same custom variable.
   (cond
    ((eq lm-input-mode 'evil) (require 'lm-evil)))
   (require 'lm-which-key)
+  (cond
+   ((eq lm-terminal-emulator 'eat) (require 'lm-eat)))
 #+end_src
 
 * Modules
@@ -1255,6 +1269,102 @@ application when starting the sequence
 
   (provide 'lm-which-key)
 #+end_src
+** eat
+To make eat works on Windows change those functions in eat.el
+- eat--build-command before eat-exec function
+
+#+begin_example emacs-lisp 
+;; (defun eat--build-command(command switches width height)
+;;   "Build command to be executed with args.
+;; 
+;; COMMAND is going to be run with SWITCHES.  WIDTH and HEIGHT are
+;; terminal dimensions."
+;;   (cond
+;;    ((eq system-type 'windows-nt)
+;;     `("conhost.exe" "--headless" "--height" ,(number-to-string height)
+;;       "--width" ,(number-to-string width) "--feature" "pty" ,command
+;;       ,@switches))
+;;    (t
+;;     `("/usr/bin/env" "sh" "-c"
+;;       ,(format "stty -nl echo rows %d columns \
+;;   %d sane 2>%s ; if [ $1 = .. ]; then shift; fi; exec \"$@\""
+;;                height
+;;                width
+;;                null-device)
+;;       ".."
+;;       ,command
+;;       ,@switches))))
+#+end_example
+
+- modify the eat-exec function
+#+begin_example
+;; -               :command `("/usr/bin/env" "sh" "-c"
+;; -                          ,(format "stty -nl echo rows %d columns \
+;; - %d sane 2>%s ; if [ $1 = .. ]; then shift; fi; exec \"$@\""
+;; -                                   (cdr size) (car size)
+;; -                                   null-device)
+;; -                          ".."
+;; -                          ,command ,@switches)
+;; +               :command (eat--build-command command switches
+;; +                                            (car size) (cdr size))
+#+end_example
+#+begin_example
+;; -  (let ((program (or program (funcall eat-default-shell-function)))
+;; -        (buffer
+;; -         (cond
+;; -          ((numberp arg)
+;; -           (get-buffer-create (format "%s<%d>" eat-buffer-name arg)))
+;; -          (arg
+;; -           (generate-new-buffer eat-buffer-name))
+;; -          (t
+;; -           (get-buffer-create eat-buffer-name)))))
+;; +  (let* ((program (or program (eat-default-shell)))
+;; +         (args
+;; +          (cond
+;; +           ((eq system-type 'windows-nt)
+;; +            `("powershell.exe" nil ("-NoExit" "-c" ,(format "%s" program))))
+;; +           (t
+;; +            `("/usr/bin/env" nil (list "sh" "-c" ,program)))))
+;; +         (buffer
+;; +          (cond
+;; +           ((numberp arg)
+;; +            (get-buffer-create (format "%s<%d>" eat-buffer-name arg)))
+;; +           (arg
+;; +            (generate-new-buffer eat-buffer-name))
+;; +           (t
+;; +            (get-buffer-create eat-buffer-name)))))
+#+end_example
+#+begin_example
+;; -        (eat-exec buffer (buffer-name) "/usr/bin/env" nil
+;; -                  (list "sh" "-c" program)))
+;; +        (apply #'eat-exec buffer (buffer-name) args))
+#+end_example
+
+#+begin_src emacs-lisp :tangle "lm-modules/lm-eat.el"
+  (use-package eat
+    :ensure t
+    :config
+    (defun eat-default-shell () "pwsh")
+    (setq eat-default-shell-function '(lambda () "pwsh")))
+
+  (provide 'lm-eat)
+#+end_src
+** Themes
+*** Doom-themes
+#+begin_src emacs-lisp :tangle "lm-modules/lm-doom-themes.el"
+  (use-package doom-themes
+    :config
+    (setq modus-themes-headings
+          '((1 . (variable-pitch light 1.4))))
+    )
+
+  (use-package nerd-icons)
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :custom ((doom-modeline-height 25)))
+
+  (provide 'lm-doom-themes)
+#+end_src
 * Post-init.el
 #+begin_src emacs-lisp
   (lm-emacs-load-user-init "post-init.el")
@@ -1363,86 +1473,6 @@ application when starting the sequence
 #+end_src
 
 ** Terminal
-*** Eat
-To make eat works on Windows change those functions in eat.el
-- eat--build-command before eat-exec function
-
-  
-#+begin_src 
-;; (defun eat--build-command(command switches width height)
-;;   "Build command to be executed with args.
-;; 
-;; COMMAND is going to be run with SWITCHES.  WIDTH and HEIGHT are
-;; terminal dimensions."
-;;   (cond
-;;    ((eq system-type 'windows-nt)
-;;     `("conhost.exe" "--headless" "--height" ,(number-to-string height)
-;;       "--width" ,(number-to-string width) "--feature" "pty" ,command
-;;       ,@switches))
-;;    (t
-;;     `("/usr/bin/env" "sh" "-c"
-;;       ,(format "stty -nl echo rows %d columns \
-;;   %d sane 2>%s ; if [ $1 = .. ]; then shift; fi; exec \"$@\""
-;;                height
-;;                width
-;;                null-device)
-;;       ".."
-;;       ,command
-;;       ,@switches))))
-#+end_src
-
-- modify the eat-exec function
-#+begin_src 
-;; -               :command `("/usr/bin/env" "sh" "-c"
-;; -                          ,(format "stty -nl echo rows %d columns \
-;; - %d sane 2>%s ; if [ $1 = .. ]; then shift; fi; exec \"$@\""
-;; -                                   (cdr size) (car size)
-;; -                                   null-device)
-;; -                          ".."
-;; -                          ,command ,@switches)
-;; +               :command (eat--build-command command switches
-;; +                                            (car size) (cdr size))
-#+end_src
-#+begin_src
-;; -  (let ((program (or program (funcall eat-default-shell-function)))
-;; -        (buffer
-;; -         (cond
-;; -          ((numberp arg)
-;; -           (get-buffer-create (format "%s<%d>" eat-buffer-name arg)))
-;; -          (arg
-;; -           (generate-new-buffer eat-buffer-name))
-;; -          (t
-;; -           (get-buffer-create eat-buffer-name)))))
-;; +  (let* ((program (or program (eat-default-shell)))
-;; +         (args
-;; +          (cond
-;; +           ((eq system-type 'windows-nt)
-;; +            `("powershell.exe" nil ("-NoExit" "-c" ,(format "%s" program))))
-;; +           (t
-;; +            `("/usr/bin/env" nil (list "sh" "-c" ,program)))))
-;; +         (buffer
-;; +          (cond
-;; +           ((numberp arg)
-;; +            (get-buffer-create (format "%s<%d>" eat-buffer-name arg)))
-;; +           (arg
-;; +            (generate-new-buffer eat-buffer-name))
-;; +           (t
-;; +            (get-buffer-create eat-buffer-name)))))
-#+end_src
-#+begin_src
-;; -        (eat-exec buffer (buffer-name) "/usr/bin/env" nil
-;; -                  (list "sh" "-c" program)))
-;; +        (apply #'eat-exec buffer (buffer-name) args))
-#+end_src
-
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package eat
-    :ensure t
-    :config
-    (defun eat-default-shell () "pwsh")
-    (setq eat-default-shell-function '(lambda () "pwsh"))
-    )
-#+end_src
 *** Terminal here
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package terminal-here 
@@ -1454,24 +1484,6 @@ To make eat works on Windows change those functions in eat.el
           (setq terminal-here-terminal-command 'wezterm))))
 #+end_src
 
-** Themes
-To avoid to always trust the custom themes
-#+begin_src emacs-lisp "post-init.el"
-  (setq custom-safe-themes t)
-#+end_src
-*** Doom-themes
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package doom-themes
-    :config
-    (setq modus-themes-headings
-          '((1 . (variable-pitch light 1.4))))
-    )
-
-  (use-package nerd-icons)
-  (use-package doom-modeline
-    :init (doom-modeline-mode 1)
-    :custom ((doom-modeline-height 25)))
-#+end_src
 ** lsp
 *** eglot
 #+begin_src emacs-lisp :tangle "post-init.el"
@@ -1583,14 +1595,15 @@ The content of the file must be
   Add: [-target, x86_64-pc-windows-gnu]
 #+end_src
 **** cmake
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-languages/cmake.el"
   (use-package cmake-mode
     :ensure t
     :mode ("\\CMakeLists.txt" . cmake-mode))
+  (provide 'lm-cmake)
 #+end_src
 
 *** Arduino
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-languages/lm-arduino.el"
   (add-to-list 'auto-mode-alist '("\\.ino\\'" .
                                   (lambda ()
                                     (c-or-c++-mode)
@@ -1601,12 +1614,14 @@ The content of the file must be
                                             "--clang-tidy"
                                             "--completion-style=detailed"
                                             (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
+  (provide 'lm-arduino)
 #+end_src
 *** Rust
 This will activate the rust treesitter mode for rust files. However it could be necessary to install the treesitter library for rust.
 With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* that will download and compile the needed library.
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-languages/lm-rust.el"
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+  (provide 'lm-rust)
 #+end_src
 *** COMMENT Powershell
 #+begin_src emacs-lisp :tangle "post-init.el"

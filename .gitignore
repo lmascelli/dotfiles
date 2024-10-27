@@ -22,6 +22,7 @@ configurations/emacs/projects
 configurations/emacs/tramp
 configurations/emacs/.lsp-session-v1
 configurations/emacs/url/cookies
+configurations/emacs/post-init.el
 
 # ZED
 configurations/zed/.tmp*

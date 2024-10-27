@@ -107,7 +107,7 @@ Simplified version of `add-to-list'."
 ;; Add the folder of my cust lisp files and modules to the load-path
 (mapc (lambda (string)
         (add-to-list 'load-path (concat lm-emacs-user-directory string)))
-      '("lm-lisp" "lm-modules"))
+      '("lm-lisp" "lm-modules" "lm-languages"))
 
 (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
 

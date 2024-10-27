@@ -33,6 +33,12 @@
           (const :tag "none" nil))
   :group 'lm)
 
+(defcustom lm-terminal-emulator 'off
+  "The terminal emulator inside emacs"
+  :type '(choice
+          (const :tag "eat" 'eat)
+          (const :tag "off" nil)))
+
 (defcustom lm-ligatures 'off
   "Enables fonts ligatures."
   :type '(choice
@@ -391,6 +397,8 @@
                          (not (or (string-prefix-p "*" name)
                                   (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
 
+(setq custom-safe-themes t)
+
 (unless (display-graphic-p)
       (xterm-mouse-mode))
 
@@ -442,7 +450,7 @@
 (cond
  ((eq lm-input-mode 'evil) (require 'lm-evil)))
 (require 'lm-which-key)
+(cond
+ ((eq lm-terminal-emulator 'eat) (require 'lm-eat)))
 
 (lm-emacs-load-user-init "post-init.el")
-
-(setq custom-safe-themes t)
