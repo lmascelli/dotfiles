@@ -6,7 +6,7 @@
     (when (file-exists-p user-init-file)
       (load user-init-file nil t))))
 
-(setq lm/literate-config-name "init.org")
+(setq lm/literate-config-name "README.org")
 (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 
@@ -49,6 +49,17 @@
 (defun lm/complete ()
   (interactive)
   nil)
+
+(defun lm/insert-tilde ()                                      
+  (interactive)                                 
+  (insert-char (char-from-name "TILDE")))
+(defun lm/insert-grave-accent ()                                      
+  (interactive)                                 
+  (insert-char (char-from-name "GRAVE ACCENT")))
+
+(defun lm/get-conf-org-dir ()
+  (interactive)
+  (file-name-directory buffer-file-name))
 
 (defun lm/switch-to-tab-1 ()
   (interactive)
@@ -445,12 +456,20 @@
 
 (load-file custom-file)
 
+;; buildin packages
 (require 'lm-dired)
 (require 'lm-eshell)
+
+;; input mode
 (cond
  ((eq lm-input-mode 'evil) (require 'lm-evil)))
 (require 'lm-which-key)
+
+;; terminal
 (cond
  ((eq lm-terminal-emulator 'eat) (require 'lm-eat)))
+
+;; lsp
+(require 'lm-lsp)
 
 (lm-emacs-load-user-init "post-init.el")
