@@ -454,7 +454,7 @@
 ;; Avoid automatic frame resizing when adjusting settings.
 (setq global-text-scale-adjust-resizes-frames nil)
 
-(load-file custom-file)
+(lm-emacs-load-user-init custom-file)
 
 ;; buildin packages
 (require 'lm-dired)

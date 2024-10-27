@@ -278,6 +278,7 @@ set up the packages archives and their priorities.
 
 ** Load file
 This function load a file if exists
+
 #+begin_src emacs-lisp
   (defun lm-emacs-load-user-init (filename)
     "Execute a file of Lisp code named FILENAME."
@@ -287,6 +288,7 @@ This function load a file if exists
       (when (file-exists-p user-init-file)
         (load user-init-file nil t))))
 #+end_src
+
 ** User files
 Set some useful paths:
 - the emacs config directory
@@ -1095,7 +1097,7 @@ To avoid to always trust the custom themes
 
 ** Custom file
 #+begin_src emacs-lisp 
-  (load-file custom-file)
+  (lm-emacs-load-user-init custom-file)
 #+end_src
 * Modules load section (still init)
 Here i load all the activated modules. I have to remember to add the appropriate
