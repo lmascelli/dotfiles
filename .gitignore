@@ -18,7 +18,7 @@ configurations/emacs/server/
 configurations/emacs/transient/
 configurations/emacs/recentf
 configurations/emacs/emacs-custom.el
-configurations/emacs/custom.el
+# configurations/emacs/custom.el
 configurations/emacs/projects
 configurations/emacs/tramp
 configurations/emacs/.lsp-session-v*
