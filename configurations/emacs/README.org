@@ -1066,8 +1066,8 @@ in the code below.
 
 #+begin_src emacs-lisp :tangle "init.el"
   (setq display-line-numbers-type 'relative)
-  ;; 
-  (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
+  ;; 1. global strategy
+
   ;; (global-display-line-numbers-mode)
   ;; (dolist (mode '(
   ;;                 ;; base mode
@@ -1088,6 +1088,10 @@ in the code below.
   ;;                 eww-mode-hook
   ;;                 ))
   ;;   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+  ;; 2. selective strategy
+
+  (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
 #+end_src
 
 ** Minibuffer
