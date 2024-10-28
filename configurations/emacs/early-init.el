@@ -129,7 +129,7 @@ Simplified version of `add-to-list'."
 ;; Prefer loading newer compiled files
 (setq load-prefer-newer t)
 
-(defvar lm-emacs-debug nil
+(defvar lm-emacs-debug t 
   "Non-nil to enable debug.")
 
 ;; Reduce rendering/line scan work by not rendering cursors or regions in

@@ -24,20 +24,20 @@
           (const :tag "off" nil))
   :group 'lm)
 
-(defcustom lm-lsp-client nil
+(defcustom lm-lsp-client 'off 
   "The LSP implementation to use."
   :type '(choice
           (const :tag "eglot" eglot)
           (const :tag "lsp-mode" lsp-mode)
-          (const :tag "none" nil))
+          (const :tag "off" nil))
   :group 'lm)
 
-(defcustom lm-in-buffer-completion 'company
+(defcustom lm-in-buffer-completion 'off
   "The in-buffer completion to use."
   :type '(choice
           (const :tag "corfu" corfu)
           (const :tag "company" company)
-          (const :tag "none" nil))
+          (const :tag "off" nil))
   :group 'lm)
 
 (defcustom lm-terminal-emulator 'off
@@ -134,7 +134,8 @@
                   minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-(use-package diminish)
+(use-package diminish
+  :ensure t)
 
 ;; switch-to-buffer runs pop-to-buffer-same-window instead
 (setq switch-to-buffer-obey-display-actions t)
@@ -424,7 +425,7 @@
     (global-hl-line-mode))
 
 (setq display-line-numbers-type 'relative)
-(add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
+;; 1. global strategy
 
 ;; (global-display-line-numbers-mode)
 ;; (dolist (mode '(
@@ -446,6 +447,10 @@
 ;;                 eww-mode-hook
 ;;                 ))
 ;;   (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; 2. selective strategy
+
+(add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
 
 ;; Allow nested minibuffers
 (setq enable-recursive-minibuffers t)

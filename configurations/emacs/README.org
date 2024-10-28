@@ -334,7 +334,7 @@ loaded and configure some others variables of emacs to increase it performance.
   ;; Prefer loading newer compiled files
   (setq load-prefer-newer t)
 
-  (defvar lm-emacs-debug nil
+  (defvar lm-emacs-debug t 
     "Non-nil to enable debug.")
 
   ;; Reduce rendering/line scan work by not rendering cursors or regions in
@@ -550,20 +550,20 @@ customizated that control which module should be loaded.
             (const :tag "off" nil))
     :group 'lm)
 
-  (defcustom lm-lsp-client nil
+  (defcustom lm-lsp-client 'off 
     "The LSP implementation to use."
     :type '(choice
             (const :tag "eglot" eglot)
             (const :tag "lsp-mode" lsp-mode)
-            (const :tag "none" nil))
+            (const :tag "off" nil))
     :group 'lm)
 
-  (defcustom lm-in-buffer-completion 'company
+  (defcustom lm-in-buffer-completion 'off
     "The in-buffer completion to use."
     :type '(choice
             (const :tag "corfu" corfu)
             (const :tag "company" company)
-            (const :tag "none" nil))
+            (const :tag "off" nil))
     :group 'lm)
 
   (defcustom lm-terminal-emulator 'off
@@ -696,12 +696,15 @@ from the actual emacs config dir
                     minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
+
 *** diminish
 *diminish* enable to hide minor-mode names from minibuffer.  To hide a
 minor-mode put `:diminish` in the use-package configuration of the
 mode package
+
 #+begin_src emacs-lisp
-  (use-package diminish)
+    (use-package diminish
+      :ensure t)
 #+end_src
 
 ** Editor behaviour
