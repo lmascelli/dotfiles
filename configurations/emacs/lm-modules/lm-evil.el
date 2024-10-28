@@ -1,14 +1,4 @@
-(use-package evil
-  :ensure t
-  :defer 1
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
-  (setq evil-undo-system 'undo-redo)
-  (defvar lm/leader-map (make-sparse-keymap)
-    "Keymap for \"leader key\" shortcuts")
-  :config
+(defun lm-evil-personal-keymaps ()
   ;; ----------------------------- LEADER KEYMAPS ------------------------------
   (keymap-set evil-normal-state-map "SPC" lm/leader-map)
   (keymap-set evil-motion-state-map "SPC" lm/leader-map)
@@ -65,7 +55,6 @@
   (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
   ;; (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
   ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
-                                        ; (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
   (keymap-set evil-insert-state-map "C-SPC" 'lm-action-complete)
@@ -85,7 +74,19 @@
   (unless (display-graphic-p)
     (keymap-set evil-insert-state-map "C-_" 'lm/complete))
   ;; ---------------------------------------------------------------------------
+  )
 
+(use-package evil
+  :ensure t
+  :defer 1
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
+  (setq evil-undo-system 'undo-redo)
+  (defvar lm/leader-map (make-sparse-keymap)
+    "Keymap for \"leader key\" shortcuts")
+  :config
   ;; change cursor form in terminal
   (unless (display-graphic-p)
     (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
@@ -100,6 +101,7 @@
   :init
   (setq evil-collection-key-blacklist '("SPC"))
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (lm-evil-personal-keymaps))
 
 (provide 'lm-evil)

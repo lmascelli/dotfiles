@@ -558,12 +558,12 @@ customizated that control which module should be loaded.
             (const :tag "off" nil))
     :group 'lm)
 
-  (defcustom lm-in-buffer-completion 'off
+  (defcustom lm-in-buffer-completion 'builtin
     "The in-buffer completion to use."
     :type '(choice
             (const :tag "corfu" corfu)
             (const :tag "company" company)
-            (const :tag "off" nil))
+            (const :tag "builtin" builtin))
     :group 'lm)
 
   (defcustom lm-terminal-emulator 'off
@@ -1214,111 +1214,113 @@ use ripgrep as grep-find command
 #+end_src
 ** evil-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-evil.el"
-  (use-package evil
-    :ensure t
-    :defer 1
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
-    (setq evil-undo-system 'undo-redo)
-    (defvar lm/leader-map (make-sparse-keymap)
-      "Keymap for \"leader key\" shortcuts")
-    :config
-    ;; ----------------------------- LEADER KEYMAPS ------------------------------
-    (keymap-set evil-normal-state-map "SPC" lm/leader-map)
-    (keymap-set evil-motion-state-map "SPC" lm/leader-map)
-    (keymap-set lm/leader-map "SPC" 'execute-extended-command)
-    (defvar lm/leader-map-buffer (make-sparse-keymap)
-      "sub-keymap for buffer operations")
-    (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
-    (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
-    (keymap-set lm/leader-map-buffer "s" 'save-buffer)
-    (keymap-set lm/leader-map-buffer "l" 'switch-to-buffer)
-    (keymap-set lm/leader-map-buffer "L" 'list-buffers)
-    (defvar lm/leader-map-quit (make-sparse-keymap)
-      "sub-keymap for quit operations")
-    (keymap-set lm/leader-map "q" `("+Quit" . ,lm/leader-map-quit))
-    (keymap-set lm/leader-map-quit "q" 'save-buffers-kill-terminal)
-    (defvar lm/leader-map-find (make-sparse-keymap)
-      "sub-keymap for finding operations")
-    (keymap-set lm/leader-map "f" `("+Find" . ,lm/leader-map-find))
-    (keymap-set lm/leader-map-find "f" 'project-find-file)
-    (keymap-set lm/leader-map-find "s" 'evil-search-forward)
-    (keymap-set lm/leader-map-find "b" 'evil-search-backward)
-    (keymap-set lm/leader-map-find "r" 'query-replace)
-    (defvar lm/leader-map-appearence (make-sparse-keymap)
-      "sub-keymap for customizing appearence operations")
-    (keymap-set lm/leader-map "a" `("+Appearence" . ,lm/leader-map-appearence))
-    (keymap-set lm/leader-map-appearence "c" 'customize-themes)
-    (keymap-set lm/leader-map-appearence "t" 'toggle-theme)
-    (keymap-set lm/leader-map-appearence "m" 'menu-bar-mode)
-    (defvar lm/leader-map-config (make-sparse-keymap)
-      "sub-keymap for customizing configuration operations")
-    (keymap-set lm/leader-map "c" `("+Configuration" . ,lm/leader-map-config))
-    (keymap-set lm/leader-map-config "c" 'lm-open-literate-config)
-    (keymap-set lm/leader-map-config "r" 'lm-reload-config)
-    (defvar lm/leader-map-project (make-sparse-keymap)
-      "sub-keymap for customizing project operations")
-    (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
-    (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
-    (defvar lm/leader-map-special-chars (make-sparse-keymap)
-      "sub-keymap for inserting special characters")
-    (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))
-    (keymap-set lm/leader-map-special-chars "t" 'lm-action-insert-tilde)
-    (keymap-set lm/leader-map-special-chars "g" 'lm-action-insert-grave-accent)
-    (defvar lm/leader-map-tools (make-sparse-keymap)
-      "sub-keymap for tools")
-    (keymap-set lm/leader-map "t" `("+Tools" . ,lm/leader-map-tools))
-    (keymap-set lm/leader-map-tools "p" 'lm/pomodoro)
-    ;; ------------------------- NORMAL STATE KEYMAPS ----------------------------
-    (keymap-set evil-normal-state-map "H" 'previous-buffer)
-    (keymap-set evil-normal-state-map "L" 'next-buffer)
-    (keymap-set evil-normal-state-map "U" 'undo-redo)
-    (keymap-set evil-normal-state-map "C-w C-h" 'evil-window-left)
-    (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
-    (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
-    (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
-    ;; (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
-    ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
-                                          ; (define-key evil-visual-state-map (kbd "TAB") 'evil-indent)
-    ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
-    (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
-    (keymap-set evil-insert-state-map "C-SPC" 'lm-action-complete)
-    (defvar lm/insert-map (make-sparse-keymap)
-      "Keymap for shortcuts in insert mode")
-    (keymap-set evil-insert-state-map "C-c" lm/insert-map)
-    (defvar lm/insert-map-special-chars (make-sparse-keymap)
-      "sub-keymap for inserting special characters")
-    (keymap-set lm/insert-map "s" `("+Special" . ,lm/insert-map-special-chars))
-    (keymap-set lm/insert-map-special-chars "t" 'lm-action-insert-tilde)
-    (keymap-set lm/insert-map-special-chars "g" 'lm-action-insert-grave-accent)
-    ;; ----------------------------- GLOBAL KEYMAPS ------------------------------
-    (keymap-set global-map "C-s" 'save-buffer)
-    (keymap-set global-map "M-1" 'lm-action-switch-to-tab-1)
-    (keymap-set global-map "M-2" 'lm-action-switch-to-tab-2)
-    (keymap-set global-map "M-3" 'lm-action-switch-to-tab-3)
-    (unless (display-graphic-p)
-      (keymap-set evil-insert-state-map "C-_" 'lm/complete))
-    ;; ---------------------------------------------------------------------------
+    (defun lm-evil-personal-keymaps ()
+      ;; ----------------------------- LEADER KEYMAPS ------------------------------
+      (keymap-set evil-normal-state-map "SPC" lm/leader-map)
+      (keymap-set evil-motion-state-map "SPC" lm/leader-map)
+      (keymap-set lm/leader-map "SPC" 'execute-extended-command)
+      (defvar lm/leader-map-buffer (make-sparse-keymap)
+        "sub-keymap for buffer operations")
+      (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
+      (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
+      (keymap-set lm/leader-map-buffer "s" 'save-buffer)
+      (keymap-set lm/leader-map-buffer "l" 'switch-to-buffer)
+      (keymap-set lm/leader-map-buffer "L" 'list-buffers)
+      (defvar lm/leader-map-quit (make-sparse-keymap)
+        "sub-keymap for quit operations")
+      (keymap-set lm/leader-map "q" `("+Quit" . ,lm/leader-map-quit))
+      (keymap-set lm/leader-map-quit "q" 'save-buffers-kill-terminal)
+      (defvar lm/leader-map-find (make-sparse-keymap)
+        "sub-keymap for finding operations")
+      (keymap-set lm/leader-map "f" `("+Find" . ,lm/leader-map-find))
+      (keymap-set lm/leader-map-find "f" 'project-find-file)
+      (keymap-set lm/leader-map-find "s" 'evil-search-forward)
+      (keymap-set lm/leader-map-find "b" 'evil-search-backward)
+      (keymap-set lm/leader-map-find "r" 'query-replace)
+      (defvar lm/leader-map-appearence (make-sparse-keymap)
+        "sub-keymap for customizing appearence operations")
+      (keymap-set lm/leader-map "a" `("+Appearence" . ,lm/leader-map-appearence))
+      (keymap-set lm/leader-map-appearence "c" 'customize-themes)
+      (keymap-set lm/leader-map-appearence "t" 'toggle-theme)
+      (keymap-set lm/leader-map-appearence "m" 'menu-bar-mode)
+      (defvar lm/leader-map-config (make-sparse-keymap)
+        "sub-keymap for customizing configuration operations")
+      (keymap-set lm/leader-map "c" `("+Configuration" . ,lm/leader-map-config))
+      (keymap-set lm/leader-map-config "c" 'lm-open-literate-config)
+      (keymap-set lm/leader-map-config "r" 'lm-reload-config)
+      (defvar lm/leader-map-project (make-sparse-keymap)
+        "sub-keymap for customizing project operations")
+      (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
+      (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
+      (defvar lm/leader-map-special-chars (make-sparse-keymap)
+        "sub-keymap for inserting special characters")
+      (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))
+      (keymap-set lm/leader-map-special-chars "t" 'lm-action-insert-tilde)
+      (keymap-set lm/leader-map-special-chars "g" 'lm-action-insert-grave-accent)
+      (defvar lm/leader-map-tools (make-sparse-keymap)
+        "sub-keymap for tools")
+      (keymap-set lm/leader-map "t" `("+Tools" . ,lm/leader-map-tools))
+      (keymap-set lm/leader-map-tools "p" 'lm/pomodoro)
+      ;; ------------------------- NORMAL STATE KEYMAPS ----------------------------
+      (keymap-set evil-normal-state-map "H" 'previous-buffer)
+      (keymap-set evil-normal-state-map "L" 'next-buffer)
+      (keymap-set evil-normal-state-map "U" 'undo-redo)
+      (keymap-set evil-normal-state-map "C-w C-h" 'evil-window-left)
+      (keymap-set evil-normal-state-map "C-w C-l" 'evil-window-right)
+      (keymap-set evil-normal-state-map "C-w C-j" 'evil-window-down)
+      (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
+      ;; (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
+      ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
+      ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
+      (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+      (keymap-set evil-insert-state-map "C-SPC" 'lm-action-complete)
+      (defvar lm/insert-map (make-sparse-keymap)
+        "Keymap for shortcuts in insert mode")
+      (keymap-set evil-insert-state-map "C-c" lm/insert-map)
+      (defvar lm/insert-map-special-chars (make-sparse-keymap)
+        "sub-keymap for inserting special characters")
+      (keymap-set lm/insert-map "s" `("+Special" . ,lm/insert-map-special-chars))
+      (keymap-set lm/insert-map-special-chars "t" 'lm-action-insert-tilde)
+      (keymap-set lm/insert-map-special-chars "g" 'lm-action-insert-grave-accent)
+      ;; ----------------------------- GLOBAL KEYMAPS ------------------------------
+      (keymap-set global-map "C-s" 'save-buffer)
+      (keymap-set global-map "M-1" 'lm-action-switch-to-tab-1)
+      (keymap-set global-map "M-2" 'lm-action-switch-to-tab-2)
+      (keymap-set global-map "M-3" 'lm-action-switch-to-tab-3)
+      (unless (display-graphic-p)
+        (keymap-set evil-insert-state-map "C-_" 'lm/complete))
+      ;; ---------------------------------------------------------------------------
+      )
 
-    ;; change cursor form in terminal
-    (unless (display-graphic-p)
-      (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
-      (add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q"))))
+    (use-package evil
+      :ensure t
+      :defer 1
+      :init
+      (setq evil-want-integration t)
+      (setq evil-want-keybinding nil)
+      (unless (display-graphic-p) (setq evil-want-C-i-jump nil))
+      (setq evil-undo-system 'undo-redo)
+      (defvar lm/leader-map (make-sparse-keymap)
+        "Keymap for \"leader key\" shortcuts")
+      :config
+      ;; change cursor form in terminal
+      (unless (display-graphic-p)
+        (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
+        (add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q"))))
 
-    (evil-mode))
+      (evil-mode))
 
-  (use-package evil-collection
-    :ensure t
-    :after evil
-    :custom (evil-collection-want-unimpaired-p nil)
-    :init
-    (setq evil-collection-key-blacklist '("SPC"))
-    :config
-    (evil-collection-init))
+    (use-package evil-collection
+      :ensure t
+      :after evil
+      :custom (evil-collection-want-unimpaired-p nil)
+      :init
+      (setq evil-collection-key-blacklist '("SPC"))
+      :config
+      (evil-collection-init)
+      (lm-evil-personal-keymaps))
 
-  (provide 'lm-evil)
+    (provide 'lm-evil)
 #+end_src
 ** which-key
 Which-key permits to display chords in a window at the bottom of the
@@ -1508,14 +1510,22 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-eglot)
 #+end_src
 ** completion
-*** company
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
   (cond
-   ((eq lm-in-buffer-completion 'company) (require 'lm-company)))
+   ((eq lm-in-buffer-completion 'company)
+    (require 'lm-company))
+
+   ((eq lm-in-buffer-completion 'builtin)
+    (progn
+      (defun lm-action-complete ()
+        (interactive)
+        (completion-at-point))))
+   )
 
   (provide 'lm-completion)
 #+end_src
 
+*** company
 #+begin_src emacs-lisp :tangle "lm-modules/lm-company.el"
   (if (eq lm-in-buffer-completion 'company)
       (use-package company
@@ -1597,17 +1607,7 @@ To make eat works on Windows change those functions in eat.el
     (add-to-list 'completion-at-point-functions 'cape-dabbrev)
     (add-to-list 'completion-at-point-functions 'cape-file)) 
 #+end_src
-* Post-init.el
-The /post-init.el/ is file is where should be located the machine
-dependent customization done after the main initialization has been
-done. This file is not updated in the git repository.
-
-#+begin_src emacs-lisp
-  (lm-emacs-load-user-init "post-init.el")
-#+end_src
-
-* Plugins
-** COMMENT Snippets
+** COMMENT Snippets (to convert as module)
 *** yasnippet
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package yasnippet
@@ -1626,7 +1626,7 @@ done. This file is not updated in the git repository.
     :after yasnippet)
 #+end_src
 
-** COMMENT olivetti
+** COMMENT olivetti (to convert as module)
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp :tangle "post-init.el"
   (use-package olivetti
@@ -1642,6 +1642,15 @@ This is a nice package for zen mode editing
                                     (display-line-numbers-mode 0)
                                     (display-fill-column-indicator-mode 0))))
 #+end_src
+* Post-init.el
+The /post-init.el/ is file is where should be located the machine
+dependent customization done after the main initialization has been
+done. This file is not updated in the git repository.
+
+#+begin_src emacs-lisp
+  (lm-emacs-load-user-init "post-init.el")
+#+end_src
+
 * Programming languages
 *** C/C++
 **** Windows clangd with MSys2/Mingw-w64

@@ -32,12 +32,12 @@
           (const :tag "off" nil))
   :group 'lm)
 
-(defcustom lm-in-buffer-completion 'off
+(defcustom lm-in-buffer-completion 'builtin
   "The in-buffer completion to use."
   :type '(choice
           (const :tag "corfu" corfu)
           (const :tag "company" company)
-          (const :tag "off" nil))
+          (const :tag "builtin" builtin))
   :group 'lm)
 
 (defcustom lm-terminal-emulator 'off
