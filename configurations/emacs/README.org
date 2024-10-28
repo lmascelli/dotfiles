@@ -1050,27 +1050,44 @@ To avoid to always trust the custom themes
   (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 #+end_src
 
-*** Line numbering
-Display the relative line number except for the specified modes.
-Also highlight the current line.
-
+*** Hightlight current line
 #+begin_src emacs-lisp :tangle "init.el"
-  (global-display-line-numbers-mode)
-  (setq display-line-numbers-type 'relative)
-  (dolist (mode '(org-mode-hook
-                  markdown-mode-hook
-                  term-mode-hook
-                  vterm-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook
-                  latex-mode-hook
-                  treemacs-mode-hook
-                  eww-mode-hook
-                  Info-mode-hook
-                  ))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
   (if (display-graphic-p)
       (global-hl-line-mode))
+#+end_src
+
+*** Line numbering
+Highlight the current line.
+Also display the relative line number except for the specified modes. There are two
+strategies for that: globally activate the lines numbering and disable it when
+not desired or enable it for all the mode in which is usefull (i.e.
+prog-mode-hook). At the moment i prefer the last one so the first is commented
+in the code below.
+
+#+begin_src emacs-lisp :tangle "init.el"
+  (setq display-line-numbers-type 'relative)
+  (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
+
+  ;; (global-display-line-numbers-mode)
+  ;; (dolist (mode '(
+  ;;                 ;; base mode
+  ;;                 ;; outline files
+  ;;                 org-mode-hook
+  ;;                 markdown-mode-hook
+  ;;                 latex-mode-hook
+  ;;                 ;; manuals
+  ;;                 Info-mode-hook
+  ;;                 ;; shell buffers
+  ;;                 term-mode-hook
+  ;;                 vterm-mode-hook
+  ;;                 shell-mode-hook
+  ;;                 eshell-mode-hook
+  ;;                 ;; explorers
+  ;;                 dired-mode-hook
+  ;;                 treemacs-mode-hook
+  ;;                 eww-mode-hook
+  ;;                 ))
+  ;;   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
 ** Minibuffer
@@ -1111,7 +1128,7 @@ Also highlight the current line.
 #+begin_src emacs-lisp 
   (lm-emacs-load-user-init custom-file)
 #+end_src
-* Modules load section (still init)
+* Modules load section (still in init.el)
 Here i load all the activated modules. I have to remember to add the appropriate
 section for each module i insert.
 As a rule, mutually exclusive packages (like different completion framework)
@@ -1680,32 +1697,3 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :defer t
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src
-
-* COMMENT Old
-** buffer scrolling
-#+begin_src emacs-lisp
-  ;; (setq scroll-margin 5)
-  (setq redisplay-dont-pause t)
-  ;; (setq scroll-conservatively scroll-margin)
-  (setq scroll-conservatively 10000)
-  (setq scroll-preserve-screen-position t)
-  (setq mouse-wheel-follow-mouse 't)
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
-  (setq scroll-step 1)
-  (setq auto-window-vscroll nil)
-  (setq scroll-error-top-bottom t)
-  (setq mouse-wheel-progressive-speed nil)
-  (setq mouse-wheel-inhibit-click-time nil)
-  (setq fast-but-imprecise-scrolling t)
-#+end_src
-**** pixel-scroll-precision-mode
-#+begin_src emacs-lisp
-  (unless (version< emacs-version "29")
-    (progn
-      ;; (setq pixel-scroll-precision-use-momentum t)
-      (setq pixel-scroll-precision-interpolate-mice t)
-      (setq pixel-scroll-precision-interpolate-page t)
-      (setq pixel-scroll-precision-large-scroll-height 20.0)
-      (pixel-scroll-precision-mode)))
-#+end_src
-

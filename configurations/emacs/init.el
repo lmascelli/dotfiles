@@ -21,7 +21,8 @@
   "The framework to provide clues for keymaps"
   :type '(choice
           (const :tag "which-key" which-key)
-          (const :tag "off" nil)))
+          (const :tag "off" nil))
+  :group 'lm)
 
 (defcustom lm-lsp-client nil
   "The LSP implementation to use."
@@ -43,7 +44,8 @@
   "The terminal emulator inside emacs"
   :type '(choice
           (const :tag "eat" 'eat)
-          (const :tag "off" nil)))
+          (const :tag "off" nil))
+  :group 'lm)
 
 (defcustom lm-ligatures 'off
   "Enables fonts ligatures."
@@ -418,22 +420,32 @@
 
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 
-(global-display-line-numbers-mode)
-(setq display-line-numbers-type 'relative)
-(dolist (mode '(org-mode-hook
-                markdown-mode-hook
-                term-mode-hook
-                vterm-mode-hook
-                shell-mode-hook
-                eshell-mode-hook
-                latex-mode-hook
-                treemacs-mode-hook
-                eww-mode-hook
-                Info-mode-hook
-                ))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 (if (display-graphic-p)
     (global-hl-line-mode))
+
+(setq display-line-numbers-type 'relative)
+(add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
+
+;; (global-display-line-numbers-mode)
+;; (dolist (mode '(
+;;                 ;; base mode
+;;                 ;; outline files
+;;                 org-mode-hook
+;;                 markdown-mode-hook
+;;                 latex-mode-hook
+;;                 ;; manuals
+;;                 Info-mode-hook
+;;                 ;; shell buffers
+;;                 term-mode-hook
+;;                 vterm-mode-hook
+;;                 shell-mode-hook
+;;                 eshell-mode-hook
+;;                 ;; explorers
+;;                 dired-mode-hook
+;;                 treemacs-mode-hook
+;;                 eww-mode-hook
+;;                 ))
+;;   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; Allow nested minibuffers
 (setq enable-recursive-minibuffers t)
@@ -464,6 +476,7 @@
 (require 'lm-dired)
 (require 'lm-eshell)
 (require 'lm-grep)
+(require 'lm-org)
 
 ;; input mode
 (cond
@@ -481,8 +494,5 @@
 
 ;; lsp
 (require 'lm-lsp)
-
-;; org-mode
-(require 'lm-org)
 
 (lm-emacs-load-user-init "post-init.el")
