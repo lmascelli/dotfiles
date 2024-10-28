@@ -1517,6 +1517,7 @@ To make eat works on Windows change those functions in eat.el
 
    ((eq lm-in-buffer-completion 'builtin)
     (progn
+      ;; TODO setup capf in a useful way to include current buffer functions
       (defun lm-action-complete ()
         (interactive)
         (completion-at-point))))
