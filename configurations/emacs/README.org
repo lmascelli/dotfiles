@@ -543,6 +543,13 @@ customizated that control which module should be loaded.
             (const :tag "emacs" emacs))
     :group 'lm)
 
+  (defcustom lm-key-clues 'off
+    "The framework to provide clues for keymaps"
+    :type '(choice
+            (const :tag "which-key" which-key)
+            (const :tag "off" nil))
+    :group 'lm)
+
   (defcustom lm-lsp-client nil
     "The LSP implementation to use."
     :type '(choice
@@ -563,7 +570,8 @@ customizated that control which module should be loaded.
     "The terminal emulator inside emacs"
     :type '(choice
             (const :tag "eat" 'eat)
-            (const :tag "off" nil)))
+            (const :tag "off" nil))
+    :group 'lm)
 
   (defcustom lm-ligatures 'off
     "Enables fonts ligatures."
@@ -982,7 +990,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   ;; Customize the behaviour of the TAB key. Bind it to:
   ;; - `t' Always indent the current line
   ;; - `'complete' Enable indentation and completion using the TAB key
-  (setq-default tab-always-indent 't)
+  (setq-default tab-always-indent 'complete)
 
   ;; Enable multi-line commenting which ensures that `comment-indent-new-line'
   ;; properly continues comments onto new lines, which is useful for writing
@@ -1020,16 +1028,6 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq read-file-name-completion-ignore-case t)
   (setq completion-auto-help t)
 #+end_src
-*** Grep
-use ripgrep as grep-find command
-#+begin_src emacs-lisp
-  (use-package grep
-    :defer t
-    :config
-    (grep-apply-setting
-     'grep-find-command
-     '("rg -n -H --no-heading -e  ." . 26)))
-#+end_src
 *** Remove dired buffers or those surrounded by * from cycling
 #+begin_src emacs-lisp
   (set-frame-parameter (selected-frame) 'buffer-predicate
@@ -1051,6 +1049,30 @@ To avoid to always trust the custom themes
 
   (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 #+end_src
+
+*** Line numbering
+Display the relative line number except for the specified modes.
+Also highlight the current line.
+
+#+begin_src emacs-lisp :tangle "init.el"
+  (global-display-line-numbers-mode)
+  (setq display-line-numbers-type 'relative)
+  (dolist (mode '(org-mode-hook
+                  markdown-mode-hook
+                  term-mode-hook
+                  vterm-mode-hook
+                  shell-mode-hook
+                  eshell-mode-hook
+                  latex-mode-hook
+                  treemacs-mode-hook
+                  eww-mode-hook
+                  Info-mode-hook
+                  ))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (if (display-graphic-p)
+      (global-hl-line-mode))
+#+end_src
+
 ** Minibuffer
 #+begin_src emacs-lisp
   ;; Allow nested minibuffers
@@ -1071,22 +1093,6 @@ To avoid to always trust the custom themes
   ;; Display the current line and column numbers in the mode line
   (setq line-number-mode t)
   (setq column-number-mode t)
-  (global-display-line-numbers-mode)
-  (setq display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode)
-  (dolist (mode '(org-mode-hook
-                  markdown-mode-hook
-                  term-mode-hook
-                  vterm-mode-hook
-                  shell-mode-hook
-                  eshell-mode-hook
-                  latex-mode-hook
-                  treemacs-mode-hook
-                  eww-mode-hook
-                  ))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
-  (if (display-graphic-p)
-      (global-hl-line-mode))
 #+end_src
 
 ** Filetype
@@ -1116,11 +1122,15 @@ activated by the same custom variable.
   ;; buildin packages
   (require 'lm-dired)
   (require 'lm-eshell)
+  (require 'lm-grep)
+  (require 'lm-org)
 
   ;; input mode
   (cond
    ((eq lm-input-mode 'evil) (require 'lm-evil)))
-  (require 'lm-which-key)
+
+  (cond
+   ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
   ;; completion
   (require 'lm-completion)
@@ -1131,12 +1141,20 @@ activated by the same custom variable.
 
   ;; lsp
   (require 'lm-lsp)
-
-  ;; org-mode
-  (require 'lm-org)
 #+end_src
 
 * Modules
+** Grep
+use ripgrep as grep-find command
+#+begin_src emacs-lisp :tangle "lm-modules/lm-grep.el"
+  (use-package grep
+    :defer t
+    :config
+    (grep-apply-setting
+     'grep-find-command
+     '("rg -n -H --no-heading -e  ." . 26)))
+  (provide 'lm-grep)
+#+end_src
 ** Dired
 #+begin_src emacs-lisp :tangle "lm-modules/lm-dired.el"
   (use-package dired

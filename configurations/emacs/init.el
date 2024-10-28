@@ -17,6 +17,12 @@
           (const :tag "emacs" emacs))
   :group 'lm)
 
+(defcustom lm-key-clues 'off
+  "The framework to provide clues for keymaps"
+  :type '(choice
+          (const :tag "which-key" which-key)
+          (const :tag "off" nil)))
+
 (defcustom lm-lsp-client nil
   "The LSP implementation to use."
   :type '(choice
@@ -364,7 +370,7 @@
 ;; Customize the behaviour of the TAB key. Bind it to:
 ;; - `t' Always indent the current line
 ;; - `'complete' Enable indentation and completion using the TAB key
-(setq-default tab-always-indent 't)
+(setq-default tab-always-indent 'complete)
 
 ;; Enable multi-line commenting which ensures that `comment-indent-new-line'
 ;; properly continues comments onto new lines, which is useful for writing
@@ -399,13 +405,6 @@
 (setq read-file-name-completion-ignore-case t)
 (setq completion-auto-help t)
 
-(use-package grep
-  :defer t
-  :config
-  (grep-apply-setting
-   'grep-find-command
-   '("rg -n -H --no-heading -e  ." . 26)))
-
 (set-frame-parameter (selected-frame) 'buffer-predicate
                      (lambda (buf) 
                        (let ((name (buffer-name buf)))
@@ -418,6 +417,23 @@
       (xterm-mouse-mode))
 
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
+
+(global-display-line-numbers-mode)
+(setq display-line-numbers-type 'relative)
+(dolist (mode '(org-mode-hook
+                markdown-mode-hook
+                term-mode-hook
+                vterm-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                latex-mode-hook
+                treemacs-mode-hook
+                eww-mode-hook
+                Info-mode-hook
+                ))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(if (display-graphic-p)
+    (global-hl-line-mode))
 
 ;; Allow nested minibuffers
 (setq enable-recursive-minibuffers t)
@@ -435,22 +451,6 @@
 ;; Display the current line and column numbers in the mode line
 (setq line-number-mode t)
 (setq column-number-mode t)
-(global-display-line-numbers-mode)
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
-(dolist (mode '(org-mode-hook
-                markdown-mode-hook
-                term-mode-hook
-                vterm-mode-hook
-                shell-mode-hook
-                eshell-mode-hook
-                latex-mode-hook
-                treemacs-mode-hook
-                eww-mode-hook
-                ))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
-(if (display-graphic-p)
-    (global-hl-line-mode))
 
 ;; Do not notify the user each time Python tries to guess the indentation offset
 (setq python-indent-guess-indent-offset-verbose nil)
@@ -463,11 +463,14 @@
 ;; buildin packages
 (require 'lm-dired)
 (require 'lm-eshell)
+(require 'lm-grep)
 
 ;; input mode
 (cond
  ((eq lm-input-mode 'evil) (require 'lm-evil)))
-(require 'lm-which-key)
+
+(cond
+ ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
 ;; completion
 (require 'lm-completion)
@@ -478,5 +481,8 @@
 
 ;; lsp
 (require 'lm-lsp)
+
+;; org-mode
+(require 'lm-org)
 
 (lm-emacs-load-user-init "post-init.el")
