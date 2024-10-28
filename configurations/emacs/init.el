@@ -32,6 +32,14 @@
           (const :tag "off" nil))
   :group 'lm)
 
+(defcustom lm-capf-cape 'off
+  "Wheter to use or not cape package for enhance the completion at point
+functions"
+  :type '(choice
+          (const :tag "on" on)
+          (const :tag "off" off))
+  :group 'lm)
+
 (defcustom lm-in-buffer-completion 'builtin
   "The in-buffer completion to use."
   :type '(choice
@@ -491,6 +499,7 @@
  ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
 ;; completion
+(if (eq lm-capf-cape 'on) (require 'lm-cape))
 (require 'lm-completion)
 
 ;; terminal

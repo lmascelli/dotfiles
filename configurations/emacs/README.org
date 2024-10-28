@@ -558,6 +558,14 @@ customizated that control which module should be loaded.
             (const :tag "off" nil))
     :group 'lm)
 
+  (defcustom lm-capf-cape 'off
+    "Wheter to use or not cape package for enhance the completion at point
+  functions"
+    :type '(choice
+            (const :tag "on" on)
+            (const :tag "off" off))
+    :group 'lm)
+
   (defcustom lm-in-buffer-completion 'builtin
     "The in-buffer completion to use."
     :type '(choice
@@ -1157,6 +1165,7 @@ activated by the same custom variable.
    ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
   ;; completion
+  (if (eq lm-capf-cape 'on) (require 'lm-cape))
   (require 'lm-completion)
 
   ;; terminal
@@ -1529,6 +1538,19 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-completion)
 #+end_src
 
+*** cape
+#+begin_src emacs-lisp :tangle "lm-modules/lm-cape.el"
+  (use-package cape
+    :ensure t
+    :defer nil
+    :bind (("C-<SPC>" . 'completion-at-point))
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions 'cape-file)) 
+
+  (provide 'lm-cape)
+#+end_src
 *** company
 #+begin_src emacs-lisp :tangle "lm-modules/lm-company.el"
   (if (eq lm-in-buffer-completion 'company)
@@ -1600,17 +1622,6 @@ To make eat works on Windows change those functions in eat.el
   (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
 #+end_src
 
-*** COMMENT cape
-#+begin_src emacs-lisp :tangle "post-init.el"
-  (use-package cape
-    :ensure t
-    :defer nil
-    :bind (("C-<SPC>" . 'completion-at-point))
-    :init
-    (setq completion-ignore-case t)
-    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions 'cape-file)) 
-#+end_src
 ** COMMENT Snippets (to convert as module)
 *** yasnippet
 #+begin_src emacs-lisp :tangle "post-init.el"
