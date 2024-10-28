@@ -1518,6 +1518,7 @@ To make eat works on Windows change those functions in eat.el
    ((eq lm-in-buffer-completion 'builtin)
     (progn
       ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
+      (setq)
       (defun lm-action-complete ()
         (interactive)
         (completion-at-point))))
