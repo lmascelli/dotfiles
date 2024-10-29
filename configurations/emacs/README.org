@@ -334,7 +334,7 @@ loaded and configure some others variables of emacs to increase it performance.
   ;; Prefer loading newer compiled files
   (setq load-prefer-newer t)
 
-  (defvar lm-emacs-debug t 
+  (defvar lm-emacs-debug nil 
     "Non-nil to enable debug.")
 
   ;; Reduce rendering/line scan work by not rendering cursors or regions in
