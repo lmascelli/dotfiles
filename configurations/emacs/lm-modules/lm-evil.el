@@ -31,6 +31,7 @@
     "sub-keymap for customizing configuration operations")
   (keymap-set lm/leader-map "c" `("+Configuration" . ,lm/leader-map-config))
   (keymap-set lm/leader-map-config "c" 'lm-open-literate-config)
+  (keymap-set lm/leader-map-config "p" 'lm-open-post-init)
   (keymap-set lm/leader-map-config "r" 'lm-reload-config)
   (defvar lm/leader-map-project (make-sparse-keymap)
     "sub-keymap for customizing project operations")
