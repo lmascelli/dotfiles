@@ -37,6 +37,7 @@
     "sub-keymap for customizing project operations")
   (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
   (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
+  (keymap-set lm/leader-map-project "d" 'lm-toggle-hold-cwd)
   (defvar lm/leader-map-special-chars (make-sparse-keymap)
     "sub-keymap for inserting special characters")
   (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))

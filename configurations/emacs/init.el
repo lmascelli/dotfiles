@@ -99,6 +99,18 @@ functions"
   (interactive)
   (load (concat user-emacs-directory "init.el")))
 
+(setq lm-held-directory nil)
+
+(defun lm-toggle-hold-cwd ()
+  (interactive)
+  (setq lm-held-directory (unless lm-held-directory default-directory))
+  (dolist (hook
+           '(find-file-hook
+             window-buffer-change-functions
+             dired-mode-hook
+             ))
+    (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
+
 (defun lm-pomodoro ()
   (interactive)
   (require 'org-element)

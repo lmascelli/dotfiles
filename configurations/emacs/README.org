@@ -649,6 +649,29 @@ from the actual emacs config dir
    (interactive)
    (load (concat user-emacs-directory "init.el")))
 #+end_src
+*** Keeping the working directory
+Sometimes i prefer that opening a new buffer does not change the current
+working directory to the buffer file path. So this function lock the
+current working directory and reset it to the held value after a file is
+opened. If called again it release the current working directory to
+the normal behaviour.
+
+#+begin_src emacs-lisp :tangle "init.el"
+    (defvar lm-held-directory nil
+      "
+  The directory being held has default-directory. If nil no directory is being
+  hold. This variable is used by the `lm-toggle-hold-cwd' function.")
+
+    (defun lm-toggle-hold-cwd ()
+      (interactive)
+      (setq lm-held-directory (unless lm-held-directory default-directory))
+      (dolist (hook
+               '(find-file-hook
+                 window-buffer-change-functions
+                 dired-mode-hook
+                 ))
+        (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
+#+end_src
 *** Pomodoro
 #+begin_src emacs-lisp :tangle "init.el"
   (defun lm-pomodoro ()
@@ -1262,6 +1285,7 @@ use ripgrep as grep-find command
         "sub-keymap for customizing project operations")
       (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
       (keymap-set lm/leader-map-project "p" 'project-asyn-shell-command)
+      (keymap-set lm/leader-map-project "d" 'lm-toggle-hold-cwd)
       (defvar lm/leader-map-special-chars (make-sparse-keymap)
         "sub-keymap for inserting special characters")
       (keymap-set lm/leader-map "i" `("+Insert" . ,lm/leader-map-special-chars))
