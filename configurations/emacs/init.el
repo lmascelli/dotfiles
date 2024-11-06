@@ -32,12 +32,10 @@
           (const :tag "off" nil))
   :group 'lm)
 
-(defcustom lm-capf-cape 'off
+(defcustom lm-capf-cape nil
   "Wheter to use or not cape package for enhance the completion at point
 functions"
-  :type '(choice
-          (const :tag "on" on)
-          (const :tag "off" off))
+  :type '(boolean)
   :group 'lm)
 
 (defcustom lm-in-buffer-completion 'builtin
@@ -55,11 +53,9 @@ functions"
           (const :tag "off" nil))
   :group 'lm)
 
-(defcustom lm-ligatures 'off
+(defcustom lm-ligatures nil
   "Enables fonts ligatures."
-  :type '(choice
-          (const :tag "on" 1)
-          (const :tag "off" nil))
+  :type '(boolean)
   :group 'lm)
 
 (defcustom lm-exclude-dired-buffer nil
