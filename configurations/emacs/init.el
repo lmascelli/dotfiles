@@ -523,7 +523,7 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
  ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
 ;; completion
-(if (eq lm-capf-cape 'on) (require 'lm-cape))
+(if lm-capf-cape (require 'lm-cape))
 (require 'lm-completion)
 
 ;; terminal

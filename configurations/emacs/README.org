@@ -1739,8 +1739,8 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
   (provide 'lm-rust)
 #+end_src
-*** COMMENT Powershell
-#+begin_src emacs-lisp :tangle "post-init.el"
+*** Powershell
+#+begin_src emacs-lisp :tangle "lm-languages/lm-powershell.el"
   (use-package powershell    
     :ensure t
     :defer t
@@ -1753,8 +1753,8 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :after org)
 #+end_src
 
-*** COMMENT MATLAB
-#+begin_src emacs-lisp :tangle "post-init.el"
+*** MATLAB
+#+begin_src emacs-lisp :tangle "lm-languages/lm-matlab.el"
   (use-package matlab-mode
     :ensure t
     :defer t
