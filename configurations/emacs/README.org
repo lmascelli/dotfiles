@@ -1197,7 +1197,7 @@ activated by the same custom variable.
    ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
   ;; completion
-  (if (eq lm-capf-cape 'on) (require 'lm-cape))
+  (if lm-capf-cape (require 'lm-cape))
   (require 'lm-completion)
 
   ;; terminal
@@ -1250,7 +1250,6 @@ use ripgrep as grep-find command
 #+end_src
 ** Org-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-org.el"
-
   (provide 'lm-org)
 #+end_src
 ** evil-mode
