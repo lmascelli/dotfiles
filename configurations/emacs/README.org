@@ -1654,9 +1654,9 @@ To make eat works on Windows change those functions in eat.el
   (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
 #+end_src
 
-** COMMENT Snippets (to convert as module)
+** Snippets
 *** yasnippet
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-yasnippet.el"
   (use-package yasnippet
     :ensure t
     :defer 2
@@ -1673,9 +1673,9 @@ To make eat works on Windows change those functions in eat.el
     :after yasnippet)
 #+end_src
 
-** COMMENT olivetti (to convert as module)
+** olivetti
 This is a nice package for zen mode editing
-#+begin_src emacs-lisp :tangle "post-init.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-olivetti.el"
   (use-package olivetti
     :ensure t
     :defer 1
