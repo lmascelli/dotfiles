@@ -402,7 +402,7 @@ config.font = wezterm.font('Cascadia Code NF')
 
 -- BEHAVIOUR
 config.default_prog = default_prog()
-config.window_close_confirmation = "NeverPrompt"
+config.window_close_confirmation = "AlwaysPrompt"
 config.exit_behavior = "Close"
 config.enable_csi_u_key_encoding = true
 config.audible_bell = "Disabled"

@@ -33,6 +33,7 @@
   (keymap-set lm/leader-map-config "c" 'lm-open-literate-config)
   (keymap-set lm/leader-map-config "p" 'lm-open-post-init)
   (keymap-set lm/leader-map-config "r" 'lm-reload-config)
+  (keymap-set lm/leader-map-config "m" 'toggle-frame-maximized)
   (defvar lm/leader-map-project (make-sparse-keymap)
     "sub-keymap for customizing project operations")
   (keymap-set lm/leader-map "p" `("+Project" . ,lm/leader-map-project))
@@ -59,7 +60,7 @@
   ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
-  (keymap-set evil-insert-state-map "C-SPC" 'lm-action-complete)
+  (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") 'lm-action-complete)
   (defvar lm/insert-map (make-sparse-keymap)
     "Keymap for shortcuts in insert mode")
   (keymap-set evil-insert-state-map "C-c" lm/insert-map)
@@ -73,8 +74,6 @@
   (keymap-set global-map "M-1" 'lm-action-switch-to-tab-1)
   (keymap-set global-map "M-2" 'lm-action-switch-to-tab-2)
   (keymap-set global-map "M-3" 'lm-action-switch-to-tab-3)
-  (unless (display-graphic-p)
-    (keymap-set evil-insert-state-map "C-_" 'lm/complete))
   ;; ---------------------------------------------------------------------------
   )
 

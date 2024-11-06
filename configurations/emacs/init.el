@@ -62,6 +62,16 @@ functions"
           (const :tag "off" nil))
   :group 'lm)
 
+(defcustom lm-exclude-dired-buffer nil
+  "Disable dired buffers from buffer cycling"
+  :type '(boolean)
+  :group 'lm)
+
+(defcustom lm-exclude-eshell-buffer nil
+  "Disable eshell buffers from buffer cycling"
+  :type '(boolean)
+  :group 'lm)
+
 (defun lm-action-complete ()
   (interactive)
   nil)
@@ -99,17 +109,20 @@ functions"
   (interactive)
   (load (concat user-emacs-directory "init.el")))
 
-(setq lm-held-directory nil)
+(defvar lm-held-directory nil
+    "
+The directory being held has default-directory. If nil no directory is being
+hold. This variable is used by the `lm-toggle-hold-cwd' function.")
 
-(defun lm-toggle-hold-cwd ()
-  (interactive)
-  (setq lm-held-directory (unless lm-held-directory default-directory))
-  (dolist (hook
-           '(find-file-hook
-             window-buffer-change-functions
-             dired-mode-hook
-             ))
-    (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
+  (defun lm-toggle-hold-cwd ()
+    (interactive)
+    (setq lm-held-directory (unless lm-held-directory default-directory))
+    (dolist (hook
+             '(find-file-hook
+               window-buffer-change-functions
+               dired-mode-hook
+               ))
+      (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
 
 (defun lm-pomodoro ()
   (interactive)
@@ -431,8 +444,11 @@ functions"
 (set-frame-parameter (selected-frame) 'buffer-predicate
                      (lambda (buf) 
                        (let ((name (buffer-name buf)))
-                         (not (or (string-prefix-p "*" name)
-                                  (eq 'dired-mode (buffer-local-value 'major-mode buf)))))))
+                         (cond
+                          ((eq 'dired-mode (buffer-local-value 'major-mode buf)) (not lm-exclude-dired-buffer))
+                          ((string-prefix-p "*eshell" name) (not lm-exclude-eshell-buffer))
+                          ((string-prefix-p "*" name) nil)
+                          (t t)))))
 
 (setq custom-safe-themes t)
 
