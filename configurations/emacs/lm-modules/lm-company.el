@@ -10,7 +10,7 @@
       (setq company-dabbrev-ignore-case t)
       (setq company-dabbrev-code-ignore-case t)    
       (setq company-keywords-ignore-case t)
-      (setq company-minimum-prefix-length 1)
+      (setq company-minimum-prefix-length 3)
       (setq company-idle-delay 0.3)
       :config
       ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))

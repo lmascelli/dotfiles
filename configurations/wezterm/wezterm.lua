@@ -388,14 +388,15 @@ config.initial_rows = 35
 ------------------------------------
 
 -- FONT
-config.cell_width = 1.1
-config.font_size = 11.0
+config.cell_width = 1.0
+config.font_size = 10.0
 config.font_dirs = { wezterm.config_dir .. "/fonts" }
 config.warn_about_missing_glyphs = false
 -- config.font = wezterm.font('Perfect DOS VGA 437')
-config.font = wezterm.font('Cascadia Code NF')
+-- config.font = wezterm.font('Cascadia Code NF')
 -- config.font = wezterm.font('CaskaydiaCove Nerd Font')
 -- config.font = wezterm.font('Source Code Pro')
+-- config.font = wezterm.font('JetBrains Mono NL')
 -- config.font = wezterm.font('JetBrains Mono NF')
 -- config.font = wezterm.font('Consolas')
 ------------------------------------

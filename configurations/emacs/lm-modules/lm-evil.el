@@ -88,8 +88,6 @@
   (defvar lm/leader-map (make-sparse-keymap)
     "Keymap for \"leader key\" shortcuts")
   :config
-  ;; Don't allow Evil Collection to bind to gfu and gfp.
-  (setq evil-collection-key-blacklist '("H" "L"))
   ;; change cursor form in terminal
   (unless (display-graphic-p)
     (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
@@ -102,7 +100,7 @@
   :after evil
   :custom ((evil-collection-want-unimpaired-p nil)
            (evil-collection-setup-minibuffer t)
-           (evil-collection-key-blacklist '("H" "L")))
+           (evil-collection-key-blacklist '("H" "L" "SPC")))
   :config
   (evil-collection-init)
   (lm-evil-personal-keymaps))
