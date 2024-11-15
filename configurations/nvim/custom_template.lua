@@ -54,9 +54,24 @@ end)
 
 -- example of post plugins load function
 table.insert(LM.callbacks.post_plugins_load, function()
-  require('mini.animate').setup()
-  require('mini.statusline').setup()
-  require('mini.notify').setup()
+  if LM.Mini then
+    if vim.g.neovide == nil then
+      LM.Mini.activate_animate()
+    end
+    LM.Mini.activate_completion()
+    LM.Mini.activate_notify()
+    LM.Mini.activate_files()
+    LM.Mini.activate_pick()
+    LM.Mini.activate_clue()
+    vim.keymap.set('n', "<C-i>",
+      function()
+        MiniPick.builtin.grep_live()
+      end, { desc = "FZF" })
+    vim.keymap.set('n', "<C-p>",
+      function()
+        MiniPick.builtin.buffers()
+      end, { desc = "FZF" })
+  end
 end)
 
 -- example of post launch function
