@@ -6,6 +6,65 @@
     (when (file-exists-p user-init-file)
       (load user-init-file nil t))))
 
+;; void interactive function used as a placeholder
+(defun lm-placeholder-f ()
+  (interactive)
+  nil)
+
+;; completion
+(defvar lm-action-complete 'lm-placeholder-f)
+
+;; buffers list
+(defvar lm-action-switch-to-buffer 'switch-to-buffer)
+
+(defun lm-action-insert-tilde ()                                      
+  (interactive)                                 
+  (insert-char (char-from-name "TILDE")))
+(defun lm-action-insert-grave-accent ()                                      
+  (interactive)                                 
+  (insert-char (char-from-name "GRAVE ACCENT")))
+
+(defun lm/get-conf-org-dir ()
+  (interactive)
+  (file-name-directory buffer-file-name))
+
+(defun lm-action-switch-to-tab-1 ()
+  (interactive)
+  (tab-bar-select-tab 1))
+(defun lm-action-switch-to-tab-2 ()
+  (interactive)
+  (tab-bar-select-tab 2))
+(defun lm-action-switch-to-tab-3 ()
+  (interactive)
+  (tab-bar-select-tab 3))
+
+(defun lm-open-literate-config ()
+  (interactive)
+  (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
+
+(defun lm-open-post-init ()
+  (interactive)
+  (find-file (concat lm-emacs-user-directory "post-init.el")))
+
+(defun lm-reload-config ()
+  (interactive)
+  (load (concat user-emacs-directory "init.el")))
+
+(defvar lm-held-directory nil
+    "
+The directory being held has default-directory. If nil no directory is being
+hold. This variable is used by the `lm-toggle-hold-cwd' function.")
+
+  (defun lm-toggle-hold-cwd ()
+    (interactive)
+    (setq lm-held-directory (unless lm-held-directory default-directory))
+    (dolist (hook
+             '(find-file-hook
+               window-buffer-change-functions
+               dired-mode-hook
+               ))
+      (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
+
 (setq lm/literate-config-name "README.org")
 (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
@@ -58,6 +117,11 @@ functions"
   :type '(boolean)
   :group 'lm)
 
+(defcustom lm-dired-sidebar nil
+  "Use the dired sidebar package (C-x C-n to toggle)"
+  :type '(boolean)
+  :group 'lm)
+
 (defcustom lm-exclude-dired-buffer nil
   "Disable dired buffers from buffer cycling"
   :type '(boolean)
@@ -67,73 +131,6 @@ functions"
   "Disable eshell buffers from buffer cycling"
   :type '(boolean)
   :group 'lm)
-
-(defun lm-action-complete ()
-  (interactive)
-  nil)
-
-(defun lm-action-insert-tilde ()                                      
-  (interactive)                                 
-  (insert-char (char-from-name "TILDE")))
-(defun lm-action-insert-grave-accent ()                                      
-  (interactive)                                 
-  (insert-char (char-from-name "GRAVE ACCENT")))
-
-(defun lm/get-conf-org-dir ()
-  (interactive)
-  (file-name-directory buffer-file-name))
-
-(defun lm-action-switch-to-tab-1 ()
-  (interactive)
-  (tab-bar-select-tab 1))
-(defun lm-action-switch-to-tab-2 ()
-  (interactive)
-  (tab-bar-select-tab 2))
-(defun lm-action-switch-to-tab-3 ()
-  (interactive)
-  (tab-bar-select-tab 3))
-
-(defun lm-open-literate-config ()
-  (interactive)
-  (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
-
-(defun lm-open-post-init ()
-  (interactive)
-  (find-file (concat lm-emacs-user-directory "post-init.el")))
-
-(defun lm-reload-config ()
-  (interactive)
-  (load (concat user-emacs-directory "init.el")))
-
-(defvar lm-held-directory nil
-    "
-The directory being held has default-directory. If nil no directory is being
-hold. This variable is used by the `lm-toggle-hold-cwd' function.")
-
-  (defun lm-toggle-hold-cwd ()
-    (interactive)
-    (setq lm-held-directory (unless lm-held-directory default-directory))
-    (dolist (hook
-             '(find-file-hook
-               window-buffer-change-functions
-               dired-mode-hook
-               ))
-      (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
-
-(defun lm-pomodoro ()
-  (interactive)
-  (require 'org-element)
-  (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
-  (unless (boundp 'lm/pomodoro-state)
-    (setq lm/pomodoro-state 0))
-  (let ((time-work "00:25:00")
-        (time-pause "00:05:00"))
-    (org-timer-set-timer
-     (cond
-      ((= (mod lm/pomodoro-state 2) 0) time-work)
-      ((= (mod lm/pomodoro-state 3) 0) time-work)
-      (t time-pause)))
-    (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
 
 ;; ;;; package.el
 (when (bound-and-true-p lm-emacs-package-initialize-and-refresh)
@@ -532,5 +529,9 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
 
 ;; lsp
 (require 'lm-lsp)
+
+;; my packages
+
+(use-package lm-pomodoro)
 
 (lm-emacs-load-user-init "post-init.el")

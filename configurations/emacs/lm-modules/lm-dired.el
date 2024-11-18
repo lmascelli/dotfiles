@@ -17,4 +17,6 @@
      `(dired-suffix ((t (:foreground ,suffix))))))
   (setq dired-dwim-target t))
 
+(if lm-dired-sidebar (require 'lm-dired-sidebar))
+
 (provide 'lm-dired)

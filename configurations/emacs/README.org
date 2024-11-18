@@ -527,87 +527,24 @@ Provides /early-init.el/ as a module.
   (provide 'early-init)
 #+end_src
 * Init
-** Configuration files
-#+begin_src emacs-lisp :tangle "init.el"
-  (setq lm/literate-config-name "README.org")
-  (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
-  (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
-#+end_src
-** Custom groups, options and modules
-The goal of this section is to declare custom variables that can be
-customizated that control which module should be loaded.
+** Callbacks
+those are variables that wrap some kind of action so that if a plugin
+need to override some default behaviour can ovverride this action and
+the whole ecosystem can be still coearent.
 
 #+begin_src emacs-lisp :tangle "init.el"
-  (defcustom lm-input-mode 'evil
-    "The keymap mode to use."
-    :type '(choice
-            (const :tag "evil" evil)
-            (const :tag "emacs" emacs))
-    :group 'lm)
+  ;; void interactive function used as a placeholder
+  (defun lm-placeholder-f ()
+    (interactive)
+    nil)
 
-  (defcustom lm-key-clues 'off
-    "The framework to provide clues for keymaps"
-    :type '(choice
-            (const :tag "which-key" which-key)
-            (const :tag "off" nil))
-    :group 'lm)
+  ;; completion
+  (defvar lm-action-complete 'lm-placeholder-f)
 
-  (defcustom lm-lsp-client 'off 
-    "The LSP implementation to use."
-    :type '(choice
-            (const :tag "eglot" eglot)
-            (const :tag "lsp-mode" lsp-mode)
-            (const :tag "off" nil))
-    :group 'lm)
-
-  (defcustom lm-capf-cape nil
-    "Wheter to use or not cape package for enhance the completion at point
-  functions"
-    :type '(boolean)
-    :group 'lm)
-
-  (defcustom lm-in-buffer-completion 'builtin
-    "The in-buffer completion to use."
-    :type '(choice
-            (const :tag "corfu" corfu)
-            (const :tag "company" company)
-            (const :tag "builtin" builtin))
-    :group 'lm)
-
-  (defcustom lm-terminal-emulator 'off
-    "The terminal emulator inside emacs"
-    :type '(choice
-            (const :tag "eat" 'eat)
-            (const :tag "off" nil))
-    :group 'lm)
-
-  (defcustom lm-ligatures nil
-    "Enables fonts ligatures."
-    :type '(boolean)
-    :group 'lm)
-
-  (defcustom lm-exclude-dired-buffer nil
-    "Disable dired buffers from buffer cycling"
-    :type '(boolean)
-    :group 'lm)
-
-  (defcustom lm-exclude-eshell-buffer nil
-    "Disable eshell buffers from buffer cycling"
-    :type '(boolean)
-    :group 'lm)
+  ;; buffers list
+  (defvar lm-action-switch-to-buffer 'switch-to-buffer)
 #+end_src
 
-** My functions
-*** Actions
-hose are functions that wrap some kind of action so that if a plugin
-eed to override some default behaviour can ovverride this action and
-he whole ecosystem can be still coearent.
-
-#+begin_src emacs-lisp :tangle "init.el"
- (defun lm-action-complete ()
-   (interactive)
-   nil)
-#+end_src
 *** Inserting special characters for italian keyboard
 Tilde and grave accent are not present in italian keyboard but often used in
 rogramming so this function are a quick way to insert them in text
@@ -680,23 +617,82 @@ the normal behaviour.
                  ))
         (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
 #+end_src
-*** Pomodoro
+** My functions
+** Configuration files
 #+begin_src emacs-lisp :tangle "init.el"
-  (defun lm-pomodoro ()
-    (interactive)
-    (require 'org-element)
-    (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
-    (unless (boundp 'lm/pomodoro-state)
-      (setq lm/pomodoro-state 0))
-    (let ((time-work "00:25:00")
-          (time-pause "00:05:00"))
-      (org-timer-set-timer
-       (cond
-        ((= (mod lm/pomodoro-state 2) 0) time-work)
-        ((= (mod lm/pomodoro-state 3) 0) time-work)
-        (t time-pause)))
-      (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
-#+end_src						
+  (setq lm/literate-config-name "README.org")
+  (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
+  (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
+#+end_src
+** Custom groups, options and modules
+The goal of this section is to declare custom variables that can be
+customizated that control which module should be loaded.
+
+#+begin_src emacs-lisp :tangle "init.el"
+  (defcustom lm-input-mode 'evil
+    "The keymap mode to use."
+    :type '(choice
+            (const :tag "evil" evil)
+            (const :tag "emacs" emacs))
+    :group 'lm)
+
+  (defcustom lm-key-clues 'off
+    "The framework to provide clues for keymaps"
+    :type '(choice
+            (const :tag "which-key" which-key)
+            (const :tag "off" nil))
+    :group 'lm)
+
+  (defcustom lm-lsp-client 'off 
+    "The LSP implementation to use."
+    :type '(choice
+            (const :tag "eglot" eglot)
+            (const :tag "lsp-mode" lsp-mode)
+            (const :tag "off" nil))
+    :group 'lm)
+
+  (defcustom lm-capf-cape nil
+    "Wheter to use or not cape package for enhance the completion at point
+  functions"
+    :type '(boolean)
+    :group 'lm)
+
+  (defcustom lm-in-buffer-completion 'builtin
+    "The in-buffer completion to use."
+    :type '(choice
+            (const :tag "corfu" corfu)
+            (const :tag "company" company)
+            (const :tag "builtin" builtin))
+    :group 'lm)
+
+  (defcustom lm-terminal-emulator 'off
+    "The terminal emulator inside emacs"
+    :type '(choice
+            (const :tag "eat" 'eat)
+            (const :tag "off" nil))
+    :group 'lm)
+
+  (defcustom lm-ligatures nil
+    "Enables fonts ligatures."
+    :type '(boolean)
+    :group 'lm)
+
+  (defcustom lm-dired-sidebar nil
+    "Use the dired sidebar package (C-x C-n to toggle)"
+    :type '(boolean)
+    :group 'lm)
+
+  (defcustom lm-exclude-dired-buffer nil
+    "Disable dired buffers from buffer cycling"
+    :type '(boolean)
+    :group 'lm)
+
+  (defcustom lm-exclude-eshell-buffer nil
+    "Disable eshell buffers from buffer cycling"
+    :type '(boolean)
+    :group 'lm)
+#+end_src
+
 ** use-package
 /use-package/ is a nice and useful package manager
 
@@ -1173,10 +1169,23 @@ in the code below.
   (setq global-text-scale-adjust-resizes-frames nil)
 #+end_src
 
+** COMMENT Tags
+I usually create a global TAGS file in the home directory that i update
+with the new tags i create in my projects and the tags of the stdlib of
+the languages i use. I want emacs to automatically look at that file so
+i set the *tags-table-list* table to include also that file.
+
+#+begin_src emacs-lisp :tangle "init.el"
+  (setq tags-table-list
+      (append '("~/TAGS")
+              tags-table-list))
+#+end_src
+
 ** Custom file
 #+begin_src emacs-lisp 
   (lm-emacs-load-user-init custom-file)
 #+end_src
+
 * Modules load section (still in init.el)
 Here i load all the activated modules. I have to remember to add the appropriate
 section for each module i insert.
@@ -1208,6 +1217,10 @@ activated by the same custom variable.
 
   ;; lsp
   (require 'lm-lsp)
+
+  ;; my packages
+
+  (use-package lm-pomodoro)
 #+end_src
 
 * Modules
@@ -1243,7 +1256,31 @@ use ripgrep as grep-find command
        `(dired-suffix ((t (:foreground ,suffix))))))
     (setq dired-dwim-target t))
 
+  (if lm-dired-sidebar (require 'lm-dired-sidebar))
+
   (provide 'lm-dired)
+#+end_src
+** Dired-sidebar
+#+begin_src emacs-lisp :tangle "lm-modules/lm-dired-sidebar.el"
+  (use-package dired-sidebar
+    :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
+    :ensure t
+    :commands (dired-sidebar-toggle-sidebar)
+    :init
+    (add-hook 'dired-sidebar-mode-hook
+              (lambda ()
+                (unless (file-remote-p default-directory)
+                  (auto-revert-mode))))
+    :config
+    (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+    (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+
+    (setq dired-sidebar-subtree-line-prefix "__")
+    (setq dired-sidebar-theme 'vscode)
+    (setq dired-sidebar-use-term-integration t)
+    (setq dired-sidebar-use-custom-font t))
+
+  (provide 'lm-dired-sidebar)
 #+end_src
 ** Eshell
 #+begin_src emacs-lisp :tangle "lm-modules/lm-eshell.el"
@@ -1266,7 +1303,7 @@ use ripgrep as grep-find command
         (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
         (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
         (keymap-set lm/leader-map-buffer "s" 'save-buffer)
-        (keymap-set lm/leader-map-buffer "l" 'switch-to-buffer)
+        (keymap-set lm/leader-map-buffer "l" lm-action-switch-to-buffer)
         (keymap-set lm/leader-map-buffer "L" 'list-buffers)
         (defvar lm/leader-map-quit (make-sparse-keymap)
           "sub-keymap for quit operations")
@@ -1318,7 +1355,7 @@ use ripgrep as grep-find command
         ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
         ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
         (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
-        (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") 'lm-action-complete)
+        (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") lm-action-complete)
         (defvar lm/insert-map (make-sparse-keymap)
           "Keymap for shortcuts in insert mode")
         (keymap-set evil-insert-state-map "C-c" lm/insert-map)
@@ -1558,6 +1595,9 @@ To make eat works on Windows change those functions in eat.el
    ((eq lm-in-buffer-completion 'company)
     (require 'lm-company))
 
+   ((eq lm-in-buffer-completion 'corfu)
+    (require 'lm-corfu))
+
    ((eq lm-in-buffer-completion 'builtin)
     (progn
       (setq
@@ -1615,19 +1655,18 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-company)
 #+end_src
-*** COMMENT corfu
-#+begin_src emacs-lisp :tangle "post-init.el"
+*** corfu
+#+begin_src emacs-lisp :tangle "lm-modules/lm-corfu.el"
   (use-package corfu
     :ensure t
-    :defer 1
     :init
-    (setq corfu-auto t
-          corfu-auto-delay 0.3
-          corfu-preview-current nil
-          corfu-quit-no-match 'separator
-          completion-styles '(basic ))
-    :config
-    (global-corfu-mode))
+    (global-corfu-mode)
+    :custom
+    (corfu-auto t)
+    (corfu-auto-delay 0.3)
+    (corfu-preview-current nil)
+    (corfu-quit-no-match 'separator)
+    )
 
   (unless (display-graphic-p)
     (use-package corfu-terminal
@@ -1636,6 +1675,8 @@ To make eat works on Windows change those functions in eat.el
        '(corfu-default ((t (:background "black")))))
       :config
       (corfu-terminal-mode)))
+
+  (provide 'lm-corfu)
 #+end_src
 *** COMMENT only built-in
 #+begin_src emacs-lisp :tangle "post-init.el"
@@ -1691,7 +1732,8 @@ This is a nice package for zen mode editing
                                     (display-line-numbers-mode 0)
                                     (display-fill-column-indicator-mode 0))))
 #+end_src
-* Post-init.el
+
+* Source post-init.el
 The /post-init.el/ is file is where should be located the machine
 dependent customization done after the main initialization has been
 done. This file is not updated in the git repository.
@@ -1762,3 +1804,39 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :defer t
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src
+
+*** wgsl 
+#+begin_src emacs-lisp :tangle "lm-languages/lm-matlab.el"
+  (use-package wgsl-mode
+    :ensure t
+    :defer t
+    :mode ("\\.wgsl\\'" . wgsl-mode))
+#+end_src
+
+* My packages
+** lm-mode-line
+I'm trying to create a more essential and polished modeline
+#+begin_src emacs-lisp :tangle "lm-lisp/lm-modeline.el"
+
+  (provide lm-mode-line)
+#+end_src
+
+** lm-pomodoro
+#+begin_src emacs-lisp :tangle "lm-lisp/lm-pomodoro.el"
+  (defun lm-pomodoro ()
+    (interactive)
+    (require 'org-element)
+    (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
+    (unless (boundp 'lm/pomodoro-state)
+      (setq lm/pomodoro-state 0))
+    (let ((time-work "00:25:00")
+          (time-pause "00:05:00"))
+      (org-timer-set-timer
+       (cond
+        ((= (mod lm/pomodoro-state 2) 0) time-work)
+        ((= (mod lm/pomodoro-state 3) 0) time-work)
+        (t time-pause)))
+      (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
+
+  (provide 'lm-pomodoro)
+#+end_src						

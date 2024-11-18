@@ -8,7 +8,7 @@
   (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
   (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
   (keymap-set lm/leader-map-buffer "s" 'save-buffer)
-  (keymap-set lm/leader-map-buffer "l" 'switch-to-buffer)
+  (keymap-set lm/leader-map-buffer "l" lm-action-switch-to-buffer)
   (keymap-set lm/leader-map-buffer "L" 'list-buffers)
   (defvar lm/leader-map-quit (make-sparse-keymap)
     "sub-keymap for quit operations")
@@ -60,7 +60,7 @@
   ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
-  (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") 'lm-action-complete)
+  (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") lm-action-complete)
   (defvar lm/insert-map (make-sparse-keymap)
     "Keymap for shortcuts in insert mode")
   (keymap-set evil-insert-state-map "C-c" lm/insert-map)
