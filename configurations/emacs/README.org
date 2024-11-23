@@ -1091,6 +1091,13 @@ To avoid to always trust the custom themes
   (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 #+end_src
 
+*** Wrap long lines
+Wraps long lines displaying them in multiple ones.
+
+#+begin_src emacs-lisp :tangle "init.el"
+  (global-visual-line-mode)
+#+end_src
+
 *** Hightlight current line
 #+begin_src emacs-lisp :tangle "init.el"
   (if (display-graphic-p)
@@ -1617,7 +1624,6 @@ To make eat works on Windows change those functions in eat.el
   (use-package cape
     :ensure t
     :defer nil
-    :bind (("C-<SPC>" . 'completion-at-point))
     :init
     (setq completion-ignore-case t)
     (add-to-list 'completion-at-point-functions 'cape-dabbrev)
@@ -1663,9 +1669,13 @@ To make eat works on Windows change those functions in eat.el
     (global-corfu-mode)
     :custom
     (corfu-auto t)
+    (corfu-cycle t)
     (corfu-auto-delay 0.3)
-    (corfu-preview-current nil)
+    (corfu-preview-current 'insert)
     (corfu-quit-no-match 'separator)
+    (corfu-preselect 'prompt)
+    (corfu-on-exact-match 'insert)
+    (text-mode-ispell-word-completion nil)
     )
 
   (unless (display-graphic-p)

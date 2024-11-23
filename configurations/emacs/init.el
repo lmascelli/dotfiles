@@ -450,6 +450,8 @@ functions"
 
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 
+(global-visual-line-mode)
+
 (if (display-graphic-p)
     (global-hl-line-mode))
 
