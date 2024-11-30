@@ -6,9 +6,6 @@ vim.g.mapleader = " "
 -- QUIT
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 
---  <C-g> as Escape
-vim.keymap.set("n", "<C-g>", "<Escape>", {})
-
 -- PROJECT
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 vim.keymap.set('n', '<leader>pc', '<cmd>lua LM.project.spawn_terminal()<cr>', {
@@ -74,6 +71,15 @@ vim.keymap.set("n", "<leader>tn", "<cmd>:tabnew<cr>", { desc = "New" })
 vim.keymap.set("n", "<leader>td", "<cmd>:tabclose<cr>", { desc = "Close" })
 vim.keymap.set("n", "<leader><tab>", "<cmd>:tabnext<cr>", { desc = "Next tab" })
 vim.keymap.set("n", "<c-tab>", "<cmd>:tabnext<cr>", { desc = "Next tab" })
+vim.keymap.set("n", "<A-1>", "1gt", {})
+vim.keymap.set("n", "<A-2>", "2gt", {})
+vim.keymap.set("n", "<A-3>", "3gt", {})
+vim.keymap.set("n", "<A-4>", "4gt", {})
+vim.keymap.set("n", "<A-5>", "5gt", {})
+vim.keymap.set("n", "<A-6>", "6gt", {})
+vim.keymap.set("n", "<A-7>", "7gt", {})
+vim.keymap.set("n", "<A-8>", "8gt", {})
+vim.keymap.set("n", "<A-9>", "9gt", {})
 
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
@@ -92,6 +98,13 @@ vim.keymap.set('n', '<leader>ac', '<cmd>lua LM.appearence.load_theme()<cr>', { d
 vim.keymap.set('n', '<leader>at', '<cmd>lua LM.appearence.toggle_background()<cr>', { desc = 'Colorcheme' })
 vim.keymap.set('n', '<leader>ap', '<cmd>lua LM.appearence.toggle_transparency()<cr>', { desc = 'Transparency' })
 
+-- SOME EMACSY keymaps
+--  <C-g> as Escape
+vim.keymap.set("n", "<C-g>", "<Escape>", {})
+
+-- tab management
+vim.keymap.set("n", "<C-c>tn", "<cmd>:tabnew<cr>", {})
+vim.keymap.set("n", "<C-c>t0", "<cmd>:tabclose<cr>", {})
 
 -- ------------------------------------- INSERT ----------------------------------
 

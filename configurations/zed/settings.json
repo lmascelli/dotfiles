@@ -19,6 +19,6 @@
   "use_system_path_prompts": false,
   "assistant": {
     "enabled": false,
-    "version": "1"
+    "version": "2"
   }
 }

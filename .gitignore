@@ -5,6 +5,7 @@ configurations/nvim/custom.lua
 configurations/nvim/lua/tests/
 configurations/nvim/coc/
 configurations/nvim/lazy-lock.json
+
 # EMACS
 configurations/emacs/.cache/
 configurations/emacs/auto-save-list/
@@ -12,7 +13,8 @@ configurations/emacs/autosave/
 configurations/emacs/desktop-saves/*
 configurations/emacs/eln-cache/
 configurations/emacs/elpa/
-configurations/emacs/eshell/
+configurations/emacs/eshell/history
+configurations/emacs/eshell/lastdir
 configurations/emacs/org-persist/
 configurations/emacs/server/
 configurations/emacs/transient/

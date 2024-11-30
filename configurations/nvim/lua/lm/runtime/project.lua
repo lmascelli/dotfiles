@@ -77,7 +77,8 @@ LM.project = {
       dofile(".project.lua")
       vim.cmd 'packloadall'
     else
-      vim.notify("no local configuration found", vim.log.levels.INFO)
+      -- -- Receiving a notificaation every time you change folder is a bit annoying
+      -- vim.notify("no local configuration found", vim.log.levels.INFO)
     end
   end,
 

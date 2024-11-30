@@ -513,6 +513,7 @@ functions"
 (require 'lm-eshell)
 (require 'lm-grep)
 (require 'lm-org)
+(require 'lm-modus-themes)
 
 ;; input mode
 (cond

@@ -1,0 +1,2 @@
+alias clear clear 0
+alias eshell/ll ls -l

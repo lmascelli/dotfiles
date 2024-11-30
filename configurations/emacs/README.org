@@ -1206,6 +1206,7 @@ activated by the same custom variable.
   (require 'lm-eshell)
   (require 'lm-grep)
   (require 'lm-org)
+  (require 'lm-modus-themes)
 
   ;; input mode
   (cond
@@ -1504,6 +1505,11 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-eat)
 #+end_src
 ** Themes
+*** Modus theme
+#+begin_src emacs-lisp :tangle "lm-modules/lm-modus-themes.el"
+  (use-package modus-themes)
+  (provide 'lm-modus-themes)
+#+end_src
 *** Doom-themes
 #+begin_src emacs-lisp :tangle "lm-modules/lm-doom-themes.el"
   (use-package doom-themes
