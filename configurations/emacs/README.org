@@ -6,6 +6,7 @@ This is my emacs configuration. It's a mess.
 Here are the configuration i took from to build mine:
 - /minimal-emacs.d/ configuration of jamescherti https://github.com/jamescherti/minimal-emacs.d
 - the excellent [[https://protesilaos.com/emacs/dotemacs][config]] of Protesilaos Stavrou
+- the very instructive [[https://github.com/daviwil/dotfiles/blob/master/Emacs.org][config]] of David Wilson
 
 * Setup
 ** Install emacs
@@ -1227,8 +1228,8 @@ activated by the same custom variable.
   (require 'lm-lsp)
 
   ;; my packages
-
   (use-package lm-pomodoro)
+  (use-package lm-center-document)
 #+end_src
 
 * Modules
@@ -1507,7 +1508,12 @@ To make eat works on Windows change those functions in eat.el
 ** Themes
 *** Modus theme
 #+begin_src emacs-lisp :tangle "lm-modules/lm-modus-themes.el"
-  (use-package modus-themes)
+  (use-package modus-themes
+    :demand t
+    :custom
+    (modus-themes-italic-constructs t)
+    (modus-themes-bold-constructs t))
+
   (provide 'lm-modus-themes)
 #+end_src
 *** Doom-themes
@@ -1856,3 +1862,41 @@ I'm trying to create a more essential and polished modeline
 
   (provide 'lm-pomodoro)
 #+end_src						
+
+** lm-center-mode
+This module is heavily inspired from David Wilson center-document-mode. Look at it
+in his literate configuration file.
+#+begin_src emacs-lisp :tangle "lm-modules/lm-center-document.el"
+  (defcustom lm-center-document-desired-width 90
+    "Width of the centered line in lm-centered-mode"
+    :type '(integer)
+    :group 'lm)
+
+  (defun lm-center-document--adjust-margins ()
+    ;; Reset margins first before recalculating
+    (set-window-parameter nil 'min-margins nil)
+    (set-window-margins nil nil)
+
+    ;; Adjust margins if the mode is on
+    (when lm-center-document-mode
+      (let ((margin-width (max 0
+  			     (truncate
+  			      (/ (- (window-width)
+  				    lm-center-document-desired-width)
+  				 2.0)))))
+        (when (> margin-width 0)
+  	(set-window-parameter nil 'min-margins '(0 . 0))
+  	(set-window-margins nil margin-width margin-width)))))
+
+  (define-minor-mode lm-center-document-mode
+    "Toggle centered text layout in the current buffer."
+    :lighter " Centered"
+    :group 'editing
+    (if lm-center-document-mode
+        (add-hook 'window-configuration-change-hook #'lm-center-document--adjust-margins 'append 'local)
+      (remove-hook 'window-configuration-change-hook #'lm-center-document--adjust-margins 'local))
+    (lm-center-document--adjust-margins))
+
+  (provide 'lm-center-document)
+
+#+end_src

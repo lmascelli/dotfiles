@@ -534,7 +534,7 @@ functions"
 (require 'lm-lsp)
 
 ;; my packages
-
 (use-package lm-pomodoro)
+(use-package lm-center-document)
 
 (lm-emacs-load-user-init "post-init.el")
