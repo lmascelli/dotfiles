@@ -547,16 +547,15 @@ the whole ecosystem can be still coearent.
 
   ;; buffers list
   (defvar lm-action-switch-to-buffer-ptr #'(lambda () (switch-to-buffer (read-buffer "Buffer: "))))
-  (defun lm-action-switch-to-buffer (&optional args)
+  (defun lm-action-switch-to-buffer (&rest args)
     (interactive)
-    (message "%S" args)
     (funcall lm-action-switch-to-buffer-ptr))
 
   ;; theme toggle
   (defvar lm-action-toggle-theme-ptr #'toggle-theme)
-  (defun lm-action-toggle-theme ()
+  (defun lm-action-toggle-theme (&rest args)
     (interactive)
-    (funcall lm-action-toggle-theme-ptr nil))
+    (funcall lm-action-toggle-theme-ptr args))
 
 #+end_src
 
@@ -1527,7 +1526,8 @@ To make eat works on Windows change those functions in eat.el
     :custom
     (modus-themes-italic-constructs t)
     (modus-themes-bold-constructs t)
-    :init (add-hook 'modus-themes-after-load-theme-hook #'(lambda () (setq lm-action-toggle-theme-ptr 'modus-themes-toogle))))
+    :config
+    (setq lm-action-toggle-theme-ptr #'(lambda (&rest r) (modus-themes-toggle))))
 
   (provide 'lm-modus-themes)
 #+end_src

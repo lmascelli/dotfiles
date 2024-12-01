@@ -19,16 +19,15 @@
 
 ;; buffers list
 (defvar lm-action-switch-to-buffer-ptr #'(lambda () (switch-to-buffer (read-buffer "Buffer: "))))
-(defun lm-action-switch-to-buffer (&optional args)
+(defun lm-action-switch-to-buffer (&rest args)
   (interactive)
-  (message "%S" args)
   (funcall lm-action-switch-to-buffer-ptr))
 
 ;; theme toggle
 (defvar lm-action-toggle-theme-ptr #'toggle-theme)
-(defun lm-action-toggle-theme ()
+(defun lm-action-toggle-theme (&rest args)
   (interactive)
-  (funcall lm-action-toggle-theme-ptr nil))
+  (funcall lm-action-toggle-theme-ptr args))
 
 (defun lm-action-insert-tilde ()                                      
   (interactive)                                 
