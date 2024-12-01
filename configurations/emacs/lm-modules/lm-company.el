@@ -4,9 +4,7 @@
       :diminish
       :defer 1
       :init
-      (defun lm-action-complete ()
-        (interactive)
-        (company-complete))
+      (setq lm-action-complete-ptr #'company-complete)
       (setq company-dabbrev-ignore-case t)
       (setq company-dabbrev-code-ignore-case t)    
       (setq company-keywords-ignore-case t)

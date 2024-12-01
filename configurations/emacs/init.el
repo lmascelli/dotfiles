@@ -7,15 +7,28 @@
       (load user-init-file nil t))))
 
 ;; void interactive function used as a placeholder
-(defun lm-placeholder-f ()
+(defun lm-placeholder-f (&optional)
   (interactive)
   nil)
 
 ;; completion
-(defvar lm-action-complete 'lm-placeholder-f)
+(defvar lm-action-complete-ptr #'lm-placeholder-f)
+(defun lm-action-complete ()
+  (interactive)
+  (funcall lm-action-complete-ptr))
 
 ;; buffers list
-(defvar lm-action-switch-to-buffer 'switch-to-buffer)
+(defvar lm-action-switch-to-buffer-ptr #'(lambda () (switch-to-buffer (read-buffer "Buffer: "))))
+(defun lm-action-switch-to-buffer (&optional args)
+  (interactive)
+  (message "%S" args)
+  (funcall lm-action-switch-to-buffer-ptr))
+
+;; theme toggle
+(defvar lm-action-toggle-theme-ptr #'toggle-theme)
+(defun lm-action-toggle-theme ()
+  (interactive)
+  (funcall lm-action-toggle-theme-ptr nil))
 
 (defun lm-action-insert-tilde ()                                      
   (interactive)                                 

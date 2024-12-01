@@ -535,15 +535,29 @@ the whole ecosystem can be still coearent.
 
 #+begin_src emacs-lisp :tangle "init.el"
   ;; void interactive function used as a placeholder
-  (defun lm-placeholder-f ()
+  (defun lm-placeholder-f (&optional)
     (interactive)
     nil)
 
   ;; completion
-  (defvar lm-action-complete 'lm-placeholder-f)
+  (defvar lm-action-complete-ptr #'lm-placeholder-f)
+  (defun lm-action-complete ()
+    (interactive)
+    (funcall lm-action-complete-ptr))
 
   ;; buffers list
-  (defvar lm-action-switch-to-buffer 'switch-to-buffer)
+  (defvar lm-action-switch-to-buffer-ptr #'(lambda () (switch-to-buffer (read-buffer "Buffer: "))))
+  (defun lm-action-switch-to-buffer (&optional args)
+    (interactive)
+    (message "%S" args)
+    (funcall lm-action-switch-to-buffer-ptr))
+
+  ;; theme toggle
+  (defvar lm-action-toggle-theme-ptr #'toggle-theme)
+  (defun lm-action-toggle-theme ()
+    (interactive)
+    (funcall lm-action-toggle-theme-ptr nil))
+
 #+end_src
 
 *** Inserting special characters for italian keyboard
@@ -1312,7 +1326,7 @@ use ripgrep as grep-find command
         (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
         (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
         (keymap-set lm/leader-map-buffer "s" 'save-buffer)
-        (keymap-set lm/leader-map-buffer "l" lm-action-switch-to-buffer)
+        (keymap-set lm/leader-map-buffer "l" #'lm-action-switch-to-buffer)
         (keymap-set lm/leader-map-buffer "L" 'list-buffers)
         (defvar lm/leader-map-quit (make-sparse-keymap)
           "sub-keymap for quit operations")
@@ -1329,7 +1343,7 @@ use ripgrep as grep-find command
           "sub-keymap for customizing appearence operations")
         (keymap-set lm/leader-map "a" `("+Appearence" . ,lm/leader-map-appearence))
         (keymap-set lm/leader-map-appearence "c" 'customize-themes)
-        (keymap-set lm/leader-map-appearence "t" 'toggle-theme)
+        (keymap-set lm/leader-map-appearence "t" 'lm-action-toggle-theme)
         (keymap-set lm/leader-map-appearence "m" 'menu-bar-mode)
         (defvar lm/leader-map-config (make-sparse-keymap)
           "sub-keymap for customizing configuration operations")
@@ -1364,7 +1378,7 @@ use ripgrep as grep-find command
         ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
         ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
         (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
-        (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") lm-action-complete)
+        (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") #'lm-action-complete)
         (defvar lm/insert-map (make-sparse-keymap)
           "Keymap for shortcuts in insert mode")
         (keymap-set evil-insert-state-map "C-c" lm/insert-map)
@@ -1512,7 +1526,8 @@ To make eat works on Windows change those functions in eat.el
     :demand t
     :custom
     (modus-themes-italic-constructs t)
-    (modus-themes-bold-constructs t))
+    (modus-themes-bold-constructs t)
+    :init (add-hook 'modus-themes-after-load-theme-hook #'(lambda () (setq lm-action-toggle-theme-ptr 'modus-themes-toogle))))
 
   (provide 'lm-modus-themes)
 #+end_src
@@ -1619,14 +1634,10 @@ To make eat works on Windows change those functions in eat.el
 
    ((eq lm-in-buffer-completion 'builtin)
     (progn
-      (setq
+      (setq lm-action-complete #'completion-at-point)
        ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
        ;; check the customize page for capf
-       )
-      (defun lm-action-complete ()
-        (interactive)
-        (completion-at-point))))
-   )
+   )))
 
   (provide 'lm-completion)
 #+end_src
@@ -1651,9 +1662,7 @@ To make eat works on Windows change those functions in eat.el
         :diminish
         :defer 1
         :init
-        (defun lm-action-complete ()
-          (interactive)
-          (company-complete))
+        (setq lm-action-complete-ptr #'company-complete)
         (setq company-dabbrev-ignore-case t)
         (setq company-dabbrev-code-ignore-case t)    
         (setq company-keywords-ignore-case t)

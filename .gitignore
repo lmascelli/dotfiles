@@ -26,6 +26,7 @@ configurations/emacs/tramp
 configurations/emacs/.lsp-session-v*
 configurations/emacs/url/
 configurations/emacs/post-init.el
+configurations/emacs/ielm-history.eld
 
 # ZED
 configurations/zed/.tmp*
