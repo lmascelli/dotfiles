@@ -28,7 +28,7 @@ local plugins_list = {
   -- 'treesitter',
   -- 'telescope',
   -- 'mason', -- enable also lsp for this
-  -- 'nvim-cmp', -- this must follow lsp module if enabled
+  -- 'nvim-cmp', -- this must follow the lsp module if enabled
   -- 'coc',
   -- 'lsp_zero',
   -- 'lsp_saga',
@@ -38,9 +38,15 @@ local plugins_list = {
   -- 'zen-mode',
   -- 'pets',
   -- 'noice',
+  -- 'volt',
   -- 'astronvim',
+  -- 'ivy',
+  -- 'ido',
+  -- 'slimv',
+  -- 'multicursors',
   ----------------------- languages related
   'orgmode',
+  -- 'wgsl',
   -- 'clangd',
   -- 'rust',
 }

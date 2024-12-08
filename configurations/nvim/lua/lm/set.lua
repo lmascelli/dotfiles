@@ -1,6 +1,11 @@
 vim.opt.clipboard = "unnamedplus" -- system clipboard by default
 vim.opt.cmdheight = 1             -- height of the commandline
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+-- fuzzy completion
+if vim.fn.has('nvim-0.11') == 1 then
+  vim.opt.completeopt:append('fuzzy') -- Use fuzzy matching for built-in completion
+end
+
 vim.cmd 'set omnifunc=ccomplete#Complete'
 vim.opt.conceallevel = 0
 vim.opt.cursorline = true                                           -- highlight the current line
@@ -66,11 +71,6 @@ vim.opt.laststatus = 3          -- only a statusline for all windows
 pcall(function()
   vim.opt.fileencoding = 'utf-8'
 end)
-
--- fuzzy completion
-if vim.fn.has('nvim-0.11') == 1 then
-  vim.opt.completeopt:append('fuzzy') -- Use fuzzy matching for built-in completion
-end
 
 -- used for find files in current path with :find
 vim.cmd 'set path=**'

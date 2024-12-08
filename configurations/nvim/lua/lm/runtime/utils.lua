@@ -43,4 +43,12 @@ LM.utils = {
     local stat = vim.loop.fs_stat(path)
     return stat and stat.type == "directory" or false
   end,
+
+  eval_buffer = function()
+    vim.cmd '%lua'
+  end,
+
+  eval_region = function()
+    vim.cmd "'<,'>lua"
+  end,
 }

@@ -4,26 +4,26 @@ M.on_attach_functions = {
   -- default one
   default = function(client, bufnr)
     -- with auto_focus hover
-    vim.keymap.set('n', '<leader>lk', function()
-      vim.lsp.buf.hover()
-      vim.lsp.buf.hover()
-    end, { buffer = bufnr, desc = "Documentation" })
+    -- vim.keymap.set('n', '<leader>lk', function()
+    --   vim.lsp.buf.hover()
+    --   vim.lsp.buf.hover()
+    -- end, { buffer = bufnr, desc = "Documentation" })
     -- without auto_focus hover
     -- vim.keymap.set('n', '<leader>lK', '<cmd>lua vim.lsp.buf.hover()<cr>', { buffer = bufnr, desc = "Documentation" })
     vim.keymap.set('n', '<leader>lgd', '<cmd>lua vim.lsp.buf.definition()<cr>', { buffer = bufnr, desc = "Definition" })
-    vim.keymap.set('n', '<leader>lgD', '<cmd>lua vim.lsp.buf.declaration()<cr>', { buffer = bufnr, desc = "Declaration" })
-    vim.keymap.set('n', '<leader>lgi', '<cmd>lua vim.lsp.buf.implementation()<cr>',
-      { buffer = bufnr, desc = "Implementation" })
+    -- vim.keymap.set('n', '<leader>lgD', '<cmd>lua vim.lsp.buf.declaration()<cr>', { buffer = bufnr, desc = "Declaration" })
+    -- vim.keymap.set('n', '<leader>lgi', '<cmd>lua vim.lsp.buf.implementation()<cr>',
+    --   { buffer = bufnr, desc = "Implementation" })
     vim.keymap.set('n', '<leader>lgo', '<cmd>lua vim.lsp.buf.type_definition()()<cr>',
       { buffer = bufnr, desc = "Type definition" })
-    vim.keymap.set('n', '<leader>lgr', '<cmd>lua vim.lsp.buf.references()<cr>', { buffer = bufnr, desc = "References" })
+    -- vim.keymap.set('n', '<leader>lgr', '<cmd>lua vim.lsp.buf.references()<cr>', { buffer = bufnr, desc = "References" })
     vim.keymap.set('n', '<leader>lgs', '<cmd>lua vim.lsp.buf.signature_help()<cr>',
       { buffer = bufnr, desc = "Signature" })
     vim.keymap.set('i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { buffer = bufnr, desc = "Signature" })
-    vim.keymap.set('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<cr>', { buffer = bufnr, desc = "Rename" })
+    -- vim.keymap.set('n', '<leader>lr', '<cmd>lua vim.lsp.buf.rename()<cr>', { buffer = bufnr, desc = "Rename" })
     vim.keymap.set('n', '<leader>lf', '<cmd>lua vim.lsp.buf.format({async=true})<cr>',
       { buffer = bufnr, desc = "Format" })
-    vim.keymap.set('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = bufnr, desc = "Code action" })
+    -- vim.keymap.set('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', { buffer = bufnr, desc = "Code action" })
     vim.keymap.set('n', '<leader>ldl', '<cmd>lua vim.diagnostic.setloclist()<cr>',
       { buffer = bufnr, desc = "Show diagnostics" })
     vim.keymap.set('n', '<leader>ldd', '<cmd>lua vim.diagnostic.open_float(nil, {focus=true})<cr>',

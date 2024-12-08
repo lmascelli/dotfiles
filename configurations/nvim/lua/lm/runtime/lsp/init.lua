@@ -35,7 +35,7 @@ end
 local function configure(language)
   local config = LM.languages[language]
   if config ~= nil then
-    config = config.lsp_config
+    local config = config.lsp_config
     if vim.fn.executable(config.cmd[1]) ~= 0 then
       vim.api.nvim_create_autocmd("FileType", {
         group = LM.augroups.lsp,

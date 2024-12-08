@@ -1,0 +1,24 @@
+local function stop_all_clients()
+  for k, v in ipairs(vim.lsp.get_clients()) do
+    vim.lsp.stop_client(v.id, true)
+  end
+end
+
+local function start_client()
+  vim.lsp.start({
+    name = "lua-language-server-test",
+    cmd = {"lua-language-server"},
+    root_dir = vim.fs.root(0, {})
+  })
+end
+
+local function test()
+  stop_all_clients()
+  local status = vim.lsp.status()
+  print("STATUS: " .. status)
+  start_client()
+  local status = vim.lsp.status()
+  print("STATUS: " .. status)
+end
+
+test()

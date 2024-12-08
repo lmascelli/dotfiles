@@ -24,6 +24,11 @@ vim.keymap.set("n", "<leader>pp", '<cmd>lua LM.project.project_ps1()<cr>', {
   nowait = true,
   desc = "project.ps1"
 })
+vim.keymap.set("n", "<leader>pe", '<cmd>lua LM.utils.eval_buffer()<cr>', {
+  silent = true,
+  nowait = true,
+  desc = "eval buffer"
+})
 
 -- EXPLORER
 vim.keymap.set("n", "<leader>e", "<cmd>lua LM.toggle_explorer()<cr>", { desc = "NetRw" })
@@ -163,6 +168,8 @@ vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", {})
 -- Indenting
 vim.keymap.set("x", "<tab>", "=", {})
 
+-- Eval region
+vim.keymap.set("x", "g,", "<cmd>lua LM.utils.eval_region()<cr>", {})
 
 ------------------------------   COMMAND LINE ---------------------------------
 
