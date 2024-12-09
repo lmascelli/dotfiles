@@ -6,10 +6,7 @@
   (require 'lm-corfu))
 
  ((eq lm-in-buffer-completion 'builtin)
-  (progn
-    (setq lm-action-complete #'completion-at-point)
-     ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
-     ;; check the customize page for capf
- )))
+  (require 'lm-builtin-completion)
+ ))
 
 (provide 'lm-completion)

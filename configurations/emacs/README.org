@@ -1465,7 +1465,7 @@ To make eat works on Windows change those functions in eat.el
 #+end_example
 
 - modify the eat-exec function
-#+begin_example
+#+begin_example emacs-lisp
 ;; -               :command `("/usr/bin/env" "sh" "-c"
 ;; -                          ,(format "stty -nl echo rows %d columns \
 ;; - %d sane 2>%s ; if [ $1 = .. ]; then shift; fi; exec \"$@\""
@@ -1476,7 +1476,8 @@ To make eat works on Windows change those functions in eat.el
 ;; +               :command (eat--build-command command switches
 ;; +                                            (car size) (cdr size))
 #+end_example
-#+begin_example
+
+#+begin_example emacs-lisp
 ;; -  (let ((program (or program (funcall eat-default-shell-function)))
 ;; -        (buffer
 ;; -         (cond
@@ -1502,7 +1503,8 @@ To make eat works on Windows change those functions in eat.el
 ;; +           (t
 ;; +            (get-buffer-create eat-buffer-name)))))
 #+end_example
-#+begin_example
+
+#+begin_example emacs-lisp
 ;; -        (eat-exec buffer (buffer-name) "/usr/bin/env" nil
 ;; -                  (list "sh" "-c" program)))
 ;; +        (apply #'eat-exec buffer (buffer-name) args))
@@ -1549,7 +1551,9 @@ To make eat works on Windows change those functions in eat.el
 #+begin_src emacs-lisp :tangle "lm-modules/lm-lsp.el"
   (cond
    ((eq lm-lsp-client 'lsp-mode) (require 'lm-lsp-mode))
+
    ((eq lm-lsp-client 'eglot) (require 'lm-eglot))
+
    (t nil))
 
   (provide 'lm-lsp)
@@ -1632,11 +1636,8 @@ To make eat works on Windows change those functions in eat.el
     (require 'lm-corfu))
 
    ((eq lm-in-buffer-completion 'builtin)
-    (progn
-      (setq lm-action-complete #'completion-at-point)
-       ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
-       ;; check the customize page for capf
-   )))
+    (require 'lm-builtin-completion)
+   ))
 
   (provide 'lm-completion)
 #+end_src
@@ -1709,8 +1710,11 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-corfu)
 #+end_src
 *** COMMENT only built-in
-#+begin_src emacs-lisp :tangle "post-init.el"
-  ;; (setq completions-format 'one-column)
+#+begin_src emacs-lisp :tangle "lm-modules/lm-builtin-completion.el"
+  ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
+  ;; check the customize page for capf
+  (setq completions-format 'horizontal) ;; alternatives are `horizontal', `vertical' and `one-column'
+  (setq lm-action-complete-ptr #'completion-at-point)
   (setq completions-header-format nil)
   (setq completions-max-height 20)
   (setq completion-auto-select nil)

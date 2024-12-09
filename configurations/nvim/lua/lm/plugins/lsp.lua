@@ -8,7 +8,7 @@ local function configure_servers()
     end
     opts.on_attach = opts.on_attach or LM.lsp.on_attach.on_attach
     opts.capabilities = opts.capabilities or LM.lsp.capabilities
-    opts.autostart = false
+    opts.autostart = opts.autostart or false
     lspconfig[server].setup(opts)
   end
 
@@ -107,6 +107,7 @@ local function configure_servers()
 
   -- rust_analyzer
   setup_server('rust_analyzer', {
+    autostart = true,
     settings = {
       cargo = {
         -- allFeatures = true,
