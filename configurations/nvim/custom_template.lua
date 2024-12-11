@@ -21,7 +21,7 @@ local plugins_list = {
   'tagbar',
   'luasnip',
   'mini-nvim',
-  -- 'lsp',
+  -- 'lsp-config',
   -- 'nvim-qt',
   -- 'nvim-surround',
   -- 'which_key',

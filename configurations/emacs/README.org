@@ -1086,7 +1086,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
                          (let ((name (buffer-name buf)))
                            (cond
                             ((eq 'dired-mode (buffer-local-value 'major-mode buf)) (not lm-exclude-dired-buffer))
-                            ((string-prefix-p "*eshell" name) (not lm-exclude-eshell-buffer))
+                            ((string-match "eshell" name) (not lm-exclude-eshell-buffer))
                             ((string-prefix-p "*" name) nil)
                             (t t)))))
 #+end_src
@@ -1709,7 +1709,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-corfu)
 #+end_src
-*** COMMENT only built-in
+*** only built-in
 #+begin_src emacs-lisp :tangle "lm-modules/lm-builtin-completion.el"
   ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
   ;; check the customize page for capf
@@ -1727,8 +1727,10 @@ To make eat works on Windows change those functions in eat.el
       (let ((completion-use-base-affixes nil))
         (choose-completion nil no-exit no-quit))))
 
-  :bind (("C-<SPC>" . 'completion-at-point))
+  (setq lm-action-complete-ptr #'completion-at-point)
   (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
+
+  (provide 'lm-builtin-completion)
 #+end_src
 
 ** Snippets

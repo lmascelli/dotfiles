@@ -107,7 +107,6 @@ local function configure_servers()
 
   -- rust_analyzer
   setup_server('rust_analyzer', {
-    autostart = true,
     settings = {
       cargo = {
         -- allFeatures = true,

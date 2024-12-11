@@ -451,7 +451,7 @@ functions"
                        (let ((name (buffer-name buf)))
                          (cond
                           ((eq 'dired-mode (buffer-local-value 'major-mode buf)) (not lm-exclude-dired-buffer))
-                          ((string-prefix-p "*eshell" name) (not lm-exclude-eshell-buffer))
+                          ((string-match "eshell" name) (not lm-exclude-eshell-buffer))
                           ((string-prefix-p "*" name) nil)
                           (t t)))))
 
