@@ -1,13 +1,18 @@
 return {
   'nvim-orgmode/orgmode',
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+  },
+  event = 'VeryLazy',
+  lazy = true,
+  ft = { 'org' },
   config = function()
-    require('orgmode').setup {
+    -- Setup orgmode
+    require('orgmode').setup({
+      org_agenda_files = '~/orgfiles/**/*',
+      org_default_notes_file = '~/orgfiles/refile.org',
       org_hide_leading_stars = true,
       org_highlight_latex_and_related = "entities",
-      emacs_config = LM.orgmode_emacs_config,
-      mappings = {
-        -- prefix = '<C-c>',
-      }
-    }
-  end
+    })
+  end,
 }

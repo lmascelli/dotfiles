@@ -17,16 +17,16 @@ vim.opt.shell = "pwsh"
 -- Make a plugins table
 
 local plugins_list = {
+  'lsp-config',
+  'telescope',
+  'mini-nvim',
+  'luasnip',
   'colorschemes',
   'tagbar',
-  'luasnip',
-  'mini-nvim',
-  -- 'lsp-config',
   -- 'nvim-qt',
   -- 'nvim-surround',
   -- 'which_key',
   -- 'treesitter',
-  -- 'telescope',
   -- 'mason', -- enable also lsp for this
   -- 'nvim-cmp', -- this must follow the lsp module if enabled
   -- 'coc',
