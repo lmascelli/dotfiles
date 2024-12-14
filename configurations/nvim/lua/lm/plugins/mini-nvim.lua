@@ -287,7 +287,6 @@ local function insert_functionalities()
           { mode = 'n', keys = '<Leader>c', desc = '+Configuration' },
           { mode = 'n', keys = '<Leader>d', desc = '+Diagnostics' },
           { mode = 'n', keys = '<Leader>f', desc = '+Find' },
-          { mode = 'n', keys = '<Leader>o', desc = '+Org' },
           { mode = 'n', keys = '<Leader>p', desc = '+Project' },
           { mode = 'n', keys = '<Leader>q', desc = '+Quit' },
           { mode = 'n', keys = '<Leader>t', desc = '+Terminal' },

@@ -14,5 +14,8 @@ return {
       org_hide_leading_stars = true,
       org_highlight_latex_and_related = "entities",
     })
+    if MiniClue then
+      vim.keymap.set('n', '<leader>o', "", {desc = "+Org-mode"})
+    end
   end,
 }
