@@ -403,7 +403,7 @@ config.font = wezterm.font('Source Code Pro')
 
 -- BEHAVIOUR
 config.default_prog = default_prog()
-config.window_close_confirmation = "AlwaysPrompt"
+config.window_close_confirmation = "NeverPrompt" -- "AlwaysPrompt"
 config.exit_behavior = "Close"
 config.enable_csi_u_key_encoding = true
 config.audible_bell = "Disabled"

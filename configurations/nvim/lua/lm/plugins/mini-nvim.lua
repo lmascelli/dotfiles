@@ -129,6 +129,7 @@ local function insert_functionalities()
 
     activate_icons = function()
       require('mini.icons').setup()
+      MiniIcons.tweak_lsp_kind()
     end,
 
     activate_map = function()

@@ -23,6 +23,7 @@ local plugins_list = {
   'luasnip',
   'colorschemes',
   'tagbar',
+  -- 'blink',
   -- 'nvim-qt',
   -- 'nvim-surround',
   -- 'which_key',

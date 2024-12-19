@@ -7,7 +7,7 @@ local function configure_servers()
       opts = {}
     end
     opts.on_attach = opts.on_attach or LM.lsp.on_attach.on_attach
-    opts.capabilities = opts.capabilities or LM.lsp.capabilities
+    opts.capabilities = vim.tbl_extend("keep", opts.capabilities or {}, LM.lsp.capabilities)
     opts.autostart = opts.autostart or false
     lspconfig[server].setup(opts)
   end
