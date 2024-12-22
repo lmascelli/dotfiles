@@ -237,6 +237,8 @@ local function insert_functionalities()
       })
 
       vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', { desc = 'Find file' })
+      vim.keymap.set('n', '<leader>fh', '<cmd>Pick help<cr>', { desc = 'Find help' })
+      vim.keymap.set('n', '<leader>fk', '<cmd>Pick keymaps<cr>', { desc = 'Find keymaps' })
       vim.keymap.set('n', '<leader>bl', '<cmd>Pick buffers<cr>', { desc = 'List buffers' })
     end,
 
