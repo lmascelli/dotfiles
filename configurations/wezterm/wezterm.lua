@@ -26,7 +26,7 @@ local color_schemes = {
 }
 
 -- local current_scheme = nil
-local current_scheme = color_schemes.dark["zenburn"]
+local current_scheme = color_schemes.dark["gruvbox"]
 -- local current_scheme = color_schemes.light["github"]
 -- local current_scheme = "Borland"
 
@@ -383,8 +383,8 @@ config.color_scheme = current_scheme
 ------------------------------------
 
 -- GEOMETRY
-config.initial_cols = 115
-config.initial_rows = 35
+config.initial_cols = 100
+config.initial_rows = 45
 ------------------------------------
 
 -- FONT

@@ -237,9 +237,23 @@ local function insert_functionalities()
       })
 
       vim.keymap.set('n', '<leader>ff', '<cmd>Pick files<cr>', { desc = 'Find file' })
-      vim.keymap.set('n', '<leader>fh', '<cmd>Pick help<cr>', { desc = 'Find help' })
+      vim.keymap.set('n', '<leader>fH', '<cmd>Pick help<cr>', { desc = 'Find help' })
       vim.keymap.set('n', '<leader>fk', '<cmd>Pick keymaps<cr>', { desc = 'Find keymaps' })
       vim.keymap.set('n', '<leader>bl', '<cmd>Pick buffers<cr>', { desc = 'List buffers' })
+    end,
+
+    activate_snippets = function()
+      local mini_snippets = require('mini.snippets')
+      mini_snippets.setup({
+        snippets = {
+          -- Load custom file with global snippets first
+          mini_snippets.gen_loader.from_file('~/.config/nvim/snippets/global.json'),
+
+          -- Load snippets based on current language by reading files from
+          -- "snippets/" subdirectories from 'runtimepath' directories.
+          mini_snippets.gen_loader.from_lang(),
+        },
+      })
     end,
 
     activate_clue = function()
@@ -290,6 +304,7 @@ local function insert_functionalities()
           { mode = 'n', keys = '<Leader>c', desc = '+Configuration' },
           { mode = 'n', keys = '<Leader>d', desc = '+Diagnostics' },
           { mode = 'n', keys = '<Leader>f', desc = '+Find' },
+          { mode = 'n', keys = '<Leader>g', desc = '+Go' },
           { mode = 'n', keys = '<Leader>p', desc = '+Project' },
           { mode = 'n', keys = '<Leader>q', desc = '+Quit' },
           { mode = 'n', keys = '<Leader>t', desc = '+Terminal' },
@@ -302,7 +317,7 @@ local function insert_functionalities()
       local mini_surround = require('mini.surround')
 
       mini_surround.setup(
-      -- No need to copy this inside `setup()`. Will be used automatically.
+        -- No need to copy this inside `setup()`. Will be used automatically.
         {
           -- Add custom surroundings to be used on top of builtin ones. For more
           -- information with examples, see `:h MiniSurround.config`.
