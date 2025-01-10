@@ -458,9 +458,15 @@ functions"
 (setq custom-safe-themes t)
 
 (unless (display-graphic-p)
-      (xterm-mouse-mode))
+  (xterm-mouse-mode))
 
 (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
+
+(setq
+ x-select-enable-clipboard t
+ x-select-enable-primary t
+ x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
+ x-stretch-cursor t)
 
 (global-visual-line-mode)
 

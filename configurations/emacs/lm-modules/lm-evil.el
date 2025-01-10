@@ -79,7 +79,7 @@
 
 (use-package evil
   :ensure t
-  :defer 1
+  :defer 0.1
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
