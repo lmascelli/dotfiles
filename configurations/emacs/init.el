@@ -92,7 +92,7 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
   "The framework to provide clues for keymaps"
   :type '(choice
           (const :tag "which-key" which-key)
-          (const :tag "off" nil))
+          (const :tag "off" off))
   :group 'lm)
 
 (defcustom lm-lsp-client 'off 
@@ -100,7 +100,7 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
   :type '(choice
           (const :tag "eglot" eglot)
           (const :tag "lsp-mode" lsp-mode)
-          (const :tag "off" nil))
+          (const :tag "off" off))
   :group 'lm)
 
 (defcustom lm-capf-cape nil
@@ -120,8 +120,8 @@ functions"
 (defcustom lm-terminal-emulator 'off
   "The terminal emulator inside emacs"
   :type '(choice
-          (const :tag "eat" 'eat)
-          (const :tag "off" nil))
+          (const :tag "eat" eat)
+          (const :tag "off" off))
   :group 'lm)
 
 (defcustom lm-ligatures nil
@@ -308,8 +308,15 @@ functions"
 ;; sessions. It saves the history of inputs in the minibuffer, such as commands,
 ;; search strings, and other prompts, to a file. This allows users to retain
 ;; their minibuffer history across Emacs restarts.
+
 (setq history-length 300)
+(setq extended-command-history-length 300)
 (setq savehist-save-minibuffer-history t)  ;; Default
+(setq savehist-file (expand-file-name "history" user-emacs-directory))
+(savehist-mode t)
+
+(setq recentf-save-file (expand-file-name "recent" user-emacs-directory))
+(recentf-mode t)
 
 ;; Resizing the Emacs frame can be costly when changing the font. Disable this
 ;; to improve startup times with fonts larger than the system default.
