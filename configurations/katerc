@@ -3,10 +3,12 @@ Allow Tab Scrolling=true
 Auto Hide Tabs=false
 Close After Last=false
 Close documents with window=true
+Cycle To First Tab=true
 Days Meta Infos=30
 Diagnostics Limit=12000
 Diff Show Style=0
 Elide Tab Text=false
+Enable Context ToolView=false
 Expand Tabs=false
 Icon size for left and right sidebar buttons=32
 Modified Notification=false
@@ -14,12 +16,15 @@ Mouse back button action=0
 Mouse forward button action=0
 Open New Tab To The Right Of Current=false
 Output History Limit=100
+Output With Date=false
 Quickopen Filter Mode=0
 Quickopen List Mode=true
 Recent File List Entry Count=10
 Restore Window Configuration=true
 SDI Mode=false
 Save Meta Infos=true
+Session Manager Sort Column=0
+Session Manager Sort Order=0
 Show Full Path in Title=false
 Show Menu Bar=true
 Show Status Bar=true
@@ -86,6 +91,7 @@ Line Height Multiplier=1
 Show Indentation Lines=false
 Show Whole Bracket Expression=false
 Text Font=Hack,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+Text Font Features=
 Word Wrap Marker=false
 
 [KTextEditor View]
@@ -123,7 +129,7 @@ Persistent Selection=false
 Scroll Bar Marks=false
 Scroll Bar Mini Map All=true
 Scroll Bar Mini Map Width=60
-Scroll Bar MiniMap=true
+Scroll Bar MiniMap=false
 Scroll Bar Preview=true
 Scroll Past End=false
 Search/Replace Flags=140
@@ -133,7 +139,7 @@ Show File Encoding=true
 Show Focus Frame Around Editor=true
 Show Folding Icons On Hover Only=true
 Show Line Count=false
-Show Scrollbars=0
+Show Scrollbars=2
 Show Statusbar Dictionary=true
 Show Statusbar Highlighting Mode=true
 Show Statusbar Input Mode=true
@@ -155,6 +161,7 @@ Search History=Show,MenuBar,menu
 
 [Konsole]
 AutoSyncronize=true
+AutoSyncronizeMode=0
 KonsoleEscKeyBehaviour=true
 KonsoleEscKeyExceptions=vi,vim,nvim,git
 RemoveExtension=false
@@ -164,6 +171,10 @@ SetEditor=false
 [MainWindow]
 1920x1080 screen: Height=1050
 1920x1080 screen: Width=959
+1920x1080 screen: Window-Maximized=true
+
+[Notification Messages]
+Kate hide sidebars notification message=false
 
 [Printing][HeaderFooter]
 FooterBackground=211,211,211
@@ -201,7 +212,7 @@ kate_mdi_focus_toolview_diagnostics=Ctrl+,, D
 kate_mdi_hide_toolviews=Ctrl+L, Z
 
 [UiSettings]
-ColorScheme=Breeze Dark
+ColorScheme=
 
 [filetree]
 editShade=31,81,106
@@ -218,7 +229,7 @@ viewShade=81,49,95
 lastExecutedGitCmds=git push origin main
 
 [lspclient]
-AllowedServerCommandLines=/home/leonardo/.cargo/bin/rust-analyzer,/usr/bin/clangd -log=error --background-index --limit-results=500 --completion-style=bundled
+AllowedServerCommandLines=/home/leonardo/.cargo/bin/rust-analyzer,/usr/bin/clangd -log=error --background-index --limit-results=500 --completion-style=bundled,/usr/bin/pylsp --check-parent-process,/usr/bin/rust-analyzer
 AutoHover=true
 AutoImport=true
 BlockedServerCommandLines=

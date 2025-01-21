@@ -642,6 +642,11 @@ The goal of this section is to declare custom variables that can be
 customizated that control which module should be loaded.
 
 #+begin_src emacs-lisp :tangle "init.el"
+  (defcustom lm-tree-sitter-langs nil
+    "Choose if automatically install a repo with already built grammars."
+    :type '(boolean)
+    :group 'lm)
+
   (defcustom lm-input-mode 'evil
     "The keymap mode to use."
     :type '(choice
@@ -1241,6 +1246,9 @@ activated by the same custom variable.
   (cond
    ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
+  ;; tree sitter
+  (if lm-tree-sitter-langs (require 'lm-tree-sitter))
+
   ;; completion
   (if lm-capf-cape (require 'lm-cape))
   (require 'lm-completion)
@@ -1326,10 +1334,12 @@ use ripgrep as grep-find command
   (provide 'lm-org)
 #+end_src
 ** tree-sitter
-#+begin_src emacs-lisp :tangle "lm-modules/tree-sitter.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-tree-sitter.el"
   (use-package tree-sitter-langs
-    :config
-    (global-tree-sitter-mode t))
+    :defer 1
+    :config (global-tree-sitter-mode t))
+
+  (provide 'lm-tree-sitter)
 #+end_src
 ** evil-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-evil.el"

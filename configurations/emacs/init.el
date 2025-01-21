@@ -81,6 +81,11 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
 (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 
+(defcustom lm-tree-sitter-langs nil
+  "Choose if automatically install a repo with already built grammars."
+  :type '(boolean)
+  :group 'lm)
+
 (defcustom lm-input-mode 'evil
   "The keymap mode to use."
   :type '(choice
@@ -546,6 +551,9 @@ functions"
 
 (cond
  ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
+
+;; tree sitter
+(if lm-tree-sitter-langs (require 'lm-tree-sitter))
 
 ;; completion
 (if lm-capf-cape (require 'lm-cape))
