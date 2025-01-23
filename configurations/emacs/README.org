@@ -1405,6 +1405,7 @@ use ripgrep as grep-find command
     ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+    (keymap-set evil-insert-state-map "S-<return>" 'open-line)
     (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") #'lm-action-complete)
     (defvar lm/insert-map (make-sparse-keymap)
       "Keymap for shortcuts in insert mode")
