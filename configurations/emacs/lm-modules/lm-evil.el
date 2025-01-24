@@ -60,6 +60,7 @@
   ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
   ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
   (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
+  (keymap-set evil-insert-state-map "S-<return>" #'evil-open-above)
   (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") #'lm-action-complete)
   (defvar lm/insert-map (make-sparse-keymap)
     "Keymap for shortcuts in insert mode")
@@ -93,6 +94,11 @@
     (add-hook 'evil-insert-state-entry-hook (lambda () (send-string-to-terminal "\033[5 q")))
     (add-hook 'evil-insert-state-exit-hook  (lambda () (send-string-to-terminal "\033[2 q"))))
 
+  (evil-define-command nshell ()
+    "Create a new eshell buffer"
+    (lm-make-eshell (format "eshell-%d" lm-current-eshell-counter))
+    (setq lm-current-eshell-counter (1+ lm-current-eshell-counter)))
+  
   (evil-mode))
 
 (use-package evil-collection

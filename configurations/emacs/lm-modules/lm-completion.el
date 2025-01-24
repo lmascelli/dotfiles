@@ -7,6 +7,6 @@
 
  ((eq lm-in-buffer-completion 'builtin)
   (require 'lm-builtin-completion)
- ))
+  ))
 
 (provide 'lm-completion)

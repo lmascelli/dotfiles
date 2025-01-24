@@ -77,6 +77,15 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
                ))
       (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
 
+(setq lm-current-eshell-counter 0)
+
+(defun lm-make-eshell (name)
+  "Create a new eshell buffer named NAME."
+  (interactive "sName: ")
+  (setq name (concat "$" name))
+  (eshell)
+  (rename-buffer name))
+
 (setq lm/literate-config-name "README.org")
 (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
