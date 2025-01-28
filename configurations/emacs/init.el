@@ -293,9 +293,9 @@ functions"
       auto-revert-stop-on-user-input nil
       auto-revert-verbose t)
 
+(global-auto-revert-mode t)
 ;; Revert other buffers (e.g, Dired)
 (setq global-auto-revert-non-file-buffers t)
-(global-auto-revert-mode t)
 
 (setq desktop-path '((expand-file-name "desktop-saves") user-emacs-directory))
 
@@ -317,6 +317,7 @@ functions"
 ;; the precise point where you previously left off.
 (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
 (setq save-place-limit 600)
+(save-place-mode 1)
 
 ;; `savehist` is an Emacs feature that preserves the minibuffer history between
 ;; sessions. It saves the history of inputs in the minibuffer, such as commands,

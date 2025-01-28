@@ -890,9 +890,9 @@ mode package
         auto-revert-stop-on-user-input nil
         auto-revert-verbose t)
 
+  (global-auto-revert-mode t)
   ;; Revert other buffers (e.g, Dired)
   (setq global-auto-revert-non-file-buffers t)
-  (global-auto-revert-mode t)
 #+end_src
 
 *** Worspaces save
@@ -928,6 +928,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   ;; the precise point where you previously left off.
   (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
   (setq save-place-limit 600)
+  (save-place-mode 1)
 #+end_src
 
 *** Save hist
