@@ -1,4 +1,5 @@
 (use-package modus-themes
+  :ensure t
   :demand t
   :custom
   (modus-themes-italic-constructs t)

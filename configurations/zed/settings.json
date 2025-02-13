@@ -1,13 +1,13 @@
 {
-  "vim_mode": false,
+  "vim_mode": true,
   "relative_line_numbers": true,
   "telemetry": {
-    "metrics": true
+    "metrics": true,
   },
   "buffer_font_family": "JetBrains Mono",
   "buffer_font_size": 13,
   "buffer_font_features": {},
-  "theme": "Gruvbox Dark Hard",
+  "theme": "Ayu Dark",
   "ui_font_size": 14,
   "scroll_sensitivity": 1.5,
   "format_on_save": "off",

@@ -86,6 +86,28 @@ hold. This variable is used by the `lm-toggle-hold-cwd' function.")
   (eshell)
   (rename-buffer name))
 
+(defun lm-tree-dir (dir &optional prefix)
+  "Print a tree of files and directories starting from DIR."
+  (interactive "DDirectory: ")
+  (unless prefix (setq prefix ""))
+  (dolist (file (directory-files dir))
+    (unless (member file '("." ".."))
+      (let ((path (concat dir "/" file)))
+        (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
+        (when (file-directory-p path)
+          (lm-tree-dir path (concat prefix "  ")))))))
+
+(defun lm-tree-current-dir ()
+  "Print a tree of the current directory."
+  (interactive)
+  (let ((buf (get-buffer-create "*Directory Tree*")))
+    (with-current-buffer buf
+      (read-only-mode -1)
+      (erase-buffer)
+      (lm-tree-dir default-directory)
+      (read-only-mode 1))
+    (display-buffer buf)))
+
 (setq lm/literate-config-name "README.org")
 (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
 (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
@@ -296,6 +318,12 @@ functions"
 (global-auto-revert-mode t)
 ;; Revert other buffers (e.g, Dired)
 (setq global-auto-revert-non-file-buffers t)
+
+;; I don't like that the Buffer List reverts too quickly so it must
+;; be slowed down a bit
+
+;; (add-hook 'buffer-list-update-hook (lambda ()
+;;                                    (setq-local auto-revert-interval 10)))
 
 (setq desktop-path '((expand-file-name "desktop-saves") user-emacs-directory))
 

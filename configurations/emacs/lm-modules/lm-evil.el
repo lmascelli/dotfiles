@@ -6,7 +6,7 @@
   (defvar lm/leader-map-buffer (make-sparse-keymap)
     "sub-keymap for buffer operations")
   (keymap-set lm/leader-map "b" `("+Buffer" . ,lm/leader-map-buffer))
-  (keymap-set lm/leader-map-buffer "d" 'kill-this-buffer)
+  (keymap-set lm/leader-map-buffer "d" 'kill-buffer)
   (keymap-set lm/leader-map-buffer "s" 'save-buffer)
   (keymap-set lm/leader-map-buffer "l" #'lm-action-switch-to-buffer)
   (keymap-set lm/leader-map-buffer "L" 'list-buffers)
@@ -98,7 +98,7 @@
     "Create a new eshell buffer"
     (lm-make-eshell (format "eshell-%d" lm-current-eshell-counter))
     (setq lm-current-eshell-counter (1+ lm-current-eshell-counter)))
-  
+
   (evil-mode))
 
 (use-package evil-collection

@@ -365,6 +365,9 @@ end
 return {
   'echasnovski/mini.nvim',
   version = false,
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+  },
   config = function()
     local mini_extra = require('mini.extra')
     mini_extra.setup({})

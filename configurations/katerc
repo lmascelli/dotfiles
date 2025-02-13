@@ -157,7 +157,7 @@ Word Completion Minimal Word Length=3
 Word Completion Remove Tail=true
 
 [KTextEditor::Search]
-Search History=Show,MenuBar,menu
+Search History=English,en,Show,MenuBar,menu
 
 [Konsole]
 AutoSyncronize=true
@@ -171,6 +171,7 @@ SetEditor=false
 [MainWindow]
 1920x1080 screen: Height=1052
 1920x1080 screen: Width=1459
+1920x1080 screen: Window-Maximized=true
 
 [Notification Messages]
 Kate hide sidebars notification message=false
