@@ -1,4 +1,5 @@
 LM.plugins.with_lsp = true
+LM.lsp.autostart = LM.lsp.autostart or false
 
 local function configure_servers()
   local setup_server = function(server, opts)
@@ -8,7 +9,7 @@ local function configure_servers()
     end
     opts.on_attach = opts.on_attach or LM.lsp.on_attach.on_attach
     opts.capabilities = vim.tbl_extend("keep", opts.capabilities or {}, LM.lsp.capabilities)
-    opts.autostart = opts.autostart or false
+    opts.autostart = opts.autostart or LM.lsp.autostart
     lspconfig[server].setup(opts)
   end
 
