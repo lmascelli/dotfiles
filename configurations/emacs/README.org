@@ -970,6 +970,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   ;; their minibuffer history across Emacs restarts.
 
   (setq history-length 300)
+  (setq history-delete-duplicates t)
   (setq extended-command-history-length 300)
   (setq savehist-save-minibuffer-history t)  ;; Default
   (setq savehist-file (expand-file-name "history" user-emacs-directory))
@@ -1369,6 +1370,7 @@ use ripgrep as grep-find command
 #+end_src
 ** Eshell
 #+begin_src emacs-lisp :tangle "lm-modules/lm-eshell.el"
+  (setq eshell-hist-ignoredups 'erase)
   (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
   (provide 'lm-eshell)
 #+end_src

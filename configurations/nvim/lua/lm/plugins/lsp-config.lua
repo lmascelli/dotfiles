@@ -115,18 +115,18 @@ local function configure_servers()
         runBuildScripts = true,
       },
       ["rust-analyzer"] = {
-        -- checkOnSave = {
-        --   -- allFeatures = true,
-        --   command = "clippy",
-        --   extraArgs = {
-        --     "--",
-        --     "--no-deps",
-        --     -- "-Dclippy::correctness",
-        --     -- "-Dclippy::complexity",
-        --     -- "-Wclippy::perf",
-        --     -- "-Wclippy::pedantic",
-        --   }
-        -- }
+        checkOnSave = {
+          -- allFeatures = true,
+          command = "clippy",
+          extraArgs = {
+            "--",
+            "--no-deps",
+            -- "-Dclippy::correctness",
+            -- "-Dclippy::complexity",
+            -- "-Wclippy::perf",
+            -- "-Wclippy::pedantic",
+          }
+        }
       }
     }
   })

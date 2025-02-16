@@ -353,6 +353,7 @@ functions"
 ;; their minibuffer history across Emacs restarts.
 
 (setq history-length 300)
+(setq history-delete-duplicates t)
 (setq extended-command-history-length 300)
 (setq savehist-save-minibuffer-history t)  ;; Default
 (setq savehist-file (expand-file-name "history" user-emacs-directory))
