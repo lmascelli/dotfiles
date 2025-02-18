@@ -1,7 +1,5 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/leonardo/Documents/unige/spike-rs/"
-  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/project.ps1"))
- ("/home/leonardo/dotfiles/configurations/emacs/README.org" . 46977)
+(("/home/leonardo/dotfiles/configurations/emacs/README.org" . 46977)
  ("/home/leonardo/Documents/unige/spike-rs/c_pycode/pycode_h5.c" . 1155)
  ("/home/leonardo/Documents/unige/spike-rs/test.py" . 238)
  ("/home/leonardo/kit/"

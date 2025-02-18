@@ -1448,6 +1448,7 @@ use ripgrep as grep-find command
     (keymap-set evil-normal-state-map "C-w C-k" 'evil-window-up)
     ;; (define-key evil-normal-state-map (kbd "TAB") 'evil-indent-line)
     ;; ------------------------- VISUAL STATE KEYMAPS ----------------------------
+    (keymap-set evil-visual-state-map "<tab>" 'indent-for-tab-command)
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
     (keymap-set evil-insert-state-map "S-<return>" #'evil-open-above)
