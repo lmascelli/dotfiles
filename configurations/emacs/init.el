@@ -317,7 +317,7 @@ functions"
 
 (global-auto-revert-mode t)
 ;; Revert other buffers (e.g, Dired)
-(setq global-auto-revert-non-file-buffers t)
+(setq global-auto-revert-non-file-buffers nil)
 
 ;; I don't like that the Buffer List reverts too quickly so it must
 ;; be slowed down a bit

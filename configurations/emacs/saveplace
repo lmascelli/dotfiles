@@ -1,20 +1,68 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/leonardo/dotfiles/configurations/emacs/lm-modules/lm-eshell.el" . 18)
- ("/home/leonardo/dotfiles/configurations/emacs/README.org" . 48746)
- ("/home/leonardo/Documents/unige/spike-rs/"
-  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/test.py"))
- ("/home/leonardo/Documents/unige/spike-rs/test.py" . 288)
- ("/home/leonardo/dotfiles/configurations/emacs/post-init.el" . 201)
- ("/home/leonardo/Documents/unige/spike-rs/pycode/utils.py" . 69)
- ("/home/leonardo/Documents/unige/spike-rs/src/lib.rs" . 4888)
- ("/home/leonardo/Documents/unige/spike-rs/src/channel.rs" . 187)
- ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/analysis/spike_analysis.rs" . 166)
+(("/home/leonardo/Documents/unige/spike-rs/"
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/project.ps1"))
+ ("/home/leonardo/dotfiles/configurations/emacs/README.org" . 46977)
+ ("/home/leonardo/Documents/unige/spike-rs/c_pycode/pycode_h5.c" . 1155)
+ ("/home/leonardo/Documents/unige/spike-rs/test.py" . 238)
+ ("/home/leonardo/kit/"
+  (dired-filename . "/home/leonardo/kit/hdf5"))
+ ("/home/leonardo/Documents/unige/spike-rs/src/channel.rs" . 334)
+ ("/home/leonardo/Documents/unige/spike-rs/c_pycode/pycode_h5.h" . 5103)
+ ("/home/leonardo/Documents/unige/spike-rs/src/phase.rs" . 4724)
+ ("/home/leonardo/Documents/unige/spike-rs/examples/frequency_of_a_phase.py" . 289)
+ ("/home/leonardo/Documents/unige/spike-rs/examples/view_channel.py" . 237)
+ ("/home/leonardo/Documents/unige/spike-rs/examples/"
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/examples/.."))
+ ("/home/leonardo/Documents/unige/spike-rs/pycode/"
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/pycode/.."))
+ ("/home/leonardo/Documents/unige/spike-rs/spike-rs/"
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/spike-rs/.."))
  ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/"
-  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/spike-rs/src/types.rs"))
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/spike-rs/src/.."))
  ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/analysis/"
   (dired-filename . "/home/leonardo/Documents/unige/spike-rs/spike-rs/src/analysis/.."))
- ("/home/leonardo/Documents/unige/spike-rs/spike-rs/"
-  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/spike-rs/src"))
+ ("/home/leonardo/dotfiles/configurations/emacs/post-init.el" . 57)
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_subScripts/MEX SpikeDetection/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_subScripts/MEX SpikeDetection/SpikeDetection_PTSD_core.cpp"))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_subScripts/MEX SpikeDetection/SpikeDetection_PTSD_core.cpp" . 6013)
+ ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/analysis/spike_detection.rs" . 37)
+ ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/types.rs" . 88)
+ ("/home/leonardo/Documents/unige/spike-rs/Cargo.toml" . 129)
+ ("/home/leonardo/Documents/unige/spike-rs/src/"
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/src/lib.rs"))
+ ("/home/leonardo/Documents/unige/spike-rs/src/lib.rs" . 3574)
+ ("/home/leonardo/Documents/unige/spike-rs/examples/test_spike_detection_parameters.py" . 149)
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_subScripts/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_subScripts/MEX SpikeDetection"))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_subScripts"))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds"))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/2_JoinRecPhases/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/2_JoinRecPhases/.."))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/3_SplitDifferetPhasePtrain/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/3_SplitDifferetPhasePtrain/.."))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_mainScripts/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_mainScripts/.."))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_GUI/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection/1_SpikeDetection and Thresholds/SpikeDetection_GUI/.."))
+ ("/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea/03_SpikeDetection"))
+ ("/home/leonardo/Documents/unige/"
+  (dired-filename . "/home/leonardo/Documents/unige/SpyCode_v3.9_Andrea"))
+ ("/home/leonardo/Documents/unige/spike-rs/examples/spike_detection_in_folder.py" . 13)
+ ("/home/leonardo/dotfiles/configurations/emacs/init.el" . 10097)
+ ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/error.rs" . 354)
+ ("/home/leonardo/binaries/emacs-stable/emacs-29.4/"
+  (dired-filename . "/home/leonardo/binaries/emacs-stable/emacs-29.4/INSTALL"))
+ ("/home/leonardo/binaries/emacs-stable/emacs-29.4/lisp/"
+  (dired-filename . "/home/leonardo/binaries/emacs-stable/emacs-29.4/lisp/.."))
+ ("/home/leonardo/binaries/emacs-stable/"
+  (dired-filename . "/home/leonardo/binaries/emacs-stable/emacs-29.4"))
+ ("/home/leonardo/binaries/emacs-stable/install/"
+  (dired-filename . "/home/leonardo/binaries/emacs-stable/install/.."))
+ ("/home/leonardo/dotfiles/configurations/emacs/lm-modules/lm-eshell.el" . 18)
+ ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/analysis/spike_analysis.rs" . 166)
  ("/home/leonardo/kit/wgpu/"
   (dired-filename . "/home/leonardo/kit/wgpu/basics"))
  ("/home/leonardo/dotfiles/configurations/vscode/settings.json" . 928)
@@ -42,15 +90,12 @@
  ("/home/leonardo/Documents/unige/spike-rs/pycode-gui/phase_explorer.py" . 2428)
  ("/home/leonardo/Documents/unige/spike-rs/pycode-gui/channel_viewer.py" . 116)
  ("/home/leonardo/Documents/unige/spike-rs/pycode-gui/forms/main_window.py" . 1374)
- ("/home/leonardo/Documents/unige/spike-rs/pycode/"
-  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/pycode/.."))
  ("/home/leonardo/Documents/unige/spike-rs/pycode-gui/forms/"
   (dired-filename . "/home/leonardo/Documents/unige/spike-rs/pycode-gui/forms/.."))
  ("/home/leonardo/Documents/unige/spike-rs/pycode-gui/forms_source/"
   (dired-filename . "/home/leonardo/Documents/unige/spike-rs/pycode-gui/forms_source/.."))
  ("/home/leonardo/binaries/emacs-stable/install/share/emacs/29.4/etc/COPYING" . 30778)
  ("/home/leonardo/Dropbox/Progetto unige/reports/attivita_svolta_2024.org" . 7666)
- ("/home/leonardo/Documents/unige/spike-rs/pycode/__init__.py" . 65)
  ("/home/leonardo/.lm/bin/emacs.ps1" . 65)
  ("/home/leonardo/dotfiles/configurations/emacs/"
   (dired-filename . "/home/leonardo/dotfiles/configurations/emacs/autosave"))
@@ -61,9 +106,6 @@
   (dired-filename . "/home/leonardo/Documents/unige/data/chialet/view.py"))
  ("/home/leonardo/Documents/unige/data/chialet/view.py" . 288)
  ("/home/leonardo/binaries/emacs/install/share/emacs/31.0.50/etc/NEWS" . 52)
- ("/home/leonardo/Documents/unige/"
-  (dired-filename . "/home/leonardo/Documents/unige/temp.py"))
  ("/home/leonardo/binaries/emacs/install/share/emacs/31.0.50/etc/NEWS.1-17" . 15)
  ("/home/leonardo/Dropbox/Progetto unige/megaschema.org" . 119)
- ("/home/leonardo/Documents/unige/spike-rs/c_pycode/pycode_h5.c" . 3)
  ("/home/leonardo/Documents/unige/spike-rs/pycode/operations.py" . 517))

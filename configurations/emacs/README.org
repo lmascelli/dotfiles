@@ -917,7 +917,7 @@ mode package
 
   (global-auto-revert-mode t)
   ;; Revert other buffers (e.g, Dired)
-  (setq global-auto-revert-non-file-buffers t)
+  (setq global-auto-revert-non-file-buffers nil)
 
   ;; I don't like that the Buffer List reverts too quickly so it must
   ;; be slowed down a bit
@@ -1324,7 +1324,7 @@ use ripgrep as grep-find command
 ** Dired
 #+begin_src emacs-lisp :tangle "lm-modules/lm-dired.el"
   (use-package dired
-    :hook (dired-mode . dired-hide-details-mode)
+    ;; :hook (dired-mode . dired-hide-details-mode)
     :ensure nil
     :custom ((dired-listing-switches "-agho --group-directories-first"))
     :config

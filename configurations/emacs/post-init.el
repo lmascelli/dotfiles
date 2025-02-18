@@ -8,5 +8,5 @@
   :config
   (setq zig-format-on-save nil))
 
-(add-hook 'rust-mode-hook 'lsp-deferred)
-(add-hook 'python-mode-hook 'lsp-deferred)
+(add-hook 'rust-ts-mode-hook 'eglot-ensure)
+(add-hook 'python-mode-hook 'eglot-ensure)

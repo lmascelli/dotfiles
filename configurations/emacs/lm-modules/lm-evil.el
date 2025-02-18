@@ -98,7 +98,7 @@
     "Create a new eshell buffer"
     (lm-make-eshell (format "eshell-%d" lm-current-eshell-counter))
     (setq lm-current-eshell-counter (1+ lm-current-eshell-counter)))
-
+  
   (evil-mode))
 
 (use-package evil-collection
