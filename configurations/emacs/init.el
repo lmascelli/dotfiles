@@ -62,21 +62,6 @@
   (interactive)
   (load (concat user-emacs-directory "init.el")))
 
-(defvar lm-held-directory nil
-    "
-The directory being held has default-directory. If nil no directory is being
-hold. This variable is used by the `lm-toggle-hold-cwd' function.")
-
-  (defun lm-toggle-hold-cwd ()
-    (interactive)
-    (setq lm-held-directory (unless lm-held-directory default-directory))
-    (dolist (hook
-             '(find-file-hook
-               window-buffer-change-functions
-               dired-mode-hook
-               ))
-      (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
-
 (setq lm-current-eshell-counter 0)
 
 (defun lm-make-eshell (name)
@@ -608,5 +593,6 @@ functions"
 ;; my packages
 (use-package lm-pomodoro)
 (use-package lm-center-document)
+(use-package lm-hold-directory)
 
 (lm-emacs-load-user-init "post-init.el")

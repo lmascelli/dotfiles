@@ -1,9 +1,13 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/leonardo/dotfiles/configurations/emacs/README.org" . 51659)
+(("/home/leonardo/kit/wgpu/"
+  (dired-filename . "/home/leonardo/kit/wgpu/basics"))
+ ("/home/leonardo/kit/"
+  (dired-filename . "/home/leonardo/kit/wgpu"))
+ ("/home/leonardo/Documents/unige/spike-rs/"
+  (dired-filename . "/home/leonardo/Documents/unige/spike-rs/c_pycode"))
+ ("/home/leonardo/dotfiles/configurations/emacs/README.org" . 45578)
  ("/home/leonardo/Documents/unige/spike-rs/c_pycode/pycode_h5.c" . 1155)
  ("/home/leonardo/Documents/unige/spike-rs/test.py" . 238)
- ("/home/leonardo/kit/"
-  (dired-filename . "/home/leonardo/kit/hdf5"))
  ("/home/leonardo/Documents/unige/spike-rs/src/channel.rs" . 334)
  ("/home/leonardo/Documents/unige/spike-rs/c_pycode/pycode_h5.h" . 5103)
  ("/home/leonardo/Documents/unige/spike-rs/src/phase.rs" . 4724)
@@ -61,8 +65,6 @@
   (dired-filename . "/home/leonardo/binaries/emacs-stable/install/.."))
  ("/home/leonardo/dotfiles/configurations/emacs/lm-modules/lm-eshell.el" . 18)
  ("/home/leonardo/Documents/unige/spike-rs/spike-rs/src/analysis/spike_analysis.rs" . 166)
- ("/home/leonardo/kit/wgpu/"
-  (dired-filename . "/home/leonardo/kit/wgpu/basics"))
  ("/home/leonardo/dotfiles/configurations/vscode/settings.json" . 928)
  ("/home/leonardo/dotfiles/configurations/vscode/"
   (dired-filename . "/home/leonardo/dotfiles/configurations/vscode/settings.json"))
