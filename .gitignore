@@ -34,6 +34,7 @@ configurations/emacs/history.eld
 configurations/emacs/ielm-history.eld
 configurations/emacs/post-init.el
 configurations/emacs/projects
+configurations/emacs/recent
 configurations/emacs/saveplace
 configurations/emacs/tramp
 
