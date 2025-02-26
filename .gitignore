@@ -29,6 +29,7 @@ configurations/emacs/.lsp-session-v*
 configurations/emacs/recentf
 configurations/emacs/emacs-custom.el
 configurations/emacs/custom.el
+configurations/emacs/history
 configurations/emacs/history.eld
 configurations/emacs/ielm-history.eld
 configurations/emacs/post-init.el
