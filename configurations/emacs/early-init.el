@@ -44,14 +44,14 @@ Simplified version of `add-to-list'."
 
 
 (if (display-graphic-p) (unless (daemonp)
-  (unless noninteractive
-    ;; Temporarily override the tool-bar-setup function to prevent it from
-    ;; running during the initial stages of startup
-    (advice-add #'tool-bar-setup :override #'ignore)
-    (define-advice startup--load-user-init-file
-        (:before (&rest _) lm-emacs-setup-toolbar)
-      (advice-remove #'tool-bar-setup #'ignore)
-      (tool-bar-setup)))))
+                          (unless noninteractive
+                            ;; Temporarily override the tool-bar-setup function to prevent it from
+                            ;; running during the initial stages of startup
+                            (advice-add #'tool-bar-setup :override #'ignore)
+                            (define-advice startup--load-user-init-file
+                                (:before (&rest _) lm-emacs-setup-toolbar)
+                              (advice-remove #'tool-bar-setup #'ignore)
+                              (tool-bar-setup)))))
 
 (unless (memq 'tool-bar lm-emacs-ui-features)
   (push '(tool-bar-lines . 0) default-frame-alist)
@@ -79,9 +79,10 @@ Simplified version of `add-to-list'."
 (setq package-install-upgrade-built-in t)
 
 (defvar lm-emacs-package-initialize-and-refresh t
-  "Whether to automatically initialize and refresh packages.
-          When set to non-nil, Emacs will automatically call `package-initialize' and
-          `package-refresh-contents' to set up and update the package system.")
+  "Whether to automatically initialize and refresh packages.When set to
+           non-nil, Emacs will automatically call `package-initialize' and
+           `package-refresh-contents' to set up and update the package
+           system.")
 
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)

@@ -14,7 +14,7 @@ Emacs can both be installed from a package manager or built from sources.
 This is a quick snippet to configure the emacs sources for linux:
 
 #+begin_src shell
-  ./configure --prefix=/usr/local --with-x-toolkit=gtk3 --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --without-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+  ./configure --prefix=/usr/local --with-x-toolkit=gtk3 --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --with-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
 #+end_src
 
 ** Tangle this org literate config
@@ -214,14 +214,14 @@ Enable or disable some UI features:
 
 
   (if (display-graphic-p) (unless (daemonp)
-    (unless noninteractive
-      ;; Temporarily override the tool-bar-setup function to prevent it from
-      ;; running during the initial stages of startup
-      (advice-add #'tool-bar-setup :override #'ignore)
-      (define-advice startup--load-user-init-file
-          (:before (&rest _) lm-emacs-setup-toolbar)
-        (advice-remove #'tool-bar-setup #'ignore)
-        (tool-bar-setup)))))
+                            (unless noninteractive
+                              ;; Temporarily override the tool-bar-setup function to prevent it from
+                              ;; running during the initial stages of startup
+                              (advice-add #'tool-bar-setup :override #'ignore)
+                              (define-advice startup--load-user-init-file
+                                  (:before (&rest _) lm-emacs-setup-toolbar)
+                                (advice-remove #'tool-bar-setup #'ignore)
+                                (tool-bar-setup)))))
 
   (unless (memq 'tool-bar lm-emacs-ui-features)
     (push '(tool-bar-lines . 0) default-frame-alist)
@@ -256,9 +256,10 @@ set up the packages archives and their priorities.
   (setq package-install-upgrade-built-in t)
 
   (defvar lm-emacs-package-initialize-and-refresh t
-    "Whether to automatically initialize and refresh packages.
-            When set to non-nil, Emacs will automatically call `package-initialize' and
-            `package-refresh-contents' to set up and update the package system.")
+    "Whether to automatically initialize and refresh packages.When set to
+             non-nil, Emacs will automatically call `package-initialize' and
+             `package-refresh-contents' to set up and update the package
+             system.")
 
   (setq package-enable-at-startup nil)
   (setq package-quickstart nil)
@@ -565,49 +566,49 @@ Tilde and grave accent are not present in italian keyboard but often used in
 rogramming so this function are a quick way to insert them in text
 
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm-action-insert-tilde ()                                      
-   (interactive)                                 
-   (insert-char (char-from-name "TILDE")))
- (defun lm-action-insert-grave-accent ()                                      
-   (interactive)                                 
-   (insert-char (char-from-name "GRAVE ACCENT")))
+  (defun lm-action-insert-tilde ()                                      
+    (interactive)                                 
+    (insert-char (char-from-name "TILDE")))
+  (defun lm-action-insert-grave-accent ()                                      
+    (interactive)                                 
+    (insert-char (char-from-name "GRAVE ACCENT")))
 #+end_src
 This function returns the directory containing this org file in case it differs
 from the actual emacs config dir
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm/get-conf-org-dir ()
-   (interactive)
-   (file-name-directory buffer-file-name))
+  (defun lm/get-conf-org-dir ()
+    (interactive)
+    (file-name-directory buffer-file-name))
 #+end_src
 *** Switching tabs
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm-action-switch-to-tab-1 ()
-   (interactive)
-   (tab-bar-select-tab 1))
- (defun lm-action-switch-to-tab-2 ()
-   (interactive)
-   (tab-bar-select-tab 2))
- (defun lm-action-switch-to-tab-3 ()
-   (interactive)
-   (tab-bar-select-tab 3))
+  (defun lm-action-switch-to-tab-1 ()
+    (interactive)
+    (tab-bar-select-tab 1))
+  (defun lm-action-switch-to-tab-2 ()
+    (interactive)
+    (tab-bar-select-tab 2))
+  (defun lm-action-switch-to-tab-3 ()
+    (interactive)
+    (tab-bar-select-tab 3))
 #+end_src
 *** Open literate config
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm-open-literate-config ()
-   (interactive)
-   (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
+  (defun lm-open-literate-config ()
+    (interactive)
+    (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 #+end_src
 *** Open post-init.el
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm-open-post-init ()
-   (interactive)
-   (find-file (concat lm-emacs-user-directory "post-init.el")))
+  (defun lm-open-post-init ()
+    (interactive)
+    (find-file (concat lm-emacs-user-directory "post-init.el")))
 #+end_src
 *** Reload configuration
 #+begin_src emacs-lisp :tangle "init.el"
- (defun lm-reload-config ()
-   (interactive)
-   (load (concat user-emacs-directory "init.el")))
+  (defun lm-reload-config ()
+    (interactive)
+    (load (concat user-emacs-directory "init.el")))
 #+end_src
 *** Creating a new eshell buffer
 #+begin_src emacs-lisp :tangle "init.el"
@@ -622,27 +623,27 @@ from the actual emacs config dir
 #+end_src
 *** Tree files in eshell
 #+begin_src emacs-lisp :tangle "init.el"
-(defun lm-tree-dir (dir &optional prefix)
-  "Print a tree of files and directories starting from DIR."
-  (interactive "DDirectory: ")
-  (unless prefix (setq prefix ""))
-  (dolist (file (directory-files dir))
-    (unless (member file '("." ".."))
-      (let ((path (concat dir "/" file)))
-        (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
-        (when (file-directory-p path)
-          (lm-tree-dir path (concat prefix "  ")))))))
+  (defun lm-tree-dir (dir &optional prefix)
+    "Print a tree of files and directories starting from DIR."
+    (interactive "DDirectory: ")
+    (unless prefix (setq prefix ""))
+    (dolist (file (directory-files dir))
+      (unless (member file '("." ".."))
+        (let ((path (concat dir "/" file)))
+          (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
+          (when (file-directory-p path)
+            (lm-tree-dir path (concat prefix "  ")))))))
 
-(defun lm-tree-current-dir ()
-  "Print a tree of the current directory."
-  (interactive)
-  (let ((buf (get-buffer-create "*Directory Tree*")))
-    (with-current-buffer buf
-      (read-only-mode -1)
-      (erase-buffer)
-      (lm-tree-dir default-directory)
-      (read-only-mode 1))
-    (display-buffer buf)))
+  (defun lm-tree-current-dir ()
+    "Print a tree of the current directory."
+    (interactive)
+    (let ((buf (get-buffer-create "*Directory Tree*")))
+      (with-current-buffer buf
+        (read-only-mode -1)
+        (erase-buffer)
+        (lm-tree-dir default-directory)
+        (read-only-mode 1))
+      (display-buffer buf)))
 #+end_src
 ** Configuration files
 #+begin_src emacs-lisp :tangle "init.el"
@@ -752,15 +753,6 @@ customizated that control which module should be loaded.
   (setq use-package-always-ensure nil)
   (setq use-package-compute-statistics t)
 
-  ;;; Minibuffer
-  ;; Allow nested minibuffers
-  (setq enable-recursive-minibuffers t)
-
-  ;; Keep the cursor out of the read-only portions of the.minibuffer
-  (setq minibuffer-prompt-properties
-        '(read-only t intangible t cursor-intangible t face
-                    minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
 
 *** diminish
@@ -907,12 +899,14 @@ mode package
 #+begin_src emacs-lisp
   (setq desktop-path '((expand-file-name "desktop-saves") user-emacs-directory))
 #+end_src
+
 *** Automatic pairs mode
 automatically insert the pair of some symbols like braces, parenthesis, etc...
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'electric-pair-mode)
 #+end_src
+
 *** Y/n answers
 #+begin_src emacs-lisp
   ;; Allow for shorter responses: "y" for yes and "n" for no.
@@ -920,6 +914,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
       (setq use-short-answers t)
     (advice-add #'yes-or-no-p :override #'y-or-n-p))
 #+end_src
+
 *** Recent files
 #+begin_src emacs-lisp
   ;; `recentf' is an Emacs package that maintailinens a list of recently
@@ -984,8 +979,8 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq scroll-error-top-bottom t)
 
   ;; Keeps screen position if the scroll command moved it vertically out of the
-  ;; window.
-  (setq scroll-preserve-screen-position t)
+  ;; window. I've disabled it since it cause a very jumpy scrolling
+  (setq scroll-preserve-screen-position nil)
 #+end_src
 
 *** Mouse
@@ -1005,7 +1000,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
         ;; 0 triggers recentering too aggressively. Setting it to 10 reduces
         ;; excessive recentering and only recenters the window when scrolling
         ;; significantly off-screen.
-        scroll-conservatively 10
+        scroll-conservatively 101
         scroll-margin 0
         scroll-preserve-screen-position t
         ;; Reduce cursor lag by preventing automatic adjustments to
@@ -1354,6 +1349,18 @@ use ripgrep as grep-find command
 #+end_src
 ** Org-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-org.el"
+  (use-package org
+    :mode ("\\*.org" . org-mode)
+    :custom
+    (org-startup-indented t)
+    (org-hide-emphasis-markers t)
+    (org-startup-with-inline-images t)
+    (org-image-actual-width '(450))
+    (org-fold-catch-invisible-edits 'error)
+    (org-pretty-entities t)
+    (org-use-sub-superscripts "{}")
+    (org-id-link-to-org-use-id t)
+    (org-fold-catch-invisible-edits 'show))
   (provide 'lm-org)
 #+end_src
 ** tree-sitter
@@ -1675,13 +1682,22 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 *** eglot
 #+begin_src emacs-lisp :tangle "lm-modules/lm-eglot.el"
+  (defun lm-eglot-mode-keymaps ()
+    (cond ((eq lm-input-mode 'evil)
+           (progn
+             (keymap-set evil-normal-state-map "C-w C-d" #'flymake-show-buffer-diagnostics)
+             ))))
+
   (use-package eglot
     :ensure t
     :defer t
     :pin elpa-devel
+    :config
+    (add-hook eglot-managed-mode-hook #'lm-eglot-mode-keymaps)
     :init
     (setq eglot-events-buffer-config 0)
     (setq eglot-connect-timeout 90))
+
 
   (provide 'lm-eglot)
 #+end_src

@@ -183,16 +183,6 @@ functions"
 (setq use-package-always-ensure nil)
 (setq use-package-compute-statistics t)
 
-;;; Minibuffer
-;; Allow nested minibuffers
-(setq enable-recursive-minibuffers t)
-
-;; Keep the cursor out of the read-only portions of the.minibuffer
-(setq minibuffer-prompt-properties
-      '(read-only t intangible t cursor-intangible t face
-                  minibuffer-prompt))
-(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
 (use-package diminish
   :ensure t)
 
@@ -369,8 +359,8 @@ functions"
 (setq scroll-error-top-bottom t)
 
 ;; Keeps screen position if the scroll command moved it vertically out of the
-;; window.
-(setq scroll-preserve-screen-position t)
+;; window. I've disabled it since it cause a very jumpy scrolling
+(setq scroll-preserve-screen-position nil)
 
 ;; Emacs 29
 (when (memq 'context-menu lm-emacs-ui-features)
@@ -387,7 +377,7 @@ functions"
       ;; 0 triggers recentering too aggressively. Setting it to 10 reduces
       ;; excessive recentering and only recenters the window when scrolling
       ;; significantly off-screen.
-      scroll-conservatively 10
+      scroll-conservatively 101
       scroll-margin 0
       scroll-preserve-screen-position t
       ;; Reduce cursor lag by preventing automatic adjustments to

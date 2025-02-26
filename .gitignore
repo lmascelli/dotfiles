@@ -8,25 +8,33 @@ configurations/nvim/lazy-lock.json
 
 # EMACS
 configurations/emacs/.cache/
-configurations/emacs/auto-save-list/
 configurations/emacs/autosave/
-configurations/emacs/desktop-saves/*
+configurations/emacs/auto-save-list/
 configurations/emacs/eln-cache/
 configurations/emacs/elpa/
 configurations/emacs/eshell/history
 configurations/emacs/eshell/lastdir
+configurations/emacs/desktop-saves/*
+configurations/emacs/lm-languages
+configurations/emacs/lm-lisp
+configurations/emacs/lm-modules
 configurations/emacs/org-persist/
 configurations/emacs/server/
+configurations/emacs/tramp-autosave/
 configurations/emacs/transient/
+configurations/emacs/tutorial/
+configurations/emacs/url/
+
+configurations/emacs/.lsp-session-v*
 configurations/emacs/recentf
 configurations/emacs/emacs-custom.el
 configurations/emacs/custom.el
-configurations/emacs/projects
-configurations/emacs/tramp
-configurations/emacs/.lsp-session-v*
-configurations/emacs/url/
-configurations/emacs/post-init.el
+configurations/emacs/history.eld
 configurations/emacs/ielm-history.eld
+configurations/emacs/post-init.el
+configurations/emacs/projects
+configurations/emacs/saveplace
+configurations/emacs/tramp
 
 # ZED
 configurations/zed/.tmp*
