@@ -109,6 +109,11 @@
           (const :tag "emacs" emacs))
   :group 'lm)
 
+(defcustom lm-ultra-scroll nil
+  "Wheter to use the ultra-scroll package for good mouse scrolling"
+  :type '(boolean)
+  :group 'lm)
+
 (defcustom lm-key-clues 'off
   "The framework to provide clues for keymaps"
   :type '(choice

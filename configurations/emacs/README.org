@@ -668,6 +668,11 @@ customizated that control which module should be loaded.
             (const :tag "emacs" emacs))
     :group 'lm)
 
+  (defcustom lm-ultra-scroll nil
+    "Wheter to use the ultra-scroll package for good mouse scrolling"
+    :type '(boolean)
+    :group 'lm)
+
   (defcustom lm-key-clues 'off
     "The framework to provide clues for keymaps"
     :type '(choice
@@ -1701,6 +1706,12 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-eglot)
 #+end_src
+** ultra-scroll
+#+begin_src emacs-lisp :tangle "lm-modules/lm-ultra-scroll.el"
+  (use-package ultra-scroll
+    :config
+    (ultra-scroll-mode))
+#+end_src
 ** completion
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
   (cond
@@ -1725,6 +1736,7 @@ To make eat works on Windows change those functions in eat.el
     :init
     (setq completion-ignore-case t)
     (add-to-list 'completion-at-point-functions 'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions 'cape-keyword)
     (add-to-list 'completion-at-point-functions 'cape-file)) 
 
   (provide 'lm-cape)
@@ -1788,6 +1800,12 @@ To make eat works on Windows change those functions in eat.el
 #+begin_src emacs-lisp :tangle "lm-modules/lm-builtin-completion.el"
   ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
   ;; check the customize page for capf
+
+  (when (>= emacs-major-version 30)
+    (use-package completion-preview
+      :config
+      (global-completion-preview-mode)))
+
   (setq completions-format 'horizontal) ;; alternatives are `horizontal', `vertical' and `one-column'
   (setq lm-action-complete-ptr #'completion-at-point)
   (setq completions-header-format nil)
