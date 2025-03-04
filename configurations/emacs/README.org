@@ -1267,6 +1267,8 @@ activated by the same custom variable.
   (cond
    ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
+  (if lm-ultra-scroll (require 'lm-ultra-scroll))
+
   ;; tree sitter
   (if lm-tree-sitter-langs (require 'lm-tree-sitter))
 
@@ -1709,8 +1711,11 @@ To make eat works on Windows change those functions in eat.el
 ** ultra-scroll
 #+begin_src emacs-lisp :tangle "lm-modules/lm-ultra-scroll.el"
   (use-package ultra-scroll
+    :vc (:url "https://github.com/jdtsmith/ultra-scroll"
+         :branch "main") 
     :config
     (ultra-scroll-mode))
+  (provide 'lm-ultra-scroll)
 #+end_src
 ** completion
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"

@@ -571,6 +571,8 @@ functions"
 (cond
  ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
+(if lm-ultra-scroll (require 'lm-ultra-scroll))
+
 ;; tree sitter
 (if lm-tree-sitter-langs (require 'lm-tree-sitter))
 
