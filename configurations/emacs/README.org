@@ -1253,40 +1253,41 @@ must in last instance be called in the same module (i.e. completion) and be
 activated by the same custom variable.
 
 #+begin_src emacs-lisp
-  ;; buildin packages
-  (require 'lm-dired)
-  (require 'lm-eshell)
-  (require 'lm-grep)
-  (require 'lm-org)
-  (require 'lm-modus-themes)
+    ;; buildin packages
+    (require 'lm-dired)
+    (require 'lm-eshell)
+    (require 'lm-grep)
+    (require 'lm-org)
+    (require 'lm-modus-themes)
 
-  ;; input mode
-  (cond
-   ((eq lm-input-mode 'evil) (require 'lm-evil)))
+    ;; input mode
+    (cond
+     ((eq lm-input-mode 'evil) (require 'lm-evil))
+     ((eq lm-input-mode 'emacs) (require 'lm-plain-keymaps)))
 
-  (cond
-   ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
+    (cond
+     ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
 
-  (if lm-ultra-scroll (require 'lm-ultra-scroll))
+    (if lm-ultra-scroll (require 'lm-ultra-scroll))
 
-  ;; tree sitter
-  (if lm-tree-sitter-langs (require 'lm-tree-sitter))
+    ;; tree sitter
+    (if lm-tree-sitter-langs (require 'lm-tree-sitter))
 
-  ;; completion
-  (if lm-capf-cape (require 'lm-cape))
-  (require 'lm-completion)
+    ;; completion
+    (if lm-capf-cape (require 'lm-cape))
+    (require 'lm-completion)
 
-  ;; terminal
-  (cond
-   ((eq lm-terminal-emulator 'eat) (require 'lm-eat)))
+    ;; terminal
+    (cond
+     ((eq lm-terminal-emulator 'eat) (require 'lm-eat)))
 
-  ;; lsp
-  (require 'lm-lsp)
+    ;; lsp
+    (require 'lm-lsp)
 
-  ;; my packages
-  (use-package lm-pomodoro)
-  (use-package lm-center-document)
-  (use-package lm-hold-directory)
+    ;; my packages
+    (use-package lm-pomodoro)
+    (use-package lm-center-document)
+    (use-package lm-hold-directory)
 #+end_src
 
 * Modules
@@ -1372,13 +1373,18 @@ use ripgrep as grep-find command
 #+end_src
 ** tree-sitter
 #+begin_src emacs-lisp :tangle "lm-modules/lm-tree-sitter.el"
-  (use-package tree-sitter-langs
-    :defer 1
-    :config (global-tree-sitter-mode t))
-
   (provide 'lm-tree-sitter)
 #+end_src
-** evil-mode
+** keymaps
+*** plain emacs keymaps
+#+begin_src emacs-lisp :tangle "lm-modules/lm-plain-keymaps.el"
+  (keymap-set global-map "M-1" 'lm-action-switch-to-tab-1)
+  (keymap-set global-map "M-2" 'lm-action-switch-to-tab-2)
+  (keymap-set global-map "M-3" 'lm-action-switch-to-tab-3)
+
+  (provide 'lm-plain-keymaps)
+#+end_src
+*** evil-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-evil.el"
   (defun lm-evil-personal-keymaps ()
     ;; ----------------------------- LEADER KEYMAPS ------------------------------

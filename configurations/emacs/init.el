@@ -566,7 +566,8 @@ functions"
 
 ;; input mode
 (cond
- ((eq lm-input-mode 'evil) (require 'lm-evil)))
+ ((eq lm-input-mode 'evil) (require 'lm-evil))
+ ((eq lm-input-mode 'emacs) (require 'lm-plain-keymaps)))
 
 (cond
  ((eq lm-key-clues 'which-key) (require 'lm-which-key)))
