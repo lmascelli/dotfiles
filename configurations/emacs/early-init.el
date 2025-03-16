@@ -1,14 +1,31 @@
-(defun lm-add-to-list (list element)
-  "Add to symbol of LIST the given ELEMENT.
-Simplified version of `add-to-list'."
-  (set list (cons element (symbol-value list))))
+;; Ensure that some built-in (e.g., org-mode) are always up to date
+(setq package-install-upgrade-built-in t)
 
-(mapc
- (lambda (var)
-   (lm-add-to-list var '(width . (text-pixels . 800)))
-   (lm-add-to-list var '(height . (text-pixels . 900)))
-   (lm-add-to-list var '(scroll-bar-width  . 10)))
- '(default-frame-alist initial-frame-alist))
+(defvar lm-emacs-package-initialize-and-refresh t
+  "Whether to automatically initialize and refresh packages.When set to
+           non-nil, Emacs will automatically call `package-initialize'
+           and `package-refresh-contents' to set up and update the
+           package system.")
+
+(setq package-enable-at-startup nil)
+(setq package-quickstart nil)
+(setq use-package-always-ensure nil)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("elpa-devel" . "https://elpa.gnu.org/devel/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
+(customize-set-variable 'package-archive-priorities '(("elpa" . 100)
+                                                      ("elpa-devel" . 101)
+                                                      ("gnu"    . 99)
+                                                      ("nongnu" . 80)
+                                                      ("stable" . 70)
+                                                      ("melpa"  . 0)))
+
+(defvar lm-emacs-debug nil 
+  "Non-nil to enable debug.")
 
 (defvar lm-emacs-ui-features '(context-menu)
   "List of user interface features to disable in minimal Emacs setup.
@@ -23,6 +40,40 @@ Simplified version of `add-to-list'."
     Each feature in the list corresponds to a specific UI component that can be
     turned on."
   )
+
+(defvar lm-emacs-user-directory user-emacs-directory
+  "The default value of the `user-emacs-directory' variable.")
+
+(setq custom-theme-directory
+      (expand-file-name "themes/" lm-emacs-user-directory))
+
+;; Add the folder of my cust lisp files and modules to the load-path
+(mapc (lambda (string)
+        (add-to-list 'load-path (concat lm-emacs-user-directory string)))
+      '("lm-lisp" "lm-modules" "lm-languages"))
+
+(setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
+
+;; This function load a file if exists
+(defun lm-emacs-load-user-init (filename)
+  "Execute a file of Lisp code named FILENAME."
+  (let ((user-init-file
+         (expand-file-name filename
+                           lm-emacs-user-directory)))
+    (when (file-exists-p user-init-file)
+      (load user-init-file nil t))))
+
+(defun lm-add-to-list (list element)
+  "Add to symbol of LIST the given ELEMENT.
+Simplified version of `add-to-list'."
+  (set list (cons element (symbol-value list))))
+
+(mapc
+ (lambda (var)
+   (lm-add-to-list var '(width . (text-pixels . 800)))
+   (lm-add-to-list var '(height . (text-pixels . 900)))
+   (lm-add-to-list var '(scroll-bar-width  . 10)))
+ '(default-frame-alist initial-frame-alist))
 
 (defvar lm-emacs-frame-title-format "%b – Emacs"
   "Template for displaying the title bar of visible and iconified frame.")
@@ -75,45 +126,6 @@ Simplified version of `add-to-list'."
 
 (defalias #'view-hello-file #'ignore)  ; Never show the hello file
 
-;; Ensure that some built-in (e.g., org-mode) are always up to date
-(setq package-install-upgrade-built-in t)
-
-(defvar lm-emacs-package-initialize-and-refresh t
-  "Whether to automatically initialize and refresh packages.When set to
-           non-nil, Emacs will automatically call `package-initialize' and
-           `package-refresh-contents' to set up and update the package
-           system.")
-
-(setq package-enable-at-startup nil)
-(setq package-quickstart nil)
-(setq use-package-always-ensure nil)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")
-                         ("elpa-devel" . "https://elpa.gnu.org/devel/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-
-(customize-set-variable 'package-archive-priorities '(("elpa" . 100)
-                                                      ("elpa-devel" . 101)
-                                                      ("gnu"    . 99)
-                                                      ("nongnu" . 80)
-                                                      ("stable" . 70)
-                                                      ("melpa"  . 0)))
-
-(defvar lm-emacs-user-directory user-emacs-directory
-  "The default value of the `user-emacs-directory' variable.")
-
-(setq custom-theme-directory
-      (expand-file-name "themes/" lm-emacs-user-directory))
-
-;; Add the folder of my cust lisp files and modules to the load-path
-(mapc (lambda (string)
-        (add-to-list 'load-path (concat lm-emacs-user-directory string)))
-      '("lm-lisp" "lm-modules" "lm-languages"))
-
-(setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
-
 ;;; increase garbage collector when load
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
@@ -131,9 +143,6 @@ Simplified version of `add-to-list'."
 
 ;; Prefer loading newer compiled files
 (setq load-prefer-newer t)
-
-(defvar lm-emacs-debug nil 
-  "Non-nil to enable debug.")
 
 ;; Reduce rendering/line scan work by not rendering cursors or regions in
 ;; non-focused windows.

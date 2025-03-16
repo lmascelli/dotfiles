@@ -151,16 +151,109 @@ msys-intl-8.dll
 find.exe
 to the emacs bin folder* COMMENT User defined stuff
 * Early init
+** Package management
+Configure /package.el/, the builtin package manager, disable it at startup and
+set up the packages archives and their priorities.
+
+#+begin_src emacs-lisp :tangle "early-init.el" 
+  ;; Ensure that some built-in (e.g., org-mode) are always up to date
+  (setq package-install-upgrade-built-in t)
+
+  (defvar lm-emacs-package-initialize-and-refresh t
+    "Whether to automatically initialize and refresh packages.When set to
+             non-nil, Emacs will automatically call `package-initialize'
+             and `package-refresh-contents' to set up and update the
+             package system.")
+
+  (setq package-enable-at-startup nil)
+  (setq package-quickstart nil)
+  (setq use-package-always-ensure nil)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/")
+                           ("gnu" . "https://elpa.gnu.org/packages/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")
+                           ("elpa-devel" . "https://elpa.gnu.org/devel/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
+  (customize-set-variable 'package-archive-priorities '(("elpa" . 100)
+                                                        ("elpa-devel" . 101)
+                                                        ("gnu"    . 99)
+                                                        ("nongnu" . 80)
+                                                        ("stable" . 70)
+                                                        ("melpa"  . 0)))
+
+#+end_src
+
+** Early init definitions
+Those symbols are mandatory to be defined because are used by other blocks and
+defining them in a separate block will allow to disable other blocks without
+causing errors.
+
+*** Debug
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (defvar lm-emacs-debug nil 
+    "Non-nil to enable debug.")
+#+end_src
+
+*** Ui features
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (defvar lm-emacs-ui-features '(context-menu)
+    "List of user interface features to disable in minimal Emacs setup.
+
+      This variable holds a list Emacs UI features that can be enabled:
+      - `context-menu`: Enables the context menu in graphical environments.
+      - `tool-bar`: Enables the tool bar in graphical environments.
+      - `menu-bar`: Enables the menu bar in graphical environments.
+      - `dialogs`: Enables both file dialogs and dialog boxes.
+      - `tooltips`: Enables tooltips.
+
+      Each feature in the list corresponds to a specific UI component that can be
+      turned on."
+    )
+#+end_src
+
+*** User files
+Set some useful paths:
+- the emacs config directory
+- the custom themes directory
+and add the /lm-lisp/ and /lm-modules/ directories to the load-path.
+
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (defvar lm-emacs-user-directory user-emacs-directory
+    "The default value of the `user-emacs-directory' variable.")
+
+  (setq custom-theme-directory
+        (expand-file-name "themes/" lm-emacs-user-directory))
+
+  ;; Add the folder of my cust lisp files and modules to the load-path
+  (mapc (lambda (string)
+          (add-to-list 'load-path (concat lm-emacs-user-directory string)))
+        '("lm-lisp" "lm-modules" "lm-languages"))
+
+  (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
+#+end_src
+
+*** Helper functions
+#+begin_src emacs-lisp :tangle "early-init.el"
+  ;; This function load a file if exists
+  (defun lm-emacs-load-user-init (filename)
+    "Execute a file of Lisp code named FILENAME."
+    (let ((user-init-file
+           (expand-file-name filename
+                             lm-emacs-user-directory)))
+      (when (file-exists-p user-init-file)
+        (load user-init-file nil t))))
+
+  (defun lm-add-to-list (list element)
+    "Add to symbol of LIST the given ELEMENT.
+  Simplified version of `add-to-list'."
+    (set list (cons element (symbol-value list))))
+#+end_src
 ** Windows frame
 The initial-frame-alist is about the first frame that is produced when starting
 Emacs. The default-frame-alist is for all frames after that.
 
 #+begin_src emacs-lisp :tangle "early-init.el"
-  (defun lm-add-to-list (list element)
-    "Add to symbol of LIST the given ELEMENT.
-  Simplified version of `add-to-list'."
-    (set list (cons element (symbol-value list))))
-
   (mapc
    (lambda (var)
      (lm-add-to-list var '(width . (text-pixels . 800)))
@@ -180,20 +273,6 @@ Enable or disable some UI features:
 - emacs welcome page
 
 #+begin_src emacs-lisp :tangle "early-init.el"
-  (defvar lm-emacs-ui-features '(context-menu)
-    "List of user interface features to disable in minimal Emacs setup.
-
-      This variable holds a list Emacs UI features that can be enabled:
-      - `context-menu`: Enables the context menu in graphical environments.
-      - `tool-bar`: Enables the tool bar in graphical environments.
-      - `menu-bar`: Enables the menu bar in graphical environments.
-      - `dialogs`: Enables both file dialogs and dialog boxes.
-      - `tooltips`: Enables tooltips.
-
-      Each feature in the list corresponds to a specific UI component that can be
-      turned on."
-    )
-
   (defvar lm-emacs-frame-title-format "%b – Emacs"
     "Template for displaying the title bar of visible and iconified frame.")
   (setq frame-title-format lm-emacs-frame-title-format
@@ -247,73 +326,6 @@ Enable or disable some UI features:
 
 #+end_src
 
-** Package management
-Configure /package.el/, the builtin package manager, disable it at startup and
-set up the packages archives and their priorities.
-
-#+begin_src emacs-lisp :tangle "early-init.el" 
-  ;; Ensure that some built-in (e.g., org-mode) are always up to date
-  (setq package-install-upgrade-built-in t)
-
-  (defvar lm-emacs-package-initialize-and-refresh t
-    "Whether to automatically initialize and refresh packages.When set to
-             non-nil, Emacs will automatically call `package-initialize' and
-             `package-refresh-contents' to set up and update the package
-             system.")
-
-  (setq package-enable-at-startup nil)
-  (setq package-quickstart nil)
-  (setq use-package-always-ensure nil)
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("melpa-stable" . "https://stable.melpa.org/packages/")
-                           ("gnu" . "https://elpa.gnu.org/packages/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")
-                           ("elpa-devel" . "https://elpa.gnu.org/devel/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-
-  (customize-set-variable 'package-archive-priorities '(("elpa" . 100)
-                                                        ("elpa-devel" . 101)
-                                                        ("gnu"    . 99)
-                                                        ("nongnu" . 80)
-                                                        ("stable" . 70)
-                                                        ("melpa"  . 0)))
-
-#+end_src
-
-** Load file
-This function load a file if exists
-
-#+begin_src emacs-lisp
-  (defun lm-emacs-load-user-init (filename)
-    "Execute a file of Lisp code named FILENAME."
-    (let ((user-init-file
-           (expand-file-name filename
-                             lm-emacs-user-directory)))
-      (when (file-exists-p user-init-file)
-        (load user-init-file nil t))))
-#+end_src
-
-** User files
-Set some useful paths:
-- the emacs config directory
-- the custom themes directory
-and add the /lm-lisp/ and /lm-modules/ directories to the load-path.
-
-#+begin_src emacs-lisp :tangle "early-init.el"
-  (defvar lm-emacs-user-directory user-emacs-directory
-    "The default value of the `user-emacs-directory' variable.")
-
-  (setq custom-theme-directory
-        (expand-file-name "themes/" lm-emacs-user-directory))
-
-  ;; Add the folder of my cust lisp files and modules to the load-path
-  (mapc (lambda (string)
-          (add-to-list 'load-path (concat lm-emacs-user-directory string)))
-        '("lm-lisp" "lm-modules" "lm-languages"))
-
-  (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
-#+end_src
-
 ** Garbage collector and process memory
 This does a lot of stuff that i don't know entirely. Basically it increases the
 garbage collector size when starting up and restore it when emacs has been
@@ -337,9 +349,6 @@ loaded and configure some others variables of emacs to increase it performance.
 
   ;; Prefer loading newer compiled files
   (setq load-prefer-newer t)
-
-  (defvar lm-emacs-debug nil 
-    "Non-nil to enable debug.")
 
   ;; Reduce rendering/line scan work by not rendering cursors or regions in
   ;; non-focused windows.
@@ -620,30 +629,6 @@ from the actual emacs config dir
     (setq name (concat "$" name))
     (eshell)
     (rename-buffer name))
-#+end_src
-*** Tree files in eshell
-#+begin_src emacs-lisp :tangle "init.el"
-  (defun lm-tree-dir (dir &optional prefix)
-    "Print a tree of files and directories starting from DIR."
-    (interactive "DDirectory: ")
-    (unless prefix (setq prefix ""))
-    (dolist (file (directory-files dir))
-      (unless (member file '("." ".."))
-        (let ((path (concat dir "/" file)))
-          (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
-          (when (file-directory-p path)
-            (lm-tree-dir path (concat prefix "  ")))))))
-
-  (defun lm-tree-current-dir ()
-    "Print a tree of the current directory."
-    (interactive)
-    (let ((buf (get-buffer-create "*Directory Tree*")))
-      (with-current-buffer buf
-        (read-only-mode -1)
-        (erase-buffer)
-        (lm-tree-dir default-directory)
-        (read-only-mode 1))
-      (display-buffer buf)))
 #+end_src
 ** Configuration files
 #+begin_src emacs-lisp :tangle "init.el"
@@ -1353,6 +1338,7 @@ use ripgrep as grep-find command
 #+begin_src emacs-lisp :tangle "lm-modules/lm-eshell.el"
   (setq eshell-hist-ignoredups 'erase)
   (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
+  (require 'lm-enhanced-eshell)
   (provide 'lm-eshell)
 #+end_src
 ** Org-mode
@@ -2041,4 +2027,30 @@ the normal behaviour.
       (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
 
   (provide 'lm-hold-directory)
+#+end_src
+** lm-enhanced-eshell
+#+begin_src emacs-lisp :tangle "lm-modules/lm-enhanced-eshell.el"
+  (defun lm-tree-dir (dir &optional prefix)
+    "Print a tree of files and directories starting from DIR."
+    (interactive "DDirectory: ")
+    (unless prefix (setq prefix ""))
+    (dolist (file (directory-files dir))
+      (unless (member file '("." ".."))
+        (let ((path (concat dir "/" file)))
+          (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
+          (when (file-directory-p path)
+            (lm-tree-dir path (concat prefix "  ")))))))
+
+  (defun lm-tree-current-dir ()
+    "Print a tree of the current directory."
+    (interactive)
+    (let ((buf (get-buffer-create "*Directory Tree*")))
+      (with-current-buffer buf
+        (read-only-mode -1)
+        (erase-buffer)
+        (lm-tree-dir default-directory)
+        (read-only-mode 1))
+      (display-buffer buf)))
+
+  (provide 'lm-enhanced-eshell)
 #+end_src
