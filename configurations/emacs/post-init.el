@@ -1,4 +1,4 @@
-(require 'lm-rust)
+;; (require 'lm-rust)
 
 (use-package olivetti
   :ensure t)
