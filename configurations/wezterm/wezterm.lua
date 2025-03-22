@@ -163,11 +163,11 @@ local keys = {
     mods = "CTRL",
     action = wezterm.action.DisableDefaultAssignment,
   },
-  {
-    key = "Backspace",
-    mods = "CTRL",
-    action = wezterm.action.SendKey { key = "Backspace", mods = "ALT"},
-  },
+  -- {
+  --   key = "Backspace",
+  --   mods = "CTRL",
+  --   action = wezterm.action.SendKey { key = "Backspace", mods = "ALT"},
+  -- },
   -- {
   --   key = "h",
   --   mods = "ALT",

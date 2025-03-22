@@ -150,8 +150,11 @@ msys-iconv-2.dll
 msys-intl-8.dll
 find.exe
 to the emacs bin folder* COMMENT User defined stuff
-* Early init
-** Package management
+
+* Elaborated one
+
+** Early init
+*** Package management
 Configure /package.el/, the builtin package manager, disable it at startup and
 set up the packages archives and their priorities.
 
@@ -184,18 +187,18 @@ set up the packages archives and their priorities.
 
 #+end_src
 
-** Early init definitions
+*** Early init definitions
 Those symbols are mandatory to be defined because are used by other blocks and
 defining them in a separate block will allow to disable other blocks without
 causing errors.
 
-*** Debug
+**** Debug
 #+begin_src emacs-lisp :tangle "early-init.el"
   (defvar lm-emacs-debug nil 
     "Non-nil to enable debug.")
 #+end_src
 
-*** Ui features
+**** Ui features
 #+begin_src emacs-lisp :tangle "early-init.el"
   (defvar lm-emacs-ui-features '(context-menu)
     "List of user interface features to disable in minimal Emacs setup.
@@ -212,7 +215,7 @@ causing errors.
     )
 #+end_src
 
-*** User files
+**** User files
 Set some useful paths:
 - the emacs config directory
 - the custom themes directory
@@ -233,7 +236,7 @@ and add the /lm-lisp/ and /lm-modules/ directories to the load-path.
   (setq custom-file (expand-file-name "custom.el" lm-emacs-user-directory))
 #+end_src
 
-*** Helper functions
+**** Helper functions
 #+begin_src emacs-lisp :tangle "early-init.el"
   ;; This function load a file if exists
   (defun lm-emacs-load-user-init (filename)
@@ -249,7 +252,7 @@ and add the /lm-lisp/ and /lm-modules/ directories to the load-path.
   Simplified version of `add-to-list'."
     (set list (cons element (symbol-value list))))
 #+end_src
-** Windows frame
+*** Windows frame
 The initial-frame-alist is about the first frame that is produced when starting
 Emacs. The default-frame-alist is for all frames after that.
 
@@ -262,7 +265,7 @@ Emacs. The default-frame-alist is for all frames after that.
    '(default-frame-alist initial-frame-alist))
 #+end_src
 
-** Ui features
+*** Ui features
 Enable or disable some UI features:
 - menu-bar-mode
 - tool-bar-mode
@@ -326,7 +329,7 @@ Enable or disable some UI features:
 
 #+end_src
 
-** Garbage collector and process memory
+*** Garbage collector and process memory
 This does a lot of stuff that i don't know entirely. Basically it increases the
 garbage collector size when starting up and restore it when emacs has been
 loaded and configure some others variables of emacs to increase it performance.
@@ -478,7 +481,7 @@ loaded and configure some others variables of emacs to increase it performance.
                        (emacs-init-time) gcs-done)))
 #+end_src
 
-** Language environment
+*** Language environment
 Set the language enviroment and all relate input methods to UTF-8
 
 #+begin_src emacs-lisp :tangle "early-init.el"
@@ -503,7 +506,7 @@ Set the language enviroment and all relate input methods to UTF-8
 
 #+end_src
 
-** Native compilation and Byte compilation
+*** Native compilation and Byte compilation
 Enable native compilation if possible and stops all the annoying warnings
 produced during compilation.
 
@@ -531,15 +534,15 @@ produced during compilation.
   (setq byte-compile-verbose lm-emacs-debug)
 #+end_src
 
-** Provide early-init
+*** Provide early-init
 Provides /early-init.el/ as a module.
 
 #+begin_src emacs-lisp :tangle "early-init.el"
   (provide 'early-init)
 #+end_src
-* Init
-** Callbacks and custom functions
-*** Callbacks
+** Init
+*** Callbacks and custom functions
+**** Callbacks
 those are variables that wrap some kind of action so that if a plugin
 need to override some default behaviour can ovverride this action and
 the whole ecosystem can be still coearent.
@@ -570,7 +573,7 @@ the whole ecosystem can be still coearent.
 
 #+end_src
 
-*** Inserting special characters for italian keyboard
+**** Inserting special characters for italian keyboard
 Tilde and grave accent are not present in italian keyboard but often used in
 rogramming so this function are a quick way to insert them in text
 
@@ -589,7 +592,7 @@ from the actual emacs config dir
     (interactive)
     (file-name-directory buffer-file-name))
 #+end_src
-*** Switching tabs
+**** Switching tabs
 #+begin_src emacs-lisp :tangle "init.el"
   (defun lm-action-switch-to-tab-1 ()
     (interactive)
@@ -601,25 +604,25 @@ from the actual emacs config dir
     (interactive)
     (tab-bar-select-tab 3))
 #+end_src
-*** Open literate config
+**** Open literate config
 #+begin_src emacs-lisp :tangle "init.el"
   (defun lm-open-literate-config ()
     (interactive)
     (find-file (concat lm-emacs-user-directory lm/literate-config-name)))
 #+end_src
-*** Open post-init.el
+**** Open post-init.el
 #+begin_src emacs-lisp :tangle "init.el"
   (defun lm-open-post-init ()
     (interactive)
     (find-file (concat lm-emacs-user-directory "post-init.el")))
 #+end_src
-*** Reload configuration
+**** Reload configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (defun lm-reload-config ()
     (interactive)
     (load (concat user-emacs-directory "init.el")))
 #+end_src
-*** Creating a new eshell buffer
+**** Creating a new eshell buffer
 #+begin_src emacs-lisp :tangle "init.el"
   (setq lm-current-eshell-counter 0)
 
@@ -630,13 +633,13 @@ from the actual emacs config dir
     (eshell)
     (rename-buffer name))
 #+end_src
-** Configuration files
+*** Configuration files
 #+begin_src emacs-lisp :tangle "init.el"
   (setq lm/literate-config-name "README.org")
   (setq lm/dot-dir (file-name-directory (directory-file-name lm-emacs-user-directory)))
   (setq lm/sound-dir (concat lm/dot-dir "sounds/"))
 #+end_src
-** Custom groups, options and modules
+*** Custom groups, options and modules
 The goal of this section is to declare custom variables that can be
 customizated that control which module should be loaded.
 
@@ -715,7 +718,7 @@ customizated that control which module should be loaded.
     :group 'lm)
 #+end_src
 
-** use-package
+*** use-package
 /use-package/ is a nice and useful package manager
 
 - the /use-package-always-ensure/ variable means that package not
@@ -745,7 +748,7 @@ customizated that control which module should be loaded.
 
 #+end_src
 
-*** diminish
+**** diminish
 *diminish* enable to hide minor-mode names from minibuffer.  To hide a
 minor-mode put `:diminish` in the use-package configuration of the
 mode package
@@ -755,8 +758,8 @@ mode package
     :ensure t)
 #+end_src
 
-** Editor behaviour
-*** Misc
+*** Editor behaviour
+**** Misc
 #+begin_src emacs-lisp
   ;; switch-to-buffer runs pop-to-buffer-same-window instead
   (setq switch-to-buffer-obey-display-actions t)
@@ -794,7 +797,7 @@ mode package
   (setq delete-by-moving-to-trash (not noninteractive))
 #+end_src
 
-*** Files
+**** Files
 #+begin_src emacs-lisp
   ;; Disable the warning "X and Y are the same file". Ignoring this warning is
   ;; acceptable since it will redirect you to the existing buffer regardless.
@@ -825,7 +828,7 @@ mode package
   (add-hook 'after-init-hook #'window-divider-mode)
 #+end_src
 
-*** Backup files
+**** Backup files
 #+begin_src emacs-lisp
   ;; Avoid generating backups or lockfiles to prevent creating world-readable
   ;; copies of files.
@@ -844,7 +847,7 @@ mode package
   (setq vc-make-backup-files nil)  ; Do not backup version controlled files
 #+end_src
 
-*** Auto save
+**** Auto save
 #+begin_src emacs-lisp
   ;; Enable auto-save to safeguard against crashes or data loss. The
   ;; `recover-file' or `recover-session' functions can be used to restore
@@ -865,7 +868,7 @@ mode package
   (setq kill-buffer-delete-auto-save-files t)
 #+end_src
 
-*** Auto revert
+**** Auto revert
 #+begin_src emacs-lisp
   ;; Auto-revert in Emacs is a feature that automatically updates the
   ;; contents of a buffer to reflect changes made to the underlying file
@@ -885,19 +888,19 @@ mode package
   ;;                                    (setq-local auto-revert-interval 10)))
 #+end_src
 
-*** Worspaces save
+**** Worspaces save
 #+begin_src emacs-lisp
   (setq desktop-path '((expand-file-name "desktop-saves") user-emacs-directory))
 #+end_src
 
-*** Automatic pairs mode
+**** Automatic pairs mode
 automatically insert the pair of some symbols like braces, parenthesis, etc...
 
 #+begin_src emacs-lisp
   (add-hook 'prog-mode-hook 'electric-pair-mode)
 #+end_src
 
-*** Y/n answers
+**** Y/n answers
 #+begin_src emacs-lisp
   ;; Allow for shorter responses: "y" for yes and "n" for no.
   (if (boundp 'use-short-answers)
@@ -905,7 +908,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
     (advice-add #'yes-or-no-p :override #'y-or-n-p))
 #+end_src
 
-*** Recent files
+**** Recent files
 #+begin_src emacs-lisp
   ;; `recentf' is an Emacs package that maintailinens a list of recently
   ;; accessed files, making it easier to reopen files you have worked on
@@ -914,7 +917,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq recentf-auto-cleanup 'mode)
 #+end_src
 
-*** Save place
+**** Save place
 #+begin_src emacs-lisp
   ;; `save-place-mode` enables Emacs to remember the last location within a file
   ;; upon reopening. This feature is particularly beneficial for resuming work at
@@ -924,7 +927,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (save-place-mode 1)
 #+end_src
 
-*** Save hist
+**** Save hist
 #+begin_src emacs-lisp
   ;; `savehist` is an Emacs feature that preserves the minibuffer history between
   ;; sessions. It saves the history of inputs in the minibuffer, such as commands,
@@ -942,7 +945,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (recentf-mode t)
 #+end_src
 
-*** Frames and windows
+**** Frames and windows
 #+begin_src emacs-lisp
   ;; Resizing the Emacs frame can be costly when changing the font. Disable this
   ;; to improve startup times with fonts larger than the system default.
@@ -958,7 +961,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq resize-mini-windows 'grow-only)
 #+end_src
 
-*** Scrolling
+**** Scrolling
 #+begin_src emacs-lisp
   ;; Enables faster scrolling through unfontified regions. This may result in
   ;; brief periods of inaccurate syntax highlighting immediately after scrolling,
@@ -973,7 +976,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq scroll-preserve-screen-position nil)
 #+end_src
 
-*** Mouse
+**** Mouse
 #+begin_src emacs-lisp
   ;; Emacs 29
   (when (memq 'context-menu lm-emacs-ui-features)
@@ -1003,7 +1006,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
         mouse-wheel-scroll-amount-horizontal 1)
 #+end_src
 
-*** Cursor
+**** Cursor
 #+begin_src emacs-lisp
   ;; The blinking cursor is distracting and interferes with cursor settings in
   ;; some minor modes that try to change it buffer-locally (e.g., Treemacs).
@@ -1019,7 +1022,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq x-stretch-cursor nil)
 #+end_src
 
-*** Annoyances
+**** Annoyances
 #+begin_src emacs-lisp
   ;; No beeping or blinking
   (setq visible-bell nil)
@@ -1031,7 +1034,7 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq delete-pair-blink-delay 0.03)
 #+end_src
 
-*** Indent and formatting
+**** Indent and formatting
 #+begin_src emacs-lisp
   (setq-default left-fringe-width  8)
   (setq-default right-fringe-width 8)
@@ -1091,13 +1094,13 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
   (setq lazy-highlight-initial-delay 0)
 #+end_src
 
-*** Completion
+**** Completion
 #+begin_src emacs-lisp
   (setq completion-ignore-case t)
   (setq read-file-name-completion-ignore-case t)
   (setq completion-auto-help t)
 #+end_src
-*** Remove dired buffers or those surrounded by * from cycling
+**** Remove dired buffers or those surrounded by * from cycling
 #+begin_src emacs-lisp
   (set-frame-parameter (selected-frame) 'buffer-predicate
                        (lambda (buf) 
@@ -1108,13 +1111,13 @@ automatically insert the pair of some symbols like braces, parenthesis, etc...
                             ((string-prefix-p "*" name) nil)
                             (t t)))))
 #+end_src
-*** Trust custom themes
+**** Trust custom themes
 To avoid to always trust the custom themes
 #+begin_src emacs-lisp
   (setq custom-safe-themes t)
 #+end_src
 
-*** Emacs started in terminal mode
+**** Emacs started in terminal mode
 #+begin_src emacs-lisp
   (unless (display-graphic-p)
     (xterm-mouse-mode))
@@ -1128,20 +1131,20 @@ To avoid to always trust the custom themes
    x-stretch-cursor t)
 #+end_src
 
-*** Wrap long lines
+**** Wrap long lines
 Wraps long lines displaying them in multiple ones.
 
 #+begin_src emacs-lisp :tangle "init.el"
   (global-visual-line-mode)
 #+end_src
 
-*** Hightlight current line
+**** Hightlight current line
 #+begin_src emacs-lisp :tangle "init.el"
   (if (display-graphic-p)
       (global-hl-line-mode))
 #+end_src
 
-*** Line numbering
+**** Line numbering
 Highlight the current line.
 Also display the relative line number except for the specified modes. There are two
 strategies for that: globally activate the lines numbering and disable it when
@@ -1179,7 +1182,7 @@ in the code below.
   (add-hook 'prog-mode-hook (lambda () (display-line-numbers-mode 1)))
 #+end_src
 
-*** Minibuffer
+**** Minibuffer
 #+begin_src emacs-lisp
   ;; Allow nested minibuffers
   (setq enable-recursive-minibuffers t)
@@ -1190,7 +1193,7 @@ in the code below.
                     minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
-*** Modeline
+**** Modeline
 #+begin_src emacs-lisp
   ;; Setting `display-time-default-load-average' to nil makes Emacs omit the load
   ;; average information from the mode line.
@@ -1201,19 +1204,19 @@ in the code below.
   (setq column-number-mode t)
 #+end_src
 
-*** Filetype
+**** Filetype
 #+begin_src emacs-lisp
   ;; Do not notify the user each time Python tries to guess the indentation offset
   (setq python-indent-guess-indent-offset-verbose nil)
 #+end_src
 
-*** Font / Text scale
+**** Font / Text scale
 #+begin_src emacs-lisp
   ;; Avoid automatic frame resizing when adjusting settings.
   (setq global-text-scale-adjust-resizes-frames nil)
 #+end_src
 
-*** COMMENT Tags
+**** COMMENT Tags
 I usually create a global TAGS file in the home directory that i update
 with the new tags i create in my projects and the tags of the stdlib of
 the languages i use. I want emacs to automatically look at that file so
@@ -1225,12 +1228,12 @@ i set the *tags-table-list* table to include also that file.
                 tags-table-list))
 #+end_src
 
-** Custom file
+*** Custom file
 #+begin_src emacs-lisp 
   (lm-emacs-load-user-init custom-file)
 #+end_src
 
-* Modules load section (still in init.el)
+** Modules load section (still in init.el)
 Here i load all the activated modules. I have to remember to add the appropriate
 section for each module i insert.
 As a rule, mutually exclusive packages (like different completion framework)
@@ -1275,8 +1278,8 @@ activated by the same custom variable.
     (use-package lm-hold-directory)
 #+end_src
 
-* Modules
-** Grep
+** Modules
+*** Grep
 use ripgrep as grep-find command
 #+begin_src emacs-lisp :tangle "lm-modules/lm-grep.el"
   (use-package grep
@@ -1287,7 +1290,7 @@ use ripgrep as grep-find command
      '("rg -n -H --no-heading -e  ." . 26)))
   (provide 'lm-grep)
 #+end_src
-** Dired
+*** Dired
 #+begin_src emacs-lisp :tangle "lm-modules/lm-dired.el"
   (use-package dired
     ;; :hook (dired-mode . dired-hide-details-mode)
@@ -1312,7 +1315,7 @@ use ripgrep as grep-find command
 
   (provide 'lm-dired)
 #+end_src
-** Dired-sidebar
+*** Dired-sidebar
 #+begin_src emacs-lisp :tangle "lm-modules/lm-dired-sidebar.el"
   (use-package dired-sidebar
     :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
@@ -1334,14 +1337,14 @@ use ripgrep as grep-find command
 
   (provide 'lm-dired-sidebar)
 #+end_src
-** Eshell
+*** Eshell
 #+begin_src emacs-lisp :tangle "lm-modules/lm-eshell.el"
   (setq eshell-hist-ignoredups 'erase)
   (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
   (require 'lm-enhanced-eshell)
   (provide 'lm-eshell)
 #+end_src
-** Org-mode
+*** Org-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-org.el"
   (use-package org
     :mode ("\\*.org" . org-mode)
@@ -1357,12 +1360,12 @@ use ripgrep as grep-find command
     (org-fold-catch-invisible-edits 'show))
   (provide 'lm-org)
 #+end_src
-** tree-sitter
+*** tree-sitter
 #+begin_src emacs-lisp :tangle "lm-modules/lm-tree-sitter.el"
   (provide 'lm-tree-sitter)
 #+end_src
-** keymaps
-*** plain emacs keymaps
+*** keymaps
+**** plain emacs keymaps
 #+begin_src emacs-lisp :tangle "lm-modules/lm-plain-keymaps.el"
   (keymap-set global-map "M-1" 'lm-action-switch-to-tab-1)
   (keymap-set global-map "M-2" 'lm-action-switch-to-tab-2)
@@ -1370,7 +1373,7 @@ use ripgrep as grep-find command
 
   (provide 'lm-plain-keymaps)
 #+end_src
-*** evil-mode
+**** evil-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-evil.el"
   (defun lm-evil-personal-keymaps ()
     ;; ----------------------------- LEADER KEYMAPS ------------------------------
@@ -1487,7 +1490,7 @@ use ripgrep as grep-find command
 
   (provide 'lm-evil)
 #+end_src
-** which-key
+*** which-key
 Which-key permits to display chords in a window at the bottom of the
 application when starting the sequence
 #+begin_src emacs-lisp :tangle "lm-modules/lm-which-key.el"
@@ -1501,7 +1504,7 @@ application when starting the sequence
 
   (provide 'lm-which-key)
 #+end_src
-** eat
+*** eat
 To make eat works on Windows change those functions in eat.el
 - eat--build-command before eat-exec function
 
@@ -1583,8 +1586,8 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-eat)
 #+end_src
-** Themes
-*** Modus theme
+*** Themes
+**** Modus theme
 #+begin_src emacs-lisp :tangle "lm-modules/lm-modus-themes.el"
   (use-package modus-themes
     :ensure t
@@ -1597,7 +1600,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-modus-themes)
 #+end_src
-*** Doom-themes
+**** Doom-themes
 #+begin_src emacs-lisp :tangle "lm-modules/lm-doom-themes.el"
   (use-package doom-themes
     :config
@@ -1612,7 +1615,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-doom-themes)
 #+end_src
-** lsp
+*** lsp
 #+begin_src emacs-lisp :tangle "lm-modules/lm-lsp.el"
   (cond
    ((eq lm-lsp-client 'lsp-mode) (require 'lm-lsp-mode))
@@ -1624,7 +1627,7 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-lsp)
 #+end_src
 
-*** lsp-mode
+**** lsp-mode
 #+begin_src emacs-lisp :tangle "lm-modules/lm-lsp-mode.el"
   (if (eq lm-lsp-client 'lsp-mode)
       (progn
@@ -1679,7 +1682,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-lsp-mode)
 #+end_src
-*** eglot
+**** eglot
 #+begin_src emacs-lisp :tangle "lm-modules/lm-eglot.el"
   (defun lm-eglot-mode-keymaps ()
     (cond ((eq lm-input-mode 'evil)
@@ -1700,16 +1703,25 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-eglot)
 #+end_src
-** ultra-scroll
+*** ultra-scroll
 #+begin_src emacs-lisp :tangle "lm-modules/lm-ultra-scroll.el"
   (use-package ultra-scroll
     :vc (:url "https://github.com/jdtsmith/ultra-scroll"
-         :branch "main") 
+         :rev :newest)
+    :init
+    (setq scroll-conservatively 101
+          scroll-margin 0)
     :config
     (ultra-scroll-mode))
   (provide 'lm-ultra-scroll)
 #+end_src
-** completion
+
+
+
+
+
+
+*** completion
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
   (cond
    ((eq lm-in-buffer-completion 'company)
@@ -1725,7 +1737,7 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-completion)
 #+end_src
 
-*** cape
+**** cape
 #+begin_src emacs-lisp :tangle "lm-modules/lm-cape.el"
   (use-package cape
     :ensure t
@@ -1738,7 +1750,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-cape)
 #+end_src
-*** company
+**** company
 #+begin_src emacs-lisp :tangle "lm-modules/lm-company.el"
   (if (eq lm-in-buffer-completion 'company)
       (use-package company
@@ -1766,7 +1778,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-company)
 #+end_src
-*** corfu
+**** corfu
 #+begin_src emacs-lisp :tangle "lm-modules/lm-corfu.el"
   (use-package corfu
     :ensure t
@@ -1793,7 +1805,7 @@ To make eat works on Windows change those functions in eat.el
 
   (provide 'lm-corfu)
 #+end_src
-*** only built-in
+**** only built-in
 #+begin_src emacs-lisp :tangle "lm-modules/lm-builtin-completion.el"
   ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
   ;; check the customize page for capf
@@ -1823,8 +1835,8 @@ To make eat works on Windows change those functions in eat.el
   (provide 'lm-builtin-completion)
 #+end_src
 
-** Snippets
-*** yasnippet
+*** Snippets
+**** yasnippet
 #+begin_src emacs-lisp :tangle "lm-modules/lm-yasnippet.el"
   (use-package yasnippet
     :ensure t
@@ -1842,7 +1854,7 @@ To make eat works on Windows change those functions in eat.el
     :after yasnippet)
 #+end_src
 
-** olivetti
+*** olivetti
 This is a nice package for zen mode editing
 #+begin_src emacs-lisp :tangle "lm-modules/lm-olivetti.el"
   (use-package olivetti
@@ -1859,7 +1871,7 @@ This is a nice package for zen mode editing
                                     (display-fill-column-indicator-mode 0))))
 #+end_src
 
-* Source post-init.el
+** Source post-init.el
 The /post-init.el/ is file is where should be located the machine
 dependent customization done after the main initialization has been
 done. This file is not updated in the git repository.
@@ -1868,9 +1880,9 @@ done. This file is not updated in the git repository.
   (lm-emacs-load-user-init "post-init.el")
 #+end_src
 
-* Programming languages
-*** C/C++
-**** Windows clangd with MSys2/Mingw-w64
+** Programming languages
+**** C/C++
+***** Windows clangd with MSys2/Mingw-w64
 On Windows, when using MSys2-Mingw-64 to compile and clangd as LSP a per project
 configuration file named /.clangd/ or a global one named
 /~\AppData\Local\clangd\config.yaml/ is required. 
@@ -1880,7 +1892,7 @@ The content of the file must be
   CompileFlags:
   Add: [-target, x86_64-pc-windows-gnu]
 #+end_src
-**** cmake
+***** cmake
 #+begin_src emacs-lisp :tangle "lm-languages/cmake.el"
   (use-package cmake-mode
     :ensure t
@@ -1888,7 +1900,7 @@ The content of the file must be
   (provide 'lm-cmake)
 #+end_src
 
-*** Arduino
+**** Arduino
 #+begin_src emacs-lisp :tangle "lm-languages/lm-arduino.el"
   (add-to-list 'auto-mode-alist '("\\.ino\\'" .
                                   (lambda ()
@@ -1902,14 +1914,14 @@ The content of the file must be
                                             (concat "--query-driver=" (getenv-internal "HOME") "/.platformio/packages/toolchain-atmelavr/bin/avr-g++"))))))
   (provide 'lm-arduino)
 #+end_src
-*** Rust
+**** Rust
 This will activate the rust treesitter mode for rust files. However it could be necessary to install the treesitter library for rust.
 With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* that will download and compile the needed library.
 #+begin_src emacs-lisp :tangle "lm-languages/lm-rust.el"
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
   (provide 'lm-rust)
 #+end_src
-*** Powershell
+**** Powershell
 #+begin_src emacs-lisp :tangle "lm-languages/lm-powershell.el"
   (use-package powershell    
     :ensure t
@@ -1923,7 +1935,7 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :after org)
 #+end_src
 
-*** MATLAB
+**** MATLAB
 #+begin_src emacs-lisp :tangle "lm-languages/lm-matlab.el"
   (use-package matlab-mode
     :ensure t
@@ -1931,7 +1943,7 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :mode ("\\.m\\'" . matlab-mode))
 #+end_src
 
-*** wgsl 
+**** wgsl 
 #+begin_src emacs-lisp :tangle "lm-languages/lm-matlab.el"
   (use-package wgsl-mode
     :ensure t
@@ -1939,7 +1951,7 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :mode ("\\.wgsl\\'" . wgsl-mode))
 #+end_src
 
-* My packages
+** My packages
 ** lm-mode-line
 I'm trying to create a more essential and polished modeline
 #+begin_src emacs-lisp :tangle "lm-lisp/lm-modeline.el"
@@ -2053,4 +2065,68 @@ the normal behaviour.
       (display-buffer buf)))
 
   (provide 'lm-enhanced-eshell)
+#+end_src
+* COMMENT Simple one
+Heavily inspired (copied) by emacs-solo of LionyxML
+** Early init
+*** garbage collector
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (setq gc-cons-threshold most-positive-fixnum
+        gc-cons-percentage 0.6)
+#+end_src
+*** avoid startup flash
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (defun emacs-solo/avoid-initial-flash-of-light ()
+    "Avoid flash of light when starting Emacs."
+    (setq mode-line-format nil))
+  (emacs-solo/avoid-initial-flash-of-light)
+#+end_src
+*** Better Window Management handling
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (setq frame-resize-pixelwise t
+        frame-inhibit-implied-resize t
+        frame-title-format '("Emacs"))
+
+  (setq inhibit-compacting-font-caches t)
+#+end_src
+*** Disables unused UI Elements
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+#+end_src
+*** font resizing at startup
+Resizing the Emacs frame can be a terribly expensive part of changing the font.
+By inhibiting this, we easily halve startup times with fonts that are larger
+than the system default.
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (setq frame-inhibit-implied-resize t
+        frame-resize-pixelwise t)
+#+end_src
+*** provide early-init
+#+begin_src emacs-lisp :tangle "early-init.el"
+  (provide 'early-init) 
+#+end_src
+** Init
+*** start emacs configuration
+#+begin_src emacs-lisp :tangle "init.el"
+  (use-package emacs
+#+end_src
+*** key binding
+#+begin_src emacs-lisp :tangle "init.el"
+  :bind
+  (("C-z" . nil)
+   ("C-x C-z" . nil))
+#+end_src
+*** setq symbols
+#+begin_src emacs-lisp :tangle "init.el"
+  :custom
+  (completion-ignore-case t)
+  (inhibit-startup-message t)
+  (initial-scratch-message "")
+#+end_src
+*** end emacs configuration
+#+begin_src emacs-lisp :tangle "init.el"
+  )
 #+end_src
