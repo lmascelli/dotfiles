@@ -15,6 +15,7 @@ configurations/emacs/elpa/
 configurations/emacs/eshell/history
 configurations/emacs/eshell/lastdir
 configurations/emacs/desktop-saves/*
+configurations/emacs/games/
 configurations/emacs/lm-languages
 configurations/emacs/lm-lisp
 configurations/emacs/lm-modules
@@ -25,9 +26,12 @@ configurations/emacs/transient/
 configurations/emacs/tutorial/
 configurations/emacs/url/
 
+configurations/emacs/.emacs.desktop.lock
 configurations/emacs/.lsp-session-v*
 configurations/emacs/recentf
+configurations/emacs/recentf.eld
 configurations/emacs/emacs-custom.el
+configurations/emacs/custom.vars.el
 configurations/emacs/custom.el
 configurations/emacs/history
 configurations/emacs/history.eld

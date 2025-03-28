@@ -25,7 +25,11 @@
   ;; COMPLETION
   (completion-ignore-case t)
   (completions-detailed t)
-  (completions-format 'one-column)
+  (completions-max-height 20)
+  (completion-styles '(partial-completion flex initials))
+  (completions-format 'vertical)
+  (completion-show-help t)
+  (global-completion-preview-mode 1)
 
   ;; MODELINE
   (column-number-mode 1)
@@ -205,10 +209,6 @@ Stole from aweshell"
 (use-package minibuffer
   :ensure nil
   :custom
-  (completion-styles '(partial-completion flex initials))
-  (completions-format 'vertical)
-  (completion-ignore-case t)
-  (completion-show-help t)
   ;; (completion-auto-select t) ;; only turn this on if not using icomplete
   (enable-recursive-minibuffers t)
   (read-file-name-completion-ignore-case t)
@@ -249,19 +249,24 @@ Stole from aweshell"
 
    ;; Org styling, hide markup etc.
    org-hide-emphasis-markers t
-   org-pretty-entities t
-
-  ;; Ellipsis styling
-  (setq org-ellipsis " ▼ ")
-  (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)))
+   org-pretty-entities t))
 
 (use-package rust-ts-mode
   :ensure rust-ts-mode
   :mode "\\.rs\\'"
-  :defer 't
+  :defer t
   :custom
   (rust-indent-level 2)
   :config
   (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "master" "src")))
+
+(use-package cape
+    :ensure t
+    :defer nil
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions 'cape-keyword)
+    (add-to-list 'completion-at-point-functions 'cape-file))
 
 (provide 'init)

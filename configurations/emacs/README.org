@@ -7,7 +7,8 @@ Here are the configuration i took from to build mine:
 - /minimal-emacs.d/ configuration of jamescherti https://github.com/jamescherti/minimal-emacs.d
 - the excellent [[https://protesilaos.com/emacs/dotemacs][config]] of Protesilaos Stavrou
 - the very instructive [[https://github.com/daviwil/dotfiles/blob/master/Emacs.org][config]] of David Wilson
-
+- the well made emacs-solo of LionyxML https://github.com/LionyxML/emacs-solo
+ 
 * Setup
 ** Install emacs
 Emacs can both be installed from a package manager or built from sources.
@@ -152,7 +153,6 @@ find.exe
 to the emacs bin folder* COMMENT User defined stuff
 
 * COMMENT Elaborated one
-
 ** Early init
 *** Package management
 Configure /package.el/, the builtin package manager, disable it at startup and
@@ -215,7 +215,7 @@ causing errors.
     )
 #+end_src
 
-**** User files
+**** Useqr files
 Set some useful paths:
 - the emacs config directory
 - the custom themes directory
@@ -1719,8 +1719,6 @@ To make eat works on Windows change those functions in eat.el
 
 
 
-
-
 *** completion
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
   (cond
@@ -1807,32 +1805,32 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 **** only built-in
 #+begin_src emacs-lisp :tangle "lm-modules/lm-builtin-completion.el"
-  ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
-  ;; check the customize page for capf
+    ;; TODO hints dabbrev-complete (f), completion-at-point-functions (v)
+    ;; check the customize page for capf
 
-  (when (>= emacs-major-version 30)
-    (use-package completion-preview
-      :config
-      (global-completion-preview-mode)))
+    (when (>= emacs-major-version 30)
+      (use-package completion-preview
+        :config
+        (global-completion-preview-mode)))
 
-  (setq completions-format 'horizontal) ;; alternatives are `horizontal', `vertical' and `one-column'
-  (setq lm-action-complete-ptr #'completion-at-point)
-  (setq completions-header-format nil)
-  (setq completions-max-height 20)
-  (setq completion-auto-select nil)
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+    (setq completions-format 'horizontal) ;; alternatives are `horizontal', `vertical' and `one-column'
+    (setq lm-action-complete-ptr #'completion-at-point)
+    (setq completions-header-format nil)
+    (setq completions-max-height 20)
+    (setq completion-auto-select nil)
+    (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+    (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 
-  (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-    (interactive "P")
-    (with-minibuffer-completions-window
-      (let ((completion-use-base-affixes nil))
-        (choose-completion nil no-exit no-quit))))
+    (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+      (interactive "P")
+      (with-minibuffer-completions-window
+        (let ((completion-use-base-affixes nil))
+          (choose-completion nil no-exit no-quit))))
 
-  (setq lm-action-complete-ptr #'completion-at-point)
-  (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
+    (setq lm-action-complete-ptr #'completion-at-point)
+    (define-key completion-in-region-mode-map (kbd "M-RET") 'my/minibuffer-choose-completion)
 
-  (provide 'lm-builtin-completion)
+    (provide 'lm-builtin-completion)
 #+end_src
 
 *** Snippets
@@ -1951,123 +1949,7 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
     :mode ("\\.wgsl\\'" . wgsl-mode))
 #+end_src
 
-** My packages
-** lm-mode-line
-I'm trying to create a more essential and polished modeline
-#+begin_src emacs-lisp :tangle "lm-lisp/lm-modeline.el"
-
-  (provide lm-mode-line)
-#+end_src
-
-** lm-pomodoro
-#+begin_src emacs-lisp :tangle "lm-lisp/lm-pomodoro.el"
-  (defun lm-pomodoro ()
-    (interactive)
-    (require 'org-element)
-    (setq org-clock-sound (concat lm/sound-dir "bell.wav"))
-    (unless (boundp 'lm/pomodoro-state)
-      (setq lm/pomodoro-state 0))
-    (let ((time-work "00:25:00")
-          (time-pause "00:05:00"))
-      (org-timer-set-timer
-       (cond
-        ((= (mod lm/pomodoro-state 2) 0) time-work)
-        ((= (mod lm/pomodoro-state 3) 0) time-work)
-        (t time-pause)))
-      (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
-
-  (provide 'lm-pomodoro)
-#+end_src						
-
-** lm-center-mode
-This module is heavily inspired from David Wilson center-document-mode. Look at it
-in his literate configuration file.
-#+begin_src emacs-lisp :tangle "lm-modules/lm-center-document.el"
-  (defcustom lm-center-document-desired-width 90
-    "Width of the centered line in lm-centered-mode"
-    :type '(integer)
-    :group 'lm)
-
-  (defun lm-center-document--adjust-margins ()
-    ;; Reset margins first before recalculating
-    (set-window-parameter nil 'min-margins nil)
-    (set-window-margins nil nil)
-
-    ;; Adjust margins if the mode is on
-    (when lm-center-document-mode
-      (let ((margin-width (max 0
-                               (truncate
-                                (/ (- (window-width)
-                                      lm-center-document-desired-width)
-                                   2.0)))))
-        (when (> margin-width 0)
-          (set-window-parameter nil 'min-margins '(0 . 0))
-          (set-window-margins nil margin-width margin-width)))))
-
-  (define-minor-mode lm-center-document-mode
-    "Toggle centered text layout in the current buffer."
-    :lighter " Centered"
-    :group 'editing
-    (if lm-center-document-mode
-        (add-hook 'window-configuration-change-hook #'lm-center-document--adjust-margins 'append 'local)
-      (remove-hook 'window-configuration-change-hook #'lm-center-document--adjust-margins 'local))
-    (lm-center-document--adjust-margins))
-
-  (provide 'lm-center-document)
-
-#+end_src
-** lm-hold-directory
-Sometimes i prefer that opening a new buffer does not change the current
-working directory to the buffer file path. So this function lock the
-current working directory and reset it to the held value after a file is
-opened. If called again it release the current working directory to
-the normal behaviour.
-
-#+begin_src emacs-lisp :tangle "lm-modules/lm-hold-directory.el"
-  (defvar lm-held-directory nil
-    "The directory being held has default-directory. If nil no directory is being
-  hold. This variable is used by the `lm-toggle-hold-cwd' function.")
-
-  (defun lm-toggle-hold-cwd ()
-    (interactive)
-    (setq lm-held-directory (unless lm-held-directory default-directory))
-    (dolist (hook
-             '(find-file-hook
-               window-buffer-change-functions
-               dired-mode-hook
-               ))
-      (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
-
-  (provide 'lm-hold-directory)
-#+end_src
-** lm-enhanced-eshell
-#+begin_src emacs-lisp :tangle "lm-modules/lm-enhanced-eshell.el"
-  (defun lm-tree-dir (dir &optional prefix)
-    "Print a tree of files and directories starting from DIR."
-    (interactive "DDirectory: ")
-    (unless prefix (setq prefix ""))
-    (dolist (file (directory-files dir))
-      (unless (member file '("." ".."))
-        (let ((path (concat dir "/" file)))
-          (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
-          (when (file-directory-p path)
-            (lm-tree-dir path (concat prefix "  ")))))))
-
-  (defun lm-tree-current-dir ()
-    "Print a tree of the current directory."
-    (interactive)
-    (let ((buf (get-buffer-create "*Directory Tree*")))
-      (with-current-buffer buf
-        (read-only-mode -1)
-        (erase-buffer)
-        (lm-tree-dir default-directory)
-        (read-only-mode 1))
-      (display-buffer buf)))
-
-  (provide 'lm-enhanced-eshell)
-#+end_src
 * Simple one
-Heavily inspired (copied) by emacs-solo of LionyxML
 ** Early init
 *** garbage collector
 #+begin_src emacs-lisp :tangle "early-init.el"
@@ -2081,7 +1963,7 @@ Heavily inspired (copied) by emacs-solo of LionyxML
     (setq mode-line-format nil))
   (emacs-solo/avoid-initial-flash-of-light)
 #+end_src
-*** Better Window Management handling
+*** better Window Management handling
 #+begin_src emacs-lisp :tangle "early-init.el"
   (setq frame-resize-pixelwise t
         frame-inhibit-implied-resize t
@@ -2089,7 +1971,7 @@ Heavily inspired (copied) by emacs-solo of LionyxML
 
   (setq inhibit-compacting-font-caches t)
 #+end_src
-*** Disables unused UI Elements
+*** disables unused UI Elements
 #+begin_src emacs-lisp :tangle "early-init.el"
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
@@ -2104,12 +1986,19 @@ than the system default.
   (setq frame-inhibit-implied-resize t
         frame-resize-pixelwise t)
 #+end_src
+*** add custom directories to load-path
+#+begin_src emacs-lisp :tangle "early-init.el"
+  ;; Add the folder of my cust lisp files and modules to the load-path
+  (mapc (lambda (string)
+          (add-to-list 'load-path (concat user-emacs-directory string)))
+        '("lm-lisp" "lm-modules" "lm-languages"))
+#+end_src
 *** provide early-init
 #+begin_src emacs-lisp :tangle "early-init.el"
   (provide 'early-init) 
 #+end_src
 ** Init
-*** start emacs configuration
+*** emacs configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package emacs
     :bind
@@ -2138,16 +2027,18 @@ than the system default.
     ;; COMPLETION
     (completion-ignore-case t)
     (completions-detailed t)
-    (completions-format 'one-column)
+    (completions-max-height 20)
+    (completion-styles '(partial-completion flex initials))
+    (completions-format 'vertical)
+    (completion-show-help t)
+    (global-completion-preview-mode 1)
 
     ;; MODELINE
     (column-number-mode 1)
     
-    ;; MINIBUFFER
-    (enable-recursive minibuffers t)
-    
     ;; FRAME BEHAVIOUR
     (frame-resize-pixelwise t)
+    (frame-inhibit-implied-resize t)  ;; Without this, Emacs will try to resize itself to a specific column size
     
     ;; WINDOW BEHAVIUOR
     (window-resize-pixelwise nil)    
@@ -2155,14 +2046,11 @@ than the system default.
     (split-width-threshold 170)     ; So vertical splits are preferred
     (split-height-threshold nil)
     
-    ;; STARTUP
-    (inhibit-startup-message t)
-    (initial-scratch-message "")
-
     ;; HISTORY AND BACKUP FILES
     (recentf-max-saved-items 300) ; default is 20
     (recentf-max-menu-items 15)
     (history-length 300)
+    (history-delete-duplicates t)
     (create-lockfiles nil)   ; No backup files
     (make-backup-files nil)  ; No backup files
     (backup-inhibited t)     ; No backup files
@@ -2178,6 +2066,10 @@ than the system default.
     (delete-by-moving-to-trash t)
     (remote-file-name-inhibit-delete-by-moving-to-trash t)
 
+    ;; SYMLINK MANAGEMENT
+    (find-file-visit-truename t)
+    (vc-follow-symlinks t)
+    
     ;; GREP
     (xref-search-program 'ripgrep)
     (grep-command "rg -nS --no-heading ")
@@ -2188,10 +2080,6 @@ than the system default.
     ;; won't ask for encoding (because undecided-unix) every single keystroke
     (modify-coding-system-alist 'file "" 'utf-8)
 
-    ;; Save manual customizations to other file than init.el
-    (setq custom-file (locate-user-emacs-file "custom-vars.el"))
-    (load custom-file 'noerror 'nomessage)
-    
     ;; Set line-number-mode with relative numbering
     (setq display-line-numbers-type 'relative)
     (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -2214,6 +2102,10 @@ than the system default.
                 (let ((private-file (expand-file-name "post-init.el" user-emacs-directory)))
   				(when (file-exists-p private-file)
                     (load private-file)))))
+
+    ;; Save manual customizations to other file than init.el
+    (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+    (load custom-file 'noerror 'nomessage)
 
     :init
     (global-auto-revert-mode 1)
@@ -2328,10 +2220,6 @@ than the system default.
   (use-package minibuffer
     :ensure nil
     :custom
-    (completion-styles '(partial-completion flex initials))
-    (completions-format 'vertical)
-    (completion-ignore-case t)
-    (completion-show-help t)
     ;; (completion-auto-select t) ;; only turn this on if not using icomplete
     (enable-recursive-minibuffers t)
     (read-file-name-completion-ignore-case t)
@@ -2376,24 +2264,177 @@ than the system default.
 
      ;; Org styling, hide markup etc.
      org-hide-emphasis-markers t
-     org-pretty-entities t
-
-    ;; Ellipsis styling
-    (setq org-ellipsis " ▼ ")
-    (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)))
+     org-pretty-entities t))
 #+end_src
 *** treesitter languages configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package rust-ts-mode
     :ensure rust-ts-mode
     :mode "\\.rs\\'"
-    :defer 't
+    :defer t
     :custom
     (rust-indent-level 2)
     :config
     (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "master" "src")))
 #+end_src
+*** cape configuration
+#+begin_src emacs-lisp :tangle "init.el"
+(use-package cape
+    :ensure t
+    :defer nil
+    :init
+    (setq completion-ignore-case t)
+    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
+    (add-to-list 'completion-at-point-functions 'cape-keyword)
+    (add-to-list 'completion-at-point-functions 'cape-file))
+#+end_src
 *** provide init
 #+begin_src emacs-lisp :tangle "init.el"
   (provide 'init)
+#+end_src
+* My packages
+** lm-utils
+#+begin_src emacs-lisp :tangle "lm-lisp/lm-utils.el"
+  ;; TODO change the name of this function or get rid of it because it
+  ;; just gives the name of the directory of the current buffer.
+  (defun lm-get-dotfiles-dir ()
+    (interactive)
+    (file-name-directory (directory-file-name
+  						(file-name-directory (directory-file-name
+  											  (file-truename
+  											   user-emacs-directory))))))
+
+  (lm-get-dotfiles-dir)
+
+  (defun lm-open-literate-config ()
+    (interactive)
+    (find-file (concat user-emacs-directory "README.org")))
+
+  (defun lm-open-post-init ()
+    (interactive)
+    (find-file (concat user-emacs-directory "post-init.el")))
+
+  (provide 'lm-utils)
+#+end_src
+** lm-mode-line
+I'm trying to create a more essential and polished modeline
+#+begin_src emacs-lisp :tangle "lm-lisp/lm-modeline.el"
+
+  (provide lm-mode-line)
+#+end_src
+** lm-pomodoro
+#+begin_src emacs-lisp :tangle "lm-lisp/lm-pomodoro.el"
+  (defun lm-pomodoro ()
+    (interactive)
+    (require 'org-element)
+    (setq org-clock-sound (concat (lm-get-dotfiles-dir) "share/sounds/bell.wav"))
+    (unless (boundp 'lm/pomodoro-state)
+      (setq lm/pomodoro-state 0))
+    (let ((time-work "00:25:00")
+          (time-pause "00:05:00"))
+      (org-timer-set-timer
+       (cond
+        ((= (mod lm/pomodoro-state 2) 0) time-work)
+        ((= (mod lm/pomodoro-state 3) 0) time-work)
+        (t time-pause)))
+      (setq lm/pomodoro-state (+ lm/pomodoro-state 1))))
+
+  (provide 'lm-pomodoro)
+#+end_src						
+
+** lm-center-mode
+This module is heavily inspired from David Wilson center-document-mode. Look at it
+in his literate configuration file.
+#+begin_src emacs-lisp :tangle "lm-modules/lm-center-document.el"
+  (defcustom lm-center-document-desired-width 90
+    "Width of the centered line in lm-centered-mode"
+    :type '(integer)
+    :group 'lm)
+
+  (defun lm-center-document--adjust-margins ()
+    ;; Reset margins first before recalculating
+    (set-window-parameter nil 'min-margins nil)
+    (set-window-margins nil nil)
+
+    ;; Adjust margins if the mode is on
+    (when lm-center-document-mode
+      (let ((margin-width (max 0
+                               (truncate
+                                (/ (- (window-width)
+                                      lm-center-document-desired-width)
+                                   2.0)))))
+        (when (> margin-width 0)
+          (set-window-parameter nil 'min-margins '(0 . 0))
+          (set-window-margins nil margin-width margin-width)))))
+
+  (define-minor-mode lm-center-document-mode
+    "Toggle centered text layout in the current buffer."
+    :lighter " Centered"
+    :group 'editing
+    (if lm-center-document-mode
+        (add-hook 'window-configuration-change-hook #'lm-center-document--adjust-margins 'append 'local)
+      (remove-hook 'window-configuration-change-hook #'lm-center-document--adjust-margins 'local))
+    (lm-center-document--adjust-margins))
+
+  (provide 'lm-center-document)
+
+#+end_src
+** lm-hold-directory
+Sometimes i prefer that opening a new buffer does not change the current
+working directory to the buffer file path. So this function lock the
+current working directory and reset it to the held value after a file is
+opened. If called again it release the current working directory to
+the normal behaviour.
+
+#+begin_src emacs-lisp :tangle "lm-modules/lm-hold-directory.el"
+  (defvar lm-held-directory nil
+    "The directory being held has default-directory. If nil no directory is being
+  hold. This variable is used by the `lm-toggle-hold-cwd' function.")
+
+  (defun lm-toggle-hold-cwd ()
+    (interactive)
+    (setq lm-held-directory (unless lm-held-directory default-directory))
+    (dolist (hook
+             '(find-file-hook
+               window-buffer-change-functions
+               dired-mode-hook
+               ))
+      (add-hook hook #'(lambda () (if lm-held-directory (cd lm-held-directory))))))
+
+  (provide 'lm-hold-directory)
+#+end_src
+** lm-enhanced-eshell
+#+begin_src emacs-lisp :tangle "lm-modules/lm-enhanced-eshell.el"
+  (setq lm-current-eshell-counter 0)
+
+  (defun lm-make-eshell (name)
+    "Create a new eshell buffer named NAME."
+    (interactive "sName: ")
+    (setq name (concat "$" name))
+    (eshell)
+    (rename-buffer name))
+  
+  (defun lm-tree-dir (dir &optional prefix)
+    "Print a tree of files and directories starting from DIR."
+    (interactive "DDirectory: ")
+    (unless prefix (setq prefix ""))
+    (dolist (file (directory-files dir))
+      (unless (member file '("." ".."))
+        (let ((path (concat dir "/" file)))
+          (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
+          (when (file-directory-p path)
+            (lm-tree-dir path (concat prefix "  ")))))))
+
+  (defun lm-tree-current-dir ()
+    "Print a tree of the current directory."
+    (interactive)
+    (let ((buf (get-buffer-create "*Directory Tree*")))
+      (with-current-buffer buf
+        (read-only-mode -1)
+        (erase-buffer)
+        (lm-tree-dir default-directory)
+        (read-only-mode 1))
+      (display-buffer buf)))
+
+  (provide 'lm-enhanced-eshell)
 #+end_src

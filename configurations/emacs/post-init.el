@@ -7,3 +7,5 @@
 ;; (add-hook 'python-mode-hook 'eglot-ensure)
 
 (fido-vertical-mode)
+(global-hl-line-mode 1)
+(use-package lm-utils)
