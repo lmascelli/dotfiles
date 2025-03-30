@@ -34,11 +34,9 @@
   ;; MODELINE
   (column-number-mode 1)
   
-  ;; MINIBUFFER
-  (enable-recursive minibuffers t)
-  
   ;; FRAME BEHAVIOUR
   (frame-resize-pixelwise t)
+  (frame-inhibit-implied-resize t)  ;; Without this, Emacs will try to resize itself to a specific column size
   
   ;; WINDOW BEHAVIUOR
   (window-resize-pixelwise nil)    
@@ -46,14 +44,11 @@
   (split-width-threshold 170)     ; So vertical splits are preferred
   (split-height-threshold nil)
   
-  ;; STARTUP
-  (inhibit-startup-message t)
-  (initial-scratch-message "")
-
   ;; HISTORY AND BACKUP FILES
   (recentf-max-saved-items 300) ; default is 20
   (recentf-max-menu-items 15)
   (history-length 300)
+  (history-delete-duplicates t)
   (create-lockfiles nil)   ; No backup files
   (make-backup-files nil)  ; No backup files
   (backup-inhibited t)     ; No backup files
@@ -69,6 +64,10 @@
   (delete-by-moving-to-trash t)
   (remote-file-name-inhibit-delete-by-moving-to-trash t)
 
+  ;; SYMLINK MANAGEMENT
+  (find-file-visit-truename t)
+  (vc-follow-symlinks t)
+  
   ;; GREP
   (xref-search-program 'ripgrep)
   (grep-command "rg -nS --no-heading ")
@@ -79,10 +78,6 @@
   ;; won't ask for encoding (because undecided-unix) every single keystroke
   (modify-coding-system-alist 'file "" 'utf-8)
 
-  ;; Save manual customizations to other file than init.el
-  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
-  (load custom-file 'noerror 'nomessage)
-  
   ;; Set line-number-mode with relative numbering
   (setq display-line-numbers-type 'relative)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -105,6 +100,10 @@
               (let ((private-file (expand-file-name "post-init.el" user-emacs-directory)))
 				(when (file-exists-p private-file)
                   (load private-file)))))
+
+  ;; Save manual customizations to other file than init.el
+  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+  (load custom-file 'noerror 'nomessage)
 
   :init
   (global-auto-revert-mode 1)
@@ -239,6 +238,7 @@ Stole from aweshell"
   (setq
    ;; Start collapsed for speed
    org-startup-folded t
+   org-startup-indented t
 
    ;; Edit settings
    org-auto-align-tags nil
@@ -246,9 +246,13 @@ Stole from aweshell"
    org-catch-invisible-edits 'show-and-error
    org-special-ctrl-a/e t
    org-insert-heading-respect-content t
+   org-use-sub-superscripts "{}"
+   org-log-done t
 
    ;; Org styling, hide markup etc.
+   org-startup-with-inline-images t
    org-hide-emphasis-markers t
+   org-image-actual-width '(450)
    org-pretty-entities t))
 
 (use-package rust-ts-mode

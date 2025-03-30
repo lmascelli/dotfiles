@@ -1718,7 +1718,6 @@ To make eat works on Windows change those functions in eat.el
 
 
 
-
 *** completion
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
   (cond
@@ -2254,6 +2253,7 @@ than the system default.
     (setq
      ;; Start collapsed for speed
      org-startup-folded t
+     org-startup-indented t
 
      ;; Edit settings
      org-auto-align-tags nil
@@ -2261,9 +2261,13 @@ than the system default.
      org-catch-invisible-edits 'show-and-error
      org-special-ctrl-a/e t
      org-insert-heading-respect-content t
+     org-use-sub-superscripts "{}"
+     org-log-done t
 
      ;; Org styling, hide markup etc.
+     org-startup-with-inline-images t
      org-hide-emphasis-markers t
+     org-image-actual-width '(450)
      org-pretty-entities t))
 #+end_src
 *** treesitter languages configuration

@@ -5,6 +5,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(wombat))
+ '(org-agenda-files '("~/Dropbox/orgzly/agenda.org"))
+ '(org-directory "~/Dropbox/orgzly/")
  '(package-selected-packages
    '(borland-blue-theme cape cmake-mode diminish evil-collection
 						modus-themes naysayer-theme nov olivetti
