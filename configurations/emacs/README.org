@@ -2160,7 +2160,6 @@ than the system default.
   :ensure nil
   :defer t
   :config
-  
   (defun eshell/cat-with-syntax-highlighting (filename)
     "Like cat(1) but with syntax highlighting.
   Stole from aweshell"
@@ -2191,6 +2190,7 @@ than the system default.
 
   (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
 
+  (setq eshell-hist-ignoredups 'erase)
   (setq eshell-visual-commands
         '("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
 #+end_src
@@ -2441,4 +2441,34 @@ the normal behaviour.
       (display-buffer buf)))
 
   (provide 'lm-enhanced-eshell)
+#+end_src
+** lm-dired-side
+Inspired by emacs-solo of LionxyML
+
+#+begin_src emacs-lisp :tangle "lm-modules/lm-dired-side.el"
+  ;; TODO add-hook dired-hide-details-mode to dired-mode-hook when the
+  ;; name of the buffer is *Dired-Side*
+
+  ;; TODO create a variable to configure the size of the dired side
+  ;; window and the position
+
+  (defun lm-dired-side-vc-root (&optional directory-path)
+    "Create a *Dired-Side* like an IDE file explorer"
+    (interactive)
+    (let ((dir (if directory-path (dired-noselect directory-path)
+  			   (if (eq (vc-root-dir) nil)
+  				   (dired-noselect default-directory)
+  				 (dired-noselect (vc-root-dir))))))
+  	(display-buffer-in-side-window dir `(
+  										 (side . left)
+  										 (slot . 0)
+  										 (window-width . 30)
+  										 (window-parameters . ((no-other-window . t)
+  															   (no-delete-other-windows . t)
+  															   (mode-line-format . (" " "%b"))))))
+  	(with-current-buffer dir (let ((window (get-buffer-window dir)))
+  							   (when window (select-window window)
+  									 (rename-buffer "*Dired-Side*"))))))
+
+  (provide 'lm-dired-side)
 #+end_src

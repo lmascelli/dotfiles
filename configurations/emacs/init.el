@@ -153,7 +153,6 @@
 :ensure nil
 :defer t
 :config
-
 (defun eshell/cat-with-syntax-highlighting (filename)
   "Like cat(1) but with syntax highlighting.
 Stole from aweshell"
@@ -184,6 +183,7 @@ Stole from aweshell"
 
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
 
+(setq eshell-hist-ignoredups 'erase)
 (setq eshell-visual-commands
       '("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
 
