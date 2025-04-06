@@ -2001,7 +2001,8 @@ than the system default.
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package emacs
     :bind
-    (("C-z" . nil)
+    (("C-x C-b" . 'ibuffer)
+     ("C-z" . nil)
      ("C-x C-z" . nil))
     :custom
     ;; EDITING
@@ -2121,9 +2122,7 @@ than the system default.
   ;;
   "
                (emacs-init-time)
-               (number-to-string (length package-activated-list)))))
-
-    (message (emacs-init-time)))
+               (number-to-string (length package-activated-list))))))
 #+end_src
 *** use-package configuration
 #+begin_src emacs-lisp :tangle "init.el"
@@ -2151,13 +2150,46 @@ than the system default.
 *** dired configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package dired
-    :custom
-    (dired-dwin-target t))
+    :defer t
+    :custom ((dired-listing-switches "-agho --group-directories-first")
+  		   (dired-dwin-target t)))
+#+end_src
+*** ibuffer configuration
+#+begin_src emacs-lisp :tangle "init.el"
+  (use-package ibuffer
+    :hook (ibuffer-mode . (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
+    :defer t
+    :custom ((ibuffer-saved-filter-groups
+  			'(("default"
+  			   ("org" (or
+  					   (mode . org-mode)
+  					   (name . "^\\*Org Src")
+  					   (name . "^\\*Org Agenda\\*$")))
+  			   ("tramp" (name . "^\\*tramp.*"))
+  			   ("emacs" (or
+  						 (name . "^\\*scratch\\*$")
+  						 (name . "^\\*Messages\\*$")
+  						 (name . "^\\*Warnings\\*$")
+  						 (name . "^\\*Shell Command Output\\*$")
+  						 (name . "^\\*Async-native-compile-log\\*$")
+  						 (name . "^\\*straight-")))
+  			   ("ediff" (or
+  						 (name . "^\\*ediff.*")
+  						 (name . "^\\*Ediff.*")))
+  			   ("dired" (mode . dired-mode))
+  			   ("terminal" (or
+  							(mode . term-mode)
+  							(mode . shell-mode)
+  							(mode . eshell-mode)))
+  			   ("help" (or
+  						(name . "^\\*Help\\*$")
+  						(name . "^\\*info\\*$")
+  						(name . "^\\*helpful"))))))
+  		   (ibuffer-show-empty-filter-groups nil)))
 #+end_src
 *** eshell configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package eshell
-  :ensure nil
   :defer t
   :config
   (defun eshell/cat-with-syntax-highlighting (filename)
@@ -2217,7 +2249,6 @@ than the system default.
 *** minibuffer configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package minibuffer
-    :ensure nil
     :custom
     ;; (completion-auto-select t) ;; only turn this on if not using icomplete
     (enable-recursive-minibuffers t)
@@ -2238,15 +2269,13 @@ than the system default.
 #+end_src
 *** electric configuration
 #+begin_src emacs-lisp :tangle "init.el"
-  (use-package elec-pair
-    :ensure nil
+  (use-package electric-pair
     :defer
     :hook (after-init . electric-pair-mode))
 #+end_src
 *** org configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package org
-    :ensure nil
     :defer t
     :mode ("\\.org\\'" . org-mode)
     :config

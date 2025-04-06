@@ -1,6 +1,7 @@
 (use-package emacs
   :bind
-  (("C-z" . nil)
+  (("C-x C-b" . 'ibuffer)
+   ("C-z" . nil)
    ("C-x C-z" . nil))
   :custom
   ;; EDITING
@@ -120,9 +121,7 @@
 ;;
 "
              (emacs-init-time)
-             (number-to-string (length package-activated-list)))))
-
-  (message (emacs-init-time)))
+             (number-to-string (length package-activated-list))))))
 
 (use-package use-package
   :init
@@ -146,11 +145,42 @@
 														("melpa"  . 0))))
 
 (use-package dired
-  :custom
-  (dired-dwin-target t))
+  :defer t
+  :custom ((dired-listing-switches "-agho --group-directories-first")
+		   (dired-dwin-target t)))
+
+(use-package ibuffer
+  :hook (ibuffer-mode . (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
+  :defer t
+  :custom ((ibuffer-saved-filter-groups
+			'(("default"
+			   ("org" (or
+					   (mode . org-mode)
+					   (name . "^\\*Org Src")
+					   (name . "^\\*Org Agenda\\*$")))
+			   ("tramp" (name . "^\\*tramp.*"))
+			   ("emacs" (or
+						 (name . "^\\*scratch\\*$")
+						 (name . "^\\*Messages\\*$")
+						 (name . "^\\*Warnings\\*$")
+						 (name . "^\\*Shell Command Output\\*$")
+						 (name . "^\\*Async-native-compile-log\\*$")
+						 (name . "^\\*straight-")))
+			   ("ediff" (or
+						 (name . "^\\*ediff.*")
+						 (name . "^\\*Ediff.*")))
+			   ("dired" (mode . dired-mode))
+			   ("terminal" (or
+							(mode . term-mode)
+							(mode . shell-mode)
+							(mode . eshell-mode)))
+			   ("help" (or
+						(name . "^\\*Help\\*$")
+						(name . "^\\*info\\*$")
+						(name . "^\\*helpful"))))))
+		   (ibuffer-show-empty-filter-groups nil)))
 
 (use-package eshell
-:ensure nil
 :defer t
 :config
 (defun eshell/cat-with-syntax-highlighting (filename)
@@ -206,7 +236,6 @@ Stole from aweshell"
 		 ("C-c l f" . eglot-format)))
 
 (use-package minibuffer
-  :ensure nil
   :custom
   ;; (completion-auto-select t) ;; only turn this on if not using icomplete
   (enable-recursive-minibuffers t)
@@ -225,13 +254,11 @@ Stole from aweshell"
   (minibuffer-depth-indicate-mode 1)
   (minibuffer-electric-default-mode 1))
 
-(use-package elec-pair
-  :ensure nil
+(use-package electric-pair
   :defer
   :hook (after-init . electric-pair-mode))
 
 (use-package org
-  :ensure nil
   :defer t
   :mode ("\\.org\\'" . org-mode)
   :config

@@ -1,6 +1,5 @@
-;; (require 'lm-rust)
-
 (use-package olivetti
+  :defer t
   :ensure t)
 
 ;; (add-hook 'rust-ts-mode-hook 'eglot-ensure)

@@ -9,8 +9,8 @@
  '(org-directory "~/Dropbox/orgzly/")
  '(package-selected-packages
    '(borland-blue-theme cape cmake-mode diminish evil-collection
-						modus-themes naysayer-theme nov olivetti
-						ultra-scroll))
+						modus-themes naysayer-theme neotree nov
+						olivetti treemacs ultra-scroll))
  '(safe-local-variable-values
    '((eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
 	 (eval setenv "HDF5_INCLUDE_DIR" "../hdf5/1.14.5/include/"))))
