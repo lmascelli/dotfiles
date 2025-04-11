@@ -35,6 +35,10 @@
   ;; MODELINE
   (column-number-mode 1)
   
+  ;; FRAME BEHAVIOUR
+  (frame-resize-pixelwise t)
+  (frame-inhibit-implied-resize t)  ;; Without this, Emacs will try to resize itself to a specific column size
+  
   ;; WINDOW BEHAVIUOR
   (window-resize-pixelwise nil)    
   (help-window-select t)
@@ -74,10 +78,7 @@
   ;; IN-TERMINAL BEHAVIOUR
   (unless (display-graphic-p)
 	(progn
-	  (xterm-mouse-mode)
-	  ;; Changes the vertical separator to a full vertical line
-	  ;; and truncation symbol to a right arrow
-	  (set-display-table-slot standard-display-table 'truncation ?\u2192)
+	  (xterm-mouse-mode 1)
 	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?|))
 	  (setq x-select-enable-clipboard t
 			x-select-enable-primary t
@@ -99,6 +100,10 @@
 					 (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
 					 "show diff between the buffer and its file"))
 
+  ;; On Terminal: changes the vertical separator to a full vertical line
+  ;;              and truncation symbol to a right arrow
+  (set-display-table-slot standard-display-table 'vertical-border ?\u2502)
+  (set-display-table-slot standard-display-table 'truncation ?\u2192)
 
   ;; Runs 'post-init.el' after Emacs inits
   (add-hook 'after-init-hook
@@ -117,6 +122,7 @@
   (repeat-mode 1)
   (savehist-mode 1)
   (save-place-mode 1)
+  (xterm-mouse-mode 1)
   
   (with-current-buffer (get-buffer-create "*scratch*")
     (insert (format
@@ -189,39 +195,39 @@
 (use-package eshell
   :defer t
   :config
-  (defun eshell/cat-with-syntax-highlighting (filename)
-	"Like cat(1) but with syntax highlighting.
+(defun eshell/cat-with-syntax-highlighting (filename)
+  "Like cat(1) but with syntax highlighting.
 Stole from aweshell"
-	(let ((existing-buffer (get-file-buffer filename))
-          (buffer (find-file-noselect filename)))
-      (eshell-print
-       (with-current-buffer buffer
-		 (if (fboundp 'font-lock-ensure)
-			 (font-lock-ensure)
-           (with-no-warnings
-			 (font-lock-fontify-buffer)))
-		 (let ((contents (buffer-string)))
-           (remove-text-properties 0 (length contents) '(read-only nil) contents)
-           contents)))
-      (unless existing-buffer
-		(kill-buffer buffer))
-      nil))
-  (advice-add 'eshell/cat :override #'eshell/cat-with-syntax-highlighting)
+  (let ((existing-buffer (get-file-buffer filename))
+        (buffer (find-file-noselect filename)))
+    (eshell-print
+     (with-current-buffer buffer
+       (if (fboundp 'font-lock-ensure)
+           (font-lock-ensure)
+         (with-no-warnings
+           (font-lock-fontify-buffer)))
+       (let ((contents (buffer-string)))
+         (remove-text-properties 0 (length contents) '(read-only nil) contents)
+         contents)))
+    (unless existing-buffer
+      (kill-buffer buffer))
+    nil))
+(advice-add 'eshell/cat :override #'eshell/cat-with-syntax-highlighting)
 
-  (add-hook 'eshell-mode-hook
-			(lambda ()
-              (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
-              (local-set-key (kbd "C-l")
-							 (lambda ()
-                               (interactive)
-                               (eshell/clear 1)
-                               (eshell-send-input)))))
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
+            (local-set-key (kbd "C-l")
+                           (lambda ()
+                             (interactive)
+                             (eshell/clear 1)
+                             (eshell-send-input)))))
 
-  (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
+(add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
 
-  (setq eshell-hist-ignoredups 'erase)
-  (setq eshell-visual-commands
-		'("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
+(setq eshell-hist-ignoredups 'erase)
+(setq eshell-visual-commands
+      '("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
 
 (use-package eglot
   :custom

@@ -124,10 +124,10 @@ local keys = {
   { key = '8', mods = 'ALT',    action = wezterm.action.ActivateTab(7) },
   { key = '9', mods = 'ALT',    action = wezterm.action.ActivateTab(8) },
   { key = '0', mods = 'ALT',    action = wezterm.action.ActivateTab(9) },
-  { key = 'h', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Left' },
-  { key = 'l', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Right' },
-  { key = 'j', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Down' },
-  { key = 'k', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Up' },
+  -- { key = 'h', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Left' },
+  -- { key = 'l', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Right' },
+  -- { key = 'j', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Down' },
+  -- { key = 'k', mods = 'ALT',    action = wezterm.action.ActivatePaneDirection 'Up' },
 
   { key = "ì", mods = "LEADER", action = wezterm.action { SendString = "~" } },
   { key = "'", mods = "LEADER", action = wezterm.action { SendString = "`" } },
@@ -163,11 +163,11 @@ local keys = {
     mods = "CTRL",
     action = wezterm.action.DisableDefaultAssignment,
   },
-  -- {
-  --   key = "Backspace",
-  --   mods = "CTRL",
-  --   action = wezterm.action.SendKey { key = "Backspace", mods = "ALT"},
-  -- },
+  {
+    key = "Backspace",
+    mods = "CTRL",
+    action = wezterm.action.SendKey { key = "Backspace", mods = "ALT"},
+  },
   -- {
   --   key = "h",
   --   mods = "ALT",
@@ -178,15 +178,15 @@ local keys = {
   --   mods = "ALT",
   --   action = wezterm.action.ActivateTabRelative(1),
   -- },
-  {
-    key = " ",
-    mods = "CTRL",
-    action = wezterm.action.Multiple {
-      wezterm.action.SendKey { key = "_", mods = "CTRL" },
-      -- wezterm.action.SendKey { key = "x", mods = "CTRL" },
-      -- wezterm.action.SendKey { key = "o", mods = "CTRL" },
-    }
-  },
+  -- {
+  --   key = " ",
+  --   mods = "CTRL",
+  --   action = wezterm.action.Multiple {
+  --     wezterm.action.SendKey { key = "_", mods = "CTRL" },
+  --     -- wezterm.action.SendKey { key = "x", mods = "CTRL" },
+  --     -- wezterm.action.SendKey { key = "o", mods = "CTRL" },
+  --   }
+  -- },
   {
     key = " ",
     mods = "SHIFT",

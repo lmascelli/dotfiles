@@ -17,9 +17,6 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 
-(setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t)
-
 ;; Add the folder of my cust lisp files and modules to the load-path
 (mapc (lambda (string)
         (add-to-list 'load-path (concat user-emacs-directory string)))

@@ -1963,6 +1963,9 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
   (emacs-solo/avoid-initial-flash-of-light)
 #+end_src
 *** better Window Management handling
+Resizing the Emacs frame can be a terribly expensive part of changing the font.
+By inhibiting this, we easily halve startup times with fonts that are larger
+than the system default.
 #+begin_src emacs-lisp :tangle "early-init.el"
   (setq frame-resize-pixelwise t
         frame-inhibit-implied-resize t
@@ -1976,14 +1979,6 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-#+end_src
-*** font resizing at startup
-Resizing the Emacs frame can be a terribly expensive part of changing the font.
-By inhibiting this, we easily halve startup times with fonts that are larger
-than the system default.
-#+begin_src emacs-lisp :tangle "early-init.el"
-  (setq frame-inhibit-implied-resize t
-        frame-resize-pixelwise t)
 #+end_src
 *** add custom directories to load-path
 #+begin_src emacs-lisp :tangle "early-init.el"
@@ -2036,16 +2031,12 @@ than the system default.
     ;; MODELINE
     (column-number-mode 1)
     
-    ;; FRAME BEHAVIOUR
-    (frame-resize-pixelwise t)
-    (frame-inhibit-implied-resize t)  ;; Without this, Emacs will try to resize itself to a specific column size
-    
     ;; WINDOW BEHAVIUOR
     (window-resize-pixelwise nil)    
     (help-window-select t)
     (split-width-threshold 170)     ; So vertical splits are preferred
     (split-height-threshold nil)
-    
+
     ;; HISTORY AND BACKUP FILES
     (recentf-max-saved-items 300) ; default is 20
     (recentf-max-menu-items 15)
@@ -2076,6 +2067,19 @@ than the system default.
     (grep-find-ignored-directories '(".git" "build"))
     
     :config
+    ;; IN-TERMINAL BEHAVIOUR
+    (unless (display-graphic-p)
+  	(progn
+  	  (xterm-mouse-mode)
+  	  ;; Changes the vertical separator to a full vertical line
+  	  ;; and truncation symbol to a right arrow
+  	  (set-display-table-slot standard-display-table 'truncation ?\u2192)
+  	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?|))
+  	  (setq x-select-enable-clipboard t
+  			x-select-enable-primary t
+  			x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
+  			x-stretch-cursor t)))
+    
     ;; Makes everything accept utf-8 as default, so buffers with tsx and so
     ;; won't ask for encoding (because undecided-unix) every single keystroke
     (modify-coding-system-alist 'file "" 'utf-8)
@@ -2091,10 +2095,6 @@ than the system default.
   					 (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
   					 "show diff between the buffer and its file"))
 
-    ;; On Terminal: changes the vertical separator to a full vertical line
-    ;;              and truncation symbol to a right arrow
-    (set-display-table-slot standard-display-table 'vertical-border ?\u2502)
-    (set-display-table-slot standard-display-table 'truncation ?\u2192)
 
     ;; Runs 'post-init.el' after Emacs inits
     (add-hook 'after-init-hook
@@ -2113,7 +2113,6 @@ than the system default.
     (repeat-mode 1)
     (savehist-mode 1)
     (save-place-mode 1)
-    (xterm-mouse-mode 1)
     
     (with-current-buffer (get-buffer-create "*scratch*")
       (insert (format
@@ -2151,6 +2150,8 @@ than the system default.
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package dired
     :defer t
+    :config
+    (put 'dired-find-alternate-file 'disabled nil)
     :custom ((dired-listing-switches "-agho --group-directories-first")
   		   (dired-dwin-target t)))
 #+end_src
@@ -2190,41 +2191,41 @@ than the system default.
 *** eshell configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package eshell
-  :defer t
-  :config
-  (defun eshell/cat-with-syntax-highlighting (filename)
-    "Like cat(1) but with syntax highlighting.
+    :defer t
+    :config
+    (defun eshell/cat-with-syntax-highlighting (filename)
+  	"Like cat(1) but with syntax highlighting.
   Stole from aweshell"
-    (let ((existing-buffer (get-file-buffer filename))
-          (buffer (find-file-noselect filename)))
-      (eshell-print
-       (with-current-buffer buffer
-         (if (fboundp 'font-lock-ensure)
-             (font-lock-ensure)
-           (with-no-warnings
-             (font-lock-fontify-buffer)))
-         (let ((contents (buffer-string)))
-           (remove-text-properties 0 (length contents) '(read-only nil) contents)
-           contents)))
-      (unless existing-buffer
-        (kill-buffer buffer))
-      nil))
-  (advice-add 'eshell/cat :override #'eshell/cat-with-syntax-highlighting)
+  	(let ((existing-buffer (get-file-buffer filename))
+            (buffer (find-file-noselect filename)))
+        (eshell-print
+         (with-current-buffer buffer
+  		 (if (fboundp 'font-lock-ensure)
+  			 (font-lock-ensure)
+             (with-no-warnings
+  			 (font-lock-fontify-buffer)))
+  		 (let ((contents (buffer-string)))
+             (remove-text-properties 0 (length contents) '(read-only nil) contents)
+             contents)))
+        (unless existing-buffer
+  		(kill-buffer buffer))
+        nil))
+    (advice-add 'eshell/cat :override #'eshell/cat-with-syntax-highlighting)
 
-  (add-hook 'eshell-mode-hook
-            (lambda ()
-              (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
-              (local-set-key (kbd "C-l")
-                             (lambda ()
-                               (interactive)
-                               (eshell/clear 1)
-                               (eshell-send-input)))))
+    (add-hook 'eshell-mode-hook
+  			(lambda ()
+                (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
+                (local-set-key (kbd "C-l")
+  							 (lambda ()
+                                 (interactive)
+                                 (eshell/clear 1)
+                                 (eshell-send-input)))))
 
-  (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
+    (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
 
-  (setq eshell-hist-ignoredups 'erase)
-  (setq eshell-visual-commands
-        '("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
+    (setq eshell-hist-ignoredups 'erase)
+    (setq eshell-visual-commands
+  		'("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
 #+end_src
 *** eglot configuration
 #+begin_src emacs-lisp :tangle "init.el"
@@ -2273,11 +2274,21 @@ than the system default.
     :defer
     :hook (after-init . electric-pair-mode))
 #+end_src
+*** compilation configuration
+#+begin_src emacs-lisp :tangle "init.el"
+  (use-package compilation-mode
+    :defer t
+    :init (setq compilation-always-kill t
+  			  compilation-scroll-output 'first-error ))
+#+end_src
 *** org configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package org
     :defer t
     :mode ("\\.org\\'" . org-mode)
+    :hook (org-mode . (lambda ()
+  					  (set-fill-column 130)
+  					  (visual-line-mode 1)))
     :config
     (setq
      ;; Start collapsed for speed

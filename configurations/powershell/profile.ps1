@@ -4,17 +4,17 @@
 
 $LMPath = "~/.lm"
 $LM_with_powerline = $false
-$LM_with_vimmotions = $true
+$LM_with_vimmotions = $false
 
 ################################################################################
 #                          utility functions
 ################################################################################
 
 function Script:CheckLMFolder {
-  if (-not (Test-Path -Path $LMPath)) { 
+  if (-not (Test-Path -Path $LMPath)) {
     New-Item -Type Directory -Path $LMPath
   }
-  if (-not (Test-Path -Path $LMPath/bin)) { 
+  if (-not (Test-Path -Path $LMPath/bin)) {
     New-Item -Type Directory -Path $LMPath/bin
   }
 }
