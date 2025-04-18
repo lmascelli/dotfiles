@@ -2515,7 +2515,7 @@ Inspired by emacs-solo of LionxyML
 
   (provide 'lm-dired-side)
 #+end_src
-** lm-terminal-here
+** TODO lm-terminal-here
 #+begin_src emacs-lisp :tangle "lm-modules/lm-terminal-here.el"
   (provide 'lm-terminal-here)
 #+end_src
