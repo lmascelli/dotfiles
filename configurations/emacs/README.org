@@ -2193,24 +2193,7 @@ than the system default.
   (use-package eshell
     :defer t
     :config
-    (defun eshell/cat-with-syntax-highlighting (filename)
-  	"Like cat(1) but with syntax highlighting.
-  Stole from aweshell"
-  	(let ((existing-buffer (get-file-buffer filename))
-            (buffer (find-file-noselect filename)))
-        (eshell-print
-         (with-current-buffer buffer
-  		 (if (fboundp 'font-lock-ensure)
-  			 (font-lock-ensure)
-             (with-no-warnings
-  			 (font-lock-fontify-buffer)))
-  		 (let ((contents (buffer-string)))
-             (remove-text-properties 0 (length contents) '(read-only nil) contents)
-             contents)))
-        (unless existing-buffer
-  		(kill-buffer buffer))
-        nil))
-    (advice-add 'eshell/cat :override #'eshell/cat-with-syntax-highlighting)
+
 
     (add-hook 'eshell-mode-hook
   			(lambda ()
@@ -2457,28 +2440,48 @@ the normal behaviour.
     (setq name (concat "$" name))
     (eshell)
     (rename-buffer name))
-  
+
   (defun lm-tree-dir (dir &optional prefix)
-    "Print a tree of files and directories starting from DIR."
+    "Return a string with the tree of files and directories starting from DIR."
     (interactive "DDirectory: ")
     (unless prefix (setq prefix ""))
-    (dolist (file (directory-files dir))
-      (unless (member file '("." ".."))
-        (let ((path (concat dir "/" file)))
-          (insert (concat prefix (if (file-directory-p path) "+ " "- ") file "\n"))
-          (when (file-directory-p path)
-            (lm-tree-dir path (concat prefix "  ")))))))
+    (let ((content ""))
+  	(dolist (file (directory-files dir))
+  	  (unless (member file '("." ".."))
+  		(let ((path (concat dir "/" file)))
+  		  (setq content (concat content prefix (if (file-directory-p path) "+ " "- ") file "\n"))
+  		  (when (file-directory-p path)
+  			(setq content (concat content prefix (lm-tree-dire path (concat prefix "  "))))))))
+  	content))
 
   (defun lm-tree-current-dir ()
-    "Print a tree of the current directory."
+    "Return a string with the tree of the current directory."
     (interactive)
-    (let ((buf (get-buffer-create "*Directory Tree*")))
-      (with-current-buffer buf
-        (read-only-mode -1)
-        (erase-buffer)
-        (lm-tree-dir default-directory)
-        (read-only-mode 1))
-      (display-buffer buf)))
+    (lm-tree-dir default-directory))
+
+  (defun eshell/tree ()
+    "Print a tree of the current directory."
+    (eshell-print (lm-tree-dir default-directory)))
+
+  (defun eshell/lm-cat-with-syntax-highlighting (filename)
+    "Like cat(1) but with syntax highlighting.
+  Stole from aweshell"
+    (let ((existing-buffer (get-file-buffer filename))
+          (buffer (find-file-noselect filename)))
+      (eshell-print
+       (with-current-buffer buffer
+  	   (if (fboundp 'font-lock-ensure)
+  		   (font-lock-ensure)
+           (with-no-warnings
+  		   (font-lock-fontify-buffer)))
+  	   (let ((contents (buffer-string)))
+           (remove-text-properties 0 (length contents) '(read-only nil) contents)
+           contents)))
+      (unless existing-buffer
+  	  (kill-buffer buffer))
+      nil))
+
+  (advice-add 'eshell/cat :override #'eshell/lm-cat-with-syntax-highlighting)
 
   (provide 'lm-enhanced-eshell)
 #+end_src
@@ -2511,4 +2514,8 @@ Inspired by emacs-solo of LionxyML
   									 (rename-buffer "*Dired-Side*"))))))
 
   (provide 'lm-dired-side)
+#+end_src
+** lm-terminal-here
+#+begin_src emacs-lisp :tangle "lm-modules/lm-terminal-here.el"
+  (provide 'lm-terminal-here)
 #+end_src

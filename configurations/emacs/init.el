@@ -189,24 +189,7 @@
 (use-package eshell
   :defer t
   :config
-  (defun eshell/cat-with-syntax-highlighting (filename)
-	"Like cat(1) but with syntax highlighting.
-Stole from aweshell"
-	(let ((existing-buffer (get-file-buffer filename))
-          (buffer (find-file-noselect filename)))
-      (eshell-print
-       (with-current-buffer buffer
-		 (if (fboundp 'font-lock-ensure)
-			 (font-lock-ensure)
-           (with-no-warnings
-			 (font-lock-fontify-buffer)))
-		 (let ((contents (buffer-string)))
-           (remove-text-properties 0 (length contents) '(read-only nil) contents)
-           contents)))
-      (unless existing-buffer
-		(kill-buffer buffer))
-      nil))
-  (advice-add 'eshell/cat :override #'eshell/cat-with-syntax-highlighting)
+
 
   (add-hook 'eshell-mode-hook
 			(lambda ()
