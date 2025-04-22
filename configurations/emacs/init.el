@@ -248,14 +248,13 @@
   :hook (after-init . electric-pair-mode))
 
 (use-package whitespace
-  :defer t
-  :hook ((prog-mode . #'whitespace-mode))
-  :init
+  :config
+  (add-hook 'prog-mode-hook #'whitespace-mode)
   (add-hook 'whitespace-mode-hook
-		  (lambda ()
-			(set-face-attribute 'whitespace-indentation nil :foreground nil :background nil)
-			(set-face-attribute 'whitespace-line nil :foreground nil :background nil)
-			(set-face-attribute 'whitespace-space nil :foreground nil :background nil))))
+  		  (lambda ()
+  			(set-face-attribute 'whitespace-indentation nil :foreground 'unspecified :background 'unspecified)
+  			(set-face-attribute 'whitespace-line nil :foreground 'unspecified :background 'unspecified)
+  			(set-face-attribute 'whitespace-space nil :foreground 'unspecified :background 'unspecified))))
 
 (use-package compilation-mode
   :defer t
