@@ -2074,7 +2074,7 @@ than the system default.
   	  ;; Changes the vertical separator to a full vertical line
   	  ;; and truncation symbol to a right arrow
   	  (set-display-table-slot standard-display-table 'truncation ?\u2192)
-  	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?|))
+  	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
   	  (setq x-select-enable-clipboard t
   			x-select-enable-primary t
   			x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
@@ -2257,6 +2257,18 @@ than the system default.
     :defer
     :hook (after-init . electric-pair-mode))
 #+end_src
+*** whitespace configuration
+#+begin_src emacs-lisp :tangle "init.el"
+  (use-package whitespace
+    :defer t
+    :hook ((prog-mode . #'whitespace-mode))
+    :init
+    (add-hook 'whitespace-mode-hook
+  		  (lambda ()
+  			(set-face-attribute 'whitespace-indentation nil :foreground nil :background nil)
+  			(set-face-attribute 'whitespace-line nil :foreground nil :background nil)
+  			(set-face-attribute 'whitespace-space nil :foreground nil :background nil))))
+#+end_src
 *** compilation configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package compilation-mode
@@ -2432,6 +2444,8 @@ the normal behaviour.
 #+end_src
 ** lm-enhanced-eshell
 #+begin_src emacs-lisp :tangle "lm-modules/lm-enhanced-eshell.el"
+  (require 'eshell)
+
   (setq lm-current-eshell-counter 0)
 
   (defun lm-make-eshell (name)
@@ -2517,5 +2531,21 @@ Inspired by emacs-solo of LionxyML
 #+end_src
 ** TODO lm-terminal-here
 #+begin_src emacs-lisp :tangle "lm-modules/lm-terminal-here.el"
-  (provide 'lm-terminal-here)
+  (defcustom lm-terminal-here-cmd '("")
+    "The command that shall be used to launch a new terminal window.
+      If there is the need to place the `default-directory' content in the
+      command put the placeholder '%cwd%' in this command string as it
+      will be replaced with the default directory."
+          :type '(repeat string)
+          :group 'lm-terminal-here)
+
+  (defun lm-terminal-here ()
+    (interactive)
+    (let ((proc (start-process "lm-terminal-here" nil ))))
+    )
+
+        ;; (let ((proc (start-process "cmd" nil "cmd.exe" "/C" "start" "cmd.exe")))
+        ;; (set-process-query-on-exit-flag proc nil))
+
+        (provide 'lm-terminal-here)
 #+end_src

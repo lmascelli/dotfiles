@@ -11,8 +11,12 @@
 
 (use-package whitespace
   :defer t
-  :custom
-  (set-face-attribute 'whitespace-indentation nil :foreground nil :background nil)
-  (set-face-attribute 'whitespace-line nil :foreground nil :background nil)
-  (set-face-attribute 'whitespace-space nil :foreground nil :background nil)  
+  :config
   )
+
+
+(add-hook 'whitespace-mode-hook
+		  (lambda ()
+			(set-face-attribute 'whitespace-indentation nil :foreground nil :background nil)
+			(set-face-attribute 'whitespace-line nil :foreground nil :background nil)
+			(set-face-attribute 'whitespace-space nil :foreground nil :background nil)))

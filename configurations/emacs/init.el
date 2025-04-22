@@ -78,7 +78,7 @@
 	  ;; Changes the vertical separator to a full vertical line
 	  ;; and truncation symbol to a right arrow
 	  (set-display-table-slot standard-display-table 'truncation ?\u2192)
-	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?|))
+	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
 	  (setq x-select-enable-clipboard t
 			x-select-enable-primary t
 			x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
@@ -246,6 +246,16 @@
 (use-package electric-pair
   :defer
   :hook (after-init . electric-pair-mode))
+
+(use-package whitespace
+  :defer t
+  :hook ((prog-mode . #'whitespace-mode))
+  :init
+  (add-hook 'whitespace-mode-hook
+		  (lambda ()
+			(set-face-attribute 'whitespace-indentation nil :foreground nil :background nil)
+			(set-face-attribute 'whitespace-line nil :foreground nil :background nil)
+			(set-face-attribute 'whitespace-space nil :foreground nil :background nil))))
 
 (use-package compilation-mode
   :defer t

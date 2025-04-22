@@ -171,6 +171,7 @@ SetEditor=false
 [MainWindow]
 1920x1080 screen: Height=691
 1920x1080 screen: Width=1278
+1920x1080 screen: Window-Maximized=true
 
 [Notification Messages]
 Kate hide sidebars notification message=false
@@ -212,6 +213,9 @@ kate_mdi_hide_toolviews=Ctrl+L, Z
 
 [UiSettings]
 ColorScheme=
+
+[debugplugin]
+DAPConfiguration=
 
 [filetree]
 editShade=31,81,106
