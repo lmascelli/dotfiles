@@ -248,8 +248,9 @@
   :hook (after-init . electric-pair-mode))
 
 (use-package whitespace
+  :init
+  (setq whitespace-style '(face trailing tabs spaces indentation emtpy newline-mark))
   :config
-  (add-hook 'prog-mode-hook #'whitespace-mode)
   (add-hook 'whitespace-mode-hook
   		  (lambda ()
   			(set-face-attribute 'whitespace-indentation nil :foreground 'unspecified :background 'unspecified)

@@ -2260,8 +2260,9 @@ than the system default.
 *** whitespace configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package whitespace
+    :init
+    (setq whitespace-style '(face trailing tabs spaces indentation emtpy))
     :config
-    (add-hook 'prog-mode-hook #'whitespace-mode)
     (add-hook 'whitespace-mode-hook
     		  (lambda ()
     			(set-face-attribute 'whitespace-indentation nil :foreground 'unspecified :background 'unspecified)
@@ -2464,7 +2465,7 @@ the normal behaviour.
   		(let ((path (concat dir "/" file)))
   		  (setq content (concat content prefix (if (file-directory-p path) "+ " "- ") file "\n"))
   		  (when (file-directory-p path)
-  			(setq content (concat content prefix (lm-tree-dire path (concat prefix "  "))))))))
+  			(setq content (concat content prefix (lm-tree-dir path (concat prefix "  "))))))))
   	content))
 
   (defun lm-tree-current-dir ()
