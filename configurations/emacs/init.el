@@ -249,7 +249,7 @@
 
 (use-package whitespace
   :init
-  (setq whitespace-style '(face trailing tabs spaces indentation emtpy newline-mark))
+  (setq whitespace-style '(face trailing tabs spaces indentation emtpy))
   :config
   (add-hook 'whitespace-mode-hook
   		  (lambda ()
