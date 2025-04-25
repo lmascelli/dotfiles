@@ -2531,7 +2531,7 @@ Inspired by emacs-solo of LionxyML
 
   (provide 'lm-dired-side)
 #+end_src
-** TODO lm-terminal-here
+** lm-terminal-here
 #+begin_src emacs-lisp :tangle "lm-modules/lm-terminal-here.el"
   (defcustom lm-terminal-here-cmd '("")
     "The command that shall be used to launch a new terminal window.
