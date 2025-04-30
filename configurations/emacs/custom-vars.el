@@ -4,9 +4,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat))
+ '(custom-enabled-themes '(modus-vivendi-deuteranopia))
+ '(lm-terminal-here-cmd "konsole")
  '(org-agenda-files '("~/Dropbox/orgzly/agenda.org"))
  '(org-directory "~/Dropbox/orgzly/")
+ '(org-highlight-latex-and-related '(native latex))
+ '(org-startup-with-latex-preview nil)
  '(package-selected-packages
    '(borland-blue-theme cape cmake-mode diminish evil-collection leetcode
 						modus-themes naysayer-theme neotree nov

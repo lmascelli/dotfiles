@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (use-package emacs
   :bind
   (("C-x C-b" . 'ibuffer)
@@ -19,10 +21,7 @@
   ;; TAB
   (tab-always-indent 'complete)
   (tab-width 4)
-  (tab-bar-close-button-show nil)
-  (tab-bar-new-button-show nil)
-  (tab-bar-tab-hints t)
-  
+
   ;; COMPLETION
   (completion-ignore-case t)
   (completions-detailed t)
@@ -34,6 +33,11 @@
 
   ;; MODELINE
   (column-number-mode 1)
+
+  ;; TAB BAR
+  (tab-bar-close-button-show nil)
+  (tab-bar-new-button-show nil)
+  (tab-bar-tab-hints t)
   
   ;; WINDOW BEHAVIUOR
   (window-resize-pixelwise nil)    

@@ -1950,6 +1950,10 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
 
 * Simple one
 ** Early init
+*** start of the file
+#+begin_src emacs-lisp :tangle "early-init.el"
+  ;; -*- lexical-binding: t -*-
+#+end_src
 *** garbage collector
 #+begin_src emacs-lisp :tangle "early-init.el"
   (setq gc-cons-threshold most-positive-fixnum
@@ -1992,6 +1996,11 @@ than the system default.
   (provide 'early-init) 
 #+end_src
 ** Init
+*** start of the file
+#+begin_src emacs-lisp :tangle "init.el"
+  ;; -*- lexical-binding: t -*-
+#+end_src
+
 *** emacs configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package emacs
@@ -2305,7 +2314,8 @@ than the system default.
      org-startup-with-inline-images t
      org-hide-emphasis-markers t
      org-image-actual-width '(450)
-     org-pretty-entities t))
+     org-pretty-entities t
+   ))
 #+end_src
 *** treesitter languages configuration
 #+begin_src emacs-lisp :tangle "init.el"
@@ -2336,6 +2346,7 @@ than the system default.
 * My packages
 ** lm-utils
 #+begin_src emacs-lisp :tangle "lm-lisp/lm-utils.el"
+  ;; -*- lexical-binding: t -*-
   ;; TODO change the name of this function or get rid of it because it
   ;; just gives the name of the directory of the current buffer.
   (defun lm-get-dotfiles-dir ()
@@ -2360,11 +2371,12 @@ than the system default.
 ** lm-mode-line
 I'm trying to create a more essential and polished modeline
 #+begin_src emacs-lisp :tangle "lm-lisp/lm-modeline.el"
-
+  ;; -*- lexical-binding: t -*-
   (provide lm-mode-line)
 #+end_src
 ** lm-pomodoro
 #+begin_src emacs-lisp :tangle "lm-lisp/lm-pomodoro.el"
+  ;; -*- lexical-binding: t -*-
   (defun lm-pomodoro ()
     (interactive)
     (require 'org-element)
@@ -2387,6 +2399,7 @@ I'm trying to create a more essential and polished modeline
 This module is heavily inspired from David Wilson center-document-mode. Look at it
 in his literate configuration file.
 #+begin_src emacs-lisp :tangle "lm-modules/lm-center-document.el"
+  ;; -*- lexical-binding: t -*-
   (defcustom lm-center-document-desired-width 90
     "Width of the centered line in lm-centered-mode"
     :type '(integer)
@@ -2428,6 +2441,7 @@ opened. If called again it release the current working directory to
 the normal behaviour.
 
 #+begin_src emacs-lisp :tangle "lm-modules/lm-hold-directory.el"
+  ;; -*- lexical-binding: t -*-
   (defvar lm-held-directory nil
     "The directory being held has default-directory. If nil no directory is being
   hold. This variable is used by the `lm-toggle-hold-cwd' function.")
@@ -2446,6 +2460,7 @@ the normal behaviour.
 #+end_src
 ** lm-enhanced-eshell
 #+begin_src emacs-lisp :tangle "lm-modules/lm-enhanced-eshell.el"
+  ;; -*- lexical-binding: t -*-  
   (require 'eshell)
 
   (setq lm-current-eshell-counter 0)
@@ -2505,6 +2520,7 @@ the normal behaviour.
 Inspired by emacs-solo of LionxyML
 
 #+begin_src emacs-lisp :tangle "lm-modules/lm-dired-side.el"
+  ;; -*- lexical-binding: t -*-
   ;; TODO add-hook dired-hide-details-mode to dired-mode-hook when the
   ;; name of the buffer is *Dired-Side*
 
@@ -2533,6 +2549,7 @@ Inspired by emacs-solo of LionxyML
 #+end_src
 ** lm-terminal-here
 #+begin_src emacs-lisp :tangle "lm-modules/lm-terminal-here.el"
+  ;; -*- lexical-binding: t -*-
   (defcustom lm-terminal-here-cmd '("")
     "The command that shall be used to launch a new terminal window.
           If there is the need to place the `default-directory' content in the
