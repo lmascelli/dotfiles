@@ -10,6 +10,6 @@
 (fido-vertical-mode)
 (global-hl-line-mode 1)
 (use-package lm-utils)
-(use-package lm-enhanced-eshell)
-(use-package lm-terminal-here
+(use-package lm-enhanced-eshell
   :after eshell)
+(use-package lm-terminal-here)

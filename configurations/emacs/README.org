@@ -2204,8 +2204,6 @@ than the system default.
   (use-package eshell
     :defer t
     :config
-
-
     (add-hook 'eshell-mode-hook
   			(lambda ()
                 (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
