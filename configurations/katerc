@@ -212,7 +212,7 @@ kate_mdi_focus_toolview_diagnostics=Ctrl+,, D
 kate_mdi_hide_toolviews=Ctrl+L, Z
 
 [UiSettings]
-ColorScheme=
+ColorScheme=Breeze Dark
 
 [debugplugin]
 DAPConfiguration=

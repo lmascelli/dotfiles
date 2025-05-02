@@ -2550,24 +2550,27 @@ Inspired by emacs-solo of LionxyML
   ;; -*- lexical-binding: t -*-
   (defcustom lm-terminal-here-cmd '("")
     "The command that shall be used to launch a new terminal window.
-          If there is the need to place the `default-directory' content in the
-          command put the placeholder '%cwd%' in this command string as it
-          will be replaced with the default directory.
+            If there is the need to place the `default-directory' content in the
+            command put the placeholder '%cwd%' in this command string as it
+            will be replaced with the default directory.
 
-  Example for MS-Windows:
-  \"cmd.exe /C start cmd.exe\"
+    Example for MS-Windows:
+    \"cmd.exe /C start cmd.exe\"
 
-  Example for KDE:
-  \"konsole\"
-  "
+    Example for KDE:
+    \"konsole\"
+    "
     :type 'string
     :group 'lm-terminal-here)
 
   (defun lm-terminal-here ()
     (interactive)
-    (let* ((command lm-terminal-here-cmd)
-      	(proc (start-process "lm-terminal-here" nil (string-replace "%cwd%" default-directory command))))
-      (set-process-query-on-exit-flag proc nil)))
+    (let* ((proc-args
+  		  (mapcar
+  		   (lambda (arg) (if (string= "%cwd%" arg) default-directory arg))
+  		   lm-terminal-here-cmd))
+  		 (proc (apply 'start-process "terminal-here" nil proc-args)))
+  	(set-process-query-on-exit-flag proc nil)))
 
   (provide 'lm-terminal-here)
 #+end_src
