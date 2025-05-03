@@ -31,6 +31,7 @@ configurations/emacs/url/
 configurations/emacs/.emacs.desktop.lock
 configurations/emacs/.org-id-locations
 configurations/emacs/.lsp-session-v*
+configurations/emacs/bookmarks.eld
 configurations/emacs/recentf
 configurations/emacs/recentf.eld
 configurations/emacs/emacs-custom.el

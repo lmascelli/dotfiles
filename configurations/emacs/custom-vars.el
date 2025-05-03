@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(wombat))
- '(lm-terminal-here-cmd "konsole")
+ '(lm-terminal-here-cmd '("konsole"))
  '(org-agenda-files '("~/Dropbox/orgzly/agenda.org"))
  '(org-directory "~/Dropbox/orgzly/")
  '(org-highlight-latex-and-related '(native latex))

@@ -193,8 +193,6 @@
 (use-package eshell
   :defer t
   :config
-
-
   (add-hook 'eshell-mode-hook
 			(lambda ()
               (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
@@ -291,7 +289,8 @@
    org-startup-with-inline-images t
    org-hide-emphasis-markers t
    org-image-actual-width '(450)
-   org-pretty-entities t))
+   org-pretty-entities t
+ ))
 
 (use-package rust-ts-mode
   :ensure rust-ts-mode
