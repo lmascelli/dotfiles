@@ -19,3 +19,9 @@
 	:ensure t
 	:config
 	(xclip-mode)))
+
+(setq lm-in-buffer-completion 'company)
+(global-completion-preview-mode -1)
+(require 'lm-company)
+(setq lm-lsp-client 'lsp-mode)
+(require 'lm-lsp-mode)
