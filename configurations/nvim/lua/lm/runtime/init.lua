@@ -1,5 +1,6 @@
 LM = {}
 
+require 'lm.runtime.appearence'
 require 'lm.runtime.icons'
 require 'lm.runtime.lsp'
 require 'lm.runtime.augroups'
@@ -10,7 +11,5 @@ require 'lm.runtime.buffer'
 require 'lm.runtime.project'
 require 'lm.runtime.plugins'
 require 'lm.runtime.diagnostics'
-require 'lm.runtime.appearence'
 require 'lm.runtime.completion'
-
 require 'lm.runtime.languages'

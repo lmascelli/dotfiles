@@ -36,8 +36,8 @@
 						lsp-ui modus-themes monochrome-theme
 						naysayer-theme neotree nothing-theme nov
 						olivetti poet-theme powershell rainbow-mode
-						tree-sitter-langs treemacs ultra-scroll xclip
-						zig-mode))
+						rustic tree-sitter-langs treemacs ultra-scroll
+						vertico vertico-posframe xclip zig-mode))
  '(safe-local-variable-values
    '((eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
 	 (eval setenv "HDF5_INCLUDE_DIR" "../hdf5/1.14.5/include/"))))

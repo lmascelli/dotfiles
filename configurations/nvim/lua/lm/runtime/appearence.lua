@@ -1,5 +1,6 @@
 LM.appearence = {
   colorscheme = 'default',
+  floating_border_style = "single",
   transparency = false,
   lines = 40,
   columns = 90,
