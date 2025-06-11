@@ -25,7 +25,6 @@ local function insert_functionalities()
             info = { height = 25, width = 80, border = 'rounded' },
             signature = { height = 25, width = 80, border = 'rounded' },
           },
-          
 
           -- Way of how module does LSP completion
           lsp_completion = {

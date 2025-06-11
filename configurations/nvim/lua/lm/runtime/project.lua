@@ -22,9 +22,13 @@ LM.project = {
     -- check if wezterm path is set or it's in PATH
     if (LM.wezterm_path and vim.fn.executable(LM.wezterm_path)) then
       job = LM.wezterm_path .. ' start --cwd .'
-      vim.loop.spawn(LM.wezterm_path, {
-        args = { 'start', '--cwd', '.' }
-      })
+      vim.loop.spawn(
+        LM.wezterm_path,
+        {
+          args = { 'start', '--cwd', '.' }
+        },
+        function(_, _) end
+      )
       return
     elseif vim.fn.executable('wezterm') ~= 0 then
       job = "wezterm-gui start --cwd ."

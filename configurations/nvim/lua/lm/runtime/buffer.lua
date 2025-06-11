@@ -1,6 +1,4 @@
 LM.buffer = {
-  c_style_separator = false,
-
   format = function()
     local curpos = vim.fn.getcurpos()
     vim.api.nvim_feedkeys('gg=G', 'n', false)

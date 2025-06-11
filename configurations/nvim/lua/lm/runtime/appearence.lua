@@ -41,7 +41,7 @@ LM.appearence = {
   end,
 
   toggle_background = function()
-    if vim.opt.background._value == "dark" then
+    if vim.opt.background == "dark" then
       vim.opt.background = "light"
     else
       vim.opt.background = "dark"

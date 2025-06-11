@@ -38,7 +38,10 @@ LM.diagnostics = {
 
   next_error = function()
     if LM.lsp.is_enabled() then
-      vim.diagnostic.goto_next()
+      vim.diagnostic.jump({
+        count = 1,
+        float = true,
+      })
     else
       vim.cmd 'cnext'
     end
@@ -46,7 +49,10 @@ LM.diagnostics = {
 
   previous_error = function()
     if LM.lsp.is_enabled() then
-      vim.diagnostic.goto_prev()
+      vim.diagnostic.jump({
+        count = -1,
+        float = true,
+      })
     else
       vim.cmd 'cprevious'
     end
