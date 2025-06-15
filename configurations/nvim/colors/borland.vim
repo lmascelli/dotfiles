@@ -96,7 +96,8 @@ call s:linkGroup("CursorIM", "Cursor")
 " CursorColumn  the screen column that the cursor is in when 'cursorcolumn' is set
 call s:linkGroup("CursorColumn", "ColorColumn")
 " CursorLine    the screen line that the cursor is in when 'cursorline' is set
-call s:linkGroup("CursorLine", "ColorColumn")
+call s:setGroup("CursorLine", s:none, s:none, s:none)
+"call s:linkGroup("CursorLine", "ColorColumn")
 " Directory     directory names (and other special names in listings)
 call s:linkGroup("Directory", "NormalTransparent")
 " DiffAdd       diff mode: Added line |diff.txt|

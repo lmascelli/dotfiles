@@ -5,6 +5,7 @@ vim.g.mapleader = " "
 
 -- QUIT
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
+vim.keymap.set("", "<c-z>", "")
 
 -- PROJECT
 vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
