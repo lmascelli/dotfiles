@@ -17,8 +17,10 @@ if vim.fn.filereadable(custom_file) ~= 0 then
     vim.notify("ERROR loading custom.lua")
   end
 else
-  vim.fn.writefile(vim.fn.readfile(vim.fn.stdpath('config') .. '/custom_template.lua'),
-    vim.fn.stdpath('config') .. '/custom.lua')
+  vim.fn.writefile(
+    vim.fn.readfile(vim.fn.stdpath('config') .. '/custom_template.lua'),
+    vim.fn.stdpath('config') .. '/custom.lua'
+  )
 end
 
 -- check if there is a project level configuration file
@@ -32,6 +34,7 @@ vim.api.nvim_create_autocmd("DirChanged", {
 
 -- load base keybindings
 require 'lm.keymaps'
+
 -- call each function in the pre_plugins_load list
 for i, f in ipairs(LM.callbacks.pre_plugins_load) do
   f()
@@ -39,6 +42,7 @@ end
 
 -- load package manager TODO abstract the concept of package manager
 require 'lm.lazy'
+
 -- call each function in the post_plugins_load list
 for i, f in ipairs(LM.callbacks.post_plugins_load) do
   f()
@@ -46,6 +50,7 @@ end
 
 -- load custom settings
 require 'lm.set'
+
 -- set apparence customizations
 require 'lm.appearence'
 

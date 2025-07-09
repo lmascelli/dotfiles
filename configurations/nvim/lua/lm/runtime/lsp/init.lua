@@ -91,10 +91,12 @@ local function configure(language)
   })
 end
 
+
 LM.lsp = {
   capabilities = require 'lm.runtime.lsp.capability',
   on_attach = require 'lm.runtime.lsp.on_attach',
   configure = configure,
+  configs = require 'lm.runtime.lsp.configs',
   c_query_driver = 'g++',
   is_enabled = is_enabled,
   servers = {},

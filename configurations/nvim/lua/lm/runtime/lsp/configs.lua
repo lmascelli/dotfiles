@@ -1,5 +1,5 @@
-LM.languages.lua = {
-  lsp_config = {
+return {
+  lua = {
     name = "lua-language-server",
     cmd = { "lua-language-server" },
     root_dir = vim.fs.root(0,
@@ -37,5 +37,17 @@ LM.languages.lua = {
         }
       })
     end,
-  }
+  },
+
+  python = {
+    name = "pylsp",
+    cmd = { "pylsp" },
+  },
+
+  rust = {
+    name = "rust-analyzer",
+    cmd = { "rust-analyzer" },
+    root_dir = vim.fs.root(0, { "Cargo.toml" }),
+    filetypes = { "rust" },
+  },
 }

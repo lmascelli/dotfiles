@@ -17,6 +17,9 @@ function Script:CheckLMFolder {
   if (-not (Test-Path -Path $LMPath/bin)) {
     New-Item -Type Directory -Path $LMPath/bin
   }
+  if (-not (Test-Path -Path $LMPath/config)) {
+    New-Item -Type Directory -Path $LMPath/config
+  }
 }
 
 # fix the escape code 7 to correctly provide current path to new shells
@@ -77,6 +80,14 @@ if ($LM_with_powerline) {
     } elseif ($IsWindows) {
       scoop install https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
     }
+
+    $oh_my_posh_config = @'
+{
+  "pwd": "osc99",
+}
+'@
+    $oh_my_posh_config | Out_File -FilePath "~/.lm/config/oh_my_posh.json" -Encoding ascii
   }
-  oh-my-posh init pwsh | Invoke-Expression
+
+  oh-my-posh init pwsh -c "~/.lm/config/oh_my_posh.json" | Invoke-Expression
 }
