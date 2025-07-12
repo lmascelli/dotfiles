@@ -18,4 +18,12 @@ M.load_custom_file = function()
 	end
 end
 
+M.toggle_theme = function()
+  if vim.opt.background == "dark" then
+    vim.opt.background = "light"
+  else
+    vim.opt.background = "dark"
+  end
+end
+
 return M

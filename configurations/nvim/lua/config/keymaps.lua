@@ -24,18 +24,6 @@ vim.keymap.set("n", "<leader>'", ":make ", { desc = "Shell command" })
 vim.keymap.set("n", "<C-'>", ":make ", { desc = "Shell command" })
 
 --  WINDOWS
-vim.keymap.set('n', '<leader>wc', '<cmd>q<cr>', { desc = "Close" })
-vim.keymap.set('n', '<leader>wo', '<cmd>only<cr>', { desc = "Close others" })
-vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = "Split vertical" })
-vim.keymap.set('n', '<leader>ws', '<C-w>s', { desc = "Split horizontal" })
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go left" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go down" })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go up" })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go right" })
-vim.keymap.set("n", "<A-Left>", "<C-w>h", { desc = "Go left" })
-vim.keymap.set("n", "<A-Down>", "<C-w>j", { desc = "Go down" })
-vim.keymap.set("n", "<A-Up>", "<C-w>k", { desc = "Go up" })
-vim.keymap.set("n", "<A-Right>", "<C-w>l", { desc = "Go right" })
 vim.keymap.set('n', '<m-ScrollWheelUp>', 'zhzh', { desc = "" })
 vim.keymap.set('n', '<m-ScrollWheelDown>', 'zlzl', { desc = "" })
 vim.keymap.set("n", "<C-Up>", ":resize +2<cr>", { desc = "" })
@@ -51,8 +39,6 @@ vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.buffer.delete()<cr>", { desc = "
 
 -- SEARCHING
 vim.keymap.set('n', '<leader>ff', ':find ', { desc = 'Find file' })
-vim.keymap.set('n', '<leader>fs', '/', { desc = 'Search' })
-vim.keymap.set('n', '<leader>fr', ':%s/', { desc = 'replace' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 
 -- APPEARENCE
@@ -75,7 +61,6 @@ vim.keymap.set("i", '"', '""<esc>i', {})
 
 --  <C-g> as Escape
 vim.keymap.set("i", "<C-g>", "<Escape>", {})
-
 vim.keymap.set("i", "<C-ì>", "<C-k>'?", {})
 vim.keymap.set("i", "<C-'>", "<C-k>'!", {})
 vim.keymap.set("i", "<s-cr>", "<c-o>O", {})
