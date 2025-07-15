@@ -26,4 +26,18 @@ M.toggle_theme = function()
   end
 end
 
+-- open configuration directory
+M.edit_conf_dir = function(open_explorer)
+  vim.fn.chdir(vim.fn.stdpath 'config')
+  if open_explorer then
+    LM.fn.toggle_explorer()
+  end
+end
+
+-- open custom.lua configuration file
+M.edit_custom_config = function()
+  local command = 'e ' .. vim.fn.stdpath('config') .. '/custom.lua'
+  vim.cmd(command)
+end
+
 return M

@@ -46,6 +46,7 @@ vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
 -- SOME EMACSY keymaps
 --  <C-g> as Escape
 vim.keymap.set("n", "<C-g>", "<Escape>", {})
+vim.keymap.set("n", "<M-x>", ":lua ", {})
 
 -- tab management
 vim.keymap.set("n", "<C-c>tn", "<cmd>:tabnew<cr>", {})

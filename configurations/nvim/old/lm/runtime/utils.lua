@@ -17,7 +17,7 @@ LM.utils = {
   edit_conf_dir = function(open_explorer)
     vim.fn.chdir(vim.fn.stdpath 'config')
     if open_explorer then
-      LM.toggle_explorer()
+      LM.fn.toggle_explorer()
     end
   end,
 
