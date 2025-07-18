@@ -27,7 +27,7 @@ if LM.lazy_loaded == nil then
     -- colorscheme that will be used when installing plugins.
     -- install = { colorscheme = { "habamax" } },
     -- automatically check for plugin updates
-    checker = { enabled = true },
+    checker = { enabled = false },
   })
 end
 return {}
