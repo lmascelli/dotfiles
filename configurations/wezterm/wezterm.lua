@@ -13,6 +13,7 @@ local color_schemes = {
     gruvbox = "Gruvbox dark, hard (base16)",
     blazer = "Blazer",
     slate = "Slate",
+    wombat = "Wombat",
     zenburn = "Zenburn (base16)"
   },
   light = {
@@ -26,7 +27,7 @@ local color_schemes = {
 }
 
 -- local current_scheme = nil
-local current_scheme = color_schemes.dark["gruvbox"]
+local current_scheme = color_schemes.dark["wombat"]
 -- local current_scheme = color_schemes.light["github"]
 -- local current_scheme = "Borland"
 
@@ -158,11 +159,11 @@ local keys = {
     mods = "LEADER",
     action = wezterm.action.EmitEvent 'terminal-spawn'
   },
-  {
-    key = "Tab",
-    mods = "CTRL",
-    action = wezterm.action.DisableDefaultAssignment,
-  },
+  -- {
+  --   key = "Tab",
+  --   mods = "CTRL",
+  --   action = wezterm.action.DisableDefaultAssignment,
+  -- },
   {
     key = "Backspace",
     mods = "CTRL",
