@@ -94,7 +94,7 @@ vim.opt.title = true               -- modify the window title
 vim.opt.titlestring = '%t'         -- set the window title to the buffer name
 vim.opt.showmode = false           -- hide current mode in statusbar
 vim.opt.showtabline = 1
-vim.o.winborder = "solid" 
+vim.o.winborder = "single" 
 
 ------------------------------
 --- behaviour
