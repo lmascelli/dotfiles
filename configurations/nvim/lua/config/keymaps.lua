@@ -7,8 +7,11 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>qq", "<cmd>qa!<cr>", { desc = "Quit" })
 vim.keymap.set("", "<c-z>", "")
 
+-- EDIT
+vim.keymap.set("n", "gh", "0", { desc = "Start of the line"})
+vim.keymap.set("n", "gl", "$", { desc = "End of the line"})
+
 -- PROJECT
-vim.keymap.set("n", '<leader>pt', '<cmd>terminal<cr>', { desc = 'Terminal' })
 
 -- EXPLORER
 
