@@ -43,7 +43,7 @@ hi SpellCap ctermfg=196 ctermbg=234 cterm=bold guifg=#e3e0d7 guibg=#3a3a3a gui=b
 
 " Vim >= 7.0 specific colors
 if version >= 700
-hi CursorLine ctermbg=none cterm=none guibg=none gui=none
+hi CursorLine ctermbg=none cterm=none guibg=none gui=underline
 " hi CursorLine ctermfg=252 ctermbg=none cterm=none guifg=#e3e0d7 guibg=none gui=none
 hi MatchParen ctermfg=228 ctermbg=101 cterm=bold guifg=#eae788 guibg=#857b6f gui=bold
 hi Pmenu ctermfg=230 ctermbg=238 guifg=#ffffd7 guibg=#444444

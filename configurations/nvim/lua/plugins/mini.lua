@@ -3,6 +3,8 @@ return {
   version = '*',
   enabled = true,
   config = function() 
+    require('mini.completion').setup()
+    
     require('mini.pick').setup() 
     vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files, {desc = 'find file'})
 
@@ -52,6 +54,11 @@ return {
         { mode = 'n', keys = '<Leader>f', desc = '+Find' },
         { mode = 'n', keys = '<Leader>p', desc = '+Project' },
         { mode = 'n', keys = '<Leader>q', desc = '+Quit' },
+      },
+      window = {
+        config = {
+          width = 'auto'
+        }
       },
     })
   end

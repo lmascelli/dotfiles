@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     vim.cmd "highlight Comment cterm=italic gui=italic"
     -- nice windows separator
     vim.cmd "highlight WinSeparator guibg=None"
-    vim.cmd 'highlight CursorLine gui=underline'
+    -- vim.cmd 'highlight CursorLine gui=underline'
     vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 
     -- fix some highlights for some colorschemes

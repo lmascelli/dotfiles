@@ -384,8 +384,8 @@ config.color_scheme = current_scheme
 ------------------------------------
 
 -- GEOMETRY
-config.initial_cols = 100
-config.initial_rows = 45
+config.initial_cols = 110
+config.initial_rows = 30
 ------------------------------------
 
 -- FONT
@@ -410,6 +410,7 @@ config.window_close_confirmation = "NeverPrompt" -- "AlwaysPrompt"
 config.exit_behavior = "Close"
 config.enable_csi_u_key_encoding = true
 config.audible_bell = "Disabled"
+config.alternate_buffer_wheel_scroll_speed = 1
 -- config.debug_key_events = true
 ------------------------------------
 

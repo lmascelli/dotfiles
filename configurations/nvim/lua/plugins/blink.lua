@@ -1,6 +1,7 @@
 return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
+  enabled = false,
   dependencies = { 'rafamadriz/friendly-snippets' },
 
   -- use a release tag to download pre-built binaries
@@ -26,6 +27,7 @@ return {
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = { preset = 'super-tab' },
+  
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
