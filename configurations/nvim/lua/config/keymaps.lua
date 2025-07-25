@@ -37,8 +37,8 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<cr>", { desc = "" })
 -- BUFFERS
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", { desc = "" })
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", { desc = "" })
-vim.keymap.set("n", "<leader>bf", "<cmd>:lua LM.buffer.format()<cr>", { desc = "Format" })
-vim.keymap.set("n", "<leader>bd", "<cmd>:lua LM.buffer.delete()<cr>", { desc = "Delete" })
+vim.keymap.set("n", "<leader>bf", "<cmd>:lua require('core.utils').format_buffer()<cr>", { desc = "Format" })
+vim.keymap.set("n", "<leader>bd", "<cmd>:lua require('core.utils').delete_buffer()<cr>", { desc = "Delete" })
 
 -- SEARCHING
 vim.keymap.set('n', '<leader>ff', ':find ', { desc = 'Find file' })
