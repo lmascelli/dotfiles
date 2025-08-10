@@ -60,4 +60,51 @@ M.delete_buffer = function()
   pcall(vim.cmd, 'bprevious!')
   pcall(vim.cmd, 'bdelete!#')
 end
+
+-- spawn an external terminal in current directory
+M.spawn_terminal = function()
+  local job = nil
+  -- check if wezterm path is set or it's in PATH
+  if (LM.wezterm_path and vim.fn.executable(LM.wezterm_path)) then
+    job = LM.wezterm_path .. ' start --cwd .'
+    vim.loop.spawn(
+      LM.wezterm_path,
+      {
+        args = { 'start', '--cwd', '.' }
+      },
+      function(_, _) end
+    )
+    return
+  elseif vim.fn.executable('wezterm') ~= 0 then
+    job = "wezterm-gui start --cwd ."
+  else
+    -- use the set terminal or the default for the current OS
+    if (LM.spawn_cmd and vim.fn.executable(LM.spawn_cmd) ~= 0) then
+      job = LM.spawn_cmd
+    else
+      -- windows case
+      if vim.fn.has('win32') ~= 0 then
+        if vim.fn.executable('pwsh') ~= 0 then
+          job = 'pwsh -c Start-Process pwsh'
+        else
+          job = 'powershell -c Start-Process pwsh'
+        end
+      else
+        -- unix case
+        if vim.fn.executable('xterm') ~= 0 then
+          job = 'xterm'
+        elseif vim.fn.executable('ghostty') ~= 0 then
+          job = 'ghostty'
+        elseif vim.fn.executable('konsole') ~= 0 then
+          job = 'konsole'
+        end
+      end
+    end
+  end
+  if job then
+    print(job)
+    vim.fn.jobstart(job)
+  end
+end
+
 return M

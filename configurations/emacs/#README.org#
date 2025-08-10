@@ -1717,7 +1717,6 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 
 
-
 *** completion
 #+begin_src emacs-lisp :tangle "lm-modules/lm-completion.el"
   (cond
@@ -1749,31 +1748,30 @@ To make eat works on Windows change those functions in eat.el
 #+end_src
 **** company
 #+begin_src emacs-lisp :tangle "lm-modules/lm-company.el"
-  (if (eq lm-in-buffer-completion 'company)
-      (use-package company
-        :ensure t
-        :diminish
-        :defer 1
-        :init
-        (setq lm-action-complete-ptr #'company-complete)
-        (setq company-dabbrev-ignore-case t)
-        (setq company-dabbrev-code-ignore-case t)    
-        (setq company-keywords-ignore-case t)
-        (setq company-minimum-prefix-length 3)
-        (setq company-idle-delay 0.3)
-        :config
-        ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
-        (defun lm/company-format-margin (candidate selected)
-          "Format the margin with the backend name."
-          (let ((backend (company-call-backend 'annotation candidate)))
-            (if backend
-                (format " [%s]" backend)
-              "")))
-        (setq company-format-margin-function 'lm/company-format-margin)
+    (if (eq lm-in-buffer-completion 'company)
+        (use-package company
+          :ensure t
+          :diminish
+          :defer 1
+          :init
+          (setq lm-action-complete-ptr #'company-complete)
+          (setq company-dabbrev-ignore-case t)
+          (setq company-dabbrev-code-ignore-case t)    
+          (setq company-keywords-ignore-case t)
+          (setq company-minimum-prefix-length 3)
+          (setq company-idle-delay 0.3)
+          :config
+          ;; (add-to-list 'company-backends '(company-capf :with company-dabbrev))
+          (defun lm/company-format-margin (candidate selected)
+            "Format the margin with the backend name."
+            (let ((backend (company-call-backend 'annotation candidate)))
+              (if backend
+                  (format " [%s]" backend)
+                "")))
+          (setq company-format-margin-function 'lm/company-format-margin)
+          (global-company-mode t)))
 
-        (global-company-mode t)))
-
-  (provide 'lm-company)
+    (provide 'lm-company)
 #+end_src
 **** corfu
 #+begin_src emacs-lisp :tangle "lm-modules/lm-corfu.el"
@@ -2057,7 +2055,7 @@ than the system default.
     (make-backup-files nil)  ; No backup files
     (backup-inhibited t)     ; No backup files
     (remote-file-name-inhibit-auto-save t)
-    (save-place-file (expand-file-name "saveplace" user-emacs-directory))
+    (save-place-file (expand-file-name "saveplace" user-emacs-directory'))
     (save-place-limit 600)
     
     ;; ISPELL

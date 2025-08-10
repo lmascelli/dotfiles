@@ -1,7 +1,7 @@
 return {
   'saghen/blink.cmp',
   -- optional: provides snippets for the snippet source
-  enabled = false,
+  enabled = true,
   dependencies = { 'rafamadriz/friendly-snippets' },
 
   -- use a release tag to download pre-built binaries
@@ -26,7 +26,7 @@ return {
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = 'super-tab' },
+    keymap = { preset = 'enter' },
   
 
     appearance = {
@@ -38,7 +38,7 @@ return {
     -- (Default) Only show the documentation popup when manually triggered
     completion = { 
       documentation = { auto_show = false },
-      list = { selection = { preselect = false, auto_insert = true } },
+      list = { selection = { preselect = true, auto_insert = true } },
     },
 
     -- Default list of enabled providers defined so that you can extend it

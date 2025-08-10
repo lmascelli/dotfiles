@@ -3,7 +3,9 @@ return {
   version = '*',
   enabled = true,
   config = function() 
-    require('mini.completion').setup()
+    require('mini.fuzzy').setup({})
+    
+    -- require('mini.completion').setup()
     
     require('mini.pick').setup() 
     vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files, {desc = 'find file'})

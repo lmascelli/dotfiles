@@ -25,7 +25,9 @@
 	 "8f5b54bf6a36fe1c138219960dd324aad8ab1f62f543bed73ef5ad60956e36ae"
 	 "727d95f1607c7998b97cc9356169752479638ccb9dddbc8ef4b881624700034e"
 	 default))
+ '(display-line-numbers-type 'relative)
  '(lm-terminal-here-cmd '("konsole"))
+ '(menu-bar-mode nil)
  '(org-agenda-files '("~/Dropbox/orgzly/agenda.org"))
  '(org-directory "~/Dropbox/orgzly/")
  '(org-highlight-latex-and-related '(native latex))
@@ -35,15 +37,17 @@
 						diminish evil-collection leetcode lsp-mode
 						lsp-ui modus-themes monochrome-theme
 						naysayer-theme neotree nothing-theme nov
-						olivetti poet-theme powershell rainbow-mode
-						rustic tree-sitter-langs treemacs ultra-scroll
-						vertico vertico-posframe xclip zig-mode))
+						olivetti poet-theme powershell qml-mode rustic
+						tree-sitter-langs treemacs ultra-scroll xclip
+						zig-mode))
  '(safe-local-variable-values
    '((eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
-	 (eval setenv "HDF5_INCLUDE_DIR" "../hdf5/1.14.5/include/"))))
+	 (eval setenv "HDF5_INCLUDE_DIR" "../hdf5/1.14.5/include/")))
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 113 :width normal))))
  '(hl-line ((t (:extend t :underline t)))))

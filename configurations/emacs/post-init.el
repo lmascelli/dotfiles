@@ -25,3 +25,6 @@
 (require 'lm-company)
 (setq lm-lsp-client 'lsp-mode)
 (require 'lm-lsp-mode)
+
+(use-package ultra-scroll
+  :config (ultra-scroll-mode 1))
