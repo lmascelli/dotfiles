@@ -2595,11 +2595,11 @@ Inspired by emacs-solo of LionxyML
     (setq lsp-auto-execute-action nil)
 
     ;; -------------------------- LSP REMOTE CONNECTIONS -----------------------
-  										; (lsp-register-client
-  										;  (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
-  										;                   :major-modes '(c-mode c++-mode)
-  										;                   :remote? t
-  										;                   :server-id 'clangd-remote))
+    										; (lsp-register-client
+    										;  (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
+    										;                   :major-modes '(c-mode c++-mode)
+    										;                   :remote? t
+    										;                   :server-id 'clangd-remote))
     )
 
   (use-package lsp-ui
@@ -2608,6 +2608,22 @@ Inspired by emacs-solo of LionxyML
     :hook (lsp-mode . lsp-ui-mode)
     :custom
     (lsp-ui-doc-position 'bottom))
+
+  (defcustom lsp-qmlls-executable "qmlls6"
+    "Command to start the QML language server"
+    :group 'lsp-qml
+    :risky t
+    :type 'file)
+
+  ;; CUSTOM SERVERS
+  (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration
+  			   '(qml-mode . "qml"))
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection (lambda () lsp-qmlls-executable))
+  					:activation-fn (lsp-activate-on "qml")
+  					:server-id 'qmlls)))
+
 
   (provide 'lm-lsp-mode)
 #+end_src
