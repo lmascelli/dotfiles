@@ -22,8 +22,9 @@
 
 (setq lm-in-buffer-completion 'company)
 (global-completion-preview-mode -1)
+
+(require 'lm-cape)
 (require 'lm-company)
-(setq lm-lsp-client 'lsp-mode)
 (require 'lm-lsp-mode)
 
 (use-package ultra-scroll

@@ -301,13 +301,4 @@
   :config
   (add-to-list 'treesit-language-source-alist '(rust "https://github.com/tree-sitter/tree-sitter-rust" "master" "src")))
 
-(use-package cape
-    :ensure t
-    :defer nil
-    :init
-    (setq completion-ignore-case t)
-    (add-to-list 'completion-at-point-functions 'cape-dabbrev)
-    (add-to-list 'completion-at-point-functions 'cape-keyword)
-    (add-to-list 'completion-at-point-functions 'cape-file))
-
 (provide 'init)
