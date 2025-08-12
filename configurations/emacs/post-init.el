@@ -28,16 +28,3 @@
 
 (set-frame-size nil 80 40)
 
-(defcustom lsp-qmlls-executable "qmlls6"
-  "Command to start the QML language server"
-  :group 'lsp-qml
-  :risky t
-  :type 'file)
-
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-language-id-configuration
-			   '(qml-mode . "qml"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection (lambda () lsp-qmlls-executable))
-					:activation-fn (lsp-activate-on "qml")
-					:server-id 'qmlls)))

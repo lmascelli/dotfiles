@@ -2593,14 +2593,7 @@ Inspired by emacs-solo of LionxyML
     (lsp-enable-which-key-integration t)
     (setq lsp-idle-delay 0.100)
     (setq lsp-auto-execute-action nil)
-
-    ;; -------------------------- LSP REMOTE CONNECTIONS -----------------------
-    										; (lsp-register-client
-    										;  (make-lsp-client :new-connection (lsp-tramp-connection "clangd")
-    										;                   :major-modes '(c-mode c++-mode)
-    										;                   :remote? t
-    										;                   :server-id 'clangd-remote))
-    )
+    (setq lsp-clients-clangd-args '("--header-insertion=never")))
 
   (use-package lsp-ui
     :ensure t
