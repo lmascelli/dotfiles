@@ -41,7 +41,7 @@
 						tree-sitter-langs treemacs ultra-scroll xclip
 						zig-mode))
  '(safe-local-variable-values
-   '((eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
+   '((eval lsp) (eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
 	 (eval setenv "HDF5_INCLUDE_DIR" "../hdf5/1.14.5/include/")))
  '(tool-bar-mode nil))
 (custom-set-faces
