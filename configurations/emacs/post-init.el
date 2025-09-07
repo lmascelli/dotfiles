@@ -5,10 +5,9 @@
   :ensure t)
 
 (fido-vertical-mode)
-(global-hl-line-mode 1)
+;; (global-hl-line-mode 1)
 (use-package lm-utils)
-(use-package lm-enhanced-eshell
-  :after eshell)
+(use-package lm-enhanced-eshell :after eshell)
 (use-package lm-terminal-here)
 
 (unless (display-graphic-p)
@@ -23,8 +22,7 @@
 (require 'lm-company)
 (require 'lm-lsp-mode)
 
-(use-package ultra-scroll
-  :config (ultra-scroll-mode 1))
+(use-package ultra-scroll :ensure t :config (ultra-scroll-mode 1))
 
 (set-frame-size nil 80 40)
-
+(menu-bar-mode 1)

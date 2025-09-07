@@ -1,1 +1,2 @@
+alias gci ls -l
 alias clear clear 0

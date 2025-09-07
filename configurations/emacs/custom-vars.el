@@ -4,9 +4,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(wombat))
+ '(custom-enabled-themes '(almost-mono-black))
  '(custom-safe-themes
-   '("80a437b75ddd0f521c143fcd28be8dfcc330b5b9953bb7165ffd771cf865276d"
+   '("cbd85ab34afb47003fa7f814a462c24affb1de81ebf172b78cb4e65186ba59d2"
+	 "80a437b75ddd0f521c143fcd28be8dfcc330b5b9953bb7165ffd771cf865276d"
 	 "5f55c3efbbf344ad22d19b2121a4799d4dfbfdebd4cf2ddba9344df9fe920412"
 	 "43a2a5cb8142f8557e16fe16757e656e0839685b4e194820fa6321d00848bc00"
 	 "c8f16f6788442cc33bab49dff9e6054423b5119c3e0c9c2c2ebf401b38bd895a"
@@ -38,11 +39,20 @@
 						lsp-ui modus-themes monochrome-theme
 						naysayer-theme neotree nothing-theme nov
 						olivetti poet-theme powershell qml-mode rustic
-						tree-sitter-langs treemacs ultra-scroll xclip
-						zig-mode))
+						tree-sitter-langs treemacs treemacs-nerd-icons
+						ultra-scroll xclip zig-mode))
  '(safe-local-variable-values
-   '((eval lsp) (eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
-	 (eval setenv "HDF5_INCLUDE_DIR" "../hdf5/1.14.5/include/")))
+   '((eval lsp)
+	 (eval setenv "HDF5_INCLUDE_DIR"
+		   "/home/leonardo/Documents/unige/hdf5/1.14.5/include")
+	 (eval setenv "HDF5_LIB_DIR"
+		   "/home/leonardo/Documents/unige/hdf5/1.14.5/lib")
+	 (eval
+	  (setenv "HDF5_INCLUDE_DIR"
+			  "/home/leonardo/Documents/unige/hdf5/1.14.5/include"))
+	 (eval
+	  (setenv "HDF5_LIB_DIR"
+			  "/home/leonardo/Documents/unige/hdf5/1.14.5/lib"))))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
