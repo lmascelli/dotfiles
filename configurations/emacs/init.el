@@ -7,6 +7,7 @@
    ("C-x C-z" . nil))
   :custom
   ;; EDITING
+  (indent-tabs-mode nil) ; use spaces instead of tabs for indenting
   (delete-selection-mode 1)
   (set-mark-command-repeat-pop t) ; So we can use C-u C-SPC C-SPC C-SPC... instead of C-u C-SPC C-u C-SPC...
 
