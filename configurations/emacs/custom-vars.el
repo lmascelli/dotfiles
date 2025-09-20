@@ -4,9 +4,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(almost-mono-black))
+ '(custom-enabled-themes '(modus-vivendi))
  '(custom-safe-themes
-   '("cbd85ab34afb47003fa7f814a462c24affb1de81ebf172b78cb4e65186ba59d2"
+   '("c4aadcf4db50f97ce52de19b52197edec63f1109b093aba529993ad38c1288d3"
+	 "ffba0482d3548c9494e84c1324d527f73ea4e43fff8dfd0e48faa8fc6d5c2bc7"
+	 "d0fd069415ef23ccc21ccb0e54d93bdbb996a6cce48ffce7f810826bb243502c"
+	 "cbd85ab34afb47003fa7f814a462c24affb1de81ebf172b78cb4e65186ba59d2"
 	 "80a437b75ddd0f521c143fcd28be8dfcc330b5b9953bb7165ffd771cf865276d"
 	 "5f55c3efbbf344ad22d19b2121a4799d4dfbfdebd4cf2ddba9344df9fe920412"
 	 "43a2a5cb8142f8557e16fe16757e656e0839685b4e194820fa6321d00848bc00"
@@ -38,11 +41,12 @@
 						diminish evil-collection leetcode lsp-mode
 						lsp-ui modus-themes monochrome-theme
 						naysayer-theme neotree nothing-theme nov
-						olivetti poet-theme powershell qml-mode rustic
-						tree-sitter-langs treemacs treemacs-nerd-icons
-						ultra-scroll xclip zig-mode))
+						olivetti poet-theme powershell qml-mode
+						"rustic" rustic tree-sitter-langs treemacs
+						treemacs-nerd-icons ultra-scroll xclip
+						zig-mode))
  '(safe-local-variable-values
-   '((eval lsp)
+   '((eval add-hook 'cpp-mode-hook 'lsp) (eval lsp)
 	 (eval setenv "HDF5_INCLUDE_DIR"
 		   "/home/leonardo/Documents/unige/hdf5/1.14.5/include")
 	 (eval setenv "HDF5_LIB_DIR"
@@ -53,11 +57,12 @@
 	 (eval
 	  (setenv "HDF5_LIB_DIR"
 			  "/home/leonardo/Documents/unige/hdf5/1.14.5/lib"))))
+ '(tab-bar-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Noto Sans Mono" :foundry "GOOG" :slant normal :weight regular :height 113 :width normal))))
+ '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight regular :height 113 :width normal))))
  '(hl-line ((t (:extend t :underline t)))))
