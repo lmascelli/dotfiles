@@ -160,9 +160,9 @@ local keys = {
     action = wezterm.action.EmitEvent 'terminal-spawn'
   },
   -- {
-  --   key = "Tab",
-  --   mods = "CTRL",
-  --   action = wezterm.action.DisableDefaultAssignment,
+  --    key = "Tab",
+  --    mods = "CTRL",
+  --    action = wezterm.action.DisableDefaultAssignment,
   -- },
   {
     key = "Backspace",
@@ -394,7 +394,7 @@ config.font_size = 13.5
 config.line_height = 1.2
 config.font_dirs = { wezterm.config_dir .. "/fonts" }
 config.warn_about_missing_glyphs = false
-config.font = wezterm.font('NotoSansMono-Regular')	
+-- config.font = wezterm.font('NotoSansMono-Regular')	
 -- config.font = wezterm.font('Perfect DOS VGA 437')
 -- config.font = wezterm.font('Cascadia Code NF')
 -- config.font = wezterm.font('CaskaydiaCove Nerd Font')

@@ -20,9 +20,11 @@
 (require 'lm-cape)
 (global-completion-preview-mode -1)
 (require 'lm-company)
+(require 'lm-yasnippet)
 (require 'lm-lsp-mode)
 
 (use-package ultra-scroll :ensure t :config (ultra-scroll-mode 1))
 
 (set-frame-size nil 80 40)
 (menu-bar-mode 1)
+(marginalia-mode 1)
