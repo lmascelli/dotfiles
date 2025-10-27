@@ -7,11 +7,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- q closes quickfix window
 vim.api.nvim_create_autocmd('FileType', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  group = LM.augroups.lspconfig,
   callback = function(ev)
     if ev.file == "qf" then
       vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<cmd>quit<cr>', { noremap = true, silent = true })
-  end
+    end
   end
 })
 
