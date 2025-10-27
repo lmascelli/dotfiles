@@ -2837,7 +2837,6 @@ This theme is heavily copied from [[https://github.com/cryon/almost-mono-themes]
     (lsp-auto-execute-action nil)
     (lsp-clients-clangd-args '("--header-insertion=never")))
     :config
-    (lsp-enable-which-key-integration t)
     (setq lsp-completion-show-detail nil)
     
   (use-package lsp-ui
