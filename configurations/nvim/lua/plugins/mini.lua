@@ -4,6 +4,7 @@ return {
   enabled = true,
   config = function() 
     require('mini.fuzzy').setup({})
+    require('mini.notify').setup()
     
     -- require('mini.completion').setup()
     

@@ -1,0 +1,7 @@
+{
+  "plugins": {
+    "mini.nvim": {
+      "src": "/home/leonardo/.local/share/nvim/lazy/mini.nvim"
+    }
+  }
+}

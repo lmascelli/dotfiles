@@ -354,6 +354,25 @@ local key_tables = {
   },
 }
 
+local MOUSE_SCROLL = 0.001
+
+local mouse_bindings = {
+  -- {
+  --   event = { Down = { streak = 1, button = { WheelUp = 1 } } },
+  --   mods = 'NONE',
+  --   action = wezterm.action.SendKey { key = "UpArrow", mods = "NONE" },
+  --   -- action = wezterm.action.ScrollByPage(-MOUSE_SCROLL),
+  --   -- alt_screen = false,
+  -- },
+  -- {
+  --   event = { Down = { streak = 1, button = { WheelDown = 1 } } },
+  --   mods = 'NONE',
+  --   action = wezterm.action.SendKey { key = "DownArrow", mods = "NONE" },
+  --   -- action = wezterm.action.ScrollByPage(MOUSE_SCROLL),
+  --   -- alt_screen = false,
+  -- },
+}
+
 --------------------------------------------------------------------------------
 --                                                                            --
 --                         ACTUAL CONFIGURATION                               --
@@ -411,17 +430,21 @@ config.exit_behavior = "Close"
 config.enable_csi_u_key_encoding = true
 config.audible_bell = "Disabled"
 config.alternate_buffer_wheel_scroll_speed = 1
+config.adjust_window_size_when_changing_font_size = false
 -- config.debug_key_events = true
 ------------------------------------
 
 -- KEYBINDINGS
 config.leader = { key = '\\', mods = 'ALT' }
 config.keys = keys
+config.mouse_bindings = mouse_bindings
 config.key_tables = key_tables
 ------------------------------------
 
 config.set_environment_variables = {
   prompt = "$E]7;"
 }
+
+config.debug_key_events = true
 
 return config

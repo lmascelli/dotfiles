@@ -103,7 +103,7 @@ M.spawn_terminal = function()
   end
   if job then
     print(job)
-    vim.fn.jobstart(job)
+    vim.fn.jobstart(job .. ' ' .. vim.cmd('pwd'))
   end
 end
 
