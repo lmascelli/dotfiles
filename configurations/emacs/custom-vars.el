@@ -29,7 +29,7 @@
      "8f5b54bf6a36fe1c138219960dd324aad8ab1f62f543bed73ef5ad60956e36ae"
      "727d95f1607c7998b97cc9356169752479638ccb9dddbc8ef4b881624700034e"
      default))
- '(display-line-numbers-type 'relative t)
+ '(display-line-numbers-type 'relative)
  '(lm-terminal-here-cmd '("konsole"))
  '(menu-bar-mode nil)
  '(org-agenda-files '("~/Dropbox/orgzly/agenda.org"))
@@ -44,7 +44,7 @@
                         nothing-theme nov olivetti poet-theme
                         powershell qml-mode "rustic" rustic scad-mode
                         tree-sitter-langs treemacs treemacs-nerd-icons
-                        ultra-scroll vertico xclip yasnippet
+                        ultra-scroll vertico wgsl-mode xclip yasnippet
                         yasnippet-snippets zig-mode))
  '(safe-local-variable-values
    '((eval setenv "HDF5_LIB_DIR" "../hdf5/1.14.5/lib/")
