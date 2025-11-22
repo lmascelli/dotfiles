@@ -4,7 +4,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(modus-operandi))
+ '(custom-enabled-themes '(misterioso))
  '(custom-safe-themes
    '("c4aadcf4db50f97ce52de19b52197edec63f1109b093aba529993ad38c1288d3"
      "ffba0482d3548c9494e84c1324d527f73ea4e43fff8dfd0e48faa8fc6d5c2bc7"
