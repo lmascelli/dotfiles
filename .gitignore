@@ -28,6 +28,7 @@ configurations/emacs/transient/
 configurations/emacs/tutorial/
 configurations/emacs/url/
 
+configurations/emacs/.emacs.desktop
 configurations/emacs/.emacs.desktop.lock
 configurations/emacs/.org-id-locations
 configurations/emacs/.lsp-session-v*
