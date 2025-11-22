@@ -35,7 +35,7 @@ configurations/emacs/bookmarks.eld
 configurations/emacs/recentf
 configurations/emacs/recentf.eld
 configurations/emacs/emacs-custom.el
-configurations/emacs/custom.vars.el
+configurations/emacs/custom-vars.el
 configurations/emacs/custom.el
 configurations/emacs/history
 configurations/emacs/history.eld
