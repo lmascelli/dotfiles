@@ -27,4 +27,3 @@
 
 (set-frame-size nil 80 40)
 (menu-bar-mode 1)
-(marginalia-mode 1)

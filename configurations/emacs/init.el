@@ -208,7 +208,6 @@
   :config
   (add-hook 'eshell-mode-hook
 			(lambda ()
-              (local-set-key (kbd "C-c l") #'emacs-solo/eshell-pick-history)
               (local-set-key (kbd "C-l")
 							 (lambda ()
                                (interactive)
@@ -216,7 +215,9 @@
                                (eshell-send-input)))))
 
   (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "xterm-256color")))
-
+  (add-to-list 'eshell-modules-list 'eshell-tramp)
+  (setq eshell-prefer-lisp-functions t)
+  (setq eshell-prefer-lisp-variables t)
   (setq eshell-hist-ignoredups 'erase)
   (setq eshell-visual-commands
 		'("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
