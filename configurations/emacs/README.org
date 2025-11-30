@@ -2030,7 +2030,7 @@ than the system default.
     (completion-styles '(partial-completion flex initials))
     (completions-format 'vertical)
     (completion-show-help t)
-    (global-completion-preview-mode 1)
+    ; (global-completion-preview-mode 1)
 
     ;; MODELINE
     (column-number-mode 1)
@@ -2230,10 +2230,10 @@ than the system default.
     (setq eshell-visual-commands
   		'("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
 #+end_src
-*** 
 *** eglot configuration
 #+begin_src emacs-lisp :tangle "init.el"
   (use-package eglot
+    :defer t
     :custom
     (eglot-autoshutdown t)
     (eglot-events-buffer-size 0)
@@ -2914,4 +2914,10 @@ This theme is heavily copied from [[https://github.com/cryon/almost-mono-themes]
     :after yasnippet)
 
   (provide 'lm-yasnippet)
+#+end_src
+
+** ultra-scroll
+#+begin_src emacs-lisp :tangle "lm-modules/lm-ultra-scroll.el"
+  (use-package ultra-scroll :ensure t :config (ultra-scroll-mode 1))
+  (provide 'lm-ultra-scroll)
 #+end_src

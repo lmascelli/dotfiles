@@ -17,13 +17,11 @@
 	(xclip-mode)))
 
 
-(require 'lm-cape)
-(global-completion-preview-mode -1)
+;; (require 'lm-cape)
 (require 'lm-company)
-(require 'lm-yasnippet)
+;; (require 'lm-yasnippet)
 (require 'lm-lsp-mode)
-
-(use-package ultra-scroll :ensure t :config (ultra-scroll-mode 1))
+(require 'lm-ultra-scroll)
 
 (set-frame-size nil 80 40)
 (menu-bar-mode 1)

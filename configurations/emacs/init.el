@@ -223,6 +223,7 @@
 		'("vi" "screen" "top"  "htop" "btm" "less" "more" "nvim" "vim")))
 
 (use-package eglot
+  :defer t
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 0)
