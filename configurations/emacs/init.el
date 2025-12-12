@@ -1,3 +1,9 @@
+(setenv "TERM" "dumb")
+(setq explicit-shell-file-name "C:/msys64/usr/bin/bash.exe")
+(setq shell-file-name "bash")
+(setq explicit-bash-args '("--login" "i"))
+(add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+
 ;; -*- lexical-binding: t -*-
 
 (use-package emacs

@@ -2568,16 +2568,21 @@ Inspired by emacs-solo of LionxyML
   ;; -*- lexical-binding: t -*-
   (defcustom lm-terminal-here-cmd '()
     "The command that shall be used to launch a new terminal window.
-            If there is the need to place the `default-directory' content in the
-            command put the placeholder '%cwd%' in this command string as it
-            will be replaced with the default directory.
+  If there is the need to place the `default-directory' content in the
+  command put the placeholder '%cwd%' in this command string as it
+  will be replaced with the default directory.
 
-    Example for MS-Windows:
-    \"cmd.exe\" \"/C\" \"start\" \"wt.exe\" \"-d\" \"%cwd%\"
+  REMEMBER TO QUOTE THE LIST
 
-    Example for KDE:
-    \"konsole\"
-    "
+  Example for MS-Windows:
+  (\"cmd.exe\" \"/C\" \"start\" \"wt.exe\" \"-d\" \"%cwd%\")
+
+  Example for MS-Windows using MSYS2:
+  (\"C:/msys64/msys2_shell.cmd\" \"-where\" \"%cwd%\")
+
+  Example for KDE:
+  (\"konsole\")
+  "
     :type 'string
     :group 'lm-terminal-here)
 
@@ -2585,7 +2590,10 @@ Inspired by emacs-solo of LionxyML
     (interactive)
     (let* ((proc-args
   		  (mapcar
-  		   (lambda (arg) (if (string= "%cwd%" arg) default-directory arg))
+  		   (lambda (arg)
+               (if (string-match "%cwd%" arg)
+                   (string-replace "%cwd%" default-directory arg)
+                 arg))
   		   lm-terminal-here-cmd))
   		 (proc (apply 'start-process "terminal-here" nil (car proc-args) (cdr proc-args))))
       (message "%S %S" (car proc-args) (cdr proc-args))
