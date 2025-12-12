@@ -30,7 +30,7 @@
   (completion-styles '(partial-completion flex initials))
   (completions-format 'vertical)
   (completion-show-help t)
-  (global-completion-preview-mode 1)
+  ; (global-completion-preview-mode 1)
 
   ;; MODELINE
   (column-number-mode 1)

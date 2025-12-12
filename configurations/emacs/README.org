@@ -143,6 +143,23 @@ starts the emacs server automatically at the startup.
   make install
 #+end_src
 
+*** use msys2 bash in emacs shell
+To use the MSYS2 bash shell in the emacs shell emulator you need to:
+- place this snippet in the post-init.el and adjust the paths
+  
+  #+begin_src emacs-lisp
+    (setenv "TERM" "dumb")
+    (setq explicit-shell-file-name "C:/msys64/usr/bin/bash.exe")
+    (setq shell-file-name "bash")
+    (setq explicit-bash-args '("--login" "i"))
+    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+  #+end_src
+- modify the .bashrc script of the MSYS2 environment to add the /usr/bin
+  and /local/usr/bin folders
+  
+  #+begin_src bash
+    export PATH="/usr/local/bin:/usr/bin:$PATH"
+  #+end_src
 *** find
 Under windows when emacs looks for *find* command it found one, but the wrong
 one. One solution is to use MSYS2's one. So go to the
@@ -150,7 +167,7 @@ one. One solution is to use MSYS2's one. So go to the
 msys-iconv-2.dll
 msys-intl-8.dll
 find.exe
-to the emacs bin folder* COMMENT User defined stuff
+to the emacs bin folder
 
 * COMMENT Elaborated one
 ** Early init
@@ -2549,14 +2566,14 @@ Inspired by emacs-solo of LionxyML
 ** lm-terminal-here
 #+begin_src emacs-lisp :tangle "lm-modules/lm-terminal-here.el"
   ;; -*- lexical-binding: t -*-
-  (defcustom lm-terminal-here-cmd '("")
+  (defcustom lm-terminal-here-cmd '()
     "The command that shall be used to launch a new terminal window.
             If there is the need to place the `default-directory' content in the
             command put the placeholder '%cwd%' in this command string as it
             will be replaced with the default directory.
 
     Example for MS-Windows:
-    \"cmd.exe /C start cmd.exe\"
+    \"cmd.exe\" \"/C\" \"start\" \"wt.exe\" \"-d\" \"%cwd%\"
 
     Example for KDE:
     \"konsole\"
@@ -2570,7 +2587,8 @@ Inspired by emacs-solo of LionxyML
   		  (mapcar
   		   (lambda (arg) (if (string= "%cwd%" arg) default-directory arg))
   		   lm-terminal-here-cmd))
-  		 (proc (apply 'start-process "terminal-here" nil proc-args)))
+  		 (proc (apply 'start-process "terminal-here" nil (car proc-args) (cdr proc-args))))
+      (message "%S %S" (car proc-args) (cdr proc-args))
   	(set-process-query-on-exit-flag proc nil)))
 
   (provide 'lm-terminal-here)
