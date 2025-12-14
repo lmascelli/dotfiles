@@ -26,7 +26,10 @@ return {
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = 'enter' },
+    keymap = { 
+      preset = 'enter',
+      ['<C-k>'] = false,
+    },
   
 
     appearance = {
