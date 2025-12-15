@@ -3,8 +3,10 @@ return {
   version = '*',
   enabled = true,
   config = function() 
-    require('mini.fuzzy').setup({})
+    require('mini.fuzzy').setup()
     require('mini.notify').setup()
+    require('mini.icons').setup()
+    require('mini.files').setup()
     
     -- require('mini.completion').setup()
     

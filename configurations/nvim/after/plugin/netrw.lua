@@ -8,7 +8,6 @@ vim.keymap.set("n", "J", ":e .<CR>", {desc = "Open Netrw here"})
 if LM then
   if LM.fn.toggle_explorer == nil then
     LM.fn.toggle_explorer = function()
-      -- vim.cmd('Lexplore')
       vim.cmd('e .')
     end
   end
