@@ -6,11 +6,17 @@ return {
     require('mini.fuzzy').setup()
     require('mini.notify').setup()
     require('mini.icons').setup()
-    require('mini.files').setup()
-    
-    -- require('mini.completion').setup()
+
+    require('mini.completion').setup()
     
     require('mini.pick').setup() 
+    vim.api.nvim_create_autocmd({'ColorScheme', 'VimEnter'}, {
+      group = LM.augroups.colorscheme,
+      callback = function()
+        vim.cmd "hi! link MiniPickNormal Pmenu"
+        vim.cmd "hi! link MiniPickMatchCurrent PmenuSel"
+      end,
+    })
     vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files, {desc = 'find file'})
 
     local miniclue = require('mini.clue')
