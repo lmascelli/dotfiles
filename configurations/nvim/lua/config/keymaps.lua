@@ -43,6 +43,7 @@ vim.keymap.set("n", "<leader>bd", "<cmd>:lua require('core.utils').delete_buffer
 -- SEARCHING
 vim.keymap.set('n', '<leader>ff', ':find ', { desc = 'Find file' })
 vim.keymap.set('n', '<leader>fh', '<cmd>nohl<cr>', { desc = 'highlight off' })
+vim.keymap.set('n', '<C-h>', '<cmd>nohl<cr>', { desc = 'highlight off' })
 
 -- APPEARENCE
 

@@ -18,6 +18,7 @@ return {
       end,
     })
     vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files, {desc = 'find file'})
+    vim.keymap.set('n', '<leader>fb', MiniPick.builtin.buffers, {desc = 'find buffer'})
 
     local miniclue = require('mini.clue')
     miniclue.setup({
