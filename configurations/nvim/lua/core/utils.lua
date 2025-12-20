@@ -85,9 +85,9 @@ M.spawn_terminal = function()
       -- windows case
       if vim.fn.has('win32') ~= 0 then
         if vim.fn.executable('pwsh') ~= 0 then
-          job = 'pwsh -c Start-Process pwsh'
+          job = 'cmd /C start pwsh'
         else
-          job = 'powershell -c Start-Process pwsh'
+          job = 'cmd /C start powershell'
         end
       else
         -- unix case
