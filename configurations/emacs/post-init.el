@@ -13,7 +13,6 @@
 
 
 (require 'lm-company)
-(require 'lm-lsp-mode)
 (require 'lm-ultra-scroll)
 
 ;; (set-frame-size nil 80 40)
