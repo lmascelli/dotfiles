@@ -1100,7 +1100,7 @@ This theme is heavily copied from [[https://github.com/cryon/almost-mono-themes]
                              company-semantic
                              company-cmake
                              :with company-yasnippet)))
-    (defun lm-action-complete () (interactive) (company-complete))
+    (defun lm-action-complete () (interactive) (company-complete)) ; This is to make company complete with evil-mode on C-Space
     
     (global-company-mode t))
 
@@ -1205,7 +1205,7 @@ This theme is heavily copied from [[https://github.com/cryon/almost-mono-themes]
     ;; ------------------------- INSERT STATE KEYMAPS ----------------------------
     (keymap-set evil-insert-state-map "C-g" 'evil-normal-state)
     (keymap-set evil-insert-state-map "S-<return>" #'evil-open-above)
-    (evil-declare-not-repeat 'lm-action-complete)
+    (evil-declare-not-repeat 'lm-action-complete) ; This is to fix a warning when using company as completion engine
     (keymap-set evil-insert-state-map (if (display-graphic-p) "C-SPC" "C-_") #'lm-action-complete)
     (defvar lm/insert-map (make-sparse-keymap)
       "Keymap for shortcuts in insert mode")
