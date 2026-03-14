@@ -36,6 +36,8 @@ set hlsearch
 set ignorecase
 set smartcase
 
+colorscheme habamax
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                                              "
@@ -48,3 +50,4 @@ inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
 inoremap { {}<Esc>i
 inoremap " ""<Esc>i
+inoremap jj <Esc>

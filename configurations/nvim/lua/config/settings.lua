@@ -38,7 +38,7 @@ vim.cmd 'set omnifunc=ccomplete#Complete'
 ------------------------------
 --- cursor
 ------------------------------
-vim.opt.cursorline = true       -- highlight the current line
+-- vim.opt.cursorline = true       -- highlight the current line
 vim.opt.virtualedit = "onemore" -- let the cursor go one char after the end of the line
 
 ------------------------------

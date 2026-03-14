@@ -6,8 +6,11 @@
 (use-package lm-terminal-here)
 
 (require 'lm-ultra-scroll)
+(require 'lm-evil)
+(require 'lm-company)
 
 (menu-bar-mode 1)
 
-(setq default-directory "C:/Users/leona/")
 (setq package-check-signature nil)
+
+(setenv "PATH" (concat "/home/leonardo/usr/bin:" (getenv "PATH")))
