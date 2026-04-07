@@ -6,7 +6,9 @@
 (use-package lm-terminal-here)
 
 (require 'lm-ultra-scroll)
-(require 'lm-evil)
+
+; (require 'lm-evil)
+(require 'lm-cape)
 (require 'lm-company)
 
 (menu-bar-mode 1)

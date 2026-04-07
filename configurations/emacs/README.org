@@ -147,7 +147,7 @@ starts the emacs server automatically at the startup.
 To use the MSYS2 bash shell in the emacs shell emulator you need to:
 - place this snippet in the post-init.el and adjust the paths
   
-  #+begin_src emacs-lisp
+  #+begin_src emacs-lisp :tangle nil
     (setenv "TERM" "dumb")
     (setq explicit-shell-file-name "C:/msys64/usr/bin/bash.exe")
     (setq shell-file-name "bash")
@@ -572,7 +572,7 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
 #+end_src
 * My packages
 ** lm-utils
-#+begin_src emacs-lisp :tangle "lm-lisp/lm-utils.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-utils.el"
   ;; -*- lexical-binding: t -*-
   ;; TODO change the name of this function or get rid of it because it
   ;; just gives the name of the directory of the current buffer.
@@ -597,12 +597,12 @@ With emacs 29+ it can be done with *M-x treesit-install-language-grammar rust* t
 #+end_src
 ** lm-mode-line
 I'm trying to create a more essential and polished modeline
-#+begin_src emacs-lisp :tangle "lm-lisp/lm-modeline.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-modeline.el"
   ;; -*- lexical-binding: t -*-
   (provide lm-mode-line)
 #+end_src
 ** lm-pomodoro
-#+begin_src emacs-lisp :tangle "lm-lisp/lm-pomodoro.el"
+#+begin_src emacs-lisp :tangle "lm-modules/lm-pomodoro.el"
   ;; -*- lexical-binding: t -*-
   (defun lm-pomodoro ()
     (interactive)
