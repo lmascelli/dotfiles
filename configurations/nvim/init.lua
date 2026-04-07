@@ -1,3 +1,8 @@
+if vim.fn.has('nvim-0.9') == 1 then
+  vim.loader.enable({
+	  enable = true
+  })
+end
 
 -- enable the new message ui
 require('vim._core.ui2').enable()

@@ -1,4 +1,8 @@
-local utils = require 'core.utils'
+LM = {
+	fn = {}
+}
+
+local utils = require 'config.utils'
 vim.api.nvim_create_user_command("LMOpenConfig", utils.edit_custom_config, {desc = "Open custom.lua configuration file"})
 vim.api.nvim_create_user_command("LMOpenConfigDir", function() utils.edit_conf_dir(true) end, {desc = "Open the nvim configuration directory"})
 vim.api.nvim_create_user_command("LMBdelete", function() utils.delete_buffer(true) end, {desc = "Delete the current buffer"})
