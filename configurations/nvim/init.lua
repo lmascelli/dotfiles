@@ -102,9 +102,10 @@ LM.fn.load_custom_file = function()
     -- a default one
     local custom_file = vim.fn.stdpath('config') .. '/custom.lua'
     if vim.fn.filereadable(custom_file) ~= 0 then
-        local res, _ = pcall(dofile, custom_file)
+        local res, error = pcall(dofile, custom_file)
         if not res then
             vim.notify("ERROR loading custom.lua")
+            vim.notify(error)
         end
     else
         vim.fn.writefile(
@@ -112,6 +113,11 @@ LM.fn.load_custom_file = function()
             vim.fn.stdpath('config') .. '/custom.lua'
         )
     end
+end
+
+LM.fn.install_plugin = function(plugin_name, load_fn)
+    vim.pack.add({plugin_name})
+    load_fn()
 end
 
 LM.fn.toggle_theme = function()
