@@ -80,6 +80,7 @@ vim.keymap.set("n", "U", ":redo<CR>", {})
 vim.keymap.set("n", "<TAB>", "==", {})
 vim.keymap.set("n", "<S-h>", ":bprevious<CR>", {})
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", {})
+vim.keymap.set("n", "<Leader><Space>", ":nohlsearch<CR>", {})
 
 -- INSERT MODE
 vim.keymap.set("i", "jj", "<Esc>", {})
