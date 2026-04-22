@@ -3,7 +3,7 @@
 (use-package emacs
   :bind
   (("C-x C-b" . 'ibuffer)
-   ("C-z" . nil)
+   ; ("C-z" . nil)
    ("C-x C-z" . nil))
   :custom
   ;; EDITING
