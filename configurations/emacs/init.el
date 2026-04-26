@@ -84,8 +84,8 @@
   (vc-follow-symlinks t)
   
   ;; GREP
-  (xref-search-program 'ripgrep)
-  (grep-command "rg -nS --no-heading ")
+  ;; (xref-search-program 'ripgrep)
+  ;; (grep-command "rg -nS --no-heading ")
   (grep-find-ignored-directories '(".git" "build"))
   
   :config
