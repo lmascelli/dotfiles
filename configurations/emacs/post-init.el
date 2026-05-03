@@ -10,6 +10,7 @@
 ; (require 'lm-evil)
 (require 'lm-cape)
 (require 'lm-company)
+(require 'lm-tui)
 
 (menu-bar-mode 1)
 

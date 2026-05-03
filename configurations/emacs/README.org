@@ -812,6 +812,41 @@ Inspired by emacs-solo of LionxyML
 
   (provide 'lm-terminal-here)
 #+end_src
+** lm-tui
+#+begin_src emacs-lisp :tangle "lm-modules/lm-tui.el"
+  ;; -*- lexical-binding: t -*-
+  (unless (display-graphic-p)
+    (cond
+     ;; ON LINUX ...
+     ((string= system-type "gnu/linux")
+      (cond
+       ;; HANDLE Wayland wl-copy has clipboard provider
+       ((string= (getenv "XDG_SESSION_TYPE") "wayland")
+        (progn
+          (setq wl-copy-process nil)
+          (defun wl-copy (text)
+            (setq wl-copy-process (make-process :name "wl-copy"
+                                                :buffer nil
+                                                :command '("wl-copy" "-f" "-n")
+                                                :connection-type 'pipe
+                                                :noquery t))
+            (process-send-string wl-copy-process text)
+            (process-send-eof wl-copy-process))
+          (defun wl-paste ()
+            (if (and wl-copy-process (process-live-p wl-copy-process))
+                nil ; should return nil if we're the current paste owner
+              (shell-command-to-string "wl-paste -n | tr -d \r")))
+          (setq interprogram-cut-function 'wl-copy)
+          (setq interprogram-paste-function 'wl-paste)))
+
+       ;; HANDLE X11 xcopy has clipboard provider
+       ((string= (getenv "XDG_SESSION_TYPE") "x")
+        ;; TODO
+        )))
+     ;; ON WINDOWS ...
+     ((string= system-type "windows"))))
+  (provide 'lm-tui)
+#+end_src
 ** arduino
 #+begin_src emacs-lisp :tangle "lm-languages/lm-arduino.el"
   ;; -*- lexical-binding: t -*-  
