@@ -3,7 +3,7 @@
 (use-package emacs
   :bind
   (("C-x C-b" . 'ibuffer)
-   ; ("C-z" . nil)
+                                        ; ("C-z" . nil)
    ("C-x C-z" . nil))
   :custom
   ;; EDITING
@@ -91,16 +91,35 @@
   :config
   ;; IN-TERMINAL BEHAVIOUR
   (unless (display-graphic-p)
-	(progn
-	  (xterm-mouse-mode)
-	  ;; Changes the vertical separator to a full vertical line
-	  ;; and truncation symbol to a right arrow
-	  (set-display-table-slot standard-display-table 'truncation ?\u2192)
-	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
-	  (setq x-select-enable-clipboard t
-			x-select-enable-primary t
-			x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
-			x-stretch-cursor t)))
+  	(progn
+  	  (xterm-mouse-mode)
+  	  ;; Changes the vertical separator to a full vertical line
+  	  ;; and truncation symbol to a right arrow
+  	  (set-display-table-slot standard-display-table 'truncation ?\u2192)
+  	  (set-display-table-slot standard-display-table 'vertical-border (make-glyph-code ?│))
+  	  (setq x-select-enable-clipboard t
+  			x-select-enable-primary t
+  			x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)
+  			x-stretch-cursor t)
+      (if (and (string= system-type "gnu/linux") (string= (getenv "XDG_SESSION_TYPE") "wayland"))
+          (progn
+            ;; credit: yorickvP on Github
+            (setq wl-copy-process nil)
+            (defun wl-copy (text)
+              (setq wl-copy-process (make-process :name "wl-copy"
+                                                  :buffer nil
+                                                  :command '("wl-copy" "-f" "-n")
+                                                  :connection-type 'pipe
+                                                  :noquery t))
+              (process-send-string wl-copy-process text)
+              (process-send-eof wl-copy-process))
+            (defun wl-paste ()
+              (if (and wl-copy-process (process-live-p wl-copy-process))
+                  nil ; should return nil if we're the current paste owner
+                (shell-command-to-string "wl-paste -n | tr -d \r")))
+            (setq interprogram-cut-function 'wl-copy)
+            (setq interprogram-paste-function 'wl-paste)
+            ))))
   
   ;; Makes everything accept utf-8 as default, so buffers with tsx and so
   ;; won't ask for encoding (because undecided-unix) every single keystroke
@@ -114,14 +133,14 @@
   ;; of the diff of what you're asked to save.
   (add-to-list 'save-some-buffers-action-alist
                (list "d"
-					 (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
-					 "show diff between the buffer and its file"))
+  					 (lambda (buffer) (diff-buffer-with-file (buffer-file-name buffer)))
+  					 "show diff between the buffer and its file"))
 
   ;; Runs 'post-init.el' after Emacs inits
   (add-hook 'after-init-hook
-			(lambda ()
+  			(lambda ()
               (let ((private-file (expand-file-name "post-init.el" user-emacs-directory)))
-				(when (file-exists-p private-file)
+  				(when (file-exists-p private-file)
                   (load private-file)))))
 
   ;; Save manual customizations to other file than init.el
@@ -136,7 +155,7 @@
   
   (with-current-buffer (get-buffer-create "*scratch*")
     (insert (format
-			 ";;   Loading time : %s
+             ";;   Loading time : %s
 ;;   Packages     : %s
 ;;
 "
