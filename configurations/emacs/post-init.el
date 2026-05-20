@@ -12,6 +12,7 @@
 (require 'lm-company)
 
 (menu-bar-mode 1)
+(set-frame-size nil 100 45)
 
 (setq package-check-signature nil)
 
