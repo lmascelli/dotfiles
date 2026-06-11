@@ -12,10 +12,10 @@ Here are the configuration i took from to build mine:
 * Setup
 ** Install emacs
 Emacs can both be installed from a package manager or built from sources.
-This is a quick snippet to configure the emacs sources for linux:
+This is a quick snippet to configure the emacs sources for linux with pgtk:
 
 #+begin_src shell
-  ./configure --prefix=/usr/local --with-pgtk --disable-gc-mark-trace --with-native-compilation=aot --without-compress-install --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+  ./configure --prefix=/usr/local --with-pgtk --disable-gc-mark-trace --with-native-compilation=aot --without-compress-install --with-tree-sitter --without-gsettings --without-gconf
 #+end_src
 
 ** Tangle this org literate config
