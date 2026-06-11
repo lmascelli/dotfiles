@@ -15,7 +15,7 @@ Emacs can both be installed from a package manager or built from sources.
 This is a quick snippet to configure the emacs sources for linux:
 
 #+begin_src shell
-  ./configure --prefix=/usr/local --with-x-toolkit=gtk3 --disable-gc-mark-trace --with-native-compilation=aot --without-gif --without-tiff --without-selinux --with-xinput2 --without-gpm --without-compress-install --without-xft --with-cairo --with-harfbuzz --with-tree-sitter=ifavailable --without-gsettings --without-gconf
+  ./configure --prefix=/usr/local --with-pgtk --disable-gc-mark-trace --with-native-compilation=aot --without-compress-install --with-tree-sitter=ifavailable --without-gsettings --without-gconf
 #+end_src
 
 ** Tangle this org literate config
